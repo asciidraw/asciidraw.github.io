@@ -1,9 +1,13 @@
 <script setup lang="ts">
-import TheWelcome from '../components/TheWelcome.vue'
+import DefaultLayout from "@/layouts/DefaultLayout.vue";
+import {LucideTypeOutline} from "lucide-vue-next";
 </script>
 
 <template>
-  <main>
-    <TheWelcome />
-  </main>
+  <DefaultLayout>
+    <div class="min-h-screen grid place-content-center">
+      <h1 class="text-center text-4xl">AsciiDraw</h1>
+      <LucideTypeOutline class="size-96" />
+    </div>
+  </DefaultLayout>
 </template>
