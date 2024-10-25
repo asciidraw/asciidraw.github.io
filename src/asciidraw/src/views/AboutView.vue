@@ -1,13 +1,5 @@
 <script setup lang="ts">
 import DefaultLayout from "@/layouts/DefaultLayout.vue";
-import {
-  Stepper,
-  StepperDescription,
-  StepperItem,
-  StepperSeparator,
-  StepperTitle,
-  StepperTrigger
-} from "@/components/ui/stepper";
 import {LucideCircleDot} from "lucide-vue-next";
 
 const steps = [
@@ -28,19 +20,21 @@ const steps = [
 
 <template>
   <DefaultLayout>
-    <Stepper orientation="vertical" class="mx-auto my-10 flex w-full max-w-md flex-col justify-start gap-10">
-      <StepperItem v-for="(step, index) in steps" :key="index" :step="index" class="relative w-full items-start gap-6" :completed="true">
-        <StepperSeparator v-if="index !== steps.length - 1" class="absolute left-[18px] top-[38px] block h-[105%] w-0.5 shrink-0 rounded-full bg-muted" />
-        <StepperTrigger>
+    <div class="mx-auto p-5 md:mt-5 flex w-full max-w-md flex-col justify-start gap-10">
+      <div v-for="(step, index) in steps" :key="index" class="relative w-full items-start gap-6 grid grid-cols-[auto,1fr]">
+        <div v-if="index !== steps.length - 1" class="absolute left-3 -translate-x-1/2 top-8 block h-full w-0.5 shrink-0 rounded-full bg-neutral-700" />
+        <div>
           <LucideCircleDot class="size-6 z-10 shrink-0" />
-        </StepperTrigger>
-        <div class="flex flex-col gap-1">
-          <StepperTitle class="text-sm font-semibold transition lg:text-base">{{ step.title }}</StepperTitle>
-          <StepperDescription class="sr-only text-xs text-muted-foreground transition md:not-sr-only lg:text-sm">
-            {{ step.description }}
-          </StepperDescription>
         </div>
-      </StepperItem>
-    </Stepper>
+        <div>
+          <div class="text-sm font-semibold transition lg:text-base">
+            {{ step.title }}
+          </div>
+          <div class="text-xs transition lg:text-sm">
+            {{ step.description }}
+          </div>
+        </div>
+      </div>
+    </div>
   </DefaultLayout>
 </template>
