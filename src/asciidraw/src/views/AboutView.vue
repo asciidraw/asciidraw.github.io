@@ -29,7 +29,7 @@ const steps = [
 <template>
   <DefaultLayout>
     <Stepper orientation="vertical" class="mx-auto my-10 flex w-full max-w-md flex-col justify-start gap-10">
-      <StepperItem v-for="(step, index) in steps" :key="index" :step="index" class="relative w-full items-start gap-6" completed="completed">
+      <StepperItem v-for="(step, index) in steps" :key="index" :step="index" class="relative w-full items-start gap-6" :completed="true">
         <StepperSeparator v-if="index !== steps.length - 1" class="absolute left-[18px] top-[38px] block h-[105%] w-0.5 shrink-0 rounded-full bg-muted" />
         <StepperTrigger>
           <LucideCircleDot class="size-6 z-10 shrink-0" />
