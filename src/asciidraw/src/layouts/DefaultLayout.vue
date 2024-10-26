@@ -16,6 +16,7 @@ import ThemeToggle from "@/components/ThemeToggle.vue";
         </router-link>
         <div class="grow" />
         <ThemeToggle />
+        <Separator orientation="vertical" class="h-6" />
         <a target="_blank" href="https://github.com/asciidraw/" rel="noopener noreferrer">
           <LucideGithub />
         </a>
