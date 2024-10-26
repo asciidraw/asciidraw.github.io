@@ -2,6 +2,7 @@
 import {LucideTypeOutline, LucideHouse, LucideInfo, LucideGithub} from "lucide-vue-next";
 import {Separator} from "@/components/ui/separator";
 import ThemeToggle from "@/components/ThemeToggle.vue";
+import {Tooltip, TooltipContent, TooltipTrigger} from "@/components/ui/tooltip";
 </script>
 
 <template>
@@ -10,16 +11,21 @@ import ThemeToggle from "@/components/ThemeToggle.vue";
       <div class="flex p-2 gap-x-2">
         <router-link to="/" class="flex">
           <LucideTypeOutline />
-          <span>
-            AsciiDraw
-          </span>
+          <span>AsciiDraw</span>
         </router-link>
         <div class="grow" />
         <ThemeToggle />
         <Separator orientation="vertical" class="h-6" />
-        <a target="_blank" href="https://github.com/asciidraw/" rel="noopener noreferrer">
-          <LucideGithub />
-        </a>
+        <Tooltip>
+          <TooltipTrigger>
+            <a target="_blank" href="https://github.com/asciidraw/" rel="noopener noreferrer">
+              <LucideGithub />
+            </a>
+          </TooltipTrigger>
+          <TooltipContent>
+            Look at our cool code
+          </TooltipContent>
+        </Tooltip>
       </div>
       <Separator />
     </header>
