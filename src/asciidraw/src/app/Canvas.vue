@@ -6,7 +6,7 @@ const windowSize = useWindowSize();
 const canvas = useTemplateRef<HTMLCanvasElement>("canvas");
 
 function getCanvasAndContext() {
-  const context = canvas.value.getContext("2d");
+  const context = canvas.value!.getContext("2d")!;
   return [canvas.value, context] as const;
 }
 
