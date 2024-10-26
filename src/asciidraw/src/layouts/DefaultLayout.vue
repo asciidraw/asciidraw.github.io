@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import {LucideTypeOutline, LucideHouse, LucideInfo, LucideGithub} from "lucide-vue-next";
 import {Separator} from "@/components/ui/separator";
+import ThemeToggle from "@/components/ThemeToggle.vue";
 </script>
 
 <template>
   <div class="min-h-screen grid grid-rows-[auto,1fr,auto]">
     <header>
-      <div class="flex p-2">
+      <div class="flex p-2 gap-x-2">
         <router-link to="/" class="flex">
           <LucideTypeOutline />
           <span>
@@ -14,6 +15,7 @@ import {Separator} from "@/components/ui/separator";
           </span>
         </router-link>
         <div class="grow" />
+        <ThemeToggle />
         <a target="_blank" href="https://github.com/asciidraw/" rel="noopener noreferrer">
           <LucideGithub />
         </a>
