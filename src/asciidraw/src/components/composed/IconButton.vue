@@ -4,7 +4,7 @@ import {Tooltip, TooltipContent, TooltipTrigger} from "@/components/ui/tooltip";
 import type {TooltipContentProps} from "radix-vue";
 
 const props = defineProps<{
-  contentProps: TooltipContentProps
+  contentProps?: TooltipContentProps
 }>();
 </script>
 

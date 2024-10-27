@@ -8,7 +8,7 @@ import ThemeToggle from "@/components/ThemeToggle.vue";
 import {Button} from "@/components/ui/button";
 import {ref} from "vue";
 import {Separator} from "@/components/ui/separator";
-import {Tooltip, TooltipContent, TooltipTrigger} from "@/components/ui/tooltip";
+import IconButton from "@/components/composed/IconButton.vue";
 
 const hidden = ref(false);
 </script>
@@ -26,49 +26,25 @@ const hidden = ref(false);
       <div class="min-w-10" />
       <div class="grow" />
       <ThemeToggle />
-      <Button variant="ghost" size="icon" @click="hidden = true">
-        <Tooltip>
-          <TooltipTrigger>
-            <LucideCircleChevronLeft class="size-6" />
-          </TooltipTrigger>
-          <TooltipContent>
-            Hide this overly large menu
-          </TooltipContent>
-        </Tooltip>
-      </Button>
+      <IconButton @click="hidden = true">
+        <LucideCircleChevronLeft class="size-6" />
+        <template #tooltip>Hide this overly large menu</template>
+      </IconButton>
     </div>
     <Separator label="Export" />
     <div class="flex gap-x-2">
-      <Button variant="ghost" size="icon">
-        <Tooltip>
-          <TooltipTrigger>
-            <LucideArrowDownToLine />
-          </TooltipTrigger>
-          <TooltipContent>
-            Export this graph
-          </TooltipContent>
-        </Tooltip>
-      </Button>
-      <Button variant="ghost" size="icon">
-        <Tooltip>
-          <TooltipTrigger>
-            <LucideArrowUpFromLine />
-          </TooltipTrigger>
-          <TooltipContent>
-            Import an existing graph
-          </TooltipContent>
-        </Tooltip>
-      </Button>
-      <Button variant="ghost" size="icon">
-        <Tooltip>
-          <TooltipTrigger>
-            <LucideShare2 />
-          </TooltipTrigger>
-          <TooltipContent>
-            Share this graph with other people
-          </TooltipContent>
-        </Tooltip>
-      </Button>
+      <IconButton>
+        <LucideArrowDownToLine />
+        <template #tooltip>Export this graph</template>
+      </IconButton>
+      <IconButton>
+        <LucideArrowUpFromLine />
+        <template #tooltip>Import an existing graph</template>
+      </IconButton>
+      <IconButton>
+        <LucideShare2 />
+        <template #tooltip>Share this graph with other people</template>
+      </IconButton>
     </div>
     <Separator label="Elements" />
     <Button variant="ghost" size="xs" class="gap-x-2">
