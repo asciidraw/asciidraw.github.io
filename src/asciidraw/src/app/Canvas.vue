@@ -1,27 +1,93 @@
 <script setup lang="ts">
-import {onMounted, onUpdated, useTemplateRef} from "vue";
+import {onMounted, onUpdated, reactive, ref, useTemplateRef} from "vue";
 import { useWindowSize } from "@vueuse/core";
+import AppZoomButton from "@/app/ZoomButton.vue";
+import * as constants from "@/constants";
 
 const windowSize = useWindowSize();
 const canvas = useTemplateRef<HTMLCanvasElement>("canvas");
 
-function getCanvasAndContext() {
-  const context = canvas.value!.getContext("2d")!;
-  return [canvas.value, context] as const;
+function getContext() {
+  return canvas.value!.getContext("2d")!;
 }
 
-function drawRect() {
-  const [_, context] = getCanvasAndContext();
-  context.fillStyle = "green";
-  context.fillRect(windowSize.width.value / 2 - 75, windowSize.height.value / 2 - 75, 150, 100);
+const zoom = ref<number>(1);
+const offset = reactive({ x: 0, y: 0 });
+
+function getColorPalette(context: CanvasRenderingContext2D) {
+  const canvas = context.canvas;
+  const style = getComputedStyle(canvas);
+  return {
+    grid: `hsl(${style.getPropertyValue("--border")})`,
+    text: `hsl(${style.getPropertyValue("--foreground")})`,
+    highlight: `hsl(${style.getPropertyValue("--accent-foreground")})`,
+    selection: `hsl(${style.getPropertyValue("--card-foreground")})`,
+  } as const;
 }
 
-onMounted(drawRect);
-onUpdated(drawRect);
+function initCanvas(context: CanvasRenderingContext2D) {
+  context.setTransform(1, 0, 0, 1, 0, 0);
+  context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+  context.scale(zoom, zoom);
+  context.translate(context.canvas.width / 2 / zoom, context.canvas.height / 2 / zoom);
+  // context.translate(offset.x, offset.y);
+  context.font = constants.FONT;
+}
+
+function renderGrid(context: CanvasRenderingContext2D) {
+  const colors = getColorPalette(context);
+  context.lineWidth = 1;
+  context.strokeStyle = colors.grid;
+  // todo: calculate start and end while considering $offset
+  const startOffset = { x: 0, y: 0 };
+  const endOffset = { x: context.canvas.width / constants.CHARACTER_PIXEL_WIDTH, y: context.canvas.height / constants.CHARACTER_PIXEL_HEIGHT };
+  context.beginPath();
+  for (let i = startOffset.x; i < endOffset.x; i++) {
+    const posX = (i * constants.CHARACTER_PIXEL_WIDTH) - offset.x;
+    context.moveTo(posX, 0 - offset.y);
+    context.lineTo(posX, context.canvas.height - offset.y);
+  }
+  for (let j = startOffset.y; j < endOffset.y; j++) {
+    const posY = (j * constants.CHARACTER_PIXEL_HEIGHT) - offset.y;
+    context.moveTo(0 - offset.x, posY);
+    context.lineTo(context.canvas.width - offset.x, posY);
+  }
+  context.stroke();
+}
+
+function drawText(context: CanvasRenderingContext2D, position: {x: number, y: number}, text: string) {
+  const colors = getColorPalette(context);
+  context.fillStyle = colors.text;
+  for (let i = 0; i < text.length; i++) {
+    const canvasX = ((position.x + i) * constants.CHARACTER_PIXEL_WIDTH) - offset.x;
+    const canvasY = (position.y * constants.CHARACTER_PIXEL_HEIGHT) - offset.y - 3;
+    context.fillText(text.charAt(i), canvasX, canvasY);
+  }
+}
+
+function testDraw(context: CanvasRenderingContext2D) {
+  drawText(context, { x: 20, y: 25 }, "╭────────────╮");
+  drawText(context, { x: 20, y: 26 }, "│Hello World!│");
+  drawText(context, { x: 20, y: 27 }, "╰────────────╯");
+}
+
+function redraw() {
+  const context = getContext();
+  initCanvas(context);
+  renderGrid(context);
+  testDraw(context);
+}
+
+onMounted(redraw);
+onUpdated(redraw);
 </script>
 
 <template>
   <div class="w-screen h-screen">
     <canvas ref="canvas" class="w-full h-full" :width="windowSize.width.value" :height="windowSize.height.value" />
   </div>
+  <div class="fixed top-0 left-1/2 -translate-x-1/2">
+    Zoom: {{ zoom }} | Offset: {{ offset.x }}x{{ offset.y }}
+  </div>
+  <AppZoomButton @zoom-in="zoom++" @zoom-out="zoom--" />
 </template>
