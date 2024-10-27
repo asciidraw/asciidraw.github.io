@@ -1,8 +1,14 @@
 <script setup lang="ts">
-import {onMounted, onUpdated, reactive, ref, useTemplateRef} from "vue";
-import {useWindowSize} from "@vueuse/core";
+import {onMounted, onUpdated, reactive, ref, useTemplateRef, watch} from "vue";
+import {useColorMode, useWindowSize} from "@vueuse/core";
 import AppZoomButton from "@/app/ZoomButton.vue";
 import * as constants from "@/constants";
+
+const colorMode = useColorMode();
+
+watch(colorMode, () => {
+  setTimeout(() => redraw());
+});
 
 const windowSize = useWindowSize();
 const canvas = useTemplateRef<HTMLCanvasElement>("canvas");

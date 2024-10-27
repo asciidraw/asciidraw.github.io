@@ -4,7 +4,7 @@ import { useColorMode } from '@vueuse/core'
 import {LucideSun, LucideMoon, LucideSunMoon} from "lucide-vue-next";
 import IconButton from "@/components/composed/IconButton.vue";
 
-const mode = useColorMode({ disableTransition: false });
+const mode = useColorMode({ disableTransition: false, initialValue: "auto" });
 </script>
 
 <template>
