@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {onMounted, onUpdated, reactive, ref, useTemplateRef} from "vue";
-import { useWindowSize } from "@vueuse/core";
+import {useWindowSize} from "@vueuse/core";
 import AppZoomButton from "@/app/ZoomButton.vue";
 import * as constants from "@/constants";
 
@@ -91,12 +91,21 @@ function redraw() {
   testDraw(context);
 }
 
+function onCanvasWheel(event: WheelEvent) {
+  if (event.deltaY > 0) {
+    zoomOut();
+  }
+  if (event.deltaY < 0) {
+    zoomIn();
+  }
+}
+
 onMounted(redraw);
 onUpdated(redraw);
 </script>
 
 <template>
-  <div class="w-screen h-screen">
+  <div class="w-screen h-screen" @wheel="onCanvasWheel">
     <canvas ref="canvas" class="w-full h-full" :width="windowSize.width.value" :height="windowSize.height.value" />
   </div>
   <div class="fixed top-0 left-1/2 -translate-x-1/2">
