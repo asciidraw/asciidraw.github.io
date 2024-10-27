@@ -11,8 +11,15 @@ function getContext() {
   return canvas.value!.getContext("2d")!;
 }
 
-const zoom = ref<number>(1);
+const zoom = ref<number>(10);
 const offset = reactive({ x: 0, y: 0 });
+
+function zoomIn() {
+  zoom.value++;
+}
+function zoomOut() {
+  zoom.value = Math.max(1, zoom.value-1);
+}
 
 function getColorPalette(context: CanvasRenderingContext2D) {
   const canvas = context.canvas;
@@ -28,9 +35,9 @@ function getColorPalette(context: CanvasRenderingContext2D) {
 function initCanvas(context: CanvasRenderingContext2D) {
   context.setTransform(1, 0, 0, 1, 0, 0);
   context.clearRect(0, 0, context.canvas.width, context.canvas.height);
-  context.scale(zoom, zoom);
-  context.translate(context.canvas.width / 2 / zoom, context.canvas.height / 2 / zoom);
-  // context.translate(offset.x, offset.y);
+  const normalZoom = zoom.value / 10;
+  context.scale(normalZoom, normalZoom);
+  context.translate(context.canvas.width / 2 / normalZoom, context.canvas.height / 2 / normalZoom);
   context.font = constants.FONT;
 }
 
@@ -39,18 +46,24 @@ function renderGrid(context: CanvasRenderingContext2D) {
   context.lineWidth = 1;
   context.strokeStyle = colors.grid;
   // todo: calculate start and end while considering $offset
-  const startOffset = { x: 0, y: 0 };
-  const endOffset = { x: context.canvas.width / constants.CHARACTER_PIXEL_WIDTH, y: context.canvas.height / constants.CHARACTER_PIXEL_HEIGHT };
+  const startOffset = {
+    x: Math.round(-context.canvas.width / 2 / constants.CHARACTER_PIXEL_WIDTH),
+    y: Math.round(-context.canvas.height / 2 / constants.CHARACTER_PIXEL_HEIGHT),
+  };
+  const endOffset = {
+    x: Math.round(context.canvas.width / 2 / constants.CHARACTER_PIXEL_WIDTH),
+    y: Math.round(context.canvas.height / 2 / constants.CHARACTER_PIXEL_HEIGHT),
+  };
   context.beginPath();
   for (let i = startOffset.x; i < endOffset.x; i++) {
     const posX = (i * constants.CHARACTER_PIXEL_WIDTH) - offset.x;
-    context.moveTo(posX, 0 - offset.y);
-    context.lineTo(posX, context.canvas.height - offset.y);
+    context.moveTo(posX, -context.canvas.height / 2 - offset.y);
+    context.lineTo(posX,  context.canvas.height / 2 - offset.y);
   }
   for (let j = startOffset.y; j < endOffset.y; j++) {
     const posY = (j * constants.CHARACTER_PIXEL_HEIGHT) - offset.y;
-    context.moveTo(0 - offset.x, posY);
-    context.lineTo(context.canvas.width - offset.x, posY);
+    context.moveTo(-context.canvas.width / 2 - offset.x, posY);
+    context.lineTo( context.canvas.width / 2 - offset.x, posY);
   }
   context.stroke();
 }
@@ -66,9 +79,9 @@ function drawText(context: CanvasRenderingContext2D, position: {x: number, y: nu
 }
 
 function testDraw(context: CanvasRenderingContext2D) {
-  drawText(context, { x: 20, y: 25 }, "╭────────────╮");
-  drawText(context, { x: 20, y: 26 }, "│Hello World!│");
-  drawText(context, { x: 20, y: 27 }, "╰────────────╯");
+  drawText(context, { x: 0, y: 1 }, "╭────────────╮");
+  drawText(context, { x: 0, y: 2 }, "│Hello World!│");
+  drawText(context, { x: 0, y: 3 }, "╰────────────╯");
 }
 
 function redraw() {
@@ -89,5 +102,5 @@ onUpdated(redraw);
   <div class="fixed top-0 left-1/2 -translate-x-1/2">
     Zoom: {{ zoom }} | Offset: {{ offset.x }}x{{ offset.y }}
   </div>
-  <AppZoomButton @zoom-in="zoom++" @zoom-out="zoom--" />
+  <AppZoomButton @zoom-in="zoomIn" @zoom-out="zoomOut" />
 </template>
