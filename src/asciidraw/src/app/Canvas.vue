@@ -3,6 +3,7 @@ import {onMounted, onUpdated, reactive, ref, useTemplateRef, watch} from "vue";
 import {useColorMode, useWindowSize} from "@vueuse/core";
 import AppZoomButton from "@/app/ZoomButton.vue";
 import * as constants from "@/constants";
+import {Vector, type VectorLike} from "@/lib";
 
 const colorMode = useColorMode();
 
@@ -52,14 +53,14 @@ function renderGrid(context: CanvasRenderingContext2D) {
   context.lineWidth = 1;
   context.strokeStyle = colors.grid;
   // todo: calculate start and end while considering $offset
-  const startOffset = {
-    x: Math.round(-context.canvas.width / 2 / constants.CHARACTER_PIXEL_WIDTH),
-    y: Math.round(-context.canvas.height / 2 / constants.CHARACTER_PIXEL_HEIGHT),
-  };
-  const endOffset = {
-    x: Math.round(context.canvas.width / 2 / constants.CHARACTER_PIXEL_WIDTH),
-    y: Math.round(context.canvas.height / 2 / constants.CHARACTER_PIXEL_HEIGHT),
-  };
+  const startOffset = new Vector(
+    Math.round(-context.canvas.width / 2 / constants.CHARACTER_PIXEL_WIDTH),
+    Math.round(-context.canvas.height / 2 / constants.CHARACTER_PIXEL_HEIGHT),
+  );
+  const endOffset = new Vector(
+    Math.round(context.canvas.width / 2 / constants.CHARACTER_PIXEL_WIDTH),
+    Math.round(context.canvas.height / 2 / constants.CHARACTER_PIXEL_HEIGHT),
+  );
   context.beginPath();
   for (let i = startOffset.x; i < endOffset.x; i++) {
     const posX = (i * constants.CHARACTER_PIXEL_WIDTH) - offset.x;
@@ -74,7 +75,7 @@ function renderGrid(context: CanvasRenderingContext2D) {
   context.stroke();
 }
 
-function drawText(context: CanvasRenderingContext2D, position: {x: number, y: number}, text: string) {
+function drawText(context: CanvasRenderingContext2D, position: VectorLike, text: string) {
   const colors = getColorPalette(context);
   context.fillStyle = colors.text;
   for (let i = 0; i < text.length; i++) {
