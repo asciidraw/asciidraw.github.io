@@ -17,7 +17,7 @@ const hidden = ref(false);
   <Button variant="ghost" v-if="hidden" @click="hidden = false" class="fixed bg-primary shadow left-4 top-4 z-20 p-2 rounded-full size-10">
     <LucideTypeOutline class="size-10" />
   </Button>
-  <div v-else class="fixed bg-primary-foreground border-2 border-border shadow left-4 top-4 z-20 max-w-xs p-2 rounded-lg flex flex-col gap-y-4">
+  <div v-else class="fixed bg-card border-2 border-border shadow left-4 top-4 z-20 max-w-xs p-2 rounded-lg flex flex-col gap-y-4">
     <div class="flex gap-x-2">
       <router-link to="/" class="flex">
         <LucideTypeOutline />
