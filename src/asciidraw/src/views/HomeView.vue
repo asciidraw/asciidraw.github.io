@@ -6,7 +6,7 @@ import {Button} from "@/components/ui/button";
 
 <template>
   <DefaultLayout>
-    <div class="h-[calc(100vh-40px)] grid place-content-center text-center">
+    <div class="h-full grid place-content-center text-center">
       <p class="text-muted-foreground">Note: This app is under development</p>
       <h1 class="text-4xl">AsciiDraw</h1>
       <LucideTypeOutline class="size-96" />
