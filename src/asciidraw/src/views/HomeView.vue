@@ -7,7 +7,7 @@ import {Button} from "@/components/ui/button";
 <template>
   <DefaultLayout>
     <div class="h-full grid place-content-center text-center">
-      <p class="text-muted-foreground">Note: This app is under development</p>
+      <p class="text-muted-foreground">{{ $t('home.dev-notice') }}</p>
       <h1 class="text-4xl">AsciiDraw</h1>
       <LucideTypeOutline class="size-96" />
       <router-link to="/app" class="w-fit mx-auto">

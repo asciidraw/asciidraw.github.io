@@ -3,6 +3,7 @@ import {LucideTypeOutline, LucideHouse, LucideInfo, LucideGithub} from "lucide-v
 import {Separator} from "@/components/ui/separator";
 import ThemeToggle from "@/components/ThemeToggle.vue";
 import IconButton from "@/components/composed/IconButton.vue";
+import LocaleToggle from "@/components/LocaleToggle.vue";
 </script>
 
 <template>
@@ -14,6 +15,8 @@ import IconButton from "@/components/composed/IconButton.vue";
           <span>AsciiDraw</span>
         </router-link>
         <div class="grow" />
+        <LocaleToggle />
+        <Separator orientation="vertical" class="h-6" />
         <ThemeToggle />
         <Separator orientation="vertical" class="h-6" />
         <IconButton>
