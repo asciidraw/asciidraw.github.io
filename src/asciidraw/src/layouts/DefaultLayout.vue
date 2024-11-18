@@ -6,7 +6,7 @@ import IconButton from "@/components/composed/IconButton.vue";
 </script>
 
 <template>
-  <div class="min-h-screen grid grid-rows-[auto,1fr,auto]">
+  <div class="h-full grid grid-rows-[auto,1fr,auto]">
     <header>
       <div class="flex p-2 gap-x-2">
         <router-link to="/" class="flex">
