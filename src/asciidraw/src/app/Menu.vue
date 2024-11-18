@@ -9,6 +9,7 @@ import {Button} from "@/components/ui/button";
 import {ref} from "vue";
 import {Separator} from "@/components/ui/separator";
 import IconButton from "@/components/composed/IconButton.vue";
+import LocaleToggle from "@/components/LocaleToggle.vue";
 
 const hidden = ref(false);
 </script>
@@ -25,6 +26,7 @@ const hidden = ref(false);
       </router-link>
       <div class="min-w-10" />
       <div class="grow" />
+      <LocaleToggle />
       <ThemeToggle />
       <IconButton @click="hidden = true">
         <LucideCircleChevronLeft class="size-6" />
