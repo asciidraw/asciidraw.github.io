@@ -16,18 +16,18 @@ const mode = useColorMode({ disableTransition: false, initialValue: "auto" });
           <LucideMoon class="col-[1/1] row-[1/1] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
           <span class="sr-only">Toggle theme</span>
         </div>
-        <template #tooltip>Controls the color-scheme of the site</template>
+        <template #tooltip>{{ $t('components.theme-toggle.tooltip') }}</template>
       </IconButton>
     </DropdownMenuTrigger>
     <DropdownMenuContent align="end">
       <DropdownMenuItem class="gap-x-1" @click="mode = 'light'">
-        <LucideSun/> Light
+        <LucideSun/> {{ $t('components.theme-toggle.mode.light') }}
       </DropdownMenuItem>
       <DropdownMenuItem class="gap-x-1" @click="mode = 'dark'">
-        <LucideMoon/> Dark
+        <LucideMoon/> {{ $t('components.theme-toggle.mode.dark') }}
       </DropdownMenuItem>
       <DropdownMenuItem class="gap-x-1" @click="mode = 'auto'">
-        <LucideSunMoon/> System
+        <LucideSunMoon/> {{ $t('components.theme-toggle.mode.system') }}
       </DropdownMenuItem>
     </DropdownMenuContent>
   </DropdownMenu>

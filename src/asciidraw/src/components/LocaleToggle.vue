@@ -3,7 +3,7 @@ import { LucideLanguages } from "lucide-vue-next";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
+  DropdownMenuItem, DropdownMenuShortcut,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import IconButton from "@/components/composed/IconButton.vue";
@@ -23,12 +23,13 @@ function setI18n(locale: string) {
     <DropdownMenuTrigger as-child>
       <IconButton>
         <LucideLanguages />
-        <template #tooltip>Controls the language of the site</template>
+        <template #tooltip>{{ $t('components.locale-toggle.tooltip') }}</template>
       </IconButton>
     </DropdownMenuTrigger>
     <DropdownMenuContent>
       <DropdownMenuItem v-for="locale in $i18n.availableLocales" :key="locale" @click="setI18n(locale)">
         {{ locale }}
+        <DropdownMenuShortcut v-if="locale === $i18n.locale">&bullet;</DropdownMenuShortcut>
       </DropdownMenuItem>
     </DropdownMenuContent>
   </DropdownMenu>
