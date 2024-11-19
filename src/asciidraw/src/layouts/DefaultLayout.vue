@@ -23,7 +23,7 @@ import LocaleToggle from "@/components/LocaleToggle.vue";
           <a target="_blank" href="https://github.com/asciidraw/" rel="noopener noreferrer">
             <LucideGithub />
           </a>
-          <template #tooltip>Look at our cool code</template>
+          <template #tooltip>{{ $t('layout.header.github.tooltip') }}</template>
         </IconButton>
       </div>
       <Separator />
@@ -36,15 +36,15 @@ import LocaleToggle from "@/components/LocaleToggle.vue";
       <div class="grid place-content-center p-2">
         <div class="flex gap-x-2 flex-nowrap">
           <router-link to="/">
-            <LucideHouse class="h-4 inline" />Home
+            <LucideHouse class="h-4 inline" /> {{ $t('layout.footer.home') }}
           </router-link>
           <Separator orientation="vertical" />
           <router-link to="/about">
-            <LucideInfo class="h-4 inline" />About
+            <LucideInfo class="h-4 inline" /> {{ $t('layout.footer.about') }}
           </router-link>
           <Separator orientation="vertical" />
           <a target="_blank" href="https://github.com/asciidraw/asciidraw.github.io" rel="noopener noreferrer">
-            <LucideGithub class="h-4 inline" />GitHub
+            <LucideGithub class="h-4 inline" /> {{ $t('layout.footer.github') }}
           </a>
         </div>
       </div>

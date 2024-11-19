@@ -1,2 +1,55 @@
+layout:
+  header:
+    github:
+      tooltip: "Look at our cool code"
+  footer:
+    home: "Home"
+    about: "About Us"
+    github: "GitHub"
+components:
+  locale-toggle:
+    tooltip: "Controls the language of the site"
+  theme-toggle:
+    tooltip: "Controls the color-scheme of the site"
+    mode:
+      light: "Light"
+      dark: "Dark"
+      system: "System"
 home:
   dev-notice: "Note: This app is under development"
+  draw: "Draw Something"
+about:
+  steps:
+    mission:
+      title: "Mission Statement"
+      description: "We want to offer a good web-based editor to create ASCII diagrams for your README or terminal."
+    organisation:
+      title: "Organisation"
+      description: "The GitHub Organisation for this project was created in october 2024. We could have used a personal repository in one of our accounts, but because of the organisation we can offer the clean url of https://asciidraw.github.io"
+    team:
+      title: "Team"
+      description: "Just two guys. Nothing special."
+app:
+  menu:
+    hide:
+      tooltip: "Hide this overly large menu"
+    export:
+      label: "Export"
+      import:
+        tooltip: "Export this graph"
+      export:
+        tooltip: "Import an existing graph"
+      share:
+        tooltip: "Share this graph with other people"
+    actions:
+      label: "Actions"
+      select+move: "Select & Move"
+    help:
+      label: "Help"
+      text: "Maybe I put some helpful information here later on. Till then this will stay useless."
+  canvas:
+    zoom:
+      in:
+        tooltip: "Zoom in"
+      out:
+        tooltip: "Zoom out"

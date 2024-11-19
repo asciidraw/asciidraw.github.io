@@ -30,32 +30,30 @@ const hidden = ref(false);
       <ThemeToggle />
       <IconButton @click="hidden = true">
         <LucideCircleChevronLeft class="size-6" />
-        <template #tooltip>Hide this overly large menu</template>
+        <template #tooltip>{{ $t('app.menu.hide.tooltip') }}</template>
       </IconButton>
     </div>
-    <Separator label="Export" />
+    <Separator :label="$t('app.menu.export.label')" />
     <div class="flex gap-x-2">
       <IconButton>
         <LucideArrowDownToLine />
-        <template #tooltip>Export this graph</template>
+        <template #tooltip>{{ $t('app.menu.export.export.tooltip') }}</template>
       </IconButton>
       <IconButton>
         <LucideArrowUpFromLine />
-        <template #tooltip>Import an existing graph</template>
+        <template #tooltip>{{ $t('app.menu.export.export.tooltip') }}</template>
       </IconButton>
       <IconButton>
         <LucideShare2 />
-        <template #tooltip>Share this graph with other people</template>
+        <template #tooltip>{{ $t('app.menu.export.share.tooltip') }}</template>
       </IconButton>
     </div>
-    <Separator label="Elements" />
+    <Separator :label="$t('app.menu.actions.label')" />
     <Button variant="ghost" size="xs" class="gap-x-2">
       <LucideSquareDashedMousePointer/>
-      <p class="grow text-left">Select & Move</p>
+      <p class="grow text-left">{{ $t('app.menu.actions.select+move') }}</p>
     </Button>
-    <Separator label="Help" />
-    <p>
-      Maybe I put some helpful information here later on. Till then this will stay useless.
-    </p>
+    <Separator :label="$t('app.menu.help.label')" />
+    <p>{{ $t('app.menu.help.text') }}</p>
   </div>
 </template>

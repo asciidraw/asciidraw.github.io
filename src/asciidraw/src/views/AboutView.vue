@@ -1,24 +1,27 @@
 <script setup lang="ts">
 import DefaultLayout from "@/layouts/DefaultLayout.vue";
 import {LucideBuilding, LucideCrosshair, LucideUsers} from "lucide-vue-next";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const steps = [
   {
     icon: LucideCrosshair,
-    title: "Mission Statement",
-    description: "We want to offer a good web-based editor to create ASCII diagrams for your README or terminal.",
+    title: () => t('about.steps.mission.title'),
+    description: () => t('about.steps.mission.description'),
   },
   {
     icon: LucideBuilding,
-    title: "Organisation",
-    description: "The GitHub Organisation for this project was created in october 2024. We could have used a personal repository in one of our accounts, but because of the organisation we can offer the clean url of https://asciidraw.github.io",
+    title: () => t('about.steps.organisation.title'),
+    description: () => t('about.steps.organisation.description'),
   },
   {
     icon: LucideUsers,
-    title: "Team",
-    description: "Just two guys. Nothing special.",
+    title: () => t('about.steps.team.title'),
+    description: () => t('about.steps.team.description'),
   },
-]
+];
 </script>
 
 <template>
@@ -31,10 +34,10 @@ const steps = [
         </div>
         <div>
           <div class="text-sm font-semibold transition lg:text-base">
-            {{ step.title }}
+            {{ step.title() }}
           </div>
           <div class="text-xs transition lg:text-sm">
-            {{ step.description }}
+            {{ step.description() }}
           </div>
         </div>
       </div>

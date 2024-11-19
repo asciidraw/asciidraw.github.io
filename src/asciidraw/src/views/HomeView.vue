@@ -11,9 +11,7 @@ import {Button} from "@/components/ui/button";
       <h1 class="text-4xl">AsciiDraw</h1>
       <LucideTypeOutline class="size-96" />
       <router-link to="/app" class="w-fit mx-auto">
-        <Button>
-          Draw Something
-        </Button>
+        <Button>{{ $t('home.draw') }}</Button>
       </router-link>
     </div>
   </DefaultLayout>
