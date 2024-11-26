@@ -86,9 +86,24 @@ function drawText(context: CanvasRenderingContext2D, position: VectorLike, text:
 }
 
 function testDraw(context: CanvasRenderingContext2D) {
-  drawText(context, { x: 0, y: 1 }, "╭────────────╮");
-  drawText(context, { x: 0, y: 2 }, "│Hello World!│");
-  drawText(context, { x: 0, y: 3 }, "╰────────────╯");
+  const x = -10;
+  let y = 0;
+
+  drawText(context, { x, y: y++ }, "/------------\\  +------------+  ,------------.");
+  drawText(context, { x, y: y++ }, "|Hello World!|  |Hello World!|  |Hello World!|");
+  drawText(context, { x, y: y++ }, "\\------------/  +------------+  `------------´");
+
+  drawText(context, { x, y: y++ }, "┌────────────┐  ┌╌╌╌╌╌╌╌╌╌╌╌╌┐  ┌┄┄┄┄┄┄┄┄┄┄┄┄┐  ┌┈┈┈┈┈┈┈┈┈┈┈┈┐");
+  drawText(context, { x, y: y++ }, "│Hello World!│  ╎Hello World!╎  ┆Hello World!┆  ┊Hello World!┊");
+  drawText(context, { x, y: y++ }, "└────────────┘  └╌╌╌╌╌╌╌╌╌╌╌╌┘  └┄┄┄┄┄┄┄┄┄┄┄┄┘  └┈┈┈┈┈┈┈┈┈┈┈┈┘");
+
+  drawText(context, { x, y: y++ }, "╭────────────╮");
+  drawText(context, { x, y: y++ }, "│Hello World!│");
+  drawText(context, { x, y: y++ }, "╰────────────╯");
+
+  drawText(context, { x, y: y++ }, "╔════════════╗  ╔════════════╦════════════╗");
+  drawText(context, { x, y: y++ }, "║Hello World!║  ║Hello World!║Hello World!║");
+  drawText(context, { x, y: y++ }, "╚════════════╝  ╚════════════╩════════════╝");
 }
 
 function redraw() {
