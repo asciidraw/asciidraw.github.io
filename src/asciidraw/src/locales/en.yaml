@@ -33,11 +33,11 @@ app:
   menu:
     hide:
       tooltip: "Hide this overly large menu"
-    export:
-      label: "Export"
-      import:
-        tooltip: "Export this graph"
+    project:
+      label: "Project"
       export:
+        tooltip: "Export this graph"
+      import:
         tooltip: "Import an existing graph"
       share:
         tooltip: "Share this graph with other people"

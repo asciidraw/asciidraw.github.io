@@ -33,19 +33,19 @@ const hidden = ref(false);
         <template #tooltip>{{ $t('app.menu.hide.tooltip') }}</template>
       </IconButton>
     </div>
-    <Separator :label="$t('app.menu.export.label')" />
+    <Separator :label="$t('app.menu.project.label')" />
     <div class="flex gap-x-2">
       <IconButton>
         <LucideArrowDownToLine />
-        <template #tooltip>{{ $t('app.menu.export.export.tooltip') }}</template>
+        <template #tooltip>{{ $t('app.menu.project.import.tooltip') }}</template>
       </IconButton>
       <IconButton>
         <LucideArrowUpFromLine />
-        <template #tooltip>{{ $t('app.menu.export.export.tooltip') }}</template>
+        <template #tooltip>{{ $t('app.menu.project.export.tooltip') }}</template>
       </IconButton>
       <IconButton>
         <LucideShare2 />
-        <template #tooltip>{{ $t('app.menu.export.share.tooltip') }}</template>
+        <template #tooltip>{{ $t('app.menu.project.share.tooltip') }}</template>
       </IconButton>
     </div>
     <Separator :label="$t('app.menu.actions.label')" />

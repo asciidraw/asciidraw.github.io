@@ -31,11 +31,11 @@ app:
   menu:
     hide:
       tooltip: "Blende dieses übermäßig große Menü aus"
-    export:
-      label: "Exportieren"
-      import:
-        tooltip: "Exportiere diesen Graphen"
+    project:
+      label: "Projekt"
       export:
+        tooltip: "Exportiere diesen Graphen"
+      import:
         tooltip: "Importieren einen Graphen"
       share:
         tooltip: "Teilen Sie diesen Graphen mit anderen Personen"

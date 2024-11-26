@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import AppMenu from "@/app/Menu.vue";
+import AppMenu from "@/app/FloatingMenu.vue";
 import AppCanvas from "@/app/Canvas.vue";
-import ContextMenuHandler from "@/app/AppContextMenuHandler.vue";
+import ContextMenuHandler from "@/app/ContextMenuHandler.vue";
 </script>
 
 <template>
