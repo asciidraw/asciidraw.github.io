@@ -1,10 +1,7 @@
 import type {VectorLike} from "@/lib";
 
 export interface CanvasContextState {
-  offset: {
-    x: number
-    y: number
-  }
+  offset: VectorLike
   zoom: number
 }
 
@@ -34,4 +31,20 @@ export class CanvasContext {
   }
 
   // ---------------------------------------------------------------------------
+
+  public getOffset(): VectorLike {
+    return this.offset;
+  }
+
+  public setOffset(offset: VectorLike): void {
+    this.offset = structuredClone(offset);
+  }
+
+  public getZoom(): number {
+    return this.zoom;
+  }
+
+  public setZoom(zoom: number): void {
+    this.zoom = Math.min(1, zoom);
+  }
 }
