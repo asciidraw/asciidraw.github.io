@@ -1,9 +1,11 @@
 import type {VectorLike} from "@/lib";
 
+
 export interface CanvasContextState {
   offset: VectorLike
   zoom: number
 }
+
 
 export class CanvasContext {
   private offset: VectorLike
