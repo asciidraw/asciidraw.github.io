@@ -1,8 +1,12 @@
 <script setup lang="ts">
 import {
-  LucideArrowDownToLine, LucideArrowUpFromLine,
-  LucideCircleChevronLeft, LucideShare2, LucideSquareDashedMousePointer,
-  LucideTypeOutline
+  LucideCircleChevronLeft,
+  LucideClipboardCopy,
+  LucideHardDriveDownload, LucideHardDriveUpload,
+  LucideImageDown,
+  LucideShare2,
+  LucideSquareDashedMousePointer,
+  LucideTypeOutline,
 } from "lucide-vue-next";
 import ThemeToggle from "@/components/ThemeToggle.vue";
 import {Button} from "@/components/ui/button";
@@ -36,16 +40,25 @@ const hidden = ref(false);
     <Separator :label="$t('app.menu.project.label')" />
     <div class="flex gap-x-2">
       <IconButton>
-        <LucideArrowDownToLine />
-        <template #tooltip>{{ $t('app.menu.project.import.tooltip') }}</template>
+        <LucideHardDriveUpload />
+        <template #tooltip>{{ $t('app.menu.project.import.project.tooltip') }}</template>
       </IconButton>
+      <Separator orientation="vertical" class="h-6" />
       <IconButton>
-        <LucideArrowUpFromLine />
-        <template #tooltip>{{ $t('app.menu.project.export.tooltip') }}</template>
+        <LucideHardDriveDownload />
+        <template #tooltip>{{ $t('app.menu.project.export.project.tooltip') }}</template>
       </IconButton>
       <IconButton>
         <LucideShare2 />
-        <template #tooltip>{{ $t('app.menu.project.share.tooltip') }}</template>
+        <template #tooltip>{{ $t('app.menu.project.export.share.tooltip') }}</template>
+      </IconButton>
+      <IconButton>
+        <LucideClipboardCopy />
+        <template #tooltip>{{ $t('app.menu.project.export.clipboard.tooltip') }}</template>
+      </IconButton>
+      <IconButton>
+        <LucideImageDown />
+        <template #tooltip>{{ $t('app.menu.project.export.image.tooltip') }}</template>
       </IconButton>
     </div>
     <Separator :label="$t('app.menu.actions.label')" />
