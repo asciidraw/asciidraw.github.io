@@ -1,7 +1,6 @@
 import {CanvasContext, type CanvasContextState} from "@/app/lib/canvasContext.ts";
 
 
-
 export interface ProjectState {
   id: string
   name: string
