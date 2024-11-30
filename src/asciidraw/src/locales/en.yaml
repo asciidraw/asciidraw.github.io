@@ -35,12 +35,18 @@ app:
       tooltip: "Hide this overly large menu"
     project:
       label: "Project"
-      export:
-        tooltip: "Export this graph"
       import:
-        tooltip: "Import an existing graph"
-      share:
-        tooltip: "Share this graph with other people"
+        project:
+          tooltip: "Upload an existing project"
+      export:
+        project:
+          tooltip: "Download this project"
+        share:
+          tooltip: "Share this graph with other people"
+        clipboard:
+          tooltip: "Export this graph as text into your clipboard"
+        image:
+          tooltip: "Export this graph as an image"
     actions:
       label: "Actions"
       select+move: "Select & Move"

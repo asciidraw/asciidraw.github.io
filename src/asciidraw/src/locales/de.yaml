@@ -33,12 +33,18 @@ app:
       tooltip: "Blende dieses übermäßig große Menü aus"
     project:
       label: "Projekt"
-      export:
-        tooltip: "Exportiere diesen Graphen"
       import:
-        tooltip: "Importieren einen Graphen"
-      share:
-        tooltip: "Teilen Sie diesen Graphen mit anderen Personen"
+        project:
+          tooltip: "Vorhandenes Projekt hochladen"
+      export:
+        project:
+          tooltip: "Dieses Projekt herunterladen"
+        share:
+          tooltip: "Teilen Sie diesen Graphen mit anderen Personen"
+        clipboard:
+          tooltip: "Exportieren Sie dieses Diagramm als Text in Ihre Zwischenablage"
+        image:
+          tooltip: "Dieses Diagramm als Bild exportieren"
     actions:
       label: "Aktionen"
       select+move: "Auswählen & Bewegen"
