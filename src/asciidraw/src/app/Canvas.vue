@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { inject, onMounted, onUpdated, toRefs, useTemplateRef, watch } from "vue";
+import { computed, inject, onMounted, onUpdated, toRefs, useTemplateRef, watch } from "vue";
 import {useColorMode, useWindowSize} from "@vueuse/core";
 import AppZoomButton from "@/app/ZoomButton.vue";
 import * as constants from "@/constants";
@@ -21,6 +21,7 @@ function getContext() {
 
 const project = inject(PROJECT_INJECTION_KEY)!;
 const { zoom, offset } = toRefs(project.drawContext);
+const normalZoom = computed(() => zoom.value / 10);
 
 
 function zoomIn() {
@@ -41,12 +42,51 @@ function getColorPalette(context: CanvasRenderingContext2D) {
   } as const;
 }
 
+// coordinate conversion
+
+function screenToFrame(screen: VectorLike): Vector {
+  return new Vector(
+    (screen.x - windowSize.width.value / 2) / normalZoom.value + offset.value.x,
+    (screen.y - windowSize.height.value / 2) / normalZoom.value + offset.value.y,
+  );
+}
+
+function frameToScreen(frame: VectorLike): Vector {
+  return new Vector(
+    (frame.x - offset.value.x) * normalZoom.value + windowSize.width.value / 2,
+    (frame.y - offset.value.y) * normalZoom.value + windowSize.height.value / 2,
+  )
+}
+
+function frameToCell(frame: VectorLike): Vector {
+  return new Vector(
+    Math.round((frame.x - constants.CHARACTER_PIXEL_WIDTH / 2) / constants.CHARACTER_PIXEL_WIDTH),
+    Math.round((frame.y + constants.CHARACTER_PIXEL_HEIGHT / 2) / constants.CHARACTER_PIXEL_HEIGHT),
+  );
+}
+
+function cellToFrame(cell: VectorLike): Vector {
+  return new Vector(
+    Math.round(cell.x * constants.CHARACTER_PIXEL_WIDTH),
+    Math.round(cell.y * constants.CHARACTER_PIXEL_HEIGHT),
+  );
+}
+
+function screenToCell(screen: VectorLike): Vector {
+  return frameToCell(screenToFrame(screen));
+}
+
+function cellToScreen(cell: VectorLike): Vector {
+  return frameToScreen(cellToFrame(cell));
+}
+
+// @end coordinate conversion
+
 function initCanvas(context: CanvasRenderingContext2D) {
   context.setTransform(1, 0, 0, 1, 0, 0);
   context.clearRect(0, 0, context.canvas.width, context.canvas.height);
-  const normalZoom = zoom.value / 10;
-  context.scale(normalZoom, normalZoom);
-  context.translate(context.canvas.width / 2 / normalZoom, context.canvas.height / 2 / normalZoom);
+  context.scale(normalZoom.value, normalZoom.value);
+  context.translate(context.canvas.width / 2 / normalZoom.value, context.canvas.height / 2 / normalZoom.value);
   context.font = constants.FONT;
 }
 
@@ -54,25 +94,28 @@ function renderGrid(context: CanvasRenderingContext2D) {
   const colors = getColorPalette(context);
   context.lineWidth = 1;
   context.strokeStyle = colors.grid;
-  // todo: calculate start and end while considering $offset
-  const startOffset = new Vector(
-    Math.round(-context.canvas.width / 2 / constants.CHARACTER_PIXEL_WIDTH),
-    Math.round(-context.canvas.height / 2 / constants.CHARACTER_PIXEL_HEIGHT),
-  );
-  const endOffset = new Vector(
-    Math.round(context.canvas.width / 2 / constants.CHARACTER_PIXEL_WIDTH),
-    Math.round(context.canvas.height / 2 / constants.CHARACTER_PIXEL_HEIGHT),
-  );
+
+  console.log(screenToCell(new Vector(0, 0)));
+
+  const startOffset = screenToCell(new Vector(0, 0))
+    .subtract(new Vector(constants.RENDER_PADDING_CELLS, constants.RENDER_PADDING_CELLS));
+  const endOffset = screenToCell(new Vector(context.canvas.width, context.canvas.height))
+    .add(new Vector(constants.RENDER_PADDING_CELLS, constants.RENDER_PADDING_CELLS));
+
   context.beginPath();
   for (let i = startOffset.x; i < endOffset.x; i++) {
     const posX = (i * constants.CHARACTER_PIXEL_WIDTH) - offset.value.x;
-    context.moveTo(posX, -context.canvas.height / 2 - offset.value.y);
-    context.lineTo(posX,  context.canvas.height / 2 - offset.value.y);
+    const startY = -context.canvas.height / 2 / normalZoom.value - offset.value.y;
+    const endY = context.canvas.height / 2 / normalZoom.value - offset.value.y;
+    context.moveTo(posX, startY);
+    context.lineTo(posX,  endY);
   }
   for (let j = startOffset.y; j < endOffset.y; j++) {
     const posY = (j * constants.CHARACTER_PIXEL_HEIGHT) - offset.value.y;
-    context.moveTo(-context.canvas.width / 2 - offset.value.x, posY);
-    context.lineTo( context.canvas.width / 2 - offset.value.x, posY);
+    const startX = -context.canvas.width / 2 / normalZoom.value - offset.value.x;
+    const endX = context.canvas.width / 2 / normalZoom.value - offset.value.x;
+    context.moveTo(startX, posY);
+    context.lineTo(endX, posY);
   }
   context.stroke();
 }
