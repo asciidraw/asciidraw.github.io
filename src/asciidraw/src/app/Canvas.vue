@@ -106,15 +106,15 @@ function renderGrid(context: CanvasRenderingContext2D) {
   context.beginPath();
   for (let i = startOffset.x; i < endOffset.x; i++) {
     const posX = (i * constants.CHARACTER_PIXEL_WIDTH) - offset.value.x;
-    const startY = -context.canvas.height / 2 / normalZoom.value - offset.value.y;
-    const endY = context.canvas.height / 2 / normalZoom.value - offset.value.y;
+    const startY = -context.canvas.height / 2 / normalZoom.value;
+    const endY = context.canvas.height / 2 / normalZoom.value;
     context.moveTo(posX, startY);
     context.lineTo(posX,  endY);
   }
   for (let j = startOffset.y; j < endOffset.y; j++) {
     const posY = (j * constants.CHARACTER_PIXEL_HEIGHT) - offset.value.y;
-    const startX = -context.canvas.width / 2 / normalZoom.value - offset.value.x;
-    const endX = context.canvas.width / 2 / normalZoom.value - offset.value.x;
+    const startX = -context.canvas.width / 2 / normalZoom.value;
+    const endX = context.canvas.width / 2 / normalZoom.value;
     context.moveTo(startX, posY);
     context.lineTo(endX, posY);
   }
@@ -221,7 +221,7 @@ onUpdated(redraw);
     <canvas ref="canvas" class="w-full h-full" :width="windowSize.width.value" :height="windowSize.height.value" />
   </div>
   <div class="fixed top-0 left-1/2 -translate-x-1/2 pointer-events-none">
-    Zoom: {{ zoom }} | offset.value: {{ offset.x }}x{{ offset.y }}
+    Zoom: {{ zoom }} | offset.value: {{ offset.x.toFixed(2) }}x{{ offset.y.toFixed(2) }}
   </div>
   <AppZoomButton @zoom-in="zoomIn" @zoom-out="zoomOut" />
 </template>
