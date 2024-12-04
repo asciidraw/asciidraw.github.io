@@ -2,10 +2,11 @@
 import AppMenu from "@/app/FloatingMenu.vue";
 import AppCanvas from "@/app/Canvas.vue";
 import ContextMenuHandler from "@/app/ContextMenuHandler.vue";
-import { provide, reactive, watch } from "vue";
+import { provide, reactive } from "vue";
 import { createNewProject } from "@/app/createNewProject.ts";
 import type { Project } from "@/types";
 import { PROJECT_INJECTION_KEY } from "@/keys.ts";
+import { watchDebounced } from "@vueuse/core";
 
 
 function loadOrCreateProject(): Project {
@@ -18,9 +19,9 @@ const project: Project = reactive(loadOrCreateProject());
 provide(PROJECT_INJECTION_KEY, project);
 
 
-watch(project, () => {
+watchDebounced(project, () => {
   localStorage.setItem("project", JSON.stringify(project));
-});
+}, { debounce: 500, maxWait: 1000, immediate: true });
 </script>
 
 <template>
