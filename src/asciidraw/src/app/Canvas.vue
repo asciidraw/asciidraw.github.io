@@ -120,6 +120,18 @@ function renderGrid(context: CanvasRenderingContext2D) {
   context.stroke();
 }
 
+function highlight(context: CanvasRenderingContext2D, start: VectorLike, end: VectorLike, color: string = "#00F5") {
+  context.fillStyle = color;
+  const width = end.x - start.x;
+  const height = end.y - start.y;
+  context.fillRect(
+    start.x * constants.CHARACTER_PIXEL_WIDTH - offset.value.x + 0.5,
+    start.y * constants.CHARACTER_PIXEL_HEIGHT - offset.value.y + 0.5,
+    width * constants.CHARACTER_PIXEL_WIDTH - 1,
+    height * constants.CHARACTER_PIXEL_HEIGHT - 1,
+  );
+}
+
 function drawText(context: CanvasRenderingContext2D, position: VectorLike, text: string) {
   const colors = getColorPalette(context);
   context.fillStyle = colors.text;
@@ -133,6 +145,11 @@ function drawText(context: CanvasRenderingContext2D, position: VectorLike, text:
 function testDraw(context: CanvasRenderingContext2D) {
   const x = -10;
   let y = 0;
+
+  // origin
+  highlight(context, new Vector(0, 0), new Vector(1, 1), '#f009')
+  // test-highlight
+  highlight(context, new Vector(-5, -10), new Vector(5, -2));
 
   drawText(context, { x, y: y++ }, "/------------\\  +------------+  ,------------.");
   drawText(context, { x, y: y++ }, "|Hello World!|  |Hello World!|  |Hello World!|");
