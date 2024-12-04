@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import {onMounted, onUpdated, reactive, ref, useTemplateRef, watch} from "vue";
-import {useColorMode, useWindowSize} from "@vueuse/core";
+import { computed, inject, onMounted, onUpdated, reactive, ref, toRefs, useTemplateRef, watch } from "vue";
+import { useColorMode, useEventListener, useWindowSize } from "@vueuse/core";
 import AppZoomButton from "@/app/ZoomButton.vue";
 import * as constants from "@/constants";
 import {Vector, type VectorLike} from "@/lib";
+import { PROJECT_INJECTION_KEY } from "@/keys.ts";
 
 const colorMode = useColorMode();
 
@@ -18,8 +19,9 @@ function getContext() {
   return canvas.value!.getContext("2d")!;
 }
 
-const zoom = ref<number>(10);
-const offset = reactive({ x: 0, y: 0 });
+const project = inject(PROJECT_INJECTION_KEY)!;
+const { zoom, offset } = toRefs(project.drawContext);
+const normalZoom = computed(() => zoom.value / 10);
 
 function zoomIn() {
   zoom.value++;
@@ -39,12 +41,51 @@ function getColorPalette(context: CanvasRenderingContext2D) {
   } as const;
 }
 
+// coordinate conversion
+
+function screenToFrame(screen: VectorLike): Vector {
+  return new Vector(
+    (screen.x - windowSize.width.value / 2) / normalZoom.value + offset.value.x,
+    (screen.y - windowSize.height.value / 2) / normalZoom.value + offset.value.y,
+  );
+}
+
+function frameToScreen(frame: VectorLike): Vector {
+  return new Vector(
+    (frame.x - offset.value.x) * normalZoom.value + windowSize.width.value / 2,
+    (frame.y - offset.value.y) * normalZoom.value + windowSize.height.value / 2,
+  )
+}
+
+function frameToCell(frame: VectorLike): Vector {
+  return new Vector(
+    Math.round((frame.x - constants.CHARACTER_PIXEL_WIDTH / 2) / constants.CHARACTER_PIXEL_WIDTH),
+    Math.round((frame.y + constants.CHARACTER_PIXEL_HEIGHT / 2) / constants.CHARACTER_PIXEL_HEIGHT),
+  );
+}
+
+function cellToFrame(cell: VectorLike): Vector {
+  return new Vector(
+    Math.round(cell.x * constants.CHARACTER_PIXEL_WIDTH),
+    Math.round(cell.y * constants.CHARACTER_PIXEL_HEIGHT),
+  );
+}
+
+function screenToCell(screen: VectorLike): Vector {
+  return frameToCell(screenToFrame(screen));
+}
+
+function cellToScreen(cell: VectorLike): Vector {
+  return frameToScreen(cellToFrame(cell));
+}
+
+// @end coordinate conversion
+
 function initCanvas(context: CanvasRenderingContext2D) {
   context.setTransform(1, 0, 0, 1, 0, 0);
   context.clearRect(0, 0, context.canvas.width, context.canvas.height);
-  const normalZoom = zoom.value / 10;
-  context.scale(normalZoom, normalZoom);
-  context.translate(context.canvas.width / 2 / normalZoom, context.canvas.height / 2 / normalZoom);
+  context.scale(normalZoom.value, normalZoom.value);
+  context.translate(context.canvas.width / 2 / normalZoom.value, context.canvas.height / 2 / normalZoom.value);
   context.font = constants.FONT;
 }
 
@@ -52,42 +93,114 @@ function renderGrid(context: CanvasRenderingContext2D) {
   const colors = getColorPalette(context);
   context.lineWidth = 1;
   context.strokeStyle = colors.grid;
-  // todo: calculate start and end while considering $offset
-  const startOffset = new Vector(
-    Math.round(-context.canvas.width / 2 / constants.CHARACTER_PIXEL_WIDTH),
-    Math.round(-context.canvas.height / 2 / constants.CHARACTER_PIXEL_HEIGHT),
-  );
-  const endOffset = new Vector(
-    Math.round(context.canvas.width / 2 / constants.CHARACTER_PIXEL_WIDTH),
-    Math.round(context.canvas.height / 2 / constants.CHARACTER_PIXEL_HEIGHT),
-  );
+
+  const startOffset = screenToCell(new Vector(0, 0))
+    .subtract(new Vector(constants.RENDER_PADDING_CELLS, constants.RENDER_PADDING_CELLS));
+  const endOffset = screenToCell(new Vector(context.canvas.width, context.canvas.height))
+    .add(new Vector(constants.RENDER_PADDING_CELLS, constants.RENDER_PADDING_CELLS));
+
   context.beginPath();
   for (let i = startOffset.x; i < endOffset.x; i++) {
-    const posX = (i * constants.CHARACTER_PIXEL_WIDTH) - offset.x;
-    context.moveTo(posX, -context.canvas.height / 2 - offset.y);
-    context.lineTo(posX,  context.canvas.height / 2 - offset.y);
+    const posX = (i * constants.CHARACTER_PIXEL_WIDTH) - offset.value.x;
+    const startY = -context.canvas.height / 2 / normalZoom.value;
+    const endY = context.canvas.height / 2 / normalZoom.value;
+    context.moveTo(posX, startY);
+    context.lineTo(posX,  endY);
   }
   for (let j = startOffset.y; j < endOffset.y; j++) {
-    const posY = (j * constants.CHARACTER_PIXEL_HEIGHT) - offset.y;
-    context.moveTo(-context.canvas.width / 2 - offset.x, posY);
-    context.lineTo( context.canvas.width / 2 - offset.x, posY);
+    const posY = (j * constants.CHARACTER_PIXEL_HEIGHT) - offset.value.y;
+    const startX = -context.canvas.width / 2 / normalZoom.value;
+    const endX = context.canvas.width / 2 / normalZoom.value;
+    context.moveTo(startX, posY);
+    context.lineTo(endX, posY);
   }
   context.stroke();
+}
+
+function highlight(context: CanvasRenderingContext2D, start: VectorLike, end: VectorLike, color: string = "#00F5") {
+  context.fillStyle = color;
+  const width = end.x - start.x;
+  const height = end.y - start.y;
+  context.fillRect(
+    start.x * constants.CHARACTER_PIXEL_WIDTH - offset.value.x + 0.5,
+    start.y * constants.CHARACTER_PIXEL_HEIGHT - offset.value.y + 0.5,
+    width * constants.CHARACTER_PIXEL_WIDTH - 1,
+    height * constants.CHARACTER_PIXEL_HEIGHT - 1,
+  );
 }
 
 function drawText(context: CanvasRenderingContext2D, position: VectorLike, text: string) {
   const colors = getColorPalette(context);
   context.fillStyle = colors.text;
   for (let i = 0; i < text.length; i++) {
-    const canvasX = ((position.x + i) * constants.CHARACTER_PIXEL_WIDTH) - offset.x;
-    const canvasY = (position.y * constants.CHARACTER_PIXEL_HEIGHT) - offset.y - 3;
+    const canvasX = ((position.x + i) * constants.CHARACTER_PIXEL_WIDTH) - offset.value.x;
+    const canvasY = (position.y * constants.CHARACTER_PIXEL_HEIGHT) - offset.value.y - 3;
     context.fillText(text.charAt(i), canvasX, canvasY);
   }
 }
 
+function redraw() {
+  const context = getContext();
+  initCanvas(context);
+  renderGrid(context);
+  testDraw(context);
+}
+
+onMounted(redraw);
+onUpdated(redraw);
+
+// zooming
+
+function onCanvasWheel(event: WheelEvent) {
+  if (event.deltaY > 0) {
+    zoomOut();
+  }
+  if (event.deltaY < 0) {
+    zoomIn();
+  }
+}
+
+// offset dragging
+
+const isDraggingOffset = ref(false);
+const moveStartOffset = reactive({ x: 0, y: 0 });
+const moveStartPosition = reactive({ x: 0, y: 0 });
+
+function onMouseDown(event: MouseEvent) {
+  if (event.button === 1) {
+    isDraggingOffset.value = true;
+    moveStartOffset.x = offset.value.x;
+    moveStartOffset.y = offset.value.y;
+    moveStartPosition.x = event.clientX;
+    moveStartPosition.y = event.clientY;
+  }
+}
+
+useEventListener("mousemove", (event: MouseEvent) => {
+  if (isDraggingOffset.value) {
+    const diffX = (moveStartPosition.x - event.clientX) / normalZoom.value;
+    const diffY = (moveStartPosition.y - event.clientY) / normalZoom.value;
+    const offsetX = moveStartOffset.x + diffX;
+    const offsetY = moveStartOffset.y + diffY;
+    offset.value.x = offsetX;
+    offset.value.y = offsetY;
+  }
+});
+
+useEventListener("mouseup", () => {
+  isDraggingOffset.value = false;
+});
+
+// development
+
 function testDraw(context: CanvasRenderingContext2D) {
   const x = -10;
   let y = 0;
+
+  // origin
+  highlight(context, new Vector(0, 0), new Vector(1, 1), '#f009')
+  // test-highlight
+  highlight(context, new Vector(-5, -10), new Vector(5, -2));
 
   drawText(context, { x, y: y++ }, "/------------\\  +------------+  ,------------.");
   drawText(context, { x, y: y++ }, "|Hello World!|  |Hello World!|  |Hello World!|");
@@ -105,33 +218,14 @@ function testDraw(context: CanvasRenderingContext2D) {
   drawText(context, { x, y: y++ }, "║Hello World!║  ║Hello World!║Hello World!║");
   drawText(context, { x, y: y++ }, "╚════════════╝  ╚════════════╩════════════╝");
 }
-
-function redraw() {
-  const context = getContext();
-  initCanvas(context);
-  renderGrid(context);
-  testDraw(context);
-}
-
-function onCanvasWheel(event: WheelEvent) {
-  if (event.deltaY > 0) {
-    zoomOut();
-  }
-  if (event.deltaY < 0) {
-    zoomIn();
-  }
-}
-
-onMounted(redraw);
-onUpdated(redraw);
 </script>
 
 <template>
-  <div class="w-screen h-screen" @wheel="onCanvasWheel">
+  <div class="w-screen h-screen" @wheel="onCanvasWheel" @mousedown="onMouseDown">
     <canvas ref="canvas" class="w-full h-full" :width="windowSize.width.value" :height="windowSize.height.value" />
   </div>
-  <div class="fixed top-0 left-1/2 -translate-x-1/2">
-    Zoom: {{ zoom }} | Offset: {{ offset.x }}x{{ offset.y }}
+  <div class="fixed top-0 left-1/2 -translate-x-1/2 pointer-events-none">
+    Zoom: {{ zoom }} | offset.value: {{ offset.x.toFixed(2) }}x{{ offset.y.toFixed(2) }}
   </div>
   <AppZoomButton @zoom-in="zoomIn" @zoom-out="zoomOut" />
 </template>

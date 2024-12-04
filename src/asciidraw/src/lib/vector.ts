@@ -25,9 +25,17 @@ export class Vector implements VectorLike {
   public x: number;
   public y: number;
 
+  public static copy(vector: VectorLike): Vector {
+    return new Vector(vector.x, vector.y);
+  }
+
   public constructor(x: number, y: number) {
     this.x = x;
     this.y = y;
+  }
+
+  toJSON(): VectorLike {
+    return { x: this.x, y: this.y };
   }
 
   toString() {
