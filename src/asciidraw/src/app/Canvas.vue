@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import {onMounted, onUpdated, reactive, ref, useTemplateRef, watch} from "vue";
+import { inject, onMounted, onUpdated, toRefs, useTemplateRef, watch } from "vue";
 import {useColorMode, useWindowSize} from "@vueuse/core";
 import AppZoomButton from "@/app/ZoomButton.vue";
 import * as constants from "@/constants";
 import {Vector, type VectorLike} from "@/lib";
+import { PROJECT_INJECTION_KEY } from "@/keys.ts";
 
 const colorMode = useColorMode();
 
@@ -18,8 +19,9 @@ function getContext() {
   return canvas.value!.getContext("2d")!;
 }
 
-const zoom = ref<number>(10);
-const offset = reactive({ x: 0, y: 0 });
+const project = inject(PROJECT_INJECTION_KEY)!;
+const { zoom, offset } = toRefs(project.drawContext);
+
 
 function zoomIn() {
   zoom.value++;
@@ -63,14 +65,14 @@ function renderGrid(context: CanvasRenderingContext2D) {
   );
   context.beginPath();
   for (let i = startOffset.x; i < endOffset.x; i++) {
-    const posX = (i * constants.CHARACTER_PIXEL_WIDTH) - offset.x;
-    context.moveTo(posX, -context.canvas.height / 2 - offset.y);
-    context.lineTo(posX,  context.canvas.height / 2 - offset.y);
+    const posX = (i * constants.CHARACTER_PIXEL_WIDTH) - offset.value.x;
+    context.moveTo(posX, -context.canvas.height / 2 - offset.value.y);
+    context.lineTo(posX,  context.canvas.height / 2 - offset.value.y);
   }
   for (let j = startOffset.y; j < endOffset.y; j++) {
-    const posY = (j * constants.CHARACTER_PIXEL_HEIGHT) - offset.y;
-    context.moveTo(-context.canvas.width / 2 - offset.x, posY);
-    context.lineTo( context.canvas.width / 2 - offset.x, posY);
+    const posY = (j * constants.CHARACTER_PIXEL_HEIGHT) - offset.value.y;
+    context.moveTo(-context.canvas.width / 2 - offset.value.x, posY);
+    context.lineTo( context.canvas.width / 2 - offset.value.x, posY);
   }
   context.stroke();
 }
@@ -79,8 +81,8 @@ function drawText(context: CanvasRenderingContext2D, position: VectorLike, text:
   const colors = getColorPalette(context);
   context.fillStyle = colors.text;
   for (let i = 0; i < text.length; i++) {
-    const canvasX = ((position.x + i) * constants.CHARACTER_PIXEL_WIDTH) - offset.x;
-    const canvasY = (position.y * constants.CHARACTER_PIXEL_HEIGHT) - offset.y - 3;
+    const canvasX = ((position.x + i) * constants.CHARACTER_PIXEL_WIDTH) - offset.value.x;
+    const canvasY = (position.y * constants.CHARACTER_PIXEL_HEIGHT) - offset.value.y - 3;
     context.fillText(text.charAt(i), canvasX, canvasY);
   }
 }
@@ -131,7 +133,7 @@ onUpdated(redraw);
     <canvas ref="canvas" class="w-full h-full" :width="windowSize.width.value" :height="windowSize.height.value" />
   </div>
   <div class="fixed top-0 left-1/2 -translate-x-1/2">
-    Zoom: {{ zoom }} | Offset: {{ offset.x }}x{{ offset.y }}
+    Zoom: {{ zoom }} | offset.value: {{ offset.x }}x{{ offset.y }}
   </div>
   <AppZoomButton @zoom-in="zoomIn" @zoom-out="zoomOut" />
 </template>
