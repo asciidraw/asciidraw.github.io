@@ -1,2 +1,2 @@
-export * from "./project"
+export * from "./project.ts"
 export * from "./canvasContext.ts"
