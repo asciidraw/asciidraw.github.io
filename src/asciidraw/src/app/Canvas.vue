@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, inject, onMounted, onUpdated, reactive, ref, toRefs, useTemplateRef, watch } from "vue";
-import {useColorMode, useWindowSize} from "@vueuse/core";
+import { useColorMode, useEventListener, useWindowSize } from "@vueuse/core";
 import AppZoomButton from "@/app/ZoomButton.vue";
 import * as constants from "@/constants";
 import {Vector, type VectorLike} from "@/lib";
@@ -186,9 +186,7 @@ function onCanvasWheel(event: WheelEvent) {
 }
 
 function onMouseDown(event: MouseEvent) {
-  console.log(event);
   if (event.button === 1) {
-    console.log("Starting to drag")
     isDraggingOffset.value = true;
     moveStartOffset.x = offset.value.x;
     moveStartOffset.y = offset.value.y;
@@ -197,7 +195,7 @@ function onMouseDown(event: MouseEvent) {
   }
 }
 
-function onMouseMove(event: MouseEvent) {
+useEventListener("mousemove", (event: MouseEvent) => {
   if (isDraggingOffset.value) {
     const diffX = (moveStartPosition.x - event.clientX) / normalZoom.value;
     const diffY = (moveStartPosition.y - event.clientY) / normalZoom.value;
@@ -206,18 +204,18 @@ function onMouseMove(event: MouseEvent) {
     offset.value.x = offsetX;
     offset.value.y = offsetY;
   }
-}
+});
 
-function onMouseUp(_: MouseEvent) {
+useEventListener("mouseup", () => {
   isDraggingOffset.value = false;
-}
+});
 
 onMounted(redraw);
 onUpdated(redraw);
 </script>
 
 <template>
-  <div class="w-screen h-screen" @wheel="onCanvasWheel" @mousedown="onMouseDown" @mousemove="onMouseMove" @mouseup="onMouseUp" @mouseleave="onMouseUp">
+  <div class="w-screen h-screen" @wheel="onCanvasWheel" @mousedown="onMouseDown">
     <canvas ref="canvas" class="w-full h-full" :width="windowSize.width.value" :height="windowSize.height.value" />
   </div>
   <div class="fixed top-0 left-1/2 -translate-x-1/2 pointer-events-none">
