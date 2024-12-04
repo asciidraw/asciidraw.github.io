@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, inject, onMounted, onUpdated, toRefs, useTemplateRef, watch } from "vue";
+import { computed, inject, onMounted, onUpdated, reactive, ref, toRefs, useTemplateRef, watch } from "vue";
 import {useColorMode, useWindowSize} from "@vueuse/core";
 import AppZoomButton from "@/app/ZoomButton.vue";
 import * as constants from "@/constants";
@@ -23,6 +23,9 @@ const project = inject(PROJECT_INJECTION_KEY)!;
 const { zoom, offset } = toRefs(project.drawContext);
 const normalZoom = computed(() => zoom.value / 10);
 
+const isDraggingOffset = ref(false);
+const moveStartOffset = reactive({ x: 0, y: 0 });
+const moveStartPosition = reactive({ x: 0, y: 0 });
 
 function zoomIn() {
   zoom.value++;
@@ -94,8 +97,6 @@ function renderGrid(context: CanvasRenderingContext2D) {
   const colors = getColorPalette(context);
   context.lineWidth = 1;
   context.strokeStyle = colors.grid;
-
-  console.log(screenToCell(new Vector(0, 0)));
 
   const startOffset = screenToCell(new Vector(0, 0))
     .subtract(new Vector(constants.RENDER_PADDING_CELLS, constants.RENDER_PADDING_CELLS));
@@ -184,15 +185,42 @@ function onCanvasWheel(event: WheelEvent) {
   }
 }
 
+function onMouseDown(event: MouseEvent) {
+  console.log(event);
+  if (event.button === 1) {
+    console.log("Starting to drag")
+    isDraggingOffset.value = true;
+    moveStartOffset.x = offset.value.x;
+    moveStartOffset.y = offset.value.y;
+    moveStartPosition.x = event.clientX;
+    moveStartPosition.y = event.clientY;
+  }
+}
+
+function onMouseMove(event: MouseEvent) {
+  if (isDraggingOffset.value) {
+    const diffX = (moveStartPosition.x - event.clientX) / normalZoom.value;
+    const diffY = (moveStartPosition.y - event.clientY) / normalZoom.value;
+    const offsetX = moveStartOffset.x + diffX;
+    const offsetY = moveStartOffset.y + diffY;
+    offset.value.x = offsetX;
+    offset.value.y = offsetY;
+  }
+}
+
+function onMouseUp(_: MouseEvent) {
+  isDraggingOffset.value = false;
+}
+
 onMounted(redraw);
 onUpdated(redraw);
 </script>
 
 <template>
-  <div class="w-screen h-screen" @wheel="onCanvasWheel">
+  <div class="w-screen h-screen" @wheel="onCanvasWheel" @mousedown="onMouseDown" @mousemove="onMouseMove" @mouseup="onMouseUp" @mouseleave="onMouseUp">
     <canvas ref="canvas" class="w-full h-full" :width="windowSize.width.value" :height="windowSize.height.value" />
   </div>
-  <div class="fixed top-0 left-1/2 -translate-x-1/2">
+  <div class="fixed top-0 left-1/2 -translate-x-1/2 pointer-events-none">
     Zoom: {{ zoom }} | offset.value: {{ offset.x }}x{{ offset.y }}
   </div>
   <AppZoomButton @zoom-in="zoomIn" @zoom-out="zoomOut" />
