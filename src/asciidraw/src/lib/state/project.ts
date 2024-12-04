@@ -1,4 +1,4 @@
-import {CanvasContext, type CanvasContextState} from "@/app/lib/canvasContext.ts";
+import {CanvasContext, type CanvasContextState} from "@/lib/state/canvasContext.ts";
 
 
 export interface ProjectState {
