@@ -23,10 +23,6 @@ const project = inject(PROJECT_INJECTION_KEY)!;
 const { zoom, offset } = toRefs(project.drawContext);
 const normalZoom = computed(() => zoom.value / 10);
 
-const isDraggingOffset = ref(false);
-const moveStartOffset = reactive({ x: 0, y: 0 });
-const moveStartPosition = reactive({ x: 0, y: 0 });
-
 function zoomIn() {
   zoom.value++;
 }
@@ -143,38 +139,17 @@ function drawText(context: CanvasRenderingContext2D, position: VectorLike, text:
   }
 }
 
-function testDraw(context: CanvasRenderingContext2D) {
-  const x = -10;
-  let y = 0;
-
-  // origin
-  highlight(context, new Vector(0, 0), new Vector(1, 1), '#f009')
-  // test-highlight
-  highlight(context, new Vector(-5, -10), new Vector(5, -2));
-
-  drawText(context, { x, y: y++ }, "/------------\\  +------------+  ,------------.");
-  drawText(context, { x, y: y++ }, "|Hello World!|  |Hello World!|  |Hello World!|");
-  drawText(context, { x, y: y++ }, "\\------------/  +------------+  `------------´");
-
-  drawText(context, { x, y: y++ }, "┌────────────┐  ┌╌╌╌╌╌╌╌╌╌╌╌╌┐  ┌┄┄┄┄┄┄┄┄┄┄┄┄┐  ┌┈┈┈┈┈┈┈┈┈┈┈┈┐");
-  drawText(context, { x, y: y++ }, "│Hello World!│  ╎Hello World!╎  ┆Hello World!┆  ┊Hello World!┊");
-  drawText(context, { x, y: y++ }, "└────────────┘  └╌╌╌╌╌╌╌╌╌╌╌╌┘  └┄┄┄┄┄┄┄┄┄┄┄┄┘  └┈┈┈┈┈┈┈┈┈┈┈┈┘");
-
-  drawText(context, { x, y: y++ }, "╭────────────╮");
-  drawText(context, { x, y: y++ }, "│Hello World!│");
-  drawText(context, { x, y: y++ }, "╰────────────╯");
-
-  drawText(context, { x, y: y++ }, "╔════════════╗  ╔════════════╦════════════╗");
-  drawText(context, { x, y: y++ }, "║Hello World!║  ║Hello World!║Hello World!║");
-  drawText(context, { x, y: y++ }, "╚════════════╝  ╚════════════╩════════════╝");
-}
-
 function redraw() {
   const context = getContext();
   initCanvas(context);
   renderGrid(context);
   testDraw(context);
 }
+
+onMounted(redraw);
+onUpdated(redraw);
+
+// zooming
 
 function onCanvasWheel(event: WheelEvent) {
   if (event.deltaY > 0) {
@@ -184,6 +159,12 @@ function onCanvasWheel(event: WheelEvent) {
     zoomIn();
   }
 }
+
+// offset dragging
+
+const isDraggingOffset = ref(false);
+const moveStartOffset = reactive({ x: 0, y: 0 });
+const moveStartPosition = reactive({ x: 0, y: 0 });
 
 function onMouseDown(event: MouseEvent) {
   if (event.button === 1) {
@@ -210,8 +191,33 @@ useEventListener("mouseup", () => {
   isDraggingOffset.value = false;
 });
 
-onMounted(redraw);
-onUpdated(redraw);
+// development
+
+function testDraw(context: CanvasRenderingContext2D) {
+  const x = -10;
+  let y = 0;
+
+  // origin
+  highlight(context, new Vector(0, 0), new Vector(1, 1), '#f009')
+  // test-highlight
+  highlight(context, new Vector(-5, -10), new Vector(5, -2));
+
+  drawText(context, { x, y: y++ }, "/------------\\  +------------+  ,------------.");
+  drawText(context, { x, y: y++ }, "|Hello World!|  |Hello World!|  |Hello World!|");
+  drawText(context, { x, y: y++ }, "\\------------/  +------------+  `------------´");
+
+  drawText(context, { x, y: y++ }, "┌────────────┐  ┌╌╌╌╌╌╌╌╌╌╌╌╌┐  ┌┄┄┄┄┄┄┄┄┄┄┄┄┐  ┌┈┈┈┈┈┈┈┈┈┈┈┈┐");
+  drawText(context, { x, y: y++ }, "│Hello World!│  ╎Hello World!╎  ┆Hello World!┆  ┊Hello World!┊");
+  drawText(context, { x, y: y++ }, "└────────────┘  └╌╌╌╌╌╌╌╌╌╌╌╌┘  └┄┄┄┄┄┄┄┄┄┄┄┄┘  └┈┈┈┈┈┈┈┈┈┈┈┈┘");
+
+  drawText(context, { x, y: y++ }, "╭────────────╮");
+  drawText(context, { x, y: y++ }, "│Hello World!│");
+  drawText(context, { x, y: y++ }, "╰────────────╯");
+
+  drawText(context, { x, y: y++ }, "╔════════════╗  ╔════════════╦════════════╗");
+  drawText(context, { x, y: y++ }, "║Hello World!║  ║Hello World!║Hello World!║");
+  drawText(context, { x, y: y++ }, "╚════════════╝  ╚════════════╩════════════╝");
+}
 </script>
 
 <template>
