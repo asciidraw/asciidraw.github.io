@@ -7,13 +7,20 @@ import { createNewProject } from "@/app/createNewProject.ts";
 import type { Project } from "@/types";
 import { PROJECT_INJECTION_KEY } from "@/keys.ts";
 
-const project: Project = reactive(createNewProject());
 
+function loadOrCreateProject(): Project {
+  const stored = localStorage.getItem("project");
+  return stored === null ? createNewProject() : JSON.parse(stored);
+}
+
+
+const project: Project = reactive(loadOrCreateProject());
 provide(PROJECT_INJECTION_KEY, project);
 
+
 watch(project, () => {
-  console.log("Project Changed", {...project});
-})
+  localStorage.setItem("project", JSON.stringify(project));
+});
 </script>
 
 <template>
