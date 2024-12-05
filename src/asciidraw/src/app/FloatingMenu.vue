@@ -14,15 +14,22 @@ import {ref} from "vue";
 import {Separator} from "@/components/ui/separator";
 import IconButton from "@/components/composed/IconButton.vue";
 import LocaleToggle from "@/components/LocaleToggle.vue";
-import {useEventBus} from "@vueuse/core";
-import {EVENT_DOWNLOAD_PROJECT} from "@/symbols.ts";
+import {templateRef, useDropZone, useEventBus} from "@vueuse/core";
+import {EVENT_DOWNLOAD_PROJECT, EVENT_UPLOAD_PROJECT} from "@/symbols.ts";
 import {useIsDropAvailable} from "@/composables/useIsDropAvailable.ts";
 
 const menuIsHidden = ref(false);
 
-const isDropAvailable = useIsDropAvailable();
-
 const downloadEvent = useEventBus(EVENT_DOWNLOAD_PROJECT);
+const uploadEvent = useEventBus(EVENT_UPLOAD_PROJECT);
+
+const isDropAvailable = useIsDropAvailable();
+const uploadDropZoneRef = templateRef("upload-dropzone");
+useDropZone(uploadDropZoneRef, {
+  onDrop: (files) => {
+    files?.forEach(file => file.text().then((content) => uploadEvent.emit(content)))
+  },
+});
 </script>
 
 <template>
@@ -69,7 +76,7 @@ const downloadEvent = useEventBus(EVENT_DOWNLOAD_PROJECT);
           <template #tooltip>{{ $t('app.menu.project.export.image.tooltip') }}</template>
         </IconButton>
       </div>
-      <div v-if="isDropAvailable" class="border border-dashed h-20 grid place-content-center m-2">
+      <div v-if="isDropAvailable" ref="upload-dropzone" class="border border-dashed h-20 grid place-content-center m-2">
         {{ $t('app.menu.project.dropzone') }}
       </div>
     </div>

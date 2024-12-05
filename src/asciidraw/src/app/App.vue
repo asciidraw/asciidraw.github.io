@@ -5,7 +5,7 @@ import ContextMenuHandler from "@/app/ContextMenuHandler.vue";
 import { provide, reactive } from "vue";
 import { createNewProject } from "@/app/createNewProject.ts";
 import type { Project } from "@/types";
-import {EVENT_DOWNLOAD_PROJECT, PROJECT_INJECTION_KEY} from "@/symbols.ts";
+import {EVENT_DOWNLOAD_PROJECT, EVENT_UPLOAD_PROJECT, PROJECT_INJECTION_KEY} from "@/symbols.ts";
 import {useEventBus, watchDebounced} from "@vueuse/core";
 import {startTextDownload} from "@/lib";
 
@@ -14,6 +14,11 @@ useEventBus(EVENT_DOWNLOAD_PROJECT).on(() => {
   const content = JSON.stringify(project);
   const filename = `${Date.now()}.json`;
   startTextDownload(content, filename);
+});
+
+useEventBus(EVENT_UPLOAD_PROJECT).on((content) => {
+  const loaded = JSON.parse(content);
+  Object.assign(project, loaded);
 });
 
 
