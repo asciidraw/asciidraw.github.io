@@ -14,12 +14,16 @@ import {ref} from "vue";
 import {Separator} from "@/components/ui/separator";
 import IconButton from "@/components/composed/IconButton.vue";
 import LocaleToggle from "@/components/LocaleToggle.vue";
+import {useEventBus} from "@vueuse/core";
+import {EVENT_DOWNLOAD_PROJECT} from "@/symbols.ts";
 
-const hidden = ref(false);
+const menuIsHidden = ref(false);
+
+const downloadEvent = useEventBus(EVENT_DOWNLOAD_PROJECT);
 </script>
 
 <template>
-  <Button variant="ghost" v-if="hidden" @click="hidden = false" class="fixed bg-primary shadow left-4 top-4 z-20 p-2 rounded-full size-10">
+  <Button variant="ghost" v-if="menuIsHidden" @click="menuIsHidden = false" class="fixed bg-primary shadow left-4 top-4 z-20 p-2 rounded-full size-10">
     <LucideTypeOutline class="size-10" />
   </Button>
   <div v-else class="fixed bg-card border-2 border-border shadow left-4 top-4 z-20 max-w-xs p-2 rounded-lg flex flex-col gap-y-4">
@@ -32,7 +36,7 @@ const hidden = ref(false);
       <div class="grow" />
       <LocaleToggle />
       <ThemeToggle />
-      <IconButton @click="hidden = true">
+      <IconButton @click="menuIsHidden = true">
         <LucideCircleChevronLeft class="size-6" />
         <template #tooltip>{{ $t('app.menu.hide.tooltip') }}</template>
       </IconButton>
@@ -44,7 +48,7 @@ const hidden = ref(false);
         <template #tooltip>{{ $t('app.menu.project.import.project.tooltip') }}</template>
       </IconButton>
       <Separator orientation="vertical" class="h-6" />
-      <IconButton>
+      <IconButton @click="downloadEvent.emit()">
         <LucideHardDriveDownload />
         <template #tooltip>{{ $t('app.menu.project.export.project.tooltip') }}</template>
       </IconButton>
