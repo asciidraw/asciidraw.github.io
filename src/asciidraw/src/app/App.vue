@@ -5,7 +5,7 @@ import ContextMenuHandler from "@/app/ContextMenuHandler.vue";
 import { provide, reactive } from "vue";
 import { createNewProject } from "@/app/createNewProject.ts";
 import type { Project } from "@/types";
-import { PROJECT_INJECTION_KEY } from "@/keys.ts";
+import { PROJECT_INJECTION_KEY } from "@/symbols.ts";
 import { watchDebounced } from "@vueuse/core";
 
 
