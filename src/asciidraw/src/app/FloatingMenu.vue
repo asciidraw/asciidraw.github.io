@@ -17,6 +17,7 @@ import LocaleToggle from "@/components/LocaleToggle.vue";
 import {templateRef, useDropZone, useEventBus} from "@vueuse/core";
 import {EVENT_DOWNLOAD_PROJECT, EVENT_UPLOAD_PROJECT} from "@/symbols.ts";
 import {useIsDropAvailable} from "@/composables/useIsDropAvailable.ts";
+import {requestFilePick} from "@/lib";
 
 const menuIsHidden = ref(false);
 
@@ -30,6 +31,12 @@ useDropZone(uploadDropZoneRef, {
     files?.forEach(file => file.text().then((content) => uploadEvent.emit(content)))
   },
 });
+
+function requestUpload() {
+  requestFilePick().then((files) => {
+    files.forEach(file => file.text().then((content) => uploadEvent.emit(content)));
+  });
+}
 </script>
 
 <template>
@@ -54,7 +61,7 @@ useDropZone(uploadDropZoneRef, {
     <Separator :label="$t('app.menu.project.label')" />
     <div>
       <div class="flex gap-x-2">
-        <IconButton>
+        <IconButton @click="requestUpload">
           <LucideHardDriveUpload />
           <template #tooltip>{{ $t('app.menu.project.import.project.tooltip') }}</template>
         </IconButton>
