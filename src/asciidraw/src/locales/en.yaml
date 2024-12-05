@@ -47,6 +47,7 @@ app:
           tooltip: "Export this graph as text into your clipboard"
         image:
           tooltip: "Export this graph as an image"
+      dropzone: "Drop a Project here"
     actions:
       label: "Actions"
       select+move: "Select & Move"

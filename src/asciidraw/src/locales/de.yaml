@@ -45,6 +45,7 @@ app:
           tooltip: "Exportieren Sie dieses Diagramm als Text in Ihre Zwischenablage"
         image:
           tooltip: "Dieses Diagramm als Bild exportieren"
+      dropzone: "Ein Projekt hier ablegen"
     actions:
       label: "Aktionen"
       select+move: "Auswählen & Bewegen"
