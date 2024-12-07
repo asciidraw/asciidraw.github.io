@@ -1,15 +1,17 @@
 <script setup lang="ts">
-import { useRoute } from "vue-router";
+import { useRouter } from "vue-router";
 import { watch } from "vue";
 import DefaultLayout from "@/layouts/DefaultLayout.vue";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { LucideLoaderCircle } from "lucide-vue-next";
 
-const route = useRoute();
+const router = useRouter();
 
-watch(() => route.params, () => {
-  const rawData = route.params.data;
-  console.log(rawData);
+watch(() => router.currentRoute.value.params, () => {
+  const rawData = router.currentRoute.value.params.data as string;
+  const parsed = JSON.parse(rawData);
+  console.warn({parsed, todo: "Process this"});
+  router.push({ name: "app" });
 }, { immediate: true });
 </script>
 
