@@ -4,7 +4,7 @@ import { useColorMode, useEventListener, useWindowSize } from "@vueuse/core";
 import AppZoomButton from "@/app/ZoomButton.vue";
 import * as constants from "@/constants";
 import {Vector, type VectorLike} from "@/lib";
-import { PROJECT_INJECTION_KEY } from "@/keys.ts";
+import { PROJECT_INJECTION_KEY } from "@/symbols.ts";
 
 const colorMode = useColorMode();
 

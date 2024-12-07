@@ -5,13 +5,26 @@ import ContextMenuHandler from "@/app/ContextMenuHandler.vue";
 import { provide, reactive } from "vue";
 import { createNewProject } from "@/app/createNewProject.ts";
 import type { Project } from "@/types";
-import { PROJECT_INJECTION_KEY } from "@/keys.ts";
-import { watchDebounced } from "@vueuse/core";
+import {EVENT_DOWNLOAD_PROJECT, EVENT_UPLOAD_PROJECT, PROJECT_INJECTION_KEY} from "@/symbols.ts";
+import {useEventBus, watchDebounced} from "@vueuse/core";
+import { loadProjectData, startTextDownload, storeProjectData } from "@/lib";
+
+
+useEventBus(EVENT_DOWNLOAD_PROJECT).on(() => {
+  const content = storeProjectData(project);
+  const filename = `${Date.now()}.json`;
+  startTextDownload(content, filename);
+});
+
+useEventBus(EVENT_UPLOAD_PROJECT).on((content) => {
+  const loaded = loadProjectData(content);
+  Object.assign(project, loaded);
+});
 
 
 function loadOrCreateProject(): Project {
   const stored = localStorage.getItem("project");
-  return stored === null ? createNewProject() : JSON.parse(stored);
+  return stored === null ? createNewProject() : loadProjectData(stored);
 }
 
 
@@ -20,7 +33,7 @@ provide(PROJECT_INJECTION_KEY, project);
 
 
 watchDebounced(project, () => {
-  localStorage.setItem("project", JSON.stringify(project));
+  localStorage.setItem("project", storeProjectData(project));
 }, { debounce: 500, maxWait: 1000, immediate: true });
 </script>
 
