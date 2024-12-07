@@ -14,17 +14,18 @@ import { PROJECT_INJECTION_KEY } from "@/symbols.ts";
 import { useRouter } from "vue-router";
 import { LucideCopy, LucideThumbsUp } from "lucide-vue-next";
 import { useClipboard } from "@vueuse/core";
+import { storeProjectData } from "@/lib";
 
-const project = inject(PROJECT_INJECTION_KEY)
+const project = inject(PROJECT_INJECTION_KEY)!;
 const router = useRouter();
 
 const changeLink = computed(() => {
-    const data = JSON.stringify(project);
+    const data = storeProjectData(project);
     const resolved = router.resolve({ name: "share", params: { data } });
     return new URL(resolved.href, window.location.toString()).href;
 });
 
-const { copied, copy } = useClipboard({ source: changeLink });
+const { copied: recentlyCopied, copy: copyToClipboard } = useClipboard({ source: changeLink });
 </script>
 
 <template>
@@ -50,9 +51,9 @@ const { copied, copy } = useClipboard({ source: changeLink });
             read-only
           />
         </div>
-        <Button type="submit" size="sm" class="px-3" @click="() => copy()">
+        <Button type="submit" size="sm" class="px-3" @click="() => copyToClipboard()">
           <span class="sr-only">Copy</span>
-          <component :is="copied ? LucideThumbsUp : LucideCopy" class="size-4" />
+          <component :is="recentlyCopied ? LucideThumbsUp : LucideCopy" class="size-4" />
         </Button>
       </div>
       <DialogFooter class="sm:justify-start">
