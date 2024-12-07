@@ -29,6 +29,10 @@ about:
     team:
       title: "Team"
       description: "Just two guys. Nothing special."
+share:
+  alert:
+    title: "Loading Data..."
+    description: "Shared data should be loaded automatically and you will be redirected. If you see this message to long it must mean something went wrong. Whoops"
 app:
   menu:
     hide:

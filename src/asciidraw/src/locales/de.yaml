@@ -27,6 +27,10 @@ about:
     team:
       title: "Team"
       description: "Nur zwei Typen. Nichts Besonderes."
+share:
+  alert:
+    title: "Daten werden geladen..."
+    description: "Die geteilten Daten sollten automatisch geladen werden und Sie werden weitergeleitet. Wenn Sie diese Meldung zu lange sehen, ist etwas schief gelaufen. Hoppla"
 app:
   menu:
     hide:
