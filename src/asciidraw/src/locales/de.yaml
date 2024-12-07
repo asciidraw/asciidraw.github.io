@@ -62,3 +62,8 @@ app:
         tooltip: "Vergrößern"
       out:
         tooltip: "Verkleinern"
+  dialog:
+    share:
+      title: "Link zum Teilen"
+      description: "Jeder, der diesen Link hat, kann Ihr Diagramm in der aktuellen Version sehen. Änderungen nach dem Kopieren des Links werden nicht übernommen."
+      close: "Schließen"

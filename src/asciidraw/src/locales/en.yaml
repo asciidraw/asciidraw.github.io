@@ -64,3 +64,8 @@ app:
         tooltip: "Zoom in"
       out:
         tooltip: "Zoom out"
+  dialog:
+    share:
+      title: "Share link"
+      description: "Anyone who has this link will be able to view your graph at the current version. Changes after copying the link will not be reflected."
+      close: "Close"

@@ -18,6 +18,7 @@ import {templateRef, useDropZone, useEventBus} from "@vueuse/core";
 import {EVENT_DOWNLOAD_PROJECT, EVENT_UPLOAD_PROJECT} from "@/symbols.ts";
 import {useIsDropAvailable} from "@/composables/useIsDropAvailable.ts";
 import {requestFilePick} from "@/lib";
+import CopyShareLinkDialog from "@/app/CopyShareLinkDialog.vue";
 
 const menuIsHidden = ref(false);
 
@@ -70,10 +71,12 @@ function requestUpload() {
           <LucideHardDriveDownload />
           <template #tooltip>{{ $t('app.menu.project.export.project.tooltip') }}</template>
         </IconButton>
-        <IconButton>
-          <LucideShare2 />
-          <template #tooltip>{{ $t('app.menu.project.export.share.tooltip') }}</template>
-        </IconButton>
+        <CopyShareLinkDialog>
+          <IconButton>
+            <LucideShare2 />
+            <template #tooltip>{{ $t('app.menu.project.export.share.tooltip') }}</template>
+          </IconButton>
+        </CopyShareLinkDialog>
         <IconButton>
           <LucideClipboardCopy />
           <template #tooltip>{{ $t('app.menu.project.export.clipboard.tooltip') }}</template>
