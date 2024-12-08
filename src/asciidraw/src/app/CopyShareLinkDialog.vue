@@ -20,7 +20,7 @@ const project = inject(PROJECT_INJECTION_KEY)!;
 const router = useRouter();
 
 const changeLink = computed(() => {
-    const data = storeProjectData(project);
+    const data = storeProjectData(project.value);
     const resolved = router.resolve({ name: "share", params: { data } });
     return new URL(resolved.href, window.location.toString()).href;
 });
