@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { computed, inject, onMounted, onUpdated, reactive, ref, toRefs, useTemplateRef, watch } from "vue";
-import { useColorMode, useEventListener, useWindowSize } from "@vueuse/core";
+import { computed, inject, onMounted, reactive, ref, useTemplateRef, watch } from "vue";
+import { useColorMode, useEventListener, useWindowSize, watchThrottled } from "@vueuse/core";
 import AppZoomButton from "@/app/ZoomButton.vue";
 import * as constants from "@/constants";
 import {Vector, type VectorLike} from "@/lib";
-import { PROJECT_INJECTION_KEY } from "@/keys.ts";
+import { PROJECT_INJECTION_KEY } from "@/symbols.ts";
 
 const colorMode = useColorMode();
 
@@ -20,14 +20,13 @@ function getContext() {
 }
 
 const project = inject(PROJECT_INJECTION_KEY)!;
-const { zoom, offset } = toRefs(project.drawContext);
-const normalZoom = computed(() => zoom.value / 10);
+const normalZoom = computed(() => project.value.drawContext.zoom / 10);
 
 function zoomIn() {
-  zoom.value++;
+  project.value.drawContext.zoom++;
 }
 function zoomOut() {
-  zoom.value = Math.max(1, zoom.value-1);
+  project.value.drawContext.zoom = Math.max(1, project.value.drawContext.zoom-1);
 }
 
 function getColorPalette(context: CanvasRenderingContext2D) {
@@ -45,15 +44,15 @@ function getColorPalette(context: CanvasRenderingContext2D) {
 
 function screenToFrame(screen: VectorLike): Vector {
   return new Vector(
-    (screen.x - windowSize.width.value / 2) / normalZoom.value + offset.value.x,
-    (screen.y - windowSize.height.value / 2) / normalZoom.value + offset.value.y,
+    (screen.x - windowSize.width.value / 2) / normalZoom.value + project.value.drawContext.offset.x,
+    (screen.y - windowSize.height.value / 2) / normalZoom.value + project.value.drawContext.offset.y,
   );
 }
 
 function frameToScreen(frame: VectorLike): Vector {
   return new Vector(
-    (frame.x - offset.value.x) * normalZoom.value + windowSize.width.value / 2,
-    (frame.y - offset.value.y) * normalZoom.value + windowSize.height.value / 2,
+    (frame.x - project.value.drawContext.offset.x) * normalZoom.value + windowSize.width.value / 2,
+    (frame.y - project.value.drawContext.offset.y) * normalZoom.value + windowSize.height.value / 2,
   )
 }
 
@@ -101,14 +100,14 @@ function renderGrid(context: CanvasRenderingContext2D) {
 
   context.beginPath();
   for (let i = startOffset.x; i < endOffset.x; i++) {
-    const posX = (i * constants.CHARACTER_PIXEL_WIDTH) - offset.value.x;
+    const posX = (i * constants.CHARACTER_PIXEL_WIDTH) - project.value.drawContext.offset.x;
     const startY = -context.canvas.height / 2 / normalZoom.value;
     const endY = context.canvas.height / 2 / normalZoom.value;
     context.moveTo(posX, startY);
     context.lineTo(posX,  endY);
   }
   for (let j = startOffset.y; j < endOffset.y; j++) {
-    const posY = (j * constants.CHARACTER_PIXEL_HEIGHT) - offset.value.y;
+    const posY = (j * constants.CHARACTER_PIXEL_HEIGHT) - project.value.drawContext.offset.y;
     const startX = -context.canvas.width / 2 / normalZoom.value;
     const endX = context.canvas.width / 2 / normalZoom.value;
     context.moveTo(startX, posY);
@@ -122,8 +121,8 @@ function highlight(context: CanvasRenderingContext2D, start: VectorLike, end: Ve
   const width = end.x - start.x;
   const height = end.y - start.y;
   context.fillRect(
-    start.x * constants.CHARACTER_PIXEL_WIDTH - offset.value.x + 0.5,
-    start.y * constants.CHARACTER_PIXEL_HEIGHT - offset.value.y + 0.5,
+    start.x * constants.CHARACTER_PIXEL_WIDTH - project.value.drawContext.offset.x + 0.5,
+    start.y * constants.CHARACTER_PIXEL_HEIGHT - project.value.drawContext.offset.y + 0.5,
     width * constants.CHARACTER_PIXEL_WIDTH - 1,
     height * constants.CHARACTER_PIXEL_HEIGHT - 1,
   );
@@ -133,8 +132,8 @@ function drawText(context: CanvasRenderingContext2D, position: VectorLike, text:
   const colors = getColorPalette(context);
   context.fillStyle = colors.text;
   for (let i = 0; i < text.length; i++) {
-    const canvasX = ((position.x + i) * constants.CHARACTER_PIXEL_WIDTH) - offset.value.x;
-    const canvasY = (position.y * constants.CHARACTER_PIXEL_HEIGHT) - offset.value.y - 3;
+    const canvasX = ((position.x + i) * constants.CHARACTER_PIXEL_WIDTH) - project.value.drawContext.offset.x;
+    const canvasY = (position.y * constants.CHARACTER_PIXEL_HEIGHT) - project.value.drawContext.offset.y - 3;
     context.fillText(text.charAt(i), canvasX, canvasY);
   }
 }
@@ -146,8 +145,9 @@ function redraw() {
   testDraw(context);
 }
 
-onMounted(redraw);
-onUpdated(redraw);
+onMounted(() => redraw());
+// minimal throttle that should not impact the experience but helps the CPU
+watchThrottled(project, () => redraw(), { throttle: 5, deep: true });
 
 // zooming
 
@@ -169,8 +169,8 @@ const moveStartPosition = reactive({ x: 0, y: 0 });
 function onMouseDown(event: MouseEvent) {
   if (event.button === 1) {
     isDraggingOffset.value = true;
-    moveStartOffset.x = offset.value.x;
-    moveStartOffset.y = offset.value.y;
+    moveStartOffset.x = project.value.drawContext.offset.x;
+    moveStartOffset.y = project.value.drawContext.offset.y;
     moveStartPosition.x = event.clientX;
     moveStartPosition.y = event.clientY;
   }
@@ -182,8 +182,8 @@ useEventListener("mousemove", (event: MouseEvent) => {
     const diffY = (moveStartPosition.y - event.clientY) / normalZoom.value;
     const offsetX = moveStartOffset.x + diffX;
     const offsetY = moveStartOffset.y + diffY;
-    offset.value.x = offsetX;
-    offset.value.y = offsetY;
+    project.value.drawContext.offset.x = offsetX;
+    project.value.drawContext.offset.y = offsetY;
   }
 });
 
@@ -225,7 +225,7 @@ function testDraw(context: CanvasRenderingContext2D) {
     <canvas ref="canvas" class="w-full h-full" :width="windowSize.width.value" :height="windowSize.height.value" />
   </div>
   <div class="fixed top-0 left-1/2 -translate-x-1/2 pointer-events-none">
-    Zoom: {{ zoom }} | offset.value: {{ offset.x.toFixed(2) }}x{{ offset.y.toFixed(2) }}
+    Zoom: {{ project.drawContext.zoom }} | offset: {{ project.drawContext.offset.x.toFixed(2) }}x{{ project.drawContext.offset.y.toFixed(2) }}
   </div>
   <AppZoomButton @zoom-in="zoomIn" @zoom-out="zoomOut" />
 </template>
