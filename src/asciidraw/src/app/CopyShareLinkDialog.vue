@@ -20,8 +20,9 @@ const project = inject(PROJECT_INJECTION_KEY)!;
 const router = useRouter();
 
 const changeLink = computed(() => {
-    const data = storeProjectData(project.value);
-    const resolved = router.resolve({ name: "share", params: { data } });
+    const stored = storeProjectData(project.value);
+    const encoded = btoa(stored);
+    const resolved = router.resolve({ name: "share", params: { data: encoded } });
     return new URL(resolved.href, window.location.toString()).href;
 });
 

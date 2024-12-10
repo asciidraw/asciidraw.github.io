@@ -10,7 +10,8 @@ const router = useRouter();
 
 watch(() => router.currentRoute.value.params, () => {
   const rawData = router.currentRoute.value.params.data as string;
-  const parsed = loadProjectData(rawData);
+  const decoded = atob(rawData);
+  const parsed = loadProjectData(decoded);
   console.warn({parsed, todo: "Process this"});
   router.push({ name: "app" });
 }, { immediate: true });
