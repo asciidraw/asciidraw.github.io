@@ -2,26 +2,40 @@
 import AppMenu from "@/app/FloatingMenu.vue";
 import AppCanvas from "@/app/Canvas.vue";
 import ContextMenuHandler from "@/app/ContextMenuHandler.vue";
-import { provide, reactive } from "vue";
+import { provide, ref } from "vue";
 import { createNewProject } from "@/app/createNewProject.ts";
 import type { Project } from "@/types";
-import { PROJECT_INJECTION_KEY } from "@/keys.ts";
-import { watchDebounced } from "@vueuse/core";
+import {EVENT_DOWNLOAD_PROJECT, EVENT_UPLOAD_PROJECT, PROJECT_INJECTION_KEY} from "@/symbols.ts";
+import {useEventBus, watchDebounced} from "@vueuse/core";
+import { loadProjectData, startTextDownload, storeProjectData } from "@/lib";
+
+
+useEventBus(EVENT_DOWNLOAD_PROJECT).on(() => {
+  const content = storeProjectData(project.value);
+  const filename = `${Date.now()}.json`;
+  startTextDownload(content, filename);
+});
+
+useEventBus(EVENT_UPLOAD_PROJECT).on((content) => {
+  project.value = loadProjectData(content);
+  console.log("should rerender")
+});
 
 
 function loadOrCreateProject(): Project {
   const stored = localStorage.getItem("project");
-  return stored === null ? createNewProject() : JSON.parse(stored);
+  return stored === null ? createNewProject() : loadProjectData(stored);
 }
 
 
-const project: Project = reactive(loadOrCreateProject());
-provide(PROJECT_INJECTION_KEY, project);
-
+const project = ref(loadOrCreateProject());
 
 watchDebounced(project, () => {
-  localStorage.setItem("project", JSON.stringify(project));
-}, { debounce: 500, maxWait: 1000, immediate: true });
+  console.log("saving project data");
+  localStorage.setItem("project", storeProjectData(project.value));
+}, { debounce: 500, maxWait: 1000, immediate: true, deep: true });
+
+provide(PROJECT_INJECTION_KEY, project);
 </script>
 
 <template>

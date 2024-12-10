@@ -29,18 +29,29 @@ about:
     team:
       title: "Team"
       description: "Just two guys. Nothing special."
+share:
+  alert:
+    title: "Loading Data..."
+    description: "Shared data should be loaded automatically and you will be redirected. If you see this message to long it must mean something went wrong. Whoops"
 app:
   menu:
     hide:
       tooltip: "Hide this overly large menu"
     project:
       label: "Project"
-      export:
-        tooltip: "Export this graph"
       import:
-        tooltip: "Import an existing graph"
-      share:
-        tooltip: "Share this graph with other people"
+        project:
+          tooltip: "Upload an existing project"
+      export:
+        project:
+          tooltip: "Download this project"
+        share:
+          tooltip: "Share this graph with other people"
+        clipboard:
+          tooltip: "Export this graph as text into your clipboard"
+        image:
+          tooltip: "Export this graph as an image"
+      dropzone: "Drop a Project here"
     actions:
       label: "Actions"
       select+move: "Select & Move"
@@ -53,3 +64,8 @@ app:
         tooltip: "Zoom in"
       out:
         tooltip: "Zoom out"
+  dialog:
+    share:
+      title: "Share link"
+      description: "Anyone who has this link will be able to view your graph at the current version. Changes after copying the link will not be reflected."
+      close: "Close"
