@@ -4,10 +4,16 @@ import {Separator} from "@/components/ui/separator";
 import ThemeToggle from "@/components/ThemeToggle.vue";
 import IconButton from "@/components/composed/IconButton.vue";
 import LocaleToggle from "@/components/LocaleToggle.vue";
+import type { HTMLAttributes } from "vue";
+import { cn } from "@/lib";
+
+const props = defineProps<{
+  class?: HTMLAttributes['class']
+}>();
 </script>
 
 <template>
-  <div class="h-full grid grid-rows-[auto,1fr,auto]">
+  <div class="min-h-screen grid grid-rows-[auto,1fr,auto]">
     <header>
       <div class="flex p-2 gap-x-2">
         <router-link to="/" class="flex">
@@ -28,7 +34,7 @@ import LocaleToggle from "@/components/LocaleToggle.vue";
       </div>
       <Separator />
     </header>
-    <main class="p-1">
+    <main :class="cn('p-1', props.class)">
       <slot />
     </main>
     <footer>

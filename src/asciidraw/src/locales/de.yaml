@@ -27,18 +27,29 @@ about:
     team:
       title: "Team"
       description: "Nur zwei Typen. Nichts Besonderes."
+share:
+  alert:
+    title: "Daten werden geladen..."
+    description: "Die geteilten Daten sollten automatisch geladen werden und Sie werden weitergeleitet. Wenn Sie diese Meldung zu lange sehen, ist etwas schief gelaufen. Hoppla"
 app:
   menu:
     hide:
       tooltip: "Blende dieses übermäßig große Menü aus"
     project:
       label: "Projekt"
-      export:
-        tooltip: "Exportiere diesen Graphen"
       import:
-        tooltip: "Importieren einen Graphen"
-      share:
-        tooltip: "Teilen Sie diesen Graphen mit anderen Personen"
+        project:
+          tooltip: "Vorhandenes Projekt hochladen"
+      export:
+        project:
+          tooltip: "Dieses Projekt herunterladen"
+        share:
+          tooltip: "Teilen Sie diesen Graphen mit anderen Personen"
+        clipboard:
+          tooltip: "Exportieren Sie dieses Diagramm als Text in Ihre Zwischenablage"
+        image:
+          tooltip: "Dieses Diagramm als Bild exportieren"
+      dropzone: "Ein Projekt hier ablegen"
     actions:
       label: "Aktionen"
       select+move: "Auswählen & Bewegen"
@@ -51,3 +62,8 @@ app:
         tooltip: "Vergrößern"
       out:
         tooltip: "Verkleinern"
+  dialog:
+    share:
+      title: "Link zum Teilen"
+      description: "Jeder, der diesen Link hat, kann Ihr Diagramm in der aktuellen Version sehen. Änderungen nach dem Kopieren des Links werden nicht übernommen."
+      close: "Schließen"
