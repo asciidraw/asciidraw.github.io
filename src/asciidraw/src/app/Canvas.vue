@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, inject, onMounted, reactive, ref, useTemplateRef, watch } from "vue";
-import { useColorMode, useEventListener, useWindowSize, watchThrottled } from "@vueuse/core";
+import { useColorMode, useDebounceFn, useEventListener, useWindowSize } from "@vueuse/core";
 import AppZoomButton from "@/app/ZoomButton.vue";
 import * as constants from "@/constants";
 import {Vector, type VectorLike} from "@/lib";
@@ -12,7 +12,7 @@ watch(colorMode, () => {
   setTimeout(() => redraw());
 });
 
-const windowSize = useWindowSize();
+const {width: windowWidth, height: windowHeight} = useWindowSize();
 const canvas = useTemplateRef<HTMLCanvasElement>("canvas");
 
 function getContext() {
@@ -44,15 +44,15 @@ function getColorPalette(context: CanvasRenderingContext2D) {
 
 function screenToFrame(screen: VectorLike): Vector {
   return new Vector(
-    (screen.x - windowSize.width.value / 2) / normalZoom.value + project.value.drawContext.offset.x,
-    (screen.y - windowSize.height.value / 2) / normalZoom.value + project.value.drawContext.offset.y,
+    (screen.x - windowWidth.value / 2) / normalZoom.value + project.value.drawContext.offset.x,
+    (screen.y - windowHeight.value / 2) / normalZoom.value + project.value.drawContext.offset.y,
   );
 }
 
 function frameToScreen(frame: VectorLike): Vector {
   return new Vector(
-    (frame.x - project.value.drawContext.offset.x) * normalZoom.value + windowSize.width.value / 2,
-    (frame.y - project.value.drawContext.offset.y) * normalZoom.value + windowSize.height.value / 2,
+    (frame.x - project.value.drawContext.offset.x) * normalZoom.value + windowWidth.value / 2,
+    (frame.y - project.value.drawContext.offset.y) * normalZoom.value + windowHeight.value / 2,
   )
 }
 
@@ -145,9 +145,12 @@ function redraw() {
   testDraw(context);
 }
 
+const debouncedRedraw = useDebounceFn(redraw, 5);
+
 onMounted(() => redraw());
+watch([windowWidth, windowHeight], () => debouncedRedraw());
 // minimal throttle that should not impact the experience but helps the CPU
-watchThrottled(project, () => redraw(), { throttle: 5, deep: true });
+watch(project, () => redraw(), { deep: true });
 
 // zooming
 
@@ -222,7 +225,7 @@ function testDraw(context: CanvasRenderingContext2D) {
 
 <template>
   <div class="w-screen h-screen" @wheel="onCanvasWheel" @mousedown="onMouseDown">
-    <canvas ref="canvas" class="w-full h-full" :width="windowSize.width.value" :height="windowSize.height.value" />
+    <canvas ref="canvas" class="w-full h-full" :width="windowWidth" :height="windowHeight" />
   </div>
   <div class="fixed top-0 left-1/2 -translate-x-1/2 pointer-events-none">
     Zoom: {{ project.drawContext.zoom }} | offset: {{ project.drawContext.offset.x.toFixed(2) }}x{{ project.drawContext.offset.y.toFixed(2) }}
