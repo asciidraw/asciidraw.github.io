@@ -20,10 +20,10 @@ const project = inject(PROJECT_INJECTION_KEY)!;
 const router = useRouter();
 
 const changeLink = computed(() => {
-    const stored = storeProjectData(project.value);
-    const encoded = btoa(stored);
-    const resolved = router.resolve({ name: "share", params: { data: encoded } });
-    return new URL(resolved.href, window.location.toString()).href;
+  const stored = storeProjectData(project.value);
+  const encoded = btoa(stored);
+  const resolved = router.resolve({ name: "share", params: { data: encoded } });
+  return new URL(resolved.href, window.location.toString()).href;
 });
 
 const { copied: recentlyCopied, copy: copyToClipboard } = useClipboard({ source: changeLink });
