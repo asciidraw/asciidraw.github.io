@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {LucideTypeOutline, LucideHouse, LucideInfo, LucideGithub} from "lucide-vue-next";
+import {LucideTypeOutline, LucideHouse, LucideInfo, LucideGithub, LucideBookType} from "lucide-vue-next";
 import {Separator} from "@/components/ui/separator";
 import ThemeToggle from "@/components/ThemeToggle.vue";
 import IconButton from "@/components/composed/IconButton.vue";
@@ -43,6 +43,10 @@ const props = defineProps<{
         <div class="flex gap-x-2 flex-nowrap">
           <router-link to="/">
             <LucideHouse class="h-4 inline" /> {{ $t('layout.footer.home') }}
+          </router-link>
+          <Separator orientation="vertical" />
+          <router-link to="/docs">
+            <LucideBookType class="h-4 inline" /> {{ $t('layout.footer.docs') }}
           </router-link>
           <Separator orientation="vertical" />
           <router-link to="/about">

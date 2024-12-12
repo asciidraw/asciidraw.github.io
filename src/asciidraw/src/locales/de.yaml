@@ -3,7 +3,10 @@ layout:
     github:
       tooltip: "Schau dir unseren coolen Code an"
   footer:
+    home: "Home"
+    docs: "Dokumentation"
     about: "Über Uns"
+    github: "GitHub"
 components:
   locale-toggle:
     tooltip: "Kontrolliert die Sprache der Website"
@@ -31,6 +34,12 @@ share:
   alert:
     title: "Daten werden geladen..."
     description: "Die geteilten Daten sollten automatisch geladen werden und Sie werden weitergeleitet. Wenn Sie diese Meldung zu lange sehen, ist etwas schief gelaufen. Hoppla"
+docs:
+  title: "Dokumentation"
+  loading: "Lädt..."
+  not-found:
+    title: "404 Seite nicht gefunden"
+    description: "Die angeforderte URL wurde nicht gefunden. Wenn Sie die URL manuell eingegeben haben, überprüfen Sie bitte Ihre Schreibweise und versuchen Sie es erneut."
 app:
   menu:
     hide:
