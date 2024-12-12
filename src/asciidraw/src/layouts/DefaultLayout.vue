@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {LucideTypeOutline, LucideHouse, LucideInfo, LucideGithub, LucideBookType} from "lucide-vue-next";
+import { LucideTypeOutline, LucideHouse, LucideInfo, LucideGithub, LucideBookType } from "lucide-vue-next";
 import {Separator} from "@/components/ui/separator";
 import ThemeToggle from "@/components/ThemeToggle.vue";
 import IconButton from "@/components/composed/IconButton.vue";
@@ -13,10 +13,10 @@ const props = defineProps<{
 </script>
 
 <template>
-  <div class="min-h-screen grid grid-rows-[auto,1fr,auto]">
+  <div class="min-h-screen w-screen grid grid-rows-[auto,1fr,auto]">
     <header>
       <div class="flex p-2 gap-x-2">
-        <router-link to="/" class="flex">
+        <router-link to="/" class="flex gap-0.5">
           <LucideTypeOutline />
           <span>AsciiDraw</span>
         </router-link>
@@ -39,22 +39,26 @@ const props = defineProps<{
     </main>
     <footer>
       <Separator />
-      <div class="grid place-content-center p-2">
-        <div class="flex gap-x-2 flex-nowrap">
-          <router-link to="/">
-            <LucideHouse class="h-4 inline" /> {{ $t('layout.footer.home') }}
+      <div class="p-2">
+        <div class="flex gap-x-2 flex-nowrap justify-evenly xs:justify-center">
+          <router-link to="/" class="">
+            <LucideHouse class="h-4 inline" />
+            <span class="hidden xs:inline">{{ $t('layout.footer.home') }}</span>
           </router-link>
-          <Separator orientation="vertical" />
-          <router-link to="/docs">
-            <LucideBookType class="h-4 inline" /> {{ $t('layout.footer.docs') }}
+          <Separator orientation="vertical" class="h-6" />
+          <router-link to="/docs" class="">
+            <LucideBookType class="h-4 inline" />
+            <span class="hidden xs:inline">{{ $t('layout.footer.docs') }}</span>
           </router-link>
-          <Separator orientation="vertical" />
-          <router-link to="/about">
-            <LucideInfo class="h-4 inline" /> {{ $t('layout.footer.about') }}
+          <Separator orientation="vertical" class="h-6" />
+          <router-link to="/about" class="">
+            <LucideInfo class="h-4 inline" />
+            <span class="hidden xs:inline">{{ $t('layout.footer.about') }}</span>
           </router-link>
-          <Separator orientation="vertical" />
-          <a target="_blank" href="https://github.com/asciidraw/asciidraw.github.io" rel="noopener noreferrer">
-            <LucideGithub class="h-4 inline" /> {{ $t('layout.footer.github') }}
+          <Separator orientation="vertical" class="h-6" />
+          <a target="_blank" href="https://github.com/asciidraw/asciidraw.github.io" rel="noopener noreferrer" class="">
+            <LucideGithub class="h-4 inline" />
+            <span class="hidden xs:inline">{{ $t('layout.footer.github') }}</span>
           </a>
         </div>
       </div>
