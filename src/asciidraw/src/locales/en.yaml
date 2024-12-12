@@ -4,6 +4,7 @@ layout:
       tooltip: "Look at our cool code"
   footer:
     home: "Home"
+    docs: "Documentation"
     about: "About Us"
     github: "GitHub"
 components:
@@ -33,6 +34,12 @@ share:
   alert:
     title: "Loading Data..."
     description: "Shared data should be loaded automatically and you will be redirected. If you see this message to long it must mean something went wrong. Whoops"
+docs:
+  title: "Documentation"
+  loading: "Loading..."
+  not-found:
+    title: "404 Page Not Found"
+    description: "The requested URL was not found. If you entered the URL manually please check your spelling and try again."
 app:
   menu:
     hide:

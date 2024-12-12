@@ -23,5 +23,10 @@ export default createRouter({
       name: 'share',
       component: () => import('../views/ShareView.vue'),
     },
+    {
+      path: '/docs/:path*',
+      name: 'docs',
+      component: () => import('@/views/DocsView.vue'),
+    },
   ],
 });
