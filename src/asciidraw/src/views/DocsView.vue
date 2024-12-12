@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import DefaultLayout from "@/layouts/DefaultLayout.vue";
 import "@/docs/style.css";
+import "@/docs/code-style.css";
 import {useRoute} from "vue-router";
 import {computed, ref, shallowRef, watch} from "vue";
 import {useI18n} from "vue-i18n";
