@@ -2,21 +2,24 @@
 import DefaultLayout from "@/layouts/DefaultLayout.vue";
 import "@/docs/style.css";
 import "@/docs/code-style.css";
-import {useRoute} from "vue-router";
+import { useRouter } from "vue-router";
 import {computed, ref, shallowRef, watch} from "vue";
 import {useI18n} from "vue-i18n";
 import {Alert, AlertDescription, AlertTitle} from "@/components/ui/alert";
-import {LucideBookType, LucideLoaderCircle, LucideSearchX} from "lucide-vue-next";
+import {LucideBookType, LucideSearchX} from "lucide-vue-next";
 import {parseFilesToDirectory} from "@/docs/util.ts";
 import FileTree from "@/docs/components/FileTree.vue";
+import { useEventListener } from "@vueuse/core";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const pathPrefix = "/src/docs/"
 const markdownFiles = import.meta.glob("@/docs/**/*.md", { import: "default" });
 
 const { locale } = useI18n();
 
-const route = useRoute();
-const path = computed(() => route.params.path);
+const router = useRouter();
+const path = computed(() => router.currentRoute.value.params.path);
+const hash = computed(() => router.currentRoute.value.hash);
 
 const currentMarkdown = shallowRef();
 const loadingId = ref<number>();
@@ -48,6 +51,26 @@ watch([locale, path], () => {
     currentMarkdown.value = null;
 }, { immediate: true });
 
+watch([currentMarkdown], () => {
+  if (currentMarkdown.value === null || currentMarkdown.value === undefined) return;
+  const elementId = hash.value.slice(1);
+  if (elementId) {
+    const element = document.getElementById(elementId);
+    element?.scrollIntoView({ behavior: "smooth" });
+  }
+}, { flush: "post" });
+
+useEventListener("scroll", () => {
+  const md = document.getElementsByClassName("markdown-body").item(0);
+  const headings = md?.querySelectorAll("h1, h2, h3, h4, h5, h6");
+  headings?.forEach((heading) => {
+    const rect = heading.getBoundingClientRect();
+    if (rect.top >= 0 && rect.top <= window.innerHeight / 3) {
+      router.push({ hash: `#${heading.id}` });
+    }
+  })
+});
+
 const markdownFileList = computed(() => {
   return Object.keys(markdownFiles)
     .filter(path => path.startsWith(`${pathPrefix}${locale.value}/`))
@@ -65,13 +88,15 @@ const directory = computed(() => parseFilesToDirectory(markdownFileList.value.ma
       </router-link>
       <FileTree :directory="directory" :parent-path="[]" />
     </div>
-    <div v-if="currentMarkdown === undefined" class="h-full p-4 grid place-content-center">
-      <Alert>
-        <LucideLoaderCircle class="size-4 animate-spin" />
-        <AlertTitle>
-          {{ $t('docs.loading') }}
-        </AlertTitle>
-      </Alert>
+    <div v-if="currentMarkdown === undefined" class="p-4 markdown-body space-y-4">
+      <Skeleton class="h-10 w-full max-w-96" />
+      <div class="space-y-2">
+        <Skeleton v-for="ignored in 3" class="h-5 last:w-3/5" />
+      </div>
+      <Skeleton class="h-8 w-full max-w-72" />
+      <div class="space-y-2">
+        <Skeleton v-for="ignored in 5" class="h-5 last:w-1/5" />
+      </div>
     </div>
     <div v-else-if="currentMarkdown === null" class="h-full p-4 grid place-content-center">
       <Alert>
@@ -84,6 +109,6 @@ const directory = computed(() => parseFilesToDirectory(markdownFileList.value.ma
         </AlertDescription>
       </Alert>
     </div>
-    <component :is="currentMarkdown" class="p-4" />
+    <component v-else :is="currentMarkdown" class="p-4" />
   </DefaultLayout>
 </template>

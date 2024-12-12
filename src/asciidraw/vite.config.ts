@@ -8,6 +8,7 @@ import tailwindcss from 'tailwindcss'
 import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
 import MarkdownPlugin from 'unplugin-vue-markdown/vite'
 import MarkdownItPrism from 'markdown-it-prism'
+import MarkdownItAnchor from 'markdown-it-anchor'
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -27,6 +28,14 @@ export default defineConfig({
     MarkdownPlugin({
       markdownItSetup(md) {
         md.use(MarkdownItPrism);
+        md.use(MarkdownItAnchor);
+        md.renderer.rules.link_open = (tokens, idx) => {
+          const href = tokens[idx].attrGet('href');
+          return `<router-link to="${href}">`;
+        };
+        md.renderer.rules.link_close = (tokens, idx) => {
+          return '</router-link>';
+        };
       }
     })
   ],
