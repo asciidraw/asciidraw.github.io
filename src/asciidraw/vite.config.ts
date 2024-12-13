@@ -31,12 +31,19 @@ export default defineConfig({
         md.use(MarkdownItAnchor);
         md.renderer.rules.link_open = (tokens, idx) => {
           const href = tokens[idx].attrGet('href');
-          return `<router-link to="${href}">`;
+          return `<docs-link to="${href}">`;
         };
-        md.renderer.rules.link_close = (tokens, idx) => {
-          return '</router-link>';
+        md.renderer.rules.link_close = () => {
+          return '</docs-link>';
         };
-      }
+      },
+      transforms: {
+        extraScripts: () => {
+          return [
+            "import DocsLink from '@/docs/components/DocsLink.vue';"
+          ];
+        },
+      },
     })
   ],
   resolve: {
