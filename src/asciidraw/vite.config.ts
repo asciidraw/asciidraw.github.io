@@ -28,7 +28,7 @@ export default defineConfig({
     MarkdownPlugin({
       markdownItSetup(md) {
         md.use(MarkdownItPrism);
-        md.use(MarkdownItAnchor);
+        md.use(MarkdownItAnchor, { permalink: MarkdownItAnchor.permalink.linkInsideHeader() });
         md.renderer.rules.link_open = (tokens, idx) => {
           const href = tokens[idx].attrGet('href');
           return `<docs-link to="${href}">`;

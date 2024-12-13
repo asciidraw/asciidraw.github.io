@@ -9,7 +9,6 @@ import {Alert, AlertDescription, AlertTitle} from "@/components/ui/alert";
 import {LucideBookType, LucideSearchX} from "lucide-vue-next";
 import {parseFilesToDirectory} from "@/docs/util.ts";
 import FileTree from "@/docs/components/FileTree.vue";
-import { useEventListener } from "@vueuse/core";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const pathPrefix = "/src/docs/"
@@ -51,7 +50,7 @@ watch([locale, path], () => {
     currentMarkdown.value = null;
 }, { immediate: true });
 
-watch([currentMarkdown], () => {
+watch([hash, currentMarkdown], () => {
   if (currentMarkdown.value === null || currentMarkdown.value === undefined) return;
   const elementId = hash.value.slice(1);
   if (elementId) {
@@ -59,17 +58,6 @@ watch([currentMarkdown], () => {
     element?.scrollIntoView({ behavior: "smooth" });
   }
 }, { flush: "post" });
-
-useEventListener("scroll", () => {
-  const md = document.getElementsByClassName("markdown-body").item(0);
-  const headings = md?.querySelectorAll("h1, h2, h3, h4, h5, h6");
-  headings?.forEach((heading) => {
-    const rect = heading.getBoundingClientRect();
-    if (rect.top >= 0 && rect.top <= window.innerHeight / 3) {
-      router.push({ hash: `#${heading.id}` });
-    }
-  })
-});
 
 const markdownFileList = computed(() => {
   return Object.keys(markdownFiles)
