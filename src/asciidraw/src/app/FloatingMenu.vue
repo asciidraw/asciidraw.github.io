@@ -14,10 +14,9 @@ import {ref} from "vue";
 import {Separator} from "@/components/ui/separator";
 import IconButton from "@/components/composed/IconButton.vue";
 import LocaleToggle from "@/components/LocaleToggle.vue";
-import {templateRef, useDropZone, useEventBus} from "@vueuse/core";
+import { templateRef, useDropZone, useEventBus, useFileDialog } from "@vueuse/core";
 import {EVENT_DOWNLOAD_PROJECT, EVENT_UPLOAD_PROJECT} from "@/symbols.ts";
 import {useIsDropAvailable} from "@/composables/useIsDropAvailable.ts";
-import {requestFilePick} from "@/lib";
 import CopyShareLinkDialog from "@/app/CopyShareLinkDialog.vue";
 
 const menuIsHidden = ref(false);
@@ -33,11 +32,13 @@ useDropZone(uploadDropZoneRef, {
   },
 });
 
-function requestUpload() {
-  requestFilePick().then((files) => {
-    files.forEach(file => file.text().then((content) => uploadEvent.emit(content)));
-  });
-}
+const fileDialog = useFileDialog({ accept: "application/json", multiple: true });
+
+fileDialog.onChange((files) => {
+  if (files?.length) {
+    [...files].forEach(file => file.text().then((content) => uploadEvent.emit(content)));
+  }
+});
 </script>
 
 <template>
@@ -62,7 +63,7 @@ function requestUpload() {
     <Separator :label="$t('app.menu.project.label')" />
     <div>
       <div class="flex gap-x-2">
-        <IconButton @click="requestUpload">
+        <IconButton @click="fileDialog.open">
           <LucideHardDriveUpload />
           <template #tooltip>{{ $t('app.menu.project.import.project.tooltip') }}</template>
         </IconButton>
