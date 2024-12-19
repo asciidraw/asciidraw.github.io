@@ -6,7 +6,6 @@ import {
   LucideImageDown,
   LucideShare2,
   LucideSquareDashedMousePointer,
-  LucideTypeOutline,
 } from "lucide-vue-next";
 import ThemeToggle from "@/components/ThemeToggle.vue";
 import {Button} from "@/components/ui/button";
@@ -18,6 +17,7 @@ import { templateRef, useDropZone, useEventBus, useFileDialog } from "@vueuse/co
 import {EVENT_DOWNLOAD_PROJECT, EVENT_UPLOAD_PROJECT} from "@/symbols.ts";
 import {useIsDropAvailable} from "@/composables/useIsDropAvailable.ts";
 import CopyShareLinkDialog from "@/app/CopyShareLinkDialog.vue";
+import AsciiDrawIcon from "@/components/AsciiDrawIcon.vue";
 
 const menuIsHidden = ref(false);
 
@@ -43,12 +43,12 @@ fileDialog.onChange((files) => {
 
 <template>
   <Button variant="ghost" v-if="menuIsHidden" @click="menuIsHidden = false" class="fixed bg-primary shadow left-4 top-4 z-20 p-2 rounded-full size-10">
-    <LucideTypeOutline class="size-10" />
+    <AsciiDrawIcon class="size-10" />
   </Button>
   <div v-else class="fixed bg-card border-2 border-border shadow left-4 top-4 z-20 max-w-xs p-2 rounded-lg flex flex-col gap-y-4">
     <div class="flex gap-x-2">
       <router-link to="/" class="flex">
-        <LucideTypeOutline />
+        <AsciiDrawIcon />
         <span>AsciiDraw</span>
       </router-link>
       <div class="min-w-10" />

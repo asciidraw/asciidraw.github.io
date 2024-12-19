@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { LucideTypeOutline, LucideHouse, LucideInfo, LucideGithub, LucideBookType } from "lucide-vue-next";
+import { LucideHouse, LucideInfo, LucideGithub, LucideBookType } from "lucide-vue-next";
 import {Separator} from "@/components/ui/separator";
 import ThemeToggle from "@/components/ThemeToggle.vue";
 import IconButton from "@/components/composed/IconButton.vue";
 import LocaleToggle from "@/components/LocaleToggle.vue";
 import type { HTMLAttributes } from "vue";
 import { cn } from "@/lib";
+import AsciiDrawIcon from "@/components/AsciiDrawIcon.vue";
 
 const props = defineProps<{
   class?: HTMLAttributes['class']
@@ -17,7 +18,7 @@ const props = defineProps<{
     <header>
       <div class="flex p-2 gap-x-2">
         <router-link to="/" class="flex gap-0.5">
-          <LucideTypeOutline />
+          <AsciiDrawIcon />
           <span>AsciiDraw</span>
         </router-link>
         <div class="grow" />
