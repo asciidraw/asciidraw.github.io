@@ -10,13 +10,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { computed, inject } from "vue";
-import { PROJECT_INJECTION_KEY } from "@/symbols.ts";
+import { INJECTION_KEY_PROJECT } from "@/symbols.ts";
 import { useRouter } from "vue-router";
 import { LucideCopy, LucideThumbsUp } from "lucide-vue-next";
 import { useClipboard } from "@vueuse/core";
 import { storeProjectData } from "@/lib";
 
-const project = inject(PROJECT_INJECTION_KEY)!;
+const project = inject(INJECTION_KEY_PROJECT)!;
 const router = useRouter();
 
 const changeLink = computed(() => {

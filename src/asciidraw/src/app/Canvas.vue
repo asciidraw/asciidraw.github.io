@@ -4,7 +4,7 @@ import { useColorMode, useDebounceFn, useEventListener, useWindowSize } from "@v
 import AppZoomButton from "@/app/ZoomButton.vue";
 import * as constants from "@/constants";
 import {Vector, type VectorLike} from "@/lib";
-import {INJECTION_KEY_APP, PROJECT_INJECTION_KEY} from "@/symbols.ts";
+import {INJECTION_KEY_APP, INJECTION_KEY_PROJECT} from "@/symbols.ts";
 
 const app = inject(INJECTION_KEY_APP)!;
 
@@ -18,7 +18,7 @@ const {width: windowWidth, height: windowHeight} = useWindowSize();
 const canvasRef = useTemplateRef<HTMLCanvasElement>("canvas");
 
 
-const project = inject(PROJECT_INJECTION_KEY)!;
+const project = inject(INJECTION_KEY_PROJECT)!;
 const normalZoom = computed(() => project.value.drawContext.zoom / 10);
 
 function zoomIn() {

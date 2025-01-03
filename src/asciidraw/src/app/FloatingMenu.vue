@@ -12,8 +12,8 @@ import {inject, ref} from "vue";
 import {Separator} from "@/components/ui/separator";
 import IconButton from "@/components/composed/IconButton.vue";
 import LocaleToggle from "@/components/LocaleToggle.vue";
-import {templateRef, useDropZone, useEventBus, useFileDialog } from "@vueuse/core";
-import {EVENT_DOWNLOAD_PROJECT, EVENT_UPLOAD_PROJECT, INJECTION_KEY_APP} from "@/symbols.ts";
+import {templateRef, useDropZone, useFileDialog } from "@vueuse/core";
+import {INJECTION_KEY_APP} from "@/symbols.ts";
 import {useIsDropAvailable} from "@/composables/useIsDropAvailable.ts";
 import CopyShareLinkDialog from "@/app/CopyShareLinkDialog.vue";
 import AsciiDrawIcon from "@/components/AsciiDrawIcon.vue";
@@ -22,14 +22,11 @@ const appContext = inject(INJECTION_KEY_APP)!;
 
 const menuIsHidden = ref(false);
 
-const downloadEvent = useEventBus(EVENT_DOWNLOAD_PROJECT);
-const uploadEvent = useEventBus(EVENT_UPLOAD_PROJECT);
-
 const isDropAvailable = useIsDropAvailable();
 const uploadDropZoneRef = templateRef("upload-dropzone");
 useDropZone(uploadDropZoneRef, {
   onDrop: (files) => {
-    files?.forEach(file => file.text().then((content) => uploadEvent.emit(content)))
+    files?.forEach(file => file.text().then((content) => appContext.value.events.emit('loadProject', content)))
   },
 });
 
@@ -37,7 +34,7 @@ const fileDialog = useFileDialog({ accept: "application/json", multiple: true })
 
 fileDialog.onChange((files) => {
   if (files?.length) {
-    [...files].forEach(file => file.text().then((content) => uploadEvent.emit(content)));
+    [...files].forEach(file => file.text().then((content) => appContext.value.events.emit('loadProject', content)));
   }
 });
 </script>
@@ -69,7 +66,7 @@ fileDialog.onChange((files) => {
           <template #tooltip>{{ $t('app.menu.project.import.project.tooltip') }}</template>
         </IconButton>
         <Separator orientation="vertical" class="h-6" />
-        <IconButton @click="downloadEvent.emit()">
+        <IconButton @click="appContext.events.emit('downloadProject', undefined)">
           <LucideHardDriveDownload />
           <template #tooltip>{{ $t('app.menu.project.export.project.tooltip') }}</template>
         </IconButton>

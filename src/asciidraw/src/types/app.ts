@@ -35,4 +35,6 @@ export type AppEvents = {
   render: AppContext
   postRender: AppContext
   mounted: AppContext
+  loadProject: string
+  downloadProject: undefined
 }

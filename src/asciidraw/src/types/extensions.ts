@@ -1,5 +1,6 @@
 import type {AppContext, AppEvents} from "./app";
 import type {Handler} from "mitt";
+import type { Component } from "vue";
 
 // type RemoveStringButKeepConstants<T> = T extends string ? (T extends `${infer _}` ? T : never) : never;
 // type OnEvents = {
@@ -10,5 +11,6 @@ export interface Extension {
   setup?(app: AppContext): void
   on?: {
     [K in keyof AppEvents]?: Handler<AppEvents[K]>
-  }
+  },
+  components?: Component[],
 }
