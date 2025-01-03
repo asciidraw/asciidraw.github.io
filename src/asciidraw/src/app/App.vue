@@ -58,7 +58,7 @@ provide(INJECTION_KEY_PROJECT, project);
 
 <template>
   <AppMenu />
-  <ContextMenuHandler disabled>
+  <ContextMenuHandler>
     <AppCanvas />
   </ContextMenuHandler>
   <template v-for="component in additionalComponents">
