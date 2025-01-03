@@ -5,19 +5,20 @@ import {
   LucideHardDriveDownload, LucideHardDriveUpload,
   LucideImageDown,
   LucideShare2,
-  LucideSquareDashedMousePointer,
 } from "lucide-vue-next";
 import ThemeToggle from "@/components/ThemeToggle.vue";
 import {Button} from "@/components/ui/button";
-import {ref} from "vue";
+import {inject, ref} from "vue";
 import {Separator} from "@/components/ui/separator";
 import IconButton from "@/components/composed/IconButton.vue";
 import LocaleToggle from "@/components/LocaleToggle.vue";
-import { templateRef, useDropZone, useEventBus, useFileDialog } from "@vueuse/core";
-import {EVENT_DOWNLOAD_PROJECT, EVENT_UPLOAD_PROJECT} from "@/symbols.ts";
+import {templateRef, useDropZone, useEventBus, useFileDialog } from "@vueuse/core";
+import {EVENT_DOWNLOAD_PROJECT, EVENT_UPLOAD_PROJECT, INJECTION_KEY_APP} from "@/symbols.ts";
 import {useIsDropAvailable} from "@/composables/useIsDropAvailable.ts";
 import CopyShareLinkDialog from "@/app/CopyShareLinkDialog.vue";
 import AsciiDrawIcon from "@/components/AsciiDrawIcon.vue";
+
+const appContext = inject(INJECTION_KEY_APP)!;
 
 const menuIsHidden = ref(false);
 
@@ -45,7 +46,7 @@ fileDialog.onChange((files) => {
   <Button variant="ghost" v-if="menuIsHidden" @click="menuIsHidden = false" class="fixed bg-primary shadow left-4 top-4 z-20 p-2 rounded-full size-10">
     <AsciiDrawIcon class="size-10" />
   </Button>
-  <div v-else class="fixed bg-card border-2 border-border shadow left-4 top-4 z-20 max-w-xs p-2 rounded-lg flex flex-col gap-y-4">
+  <div v-else class="fixed bg-card border-2 border-border shadow left-4 top-4 z-20 max-w-xs p-2 rounded-lg space-y-4">
     <div class="flex gap-x-2">
       <router-link to="/" class="flex">
         <AsciiDrawIcon />
@@ -92,10 +93,15 @@ fileDialog.onChange((files) => {
       </div>
     </div>
     <Separator :label="$t('app.menu.actions.label')" />
-    <Button variant="ghost" size="xs" class="gap-x-2">
-      <LucideSquareDashedMousePointer/>
-      <p class="grow text-left">{{ $t('app.menu.actions.select+move') }}</p>
-    </Button>
+    <div class="space-y-0.5">
+      <template v-for="action in appContext.actions" :key="action.id">
+        <Button :variant="action.id === appContext.activeActionId ? 'secondary' : 'ghost'" size="xs" class="gap-x-2 w-full" @click="appContext.activeActionId = action.id">
+          <component v-if="action.icon" :is="action.icon" class="size-6" />
+          <div v-else class="size-6 invisible" />
+          <p class="grow text-left">{{ action.displayName }}</p>
+        </Button>
+      </template>
+    </div>
     <Separator :label="$t('app.menu.help.label')" />
     <p>{{ $t('app.menu.help.text') }}</p>
   </div>

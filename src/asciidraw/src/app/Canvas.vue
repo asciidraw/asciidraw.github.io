@@ -4,7 +4,9 @@ import { useColorMode, useDebounceFn, useEventListener, useWindowSize } from "@v
 import AppZoomButton from "@/app/ZoomButton.vue";
 import * as constants from "@/constants";
 import {Vector, type VectorLike} from "@/lib";
-import { PROJECT_INJECTION_KEY } from "@/symbols.ts";
+import {INJECTION_KEY_APP, PROJECT_INJECTION_KEY} from "@/symbols.ts";
+
+const app = inject(INJECTION_KEY_APP)!;
 
 const colorMode = useColorMode();
 
@@ -13,11 +15,8 @@ watch(colorMode, () => {
 });
 
 const {width: windowWidth, height: windowHeight} = useWindowSize();
-const canvas = useTemplateRef<HTMLCanvasElement>("canvas");
+const canvasRef = useTemplateRef<HTMLCanvasElement>("canvas");
 
-function getContext() {
-  return canvas.value!.getContext("2d")!;
-}
 
 const project = inject(PROJECT_INJECTION_KEY)!;
 const normalZoom = computed(() => project.value.drawContext.zoom / 10);
@@ -139,18 +138,31 @@ function drawText(context: CanvasRenderingContext2D, position: VectorLike, text:
 }
 
 function redraw() {
-  const context = getContext();
+  const context = canvasRef.value!.getContext("2d")!;
   initCanvas(context);
   renderGrid(context);
-  testDraw(context);
+  app.value.events.emit("preRender", app.value);
+  app.value.events.emit("render", app.value);
+  app.value.events.emit("postRender", app.value);
 }
 
 const debouncedRedraw = useDebounceFn(redraw, 5);
 
-onMounted(() => redraw());
+onMounted(() => {
+  const canvas = canvasRef.value!;
+  const context = canvas.getContext("2d")!
+  app.value.canvas = {
+    canvasToGrid: screenToCell,
+    gridToCanvas: cellToScreen,
+    canvasElement: canvas,
+    renderContext: context,
+    drawText: (pos, text) => drawText(context, pos, text),
+    highlight: (start, end, color) => highlight(context, start, end, color),
+  }
+  redraw();
+});
 watch([windowWidth, windowHeight], () => debouncedRedraw());
-// minimal throttle that should not impact the experience but helps the CPU
-watch(project, () => redraw(), { deep: true });
+watch(project, () => redraw(), {deep: true });
 
 // zooming
 
@@ -193,34 +205,6 @@ useEventListener("mousemove", (event: MouseEvent) => {
 useEventListener("mouseup", () => {
   isDraggingOffset.value = false;
 });
-
-// development
-
-function testDraw(context: CanvasRenderingContext2D) {
-  const x = -10;
-  let y = 0;
-
-  // origin
-  highlight(context, new Vector(0, 0), new Vector(1, 1), '#f009')
-  // test-highlight
-  highlight(context, new Vector(-5, -10), new Vector(5, -2));
-
-  drawText(context, { x, y: y++ }, "/------------\\  +------------+  ,------------.");
-  drawText(context, { x, y: y++ }, "|Hello World!|  |Hello World!|  |Hello World!|");
-  drawText(context, { x, y: y++ }, "\\------------/  +------------+  `------------´");
-
-  drawText(context, { x, y: y++ }, "┌────────────┐  ┌╌╌╌╌╌╌╌╌╌╌╌╌┐  ┌┄┄┄┄┄┄┄┄┄┄┄┄┐  ┌┈┈┈┈┈┈┈┈┈┈┈┈┐");
-  drawText(context, { x, y: y++ }, "│Hello World!│  ╎Hello World!╎  ┆Hello World!┆  ┊Hello World!┊");
-  drawText(context, { x, y: y++ }, "└────────────┘  └╌╌╌╌╌╌╌╌╌╌╌╌┘  └┄┄┄┄┄┄┄┄┄┄┄┄┘  └┈┈┈┈┈┈┈┈┈┈┈┈┘");
-
-  drawText(context, { x, y: y++ }, "╭────────────╮");
-  drawText(context, { x, y: y++ }, "│Hello World!│");
-  drawText(context, { x, y: y++ }, "╰────────────╯");
-
-  drawText(context, { x, y: y++ }, "╔════════════╗  ╔════════════╦════════════╗");
-  drawText(context, { x, y: y++ }, "║Hello World!║  ║Hello World!║Hello World!║");
-  drawText(context, { x, y: y++ }, "╚════════════╝  ╚════════════╩════════════╝");
-}
 </script>
 
 <template>

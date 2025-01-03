@@ -7,3 +7,7 @@ declare module '*.md' {
   const Component: ComponentOptions
   export default Component
 }
+
+type Pretty<T> = {
+  [K in keyof T]: T[K]
+} & {}
