@@ -16,6 +16,7 @@ import {templateRef, useDropZone, useFileDialog } from "@vueuse/core";
 import {INJECTION_KEY_APP} from "@/symbols.ts";
 import {useIsDropAvailable} from "@/composables/useIsDropAvailable.ts";
 import CopyShareLinkDialog from "@/app/floating-menu/CopyShareLinkDialog.vue";
+import PurgeProjectDialog from "@/app/floating-menu/PurgeProjectDialog.vue";
 import AsciiDrawIcon from "@/components/AsciiDrawIcon.vue";
 
 const appContext = inject(INJECTION_KEY_APP)!;
@@ -37,11 +38,6 @@ fileDialog.onChange((files) => {
     [...files].forEach(file => file.text().then((content) => appContext.value.events.emit('loadProject', content)));
   }
 });
-
-function purgeProject() {
-  localStorage.removeItem("project");
-  location.reload();  // currently no better way
-}
 </script>
 
 <template>
@@ -90,10 +86,12 @@ function purgeProject() {
           <template #tooltip>{{ $t('app.menu.project.export.image.tooltip') }}</template>
         </IconButton>
         <Separator orientation="vertical" class="h-6" />
-        <IconButton @click="purgeProject">
-          <LucideEraser />
-          <template #tooltip>{{ $t('app.menu.project.purge.tooltip') }}</template>
-        </IconButton>
+        <PurgeProjectDialog>
+          <IconButton>
+            <LucideEraser />
+            <template #tooltip>{{ $t('app.menu.project.purge.tooltip') }}</template>
+          </IconButton>
+        </PurgeProjectDialog>
       </div>
       <div v-if="isDropAvailable" ref="upload-dropzone" class="border border-dashed h-20 grid place-content-center m-2">
         {{ $t('app.menu.project.dropzone') }}
