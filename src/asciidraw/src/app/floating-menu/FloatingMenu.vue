@@ -15,7 +15,7 @@ import LocaleToggle from "@/components/LocaleToggle.vue";
 import {templateRef, useDropZone, useFileDialog } from "@vueuse/core";
 import {INJECTION_KEY_APP} from "@/symbols.ts";
 import {useIsDropAvailable} from "@/composables/useIsDropAvailable.ts";
-import CopyShareLinkDialog from "@/app/CopyShareLinkDialog.vue";
+import CopyShareLinkDialog from "@/app/floating-menu/CopyShareLinkDialog.vue";
 import AsciiDrawIcon from "@/components/AsciiDrawIcon.vue";
 
 const appContext = inject(INJECTION_KEY_APP)!;

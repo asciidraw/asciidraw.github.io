@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AppMenu from "@/app/FloatingMenu.vue";
+import AppMenu from "@/app/floating-menu/FloatingMenu.vue";
 import AppCanvas from "@/app/Canvas.vue";
 import ContextMenuHandler from "@/app/ContextMenuHandler.vue";
 import { type Component, onMounted, provide, ref } from "vue";
