@@ -4,8 +4,8 @@ import AppCanvas from "@/app/Canvas.vue";
 import ContextMenuHandler from "@/app/ContextMenuHandler.vue";
 import { type Component, onMounted, provide, ref } from "vue";
 import { createNewProject } from "@/app/createNewProject.ts";
-import type {AppContext, Extension, Project} from "@/types";
-import {INJECTION_KEY_APP, INJECTION_KEY_PROJECT} from "@/symbols.ts";
+import type { AppContext, ElementRenderer, Extension, Project } from "@/types";
+import { INJECTION_KEY_APP, INJECTION_KEY_PROJECT, INJECTION_KEY_RENDERER_MAP } from "@/symbols.ts";
 import {watchDebounced} from "@vueuse/core";
 import { loadProjectData, storeProjectData } from "@/lib";
 const extensions: Record<string, Extension> = import.meta.glob("./extensions/*/index.ts", { eager: true, import: 'default' });
@@ -18,6 +18,7 @@ const appContext = ref<AppContext>({
   events: createEmitter(),
 });
 
+const rendererMap: Record<string, ElementRenderer> = {};
 const additionalComponents: Component[] = [];
 
 for (const extension of Object.values(extensions)) {
@@ -31,6 +32,13 @@ for (const extension of Object.values(extensions)) {
   }
   if (extension.components)
     additionalComponents.push(...extension.components);
+  if (extension.renderer) {
+    for (const [elementType, renderer] of Object.entries(extension.renderer)) {
+      if (rendererMap.hasOwnProperty(elementType))
+        console.warn(`overwriting renderer for ${elementType}`)
+      rendererMap[elementType] = renderer;
+    }
+  }
 }
 appContext.value.activeActionId = appContext.value.actions[0].id;
 
@@ -39,10 +47,17 @@ onMounted(() => {
 });
 
 provide(INJECTION_KEY_APP, appContext);
+provide(INJECTION_KEY_RENDERER_MAP, rendererMap);
+
+function createProject() {
+  const newProject = createNewProject();
+  appContext.value.events.emit("initProject", newProject);
+  return newProject;
+}
 
 function loadOrCreateProject(): Project {
   const stored = localStorage.getItem("project");
-  return stored === null ? createNewProject() : loadProjectData(stored);
+  return stored === null ? createProject() : loadProjectData(stored);
 }
 
 
@@ -58,7 +73,7 @@ provide(INJECTION_KEY_PROJECT, project);
 
 <template>
   <AppMenu />
-  <ContextMenuHandler>
+  <ContextMenuHandler disabled>
     <AppCanvas />
   </ContextMenuHandler>
   <template v-for="component in additionalComponents">

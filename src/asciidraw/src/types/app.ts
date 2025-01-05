@@ -2,6 +2,7 @@ import type {LucideIcon} from "lucide-vue-next";
 import type {VectorLike} from "@/lib";
 import type {Extension} from "@/types/extensions.ts";
 import type {Emitter} from "mitt";
+import type { Project } from "@/types/project.ts";
 
 
 export interface AppContext {
@@ -32,9 +33,9 @@ export interface Action {
 
 export type AppEvents = {
   preRender: AppContext
-  render: AppContext
   postRender: AppContext
   mounted: AppContext
   loadProject: string
   downloadProject: undefined
+  initProject: Project
 }

@@ -1,6 +1,6 @@
 import { type ClassValue, clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
-import type {Extension} from "@/types";
+import type { ElementRenderer, Extension } from "@/types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -15,4 +15,9 @@ export function compare_arrays<T>(arr1: T[], arr2: T[]): boolean {
 
 export function defineExtension(extension: Extension) {
   return extension;
+}
+
+
+export function defineElementRenderer<Data extends object>(renderer: ElementRenderer<Data>) {
+  return renderer;
 }

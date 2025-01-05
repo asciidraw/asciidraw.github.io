@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import {
   ContextMenu,
-  ContextMenuContent, ContextMenuLabel,
-  ContextMenuRadioGroup, ContextMenuRadioItem,
+  ContextMenuContent, ContextMenuItem,
   ContextMenuTrigger
 } from "@/components/ui/context-menu";
 import { inject } from "vue";
@@ -22,16 +21,12 @@ const appContext = inject(INJECTION_KEY_APP)!;
       <slot />
     </ContextMenuTrigger>
     <ContextMenuContent class="border-2">
-      <ContextMenuLabel>
-        {{ $t('app.menu.actions.label') }}
-      </ContextMenuLabel>
-      <ContextMenuRadioGroup :model-value="appContext.activeActionId">
-        <template v-for="action in appContext.actions" :key="action.id">
-          <ContextMenuRadioItem :value="action.id" @click="appContext.activeActionId = action.id">
-            {{ action.displayName }}
-          </ContextMenuRadioItem>
-        </template>
-      </ContextMenuRadioGroup>
+      <template v-for="action in appContext.actions" :key="action.id">
+        <ContextMenuItem @click="appContext.activeActionId = action.id" :class="appContext.activeActionId === action.id ? 'border-l' : ''">
+          <component v-if="action.icon" :is="action.icon" class="mr-1" />
+          {{ action.displayName }}
+        </ContextMenuItem>
+      </template>
     </ContextMenuContent>
   </ContextMenu>
 </template>

@@ -3,10 +3,11 @@ import { computed, inject, onMounted, reactive, ref, useTemplateRef, watch } fro
 import { useColorMode, useDebounceFn, useEventListener, useWindowSize } from "@vueuse/core";
 import AppZoomButton from "@/app/ZoomButton.vue";
 import * as constants from "@/constants";
-import {Vector, type VectorLike} from "@/lib";
-import {INJECTION_KEY_APP, INJECTION_KEY_PROJECT} from "@/symbols.ts";
+import { Layer, Vector, type VectorLike } from "@/lib";
+import { INJECTION_KEY_APP, INJECTION_KEY_PROJECT, INJECTION_KEY_RENDERER_MAP } from "@/symbols.ts";
 
 const app = inject(INJECTION_KEY_APP)!;
+const rendererMap = inject(INJECTION_KEY_RENDERER_MAP)!;
 
 const colorMode = useColorMode();
 
@@ -130,10 +131,25 @@ function highlight(context: CanvasRenderingContext2D, start: VectorLike, end: Ve
 function drawText(context: CanvasRenderingContext2D, position: VectorLike, text: string) {
   const colors = getColorPalette(context);
   context.fillStyle = colors.text;
+  let col = 0;
+  let row = 0;
   for (let i = 0; i < text.length; i++) {
-    const canvasX = ((position.x + i) * constants.CHARACTER_PIXEL_WIDTH) - project.value.drawContext.offset.x;
-    const canvasY = (position.y * constants.CHARACTER_PIXEL_HEIGHT) - project.value.drawContext.offset.y - 3;
-    context.fillText(text.charAt(i), canvasX, canvasY);
+    const char = text.charAt(i);
+    if (char === '\n') {
+      col = 0;
+      row++;
+      continue;
+    }
+
+    if (char === ' ') {
+      col++;
+      continue
+    }
+
+    const canvasX = ((position.x + col) * constants.CHARACTER_PIXEL_WIDTH) - project.value.drawContext.offset.x;
+    const canvasY = ((position.y + row) * constants.CHARACTER_PIXEL_HEIGHT) - project.value.drawContext.offset.y - 3;
+    context.fillText(char, canvasX, canvasY);
+    col++;
   }
 }
 
@@ -142,7 +158,19 @@ function redraw() {
   initCanvas(context);
   renderGrid(context);
   app.value.events.emit("preRender", app.value);
-  app.value.events.emit("render", app.value);
+  const finalLayer = new Layer();
+  for (const element of project.value.elements) {
+    const renderer = rendererMap[element.type];
+    if (renderer === undefined) {
+      console.error(`missing renderer ${element.type}`);
+      continue;
+    }
+    const elementLayer = renderer.render(element);
+    finalLayer.merge(elementLayer);
+  }
+  for (const [[x, y], char] of finalLayer.entries()) {
+    drawText(context, { x, y }, char);
+  }
   app.value.events.emit("postRender", app.value);
 }
 
