@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {
   LucideCircleChevronLeft,
-  LucideClipboardCopy,
+  LucideClipboardCopy, LucideEraser,
   LucideHardDriveDownload, LucideHardDriveUpload,
   LucideImageDown,
   LucideShare2,
@@ -37,6 +37,11 @@ fileDialog.onChange((files) => {
     [...files].forEach(file => file.text().then((content) => appContext.value.events.emit('loadProject', content)));
   }
 });
+
+function purgeProject() {
+  localStorage.removeItem("project");
+  location.reload();  // currently no better way
+}
 </script>
 
 <template>
@@ -83,6 +88,11 @@ fileDialog.onChange((files) => {
         <IconButton>
           <LucideImageDown />
           <template #tooltip>{{ $t('app.menu.project.export.image.tooltip') }}</template>
+        </IconButton>
+        <Separator orientation="vertical" class="h-6" />
+        <IconButton @click="purgeProject">
+          <LucideEraser />
+          <template #tooltip>{{ $t('app.menu.project.purge.tooltip') }}</template>
         </IconButton>
       </div>
       <div v-if="isDropAvailable" ref="upload-dropzone" class="border border-dashed h-20 grid place-content-center m-2">
