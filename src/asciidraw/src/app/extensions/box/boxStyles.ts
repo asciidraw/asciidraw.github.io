@@ -1,5 +1,5 @@
 
-export interface Style {
+export interface BoxStyle {
   topLeft: string
   top: string
   topRight: string
@@ -10,7 +10,7 @@ export interface Style {
   left: string
 }
 
-export const styles: Record<string, Style> = {
+export const boxStyles: Record<string, BoxStyle> = {
   basic: {
     topLeft: "+",
     top: "-",

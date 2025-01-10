@@ -1,5 +1,5 @@
 import { defineElementRenderer, defineExtension, doInRange, Layer } from "@/lib";
-import { styles } from "../../styles.ts";
+import { boxStyles } from "./boxStyles.ts";
 
 interface BoxData {
   type: "box"
@@ -7,7 +7,7 @@ interface BoxData {
   y: number
   width: number
   height: number
-  style: keyof typeof styles
+  style: keyof typeof boxStyles
 }
 
 
@@ -51,7 +51,7 @@ export default defineExtension({
         }
       },
       render(element) {
-        const style = styles[element.style];
+        const style = boxStyles[element.style];
         const layer = new Layer();
 
         layer.set(element.x, element.y, style.topLeft);
