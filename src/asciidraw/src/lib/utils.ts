@@ -13,6 +13,11 @@ export function compare_arrays<T>(arr1: T[], arr2: T[]): boolean {
 }
 
 
+export function doInRange(start: number, end: number, cb: (n: number) => void) {
+  return Array.from(Array(end - start).keys()).forEach(i => cb(i + start));
+}
+
+
 export function defineExtension(extension: Extension) {
   return extension;
 }

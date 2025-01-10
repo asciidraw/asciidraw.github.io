@@ -1,4 +1,4 @@
-import { defineElementRenderer, defineExtension, Layer } from "@/lib";
+import { defineElementRenderer, defineExtension, doInRange, Layer } from "@/lib";
 import { styles } from "../../styles.ts";
 
 interface BoxData {
@@ -8,11 +8,6 @@ interface BoxData {
   width: number
   height: number
   style: keyof typeof styles
-}
-
-
-function doInRange(start: number, end: number, cb: (n: number) => void) {
-  return Array.from(Array(end - start).keys()).forEach(i => cb(i + start));
 }
 
 
