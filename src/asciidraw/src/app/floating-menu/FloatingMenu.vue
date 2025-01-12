@@ -1,34 +1,33 @@
 <script setup lang="ts">
 import {
   LucideCircleChevronLeft,
-  LucideClipboardCopy,
+  LucideClipboardCopy, LucideEraser,
   LucideHardDriveDownload, LucideHardDriveUpload,
   LucideImageDown,
   LucideShare2,
-  LucideSquareDashedMousePointer,
 } from "lucide-vue-next";
 import ThemeToggle from "@/components/ThemeToggle.vue";
 import {Button} from "@/components/ui/button";
-import {ref} from "vue";
+import {inject, ref} from "vue";
 import {Separator} from "@/components/ui/separator";
 import IconButton from "@/components/composed/IconButton.vue";
 import LocaleToggle from "@/components/LocaleToggle.vue";
-import { templateRef, useDropZone, useEventBus, useFileDialog } from "@vueuse/core";
-import {EVENT_DOWNLOAD_PROJECT, EVENT_UPLOAD_PROJECT} from "@/symbols.ts";
+import {templateRef, useDropZone, useFileDialog } from "@vueuse/core";
+import {INJECTION_KEY_APP} from "@/symbols.ts";
 import {useIsDropAvailable} from "@/composables/useIsDropAvailable.ts";
-import CopyShareLinkDialog from "@/app/CopyShareLinkDialog.vue";
+import CopyShareLinkDialog from "@/app/floating-menu/CopyShareLinkDialog.vue";
+import PurgeProjectDialog from "@/app/floating-menu/PurgeProjectDialog.vue";
 import AsciiDrawIcon from "@/components/AsciiDrawIcon.vue";
 
-const menuIsHidden = ref(false);
+const appContext = inject(INJECTION_KEY_APP)!;
 
-const downloadEvent = useEventBus(EVENT_DOWNLOAD_PROJECT);
-const uploadEvent = useEventBus(EVENT_UPLOAD_PROJECT);
+const menuIsHidden = ref(false);
 
 const isDropAvailable = useIsDropAvailable();
 const uploadDropZoneRef = templateRef("upload-dropzone");
 useDropZone(uploadDropZoneRef, {
   onDrop: (files) => {
-    files?.forEach(file => file.text().then((content) => uploadEvent.emit(content)))
+    files?.forEach(file => file.text().then((content) => appContext.value.events.emit('loadProject', content)))
   },
 });
 
@@ -36,7 +35,7 @@ const fileDialog = useFileDialog({ accept: "application/json", multiple: true })
 
 fileDialog.onChange((files) => {
   if (files?.length) {
-    [...files].forEach(file => file.text().then((content) => uploadEvent.emit(content)));
+    [...files].forEach(file => file.text().then((content) => appContext.value.events.emit('loadProject', content)));
   }
 });
 </script>
@@ -45,7 +44,7 @@ fileDialog.onChange((files) => {
   <Button variant="ghost" v-if="menuIsHidden" @click="menuIsHidden = false" class="fixed bg-primary shadow left-4 top-4 z-20 p-2 rounded-full size-10">
     <AsciiDrawIcon class="size-10" />
   </Button>
-  <div v-else class="fixed bg-card border-2 border-border shadow left-4 top-4 z-20 max-w-xs p-2 rounded-lg flex flex-col gap-y-4">
+  <div v-else class="fixed bg-card border-2 border-border shadow left-4 top-4 max-h-[calc(100vh-2rem)] overflow-y-scroll z-20 max-w-xs p-2 rounded-lg space-y-4">
     <div class="flex gap-x-2">
       <router-link to="/" class="flex">
         <AsciiDrawIcon />
@@ -68,7 +67,7 @@ fileDialog.onChange((files) => {
           <template #tooltip>{{ $t('app.menu.project.import.project.tooltip') }}</template>
         </IconButton>
         <Separator orientation="vertical" class="h-6" />
-        <IconButton @click="downloadEvent.emit()">
+        <IconButton @click="appContext.events.emit('downloadProject', undefined)">
           <LucideHardDriveDownload />
           <template #tooltip>{{ $t('app.menu.project.export.project.tooltip') }}</template>
         </IconButton>
@@ -86,16 +85,32 @@ fileDialog.onChange((files) => {
           <LucideImageDown />
           <template #tooltip>{{ $t('app.menu.project.export.image.tooltip') }}</template>
         </IconButton>
+        <Separator orientation="vertical" class="h-6" />
+        <PurgeProjectDialog>
+          <IconButton>
+            <LucideEraser />
+            <template #tooltip>{{ $t('app.menu.project.purge.tooltip') }}</template>
+          </IconButton>
+        </PurgeProjectDialog>
       </div>
       <div v-if="isDropAvailable" ref="upload-dropzone" class="border border-dashed h-20 grid place-content-center m-2">
         {{ $t('app.menu.project.dropzone') }}
       </div>
     </div>
     <Separator :label="$t('app.menu.actions.label')" />
-    <Button variant="ghost" size="xs" class="gap-x-2">
-      <LucideSquareDashedMousePointer/>
-      <p class="grow text-left">{{ $t('app.menu.actions.select+move') }}</p>
-    </Button>
+    <div class="space-y-0.5">
+      <template v-for="action in appContext.actions" :key="action.id">
+        <Button :variant="action.id === appContext.activeActionId ? 'secondary' : 'ghost'" size="xs" class="gap-x-2 w-full" @click="appContext.activeActionId = action.id">
+          <component v-if="action.icon" :is="action.icon" class="size-6" />
+          <div v-else class="size-6 invisible" />
+          <p class="grow text-left">{{ action.displayName }}</p>
+        </Button>
+      </template>
+    </div>
+    <template v-if="appContext.extraMenu">
+      <Separator label="ELEMENT" />
+      <component :is="appContext.extraMenu.component" v-bind="appContext.extraMenu.props" />
+    </template>
     <Separator :label="$t('app.menu.help.label')" />
     <p>{{ $t('app.menu.help.text') }}</p>
   </div>

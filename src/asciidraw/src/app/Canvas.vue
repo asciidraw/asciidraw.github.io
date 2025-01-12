@@ -1,10 +1,21 @@
 <script setup lang="ts">
-import { computed, inject, onMounted, reactive, ref, useTemplateRef, watch } from "vue";
-import { useColorMode, useDebounceFn, useEventListener, useWindowSize } from "@vueuse/core";
+import { computed, inject, markRaw, onMounted, useTemplateRef, watch } from "vue";
+import { useColorMode, useDebounceFn, useEventListener, useMouse, useWindowSize } from "@vueuse/core";
 import AppZoomButton from "@/app/ZoomButton.vue";
 import * as constants from "@/constants";
-import {Vector, type VectorLike} from "@/lib";
-import { PROJECT_INJECTION_KEY } from "@/symbols.ts";
+import { isPointWithinBox, Layer, Vector, type VectorLike } from "@/lib";
+import { INJECTION_KEY_APP, INJECTION_KEY_PROJECT, INJECTION_KEY_RENDERER_MAP } from "@/symbols.ts";
+
+
+const MouseButtons = {
+  left: 0,
+  middle: 1,
+  right: 2,
+}
+
+
+const app = inject(INJECTION_KEY_APP)!;
+const rendererMap = inject(INJECTION_KEY_RENDERER_MAP)!;
 
 const colorMode = useColorMode();
 
@@ -12,14 +23,12 @@ watch(colorMode, () => {
   setTimeout(() => redraw());
 });
 
-const {width: windowWidth, height: windowHeight} = useWindowSize();
-const canvas = useTemplateRef<HTMLCanvasElement>("canvas");
+const { width: windowWidth, height: windowHeight } = useWindowSize();
+const canvasRef = useTemplateRef<HTMLCanvasElement>("canvas");
+const { x: mouseX, y: mouseY } = useMouse({ target: canvasRef, touch: false, scroll: false });
 
-function getContext() {
-  return canvas.value!.getContext("2d")!;
-}
 
-const project = inject(PROJECT_INJECTION_KEY)!;
+const project = inject(INJECTION_KEY_PROJECT)!;
 const normalZoom = computed(() => project.value.drawContext.zoom / 10);
 
 function zoomIn() {
@@ -35,8 +44,8 @@ function getColorPalette(context: CanvasRenderingContext2D) {
   return {
     grid: `hsl(${style.getPropertyValue("--border")})`,
     text: `hsl(${style.getPropertyValue("--foreground")})`,
-    highlight: `hsl(${style.getPropertyValue("--accent-foreground")})`,
-    selection: `hsl(${style.getPropertyValue("--card-foreground")})`,
+    highlight: `hsl(${style.getPropertyValue("--accent-foreground")} / 0.25)`,
+    selection: `hsl(${style.getPropertyValue("--card-foreground")} / 0.25)`,
   } as const;
 }
 
@@ -116,71 +125,118 @@ function renderGrid(context: CanvasRenderingContext2D) {
   context.stroke();
 }
 
-function highlight(context: CanvasRenderingContext2D, start: VectorLike, end: VectorLike, color: string = "#00F5") {
-  context.fillStyle = color;
-  const width = end.x - start.x;
-  const height = end.y - start.y;
+function highlight(context: CanvasRenderingContext2D, start: VectorLike, end: VectorLike, color?: string) {
+  context.fillStyle = color ?? getColorPalette(context).highlight;
   context.fillRect(
     start.x * constants.CHARACTER_PIXEL_WIDTH - project.value.drawContext.offset.x + 0.5,
-    start.y * constants.CHARACTER_PIXEL_HEIGHT - project.value.drawContext.offset.y + 0.5,
-    width * constants.CHARACTER_PIXEL_WIDTH - 1,
-    height * constants.CHARACTER_PIXEL_HEIGHT - 1,
+    (start.y-1) * constants.CHARACTER_PIXEL_HEIGHT - project.value.drawContext.offset.y + 0.5,
+    (end.x - start.x + 1) * constants.CHARACTER_PIXEL_WIDTH - 1,
+    (end.y - start.y + 1) * constants.CHARACTER_PIXEL_HEIGHT - 1,
   );
 }
 
 function drawText(context: CanvasRenderingContext2D, position: VectorLike, text: string) {
   const colors = getColorPalette(context);
   context.fillStyle = colors.text;
+  let col = 0;
+  let row = 0;
   for (let i = 0; i < text.length; i++) {
-    const canvasX = ((position.x + i) * constants.CHARACTER_PIXEL_WIDTH) - project.value.drawContext.offset.x;
-    const canvasY = (position.y * constants.CHARACTER_PIXEL_HEIGHT) - project.value.drawContext.offset.y - 3;
-    context.fillText(text.charAt(i), canvasX, canvasY);
+    const char = text.charAt(i);
+    if (char === '\n') {
+      col = 0;
+      row++;
+      continue;
+    }
+
+    if (char === ' ') {
+      col++;
+      continue
+    }
+
+    const canvasX = ((position.x + col) * constants.CHARACTER_PIXEL_WIDTH) - project.value.drawContext.offset.x;
+    const canvasY = ((position.y + row) * constants.CHARACTER_PIXEL_HEIGHT) - project.value.drawContext.offset.y - 3;
+    context.fillText(char, canvasX, canvasY);
+    col++;
   }
 }
 
 function redraw() {
-  const context = getContext();
+  const context = canvasRef.value!.getContext("2d")!;
   initCanvas(context);
   renderGrid(context);
-  testDraw(context);
+  app.value.events.emit("preRender", app.value);
+  const finalLayer = new Layer();
+  for (const element of project.value.elements) {
+    const renderer = rendererMap[element.type];
+    if (renderer === undefined) {
+      console.error(`missing renderer ${element.type}`);
+      continue;
+    }
+    const elementLayer = renderer.render(element);
+    finalLayer.merge(elementLayer);
+  }
+  for (const [[x, y], char] of finalLayer.entries()) {
+    drawText(context, { x, y }, char);
+  }
+  app.value.events.emit("postRender", app.value);
 }
 
 const debouncedRedraw = useDebounceFn(redraw, 5);
 
-onMounted(() => redraw());
+onMounted(() => {
+  const canvas = canvasRef.value!;
+  const context = canvas.getContext("2d")!
+  app.value.canvas = {
+    canvasToGrid: screenToCell,
+    gridToCanvas: cellToScreen,
+    canvasElement: canvas,
+    renderContext: context,
+    drawText: (pos, text) => drawText(context, pos, text),
+    highlight: (start, end, color) => highlight(context, start, end, color),
+  }
+  redraw();
+});
 watch([windowWidth, windowHeight], () => debouncedRedraw());
-// minimal throttle that should not impact the experience but helps the CPU
 watch(project, () => redraw(), { deep: true });
 
 // zooming
 
-function onCanvasWheel(event: WheelEvent) {
+useEventListener(canvasRef, "wheel", (event: WheelEvent) => {
   if (event.deltaY > 0) {
     zoomOut();
   }
   if (event.deltaY < 0) {
     zoomIn();
   }
-}
+});
 
 // offset dragging
 
-const isDraggingOffset = ref(false);
-const moveStartOffset = reactive({ x: 0, y: 0 });
-const moveStartPosition = reactive({ x: 0, y: 0 });
+const mouseButtonsDown: Record<number, boolean> = {};
 
-function onMouseDown(event: MouseEvent) {
-  if (event.button === 1) {
-    isDraggingOffset.value = true;
-    moveStartOffset.x = project.value.drawContext.offset.x;
-    moveStartOffset.y = project.value.drawContext.offset.y;
-    moveStartPosition.x = event.clientX;
-    moveStartPosition.y = event.clientY;
+const moveStartOffset = { x: 0, y: 0 };
+const moveStartPosition = { x: 0, y: 0 };
+
+useEventListener(canvasRef, "mousedown", (event: MouseEvent) => {
+  mouseButtonsDown[event.button] = true;
+  switch (event.button) {
+    case MouseButtons.left:
+      app.value.actions[app.value.activeActionId]?.onClickDown?.(event);
+      break;
+    case MouseButtons.middle:
+      moveStartOffset.x = project.value.drawContext.offset.x;
+      moveStartOffset.y = project.value.drawContext.offset.y;
+      moveStartPosition.x = event.clientX;
+      moveStartPosition.y = event.clientY;
+      break;
   }
-}
+});
 
 useEventListener("mousemove", (event: MouseEvent) => {
-  if (isDraggingOffset.value) {
+  if (mouseButtonsDown[MouseButtons.left])
+    app.value.actions[app.value.activeActionId]?.onClickMove?.(event);
+
+  if (mouseButtonsDown[MouseButtons.middle]) {
     const diffX = (moveStartPosition.x - event.clientX) / normalZoom.value;
     const diffY = (moveStartPosition.y - event.clientY) / normalZoom.value;
     const offsetX = moveStartOffset.x + diffX;
@@ -190,45 +246,48 @@ useEventListener("mousemove", (event: MouseEvent) => {
   }
 });
 
-useEventListener("mouseup", () => {
-  isDraggingOffset.value = false;
+useEventListener("mouseup", (event: MouseEvent) => {
+  mouseButtonsDown[event.button] = false;
+
+  if (event.button === MouseButtons.left)
+    app.value.actions[app.value.activeActionId]?.onClickUp?.(event);
+
+  if (event.button === MouseButtons.right) {
+    const point = screenToCell({ x: event.clientX, y: event.clientY });
+    console.log("Checking", point)
+
+    app.value.extraMenu = undefined;
+
+    for (let i = project.value.elements.length - 1; i >= 0; i--) {
+      const element = project.value.elements[i];
+      const renderer = rendererMap[element.type];
+      const box = renderer.getBoundingBox(element);
+      if (isPointWithinBox(point, box)) {
+        console.log("intercept")
+        if (renderer.EditComponent) {
+          console.log("Adding")
+          app.value.extraMenu = {
+            component: markRaw(renderer.EditComponent!),
+            props: { data: element },
+          }
+        }
+        break;
+      }
+    }
+  }
 });
 
-// development
-
-function testDraw(context: CanvasRenderingContext2D) {
-  const x = -10;
-  let y = 0;
-
-  // origin
-  highlight(context, new Vector(0, 0), new Vector(1, 1), '#f009')
-  // test-highlight
-  highlight(context, new Vector(-5, -10), new Vector(5, -2));
-
-  drawText(context, { x, y: y++ }, "/------------\\  +------------+  ,------------.");
-  drawText(context, { x, y: y++ }, "|Hello World!|  |Hello World!|  |Hello World!|");
-  drawText(context, { x, y: y++ }, "\\------------/  +------------+  `------------´");
-
-  drawText(context, { x, y: y++ }, "┌────────────┐  ┌╌╌╌╌╌╌╌╌╌╌╌╌┐  ┌┄┄┄┄┄┄┄┄┄┄┄┄┐  ┌┈┈┈┈┈┈┈┈┈┈┈┈┐");
-  drawText(context, { x, y: y++ }, "│Hello World!│  ╎Hello World!╎  ┆Hello World!┆  ┊Hello World!┊");
-  drawText(context, { x, y: y++ }, "└────────────┘  └╌╌╌╌╌╌╌╌╌╌╌╌┘  └┄┄┄┄┄┄┄┄┄┄┄┄┘  └┈┈┈┈┈┈┈┈┈┈┈┈┘");
-
-  drawText(context, { x, y: y++ }, "╭────────────╮");
-  drawText(context, { x, y: y++ }, "│Hello World!│");
-  drawText(context, { x, y: y++ }, "╰────────────╯");
-
-  drawText(context, { x, y: y++ }, "╔════════════╗  ╔════════════╦════════════╗");
-  drawText(context, { x, y: y++ }, "║Hello World!║  ║Hello World!║Hello World!║");
-  drawText(context, { x, y: y++ }, "╚════════════╝  ╚════════════╩════════════╝");
-}
+useEventListener(canvasRef, "contextmenu", (event: MouseEvent) => {
+  event.preventDefault();
+})
 </script>
 
 <template>
-  <div class="w-screen h-screen" @wheel="onCanvasWheel" @mousedown="onMouseDown">
+  <div class="w-screen h-screen">
     <canvas ref="canvas" class="w-full h-full" :width="windowWidth" :height="windowHeight" />
   </div>
   <div class="fixed top-0 left-1/2 -translate-x-1/2 pointer-events-none">
-    Zoom: {{ project.drawContext.zoom }} | offset: {{ project.drawContext.offset.x.toFixed(2) }}x{{ project.drawContext.offset.y.toFixed(2) }}
+    Zoom: {{ project.drawContext.zoom }} | offset: {{ project.drawContext.offset.x.toFixed(2) }}x{{ project.drawContext.offset.y.toFixed(2) }} | Mouse: {{ screenToCell({ x: mouseX, y: mouseY }) }}
   </div>
   <AppZoomButton @zoom-in="zoomIn" @zoom-out="zoomOut" />
 </template>
