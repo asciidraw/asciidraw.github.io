@@ -37,7 +37,7 @@ const { copy: doCopy, copied: recentlyCopied } = useClipboard({ source: rendered
       </DialogDescription>
       <pre class="bg-black min-h-20 max-h-96 overflow-scroll">{{ rendered }}</pre>
       <DialogFooter>
-        <Button type="button" variant="default" @click="doCopy()">
+        <Button type="button" @click="() => doCopy()">
           <component :is="recentlyCopied ? LucideClipboardCheck : LucideClipboardCopy" class="size-6" />
         </Button>
       </DialogFooter>
