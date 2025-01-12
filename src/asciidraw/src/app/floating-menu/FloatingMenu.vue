@@ -19,6 +19,7 @@ import CopyShareLinkDialog from "@/app/floating-menu/CopyShareLinkDialog.vue";
 import PurgeProjectDialog from "@/app/floating-menu/PurgeProjectDialog.vue";
 import AsciiDrawIcon from "@/components/AsciiDrawIcon.vue";
 import ExportClipboardDialog from "@/app/floating-menu/ExportClipboardDialog.vue";
+import ExportImageDialog from "@/app/floating-menu/ExportImageDialog.vue";
 
 const appContext = inject(INJECTION_KEY_APP)!;
 
@@ -84,10 +85,12 @@ fileDialog.onChange((files) => {
             <template #tooltip>{{ $t('app.menu.project.export.clipboard.tooltip') }}</template>
           </IconButton>
         </ExportClipboardDialog>
-        <IconButton>
-          <LucideImageDown />
-          <template #tooltip>{{ $t('app.menu.project.export.image.tooltip') }}</template>
-        </IconButton>
+        <ExportImageDialog>
+          <IconButton>
+            <LucideImageDown />
+            <template #tooltip>{{ $t('app.menu.project.export.image.tooltip') }}</template>
+          </IconButton>
+        </ExportImageDialog>
         <Separator orientation="vertical" class="h-6" />
         <PurgeProjectDialog>
           <IconButton>
