@@ -197,7 +197,7 @@ onMounted(() => {
   redraw();
 });
 watch([windowWidth, windowHeight], () => debouncedRedraw());
-watch(project, () => redraw(), {deep: true });
+watch(project, () => redraw(), { deep: true });
 
 // zooming
 
