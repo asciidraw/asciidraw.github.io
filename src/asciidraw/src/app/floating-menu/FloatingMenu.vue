@@ -44,7 +44,7 @@ fileDialog.onChange((files) => {
   <Button variant="ghost" v-if="menuIsHidden" @click="menuIsHidden = false" class="fixed bg-primary shadow left-4 top-4 z-20 p-2 rounded-full size-10">
     <AsciiDrawIcon class="size-10" />
   </Button>
-  <div v-else class="fixed bg-card border-2 border-border shadow left-4 top-4 z-20 max-w-xs p-2 rounded-lg space-y-4">
+  <div v-else class="fixed bg-card border-2 border-border shadow left-4 top-4 max-h-[calc(100vh-2rem)] overflow-y-scroll z-20 max-w-xs p-2 rounded-lg space-y-4">
     <div class="flex gap-x-2">
       <router-link to="/" class="flex">
         <AsciiDrawIcon />
@@ -107,6 +107,10 @@ fileDialog.onChange((files) => {
         </Button>
       </template>
     </div>
+    <template v-if="appContext.extraMenu">
+      <Separator label="ELEMENT" />
+      <component :is="appContext.extraMenu.component" v-bind="appContext.extraMenu.props" />
+    </template>
     <Separator :label="$t('app.menu.help.label')" />
     <p>{{ $t('app.menu.help.text') }}</p>
   </div>

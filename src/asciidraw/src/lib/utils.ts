@@ -1,6 +1,7 @@
 import { type ClassValue, clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
-import type { ElementRenderer, Extension } from "@/types";
+import type { BoundingBox, ElementRenderer, Extension } from "@/types";
+import type { VectorLike } from "@/lib/vector.ts";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -25,4 +26,12 @@ export function defineExtension(extension: Extension) {
 
 export function defineElementRenderer<Data extends object>(renderer: ElementRenderer<Data>) {
   return renderer;
+}
+
+
+export function isPointWithinBox(point: VectorLike, box: BoundingBox): boolean {
+  return (
+    box.left <= point.x && point.x <= box.right
+    && box.top <= point.y && point.y <= box.bottom
+  );
 }

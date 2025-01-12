@@ -1,7 +1,10 @@
 import { defineElementRenderer, defineExtension, Layer } from "@/lib";
+import EditOptions from "./EditOptions.vue";
+import { v4 as uuid } from "uuid";
 
 
-interface LabelData {
+export interface LabelData {
+  id: string
   type: "label"
   x: number
   y: number
@@ -15,6 +18,7 @@ export default defineExtension({
   on: {
     initProject(project) {
       project.elements.push(<LabelData>{
+        id: uuid(),
         type: "label",
         x: -8,
         y: -2,
@@ -26,6 +30,7 @@ export default defineExtension({
   },
   renderer: {
     label: defineElementRenderer<LabelData>({
+      EditComponent: EditOptions,
       getBoundingBox(element) {
         return {
           left: element.x,

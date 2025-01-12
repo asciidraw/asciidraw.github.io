@@ -1,7 +1,11 @@
 import { defineElementRenderer, defineExtension, doInRange, Layer } from "@/lib";
 import { boxStyles } from "./boxStyles.ts";
+import EditOptions from "./EditOptions.vue";
+import { v4 as uuid } from "uuid";
 
-interface BoxData {
+
+export interface BoxData {
+  id: string
   type: "box"
   x: number
   y: number
@@ -15,6 +19,7 @@ export default defineExtension({
   on: {
     initProject(project) {
       project.elements.push(<BoxData>{
+        id: uuid(),
         type: "box",
         x: 0,
         y: 0,
@@ -23,6 +28,7 @@ export default defineExtension({
         style: "basic",
       });
       project.elements.push(<BoxData>{
+        id: uuid(),
         type: "box",
         x: 7,
         y: 5,
@@ -31,6 +37,7 @@ export default defineExtension({
         style: "light",
       });
       project.elements.push(<BoxData>{
+        id: uuid(),
         type: "box",
         x: 3,
         y: -5,
@@ -42,6 +49,7 @@ export default defineExtension({
   },
   renderer: {
     box: defineElementRenderer<BoxData>({
+      EditComponent: EditOptions,
       getBoundingBox(element){
         return {
           top: element.y,

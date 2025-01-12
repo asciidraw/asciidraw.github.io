@@ -13,7 +13,7 @@ import createEmitter from "mitt";
 
 const appContext = ref<AppContext>({
   extensions: [],
-  actions: [],
+  actions: {},
   activeActionId: "",
   events: createEmitter(),
 });
@@ -40,7 +40,6 @@ for (const extension of Object.values(extensions)) {
     }
   }
 }
-appContext.value.activeActionId = appContext.value.actions[0].id;
 
 onMounted(() => {
   appContext.value.events.emit("mounted", appContext.value);

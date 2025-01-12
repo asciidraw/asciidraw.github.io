@@ -3,14 +3,19 @@ import type {VectorLike} from "@/lib";
 import type {Extension} from "@/types/extensions.ts";
 import type {Emitter} from "mitt";
 import type { Project } from "@/types/project.ts";
+import type { Component } from "vue";
 
 
 export interface AppContext {
   readonly extensions: Extension[]
-  readonly actions: Action[]
+  readonly actions: Record<string, Action>
   activeActionId: string
   events: Emitter<AppEvents>
   canvas?: CanvasContext
+  extraMenu?: {
+    component: Component
+    props: Record<string, unknown>
+  }
 }
 
 export interface CanvasContext {
@@ -26,9 +31,9 @@ export interface Action {
   id: string
   icon?: LucideIcon
   displayName: string
-  onClickDown?: () => void
-  onClickMove?: () => void
-  onClickUp?: () => void
+  onClickDown?: (mouseEvent: MouseEvent) => void
+  onClickMove?: (mouseEvent: MouseEvent) => void
+  onClickUp?: (mouseEvent: MouseEvent) => void
 }
 
 export type AppEvents = {
