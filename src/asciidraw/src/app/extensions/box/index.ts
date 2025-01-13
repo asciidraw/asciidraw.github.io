@@ -1,5 +1,5 @@
 import { defineElementRenderer, defineExtension, doInRange, Layer } from "@/lib";
-import { boxStyles } from "./boxStyles.ts";
+import * as styles from "./styles.ts";
 import EditOptions from "./EditOptions.vue";
 import { v4 as uuid } from "uuid";
 
@@ -11,7 +11,7 @@ export interface BoxData {
   y: number
   width: number
   height: number
-  style: keyof typeof boxStyles
+  style: keyof typeof styles
 }
 
 
@@ -59,7 +59,7 @@ export default defineExtension({
         }
       },
       render(element) {
-        const style = boxStyles[element.style];
+        const style = styles[element.style];
         const layer = new Layer();
 
         layer.set(element.x, element.y, style.topLeft);

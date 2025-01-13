@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { boxStyles } from "./boxStyles.ts";
+import * as styles from "./styles.ts";
 import type { BoxData } from ".";
 
 defineProps<{
@@ -19,7 +19,7 @@ defineProps<{
         <SelectValue />
       </SelectTrigger>
       <SelectContent>
-        <template v-for="styleId in Object.keys(boxStyles)" :key="styleId">
+        <template v-for="styleId in Object.keys(styles)" :key="styleId">
           <SelectItem :value="styleId">
             {{ styleId }}
           </SelectItem>
