@@ -5,6 +5,7 @@ import AppZoomButton from "@/app/ZoomButton.vue";
 import * as constants from "@/constants";
 import { isPointWithinBox, Layer, Vector, type VectorLike } from "@/lib";
 import { INJECTION_KEY_APP, INJECTION_KEY_PROJECT, INJECTION_KEY_RENDERER_MAP } from "@/symbols.ts";
+import { LayerRenderer } from "@/app/core";
 
 
 const MouseButtons = {
@@ -165,17 +166,8 @@ function redraw() {
   initCanvas(context);
   renderGrid(context);
   app.value.events.emit("preRender", app.value);
-  const finalLayer = new Layer();
-  for (const element of project.value.elements) {
-    const renderer = rendererMap[element.type];
-    if (renderer === undefined) {
-      console.error(`missing renderer ${element.type}`);
-      continue;
-    }
-    const elementLayer = renderer.render(element);
-    finalLayer.merge(elementLayer);
-  }
-  for (const [[x, y], char] of finalLayer.entries()) {
+  const layer = new LayerRenderer(rendererMap).render(project.value);
+  for (const [[x, y], char] of layer.entries()) {
     drawText(context, { x, y }, char);
   }
   app.value.events.emit("postRender", app.value);

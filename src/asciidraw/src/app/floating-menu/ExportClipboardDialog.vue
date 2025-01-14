@@ -13,9 +13,10 @@ import { useClipboard } from "@vueuse/core";
 import { computed, inject } from "vue";
 import { INJECTION_KEY_PROJECT, INJECTION_KEY_RENDERER_MAP } from "@/symbols.ts";
 import { Layer } from "@/lib";
+import { LayerRenderer } from "@/app/core";
 
 const project = inject(INJECTION_KEY_PROJECT)!;
-const renderMap = inject(INJECTION_KEY_RENDERER_MAP)!;
+const rendererMap = inject(INJECTION_KEY_RENDERER_MAP)!;
 
 function findMinMax(layer: Layer): [number, number, number, number] {
   let [minX, minY, maxX, maxY] = [Infinity, Infinity, -Infinity, -Infinity];
@@ -29,7 +30,7 @@ function findMinMax(layer: Layer): [number, number, number, number] {
 }
 
 const rendered = computed(() => {
-  const layer = new Layer();
+  const layer = new LayerRenderer(rendererMap).render(project.value);
   const [minX, minY, maxX, maxY] = findMinMax(layer);
   const gridArray = Array(maxY-minY+1).fill(null).map(() => Array(maxX-minX+1).fill(' '));
   layer.entries().forEach(([[x, y], char]) => {
@@ -46,14 +47,14 @@ const { copy: doCopy, copied: recentlyCopied } = useClipboard({ source: rendered
     <DialogTrigger as-child>
       <slot />
     </DialogTrigger>
-    <DialogContent>
+    <DialogContent class="w-fit max-w-screen-lg">
       <DialogTitle>
         {{ $t('app.dialog.export-clipboard.title') }}
       </DialogTitle>
       <DialogDescription>
         {{ $t('app.dialog.export-clipboard.description') }}
       </DialogDescription>
-      <pre class="bg-black min-h-20 max-h-96 overflow-scroll select-all">{{ rendered }}</pre>
+      <pre class="bg-black p-4 min-h-20 max-h-[32rem] overflow-scroll select-all leading-none">{{ rendered }}</pre>
       <DialogFooter>
         <Button type="button" @click="() => doCopy()">
           <component :is="recentlyCopied ? LucideClipboardCheck : LucideClipboardCopy" class="size-6" />
