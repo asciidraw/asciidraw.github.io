@@ -4,8 +4,13 @@ import AppCanvas from "@/app/Canvas.vue";
 import ContextMenuHandler from "@/app/ContextMenuHandler.vue";
 import { type Component, onMounted, provide, ref } from "vue";
 import { createNewProject } from "@/app/createNewProject.ts";
-import type { AppContext, ElementRenderer, Extension, Project } from "@/types";
-import { INJECTION_KEY_APP, INJECTION_KEY_PROJECT, INJECTION_KEY_RENDERER_MAP } from "@/symbols.ts";
+import type { AppContext, DrawContext, ElementRenderer, Extension, Project } from "@/types";
+import {
+  INJECTION_KEY_APP,
+  INJECTION_KEY_DRAW_CONTEXT,
+  INJECTION_KEY_PROJECT,
+  INJECTION_KEY_RENDERER_MAP
+} from "@/symbols.ts";
 import {watchDebounced} from "@vueuse/core";
 import { loadProjectData, storeProjectData } from "@/lib";
 const extensions: Record<string, Extension> = import.meta.glob("./extensions/*/index.ts", { eager: true, import: 'default' });
@@ -59,7 +64,10 @@ function loadOrCreateProject(): Project {
   return stored === null ? createProject() : loadProjectData(stored);
 }
 
-
+const drawContext = ref<DrawContext>({
+  offset: { x: 0, y: 0 },
+  zoom: 10,
+});
 const project = ref(loadOrCreateProject());
 
 watchDebounced(project, () => {
@@ -67,6 +75,7 @@ watchDebounced(project, () => {
   localStorage.setItem("project", storeProjectData(project.value));
 }, { debounce: 500, maxWait: 1000, immediate: true, deep: true });
 
+provide(INJECTION_KEY_DRAW_CONTEXT, drawContext);
 provide(INJECTION_KEY_PROJECT, project);
 </script>
 

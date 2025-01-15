@@ -1,5 +1,11 @@
 import type { Component } from "vue";
-import { Layer } from "@/lib";
+import { Layer, type VectorLike } from "@/lib";
+
+
+export interface DrawContext {
+  offset: VectorLike
+  zoom: number
+}
 
 
 export interface ElementRenderer<D extends object = object> {

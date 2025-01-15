@@ -4,7 +4,12 @@ import { useColorMode, useDebounceFn, useEventListener, useMouse, useWindowSize 
 import AppZoomButton from "@/app/ZoomButton.vue";
 import * as constants from "@/constants";
 import { isPointWithinBox, Layer, Vector, type VectorLike } from "@/lib";
-import { INJECTION_KEY_APP, INJECTION_KEY_PROJECT, INJECTION_KEY_RENDERER_MAP } from "@/symbols.ts";
+import {
+  INJECTION_KEY_APP,
+  INJECTION_KEY_DRAW_CONTEXT,
+  INJECTION_KEY_PROJECT,
+  INJECTION_KEY_RENDERER_MAP
+} from "@/symbols.ts";
 import { LayerRenderer } from "@/app/core";
 
 
@@ -17,6 +22,8 @@ const MouseButtons = {
 
 const app = inject(INJECTION_KEY_APP)!;
 const rendererMap = inject(INJECTION_KEY_RENDERER_MAP)!;
+const drawContext = inject(INJECTION_KEY_DRAW_CONTEXT)!;
+const project = inject(INJECTION_KEY_PROJECT)!;
 
 const colorMode = useColorMode();
 
@@ -29,14 +36,13 @@ const canvasRef = useTemplateRef<HTMLCanvasElement>("canvas");
 const { x: mouseX, y: mouseY } = useMouse({ target: canvasRef, touch: false, scroll: false });
 
 
-const project = inject(INJECTION_KEY_PROJECT)!;
-const normalZoom = computed(() => project.value.drawContext.zoom / 10);
+const normalZoom = computed(() => drawContext.value.zoom / 10);
 
 function zoomIn() {
-  project.value.drawContext.zoom++;
+  drawContext.value.zoom++;
 }
 function zoomOut() {
-  project.value.drawContext.zoom = Math.max(1, project.value.drawContext.zoom-1);
+  drawContext.value.zoom = Math.max(1, drawContext.value.zoom-1);
 }
 
 function getColorPalette(context: CanvasRenderingContext2D) {
@@ -54,15 +60,15 @@ function getColorPalette(context: CanvasRenderingContext2D) {
 
 function screenToFrame(screen: VectorLike): Vector {
   return new Vector(
-    (screen.x - windowWidth.value / 2) / normalZoom.value + project.value.drawContext.offset.x,
-    (screen.y - windowHeight.value / 2) / normalZoom.value + project.value.drawContext.offset.y,
+    (screen.x - windowWidth.value / 2) / normalZoom.value + drawContext.value.offset.x,
+    (screen.y - windowHeight.value / 2) / normalZoom.value + drawContext.value.offset.y,
   );
 }
 
 function frameToScreen(frame: VectorLike): Vector {
   return new Vector(
-    (frame.x - project.value.drawContext.offset.x) * normalZoom.value + windowWidth.value / 2,
-    (frame.y - project.value.drawContext.offset.y) * normalZoom.value + windowHeight.value / 2,
+    (frame.x - drawContext.value.offset.x) * normalZoom.value + windowWidth.value / 2,
+    (frame.y - drawContext.value.offset.y) * normalZoom.value + windowHeight.value / 2,
   )
 }
 
@@ -110,14 +116,14 @@ function renderGrid(context: CanvasRenderingContext2D) {
 
   context.beginPath();
   for (let i = startOffset.x; i < endOffset.x; i++) {
-    const posX = (i * constants.CHARACTER_PIXEL_WIDTH) - project.value.drawContext.offset.x;
+    const posX = (i * constants.CHARACTER_PIXEL_WIDTH) - drawContext.value.offset.x;
     const startY = -context.canvas.height / 2 / normalZoom.value;
     const endY = context.canvas.height / 2 / normalZoom.value;
     context.moveTo(posX, startY);
     context.lineTo(posX,  endY);
   }
   for (let j = startOffset.y; j < endOffset.y; j++) {
-    const posY = (j * constants.CHARACTER_PIXEL_HEIGHT) - project.value.drawContext.offset.y;
+    const posY = (j * constants.CHARACTER_PIXEL_HEIGHT) - drawContext.value.offset.y;
     const startX = -context.canvas.width / 2 / normalZoom.value;
     const endX = context.canvas.width / 2 / normalZoom.value;
     context.moveTo(startX, posY);
@@ -129,8 +135,8 @@ function renderGrid(context: CanvasRenderingContext2D) {
 function highlight(context: CanvasRenderingContext2D, start: VectorLike, end: VectorLike, color?: string) {
   context.fillStyle = color ?? getColorPalette(context).highlight;
   context.fillRect(
-    start.x * constants.CHARACTER_PIXEL_WIDTH - project.value.drawContext.offset.x + 0.5,
-    (start.y-1) * constants.CHARACTER_PIXEL_HEIGHT - project.value.drawContext.offset.y + 0.5,
+    start.x * constants.CHARACTER_PIXEL_WIDTH - drawContext.value.offset.x + 0.5,
+    (start.y-1) * constants.CHARACTER_PIXEL_HEIGHT - drawContext.value.offset.y + 0.5,
     (end.x - start.x + 1) * constants.CHARACTER_PIXEL_WIDTH - 1,
     (end.y - start.y + 1) * constants.CHARACTER_PIXEL_HEIGHT - 1,
   );
@@ -154,8 +160,8 @@ function drawText(context: CanvasRenderingContext2D, position: VectorLike, text:
       continue
     }
 
-    const canvasX = ((position.x + col) * constants.CHARACTER_PIXEL_WIDTH) - project.value.drawContext.offset.x;
-    const canvasY = ((position.y + row) * constants.CHARACTER_PIXEL_HEIGHT) - project.value.drawContext.offset.y - 3;
+    const canvasX = ((position.x + col) * constants.CHARACTER_PIXEL_WIDTH) - drawContext.value.offset.x;
+    const canvasY = ((position.y + row) * constants.CHARACTER_PIXEL_HEIGHT) - drawContext.value.offset.y - 3;
     context.fillText(char, canvasX, canvasY);
     col++;
   }
@@ -190,6 +196,7 @@ onMounted(() => {
 });
 watch([windowWidth, windowHeight], () => debouncedRedraw());
 watch(project, () => redraw(), { deep: true });
+watch(drawContext, () => redraw(), { deep: true });
 
 // zooming
 
@@ -216,8 +223,8 @@ useEventListener(canvasRef, "mousedown", (event: MouseEvent) => {
       app.value.actions[app.value.activeActionId]?.onClickDown?.(event);
       break;
     case MouseButtons.middle:
-      moveStartOffset.x = project.value.drawContext.offset.x;
-      moveStartOffset.y = project.value.drawContext.offset.y;
+      moveStartOffset.x = drawContext.value.offset.x;
+      moveStartOffset.y = drawContext.value.offset.y;
       moveStartPosition.x = event.clientX;
       moveStartPosition.y = event.clientY;
       break;
@@ -233,8 +240,8 @@ useEventListener("mousemove", (event: MouseEvent) => {
     const diffY = (moveStartPosition.y - event.clientY) / normalZoom.value;
     const offsetX = moveStartOffset.x + diffX;
     const offsetY = moveStartOffset.y + diffY;
-    project.value.drawContext.offset.x = offsetX;
-    project.value.drawContext.offset.y = offsetY;
+    drawContext.value.offset.x = offsetX;
+    drawContext.value.offset.y = offsetY;
   }
 });
 
@@ -279,7 +286,7 @@ useEventListener(canvasRef, "contextmenu", (event: MouseEvent) => {
     <canvas ref="canvas" class="w-full h-full" :width="windowWidth" :height="windowHeight" />
   </div>
   <div class="fixed top-0 left-1/2 -translate-x-1/2 pointer-events-none">
-    Zoom: {{ project.drawContext.zoom }} | offset: {{ project.drawContext.offset.x.toFixed(2) }}x{{ project.drawContext.offset.y.toFixed(2) }} | Mouse: {{ screenToCell({ x: mouseX, y: mouseY }) }}
+    Zoom: {{ drawContext.zoom }} | offset: {{ drawContext.offset.x.toFixed(2) }}x{{ drawContext.offset.y.toFixed(2) }} | Mouse: {{ screenToCell({ x: mouseX, y: mouseY }) }}
   </div>
   <AppZoomButton @zoom-in="zoomIn" @zoom-out="zoomOut" />
 </template>
