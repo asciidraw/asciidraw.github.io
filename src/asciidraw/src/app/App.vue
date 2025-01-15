@@ -46,10 +46,6 @@ for (const extension of Object.values(extensions)) {
   }
 }
 
-onMounted(() => {
-  appContext.value.events.emit("mounted", appContext.value);
-});
-
 provide(INJECTION_KEY_APP, appContext);
 provide(INJECTION_KEY_RENDERER_MAP, rendererMap);
 

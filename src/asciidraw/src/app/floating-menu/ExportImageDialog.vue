@@ -12,21 +12,43 @@ import { LucideClipboardCopy, LucideClipboardCheck, LucideDownload } from "lucid
 import { computedAsync, useClipboardItems, useObjectUrl } from "@vueuse/core";
 import { computed, inject } from "vue";
 import { INJECTION_KEY_PROJECT, INJECTION_KEY_RENDERER_MAP } from "@/symbols.ts";
+import { CanvasRenderer, type ColorPalette, LayerRenderer } from "@/app/core";
+import type { DrawContext } from "@/types";
+import { findMinMaxOfLayer } from "@/app/floating-menu/export/util.ts";
+import * as constants from "@/constants";
 
 const project = inject(INJECTION_KEY_PROJECT)!;
 const renderMap = inject(INJECTION_KEY_RENDERER_MAP)!;
 
 const imageFormat = "image/png";
 
+// todo: improve
+const colorPalette: ColorPalette = {
+  grid: "red",
+  text: "white",
+  highlight: "red",
+  selection: "red",
+}
+
 const renderedBlob = computedAsync<Blob>(async () => {
+  const layer = new LayerRenderer(renderMap).render(project.value);
+
   const canvas = document.createElement("canvas");
-  canvas.width = 200;
-  canvas.height = 100;
-  const ctx = canvas.getContext("2d")!;
-  ctx.fillStyle = "red";
-  for (let i = 0; i < 5; i++) {
-    ctx.fillRect(Math.floor(Math.random() * canvas.width), Math.floor(Math.random() * canvas.height), Math.floor(Math.random() * canvas.width / 2), Math.floor(Math.random() * canvas.height / 2));
-  }
+  const renderingContext = canvas.getContext("2d")!;
+  const [minX, minY, maxX, maxY] = findMinMaxOfLayer(layer);
+  canvas.width = (maxX-minX+1) * constants.CHARACTER_PIXEL_WIDTH + 10;
+  canvas.height = (maxY-minY+1) * constants.CHARACTER_PIXEL_HEIGHT + 10;
+  const drawContext: DrawContext = {
+    zoom: 10,
+    offset: {
+      x: ((maxX-minX)/2+minX+0.5) * constants.CHARACTER_PIXEL_WIDTH,
+      y: ((maxY-minY)/2+minY-0.5) * constants.CHARACTER_PIXEL_HEIGHT,
+    },
+  };
+  const canvasRenderer = new CanvasRenderer(colorPalette, drawContext, renderingContext);
+  canvasRenderer.initCanvas();
+  // canvasRenderer.drawGrid();
+  canvasRenderer.drawLayer(layer);
   return await new Promise(resolve => canvas.toBlob(blob => resolve(blob!), imageFormat));
 }, new Blob());
 
