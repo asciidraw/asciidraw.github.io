@@ -40,7 +40,7 @@ function purgeProject() {
       </AlertDialogHeader>
       <AlertDialogFooter>
         <AlertDialogCancel>
-          {{ $t('app.dialog.purge.cancel') }}
+          {{ $t('app.dialog.common.cancel') }}
         </AlertDialogCancel>
         <AlertDialogAction @click="purgeProject">
           {{ $t('app.dialog.purge.action') }}

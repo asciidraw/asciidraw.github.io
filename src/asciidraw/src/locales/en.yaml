@@ -72,7 +72,19 @@ app:
       out:
         tooltip: "Zoom out"
   dialog:
+    common:
+      cancel: "Cancel"
+      close: "Close"
     share:
       title: "Share link"
       description: "Anyone who has this link will be able to view your graph at the current version. Changes after copying the link will not be reflected."
-      close: "Close"
+    export-clipboard:
+      title: "Export the Graph as Text to your clipboard"
+      description: "The Graph got rendered as plain-text. You can copy it now into your README.md in a Code-Block."
+    export-image:
+      title: "Export the Graph as an Image"
+      description: "The Graph got rendered as an image to use on your website or your README."
+    purge:
+      title: "Purging Project Data"
+      description: "You Project will be purged and any changes you made will be lost forever."
+      action: "Purge"

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {
-  Dialog,
+  Dialog, DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -56,6 +56,11 @@ const { copy: doCopy, copied: recentlyCopied } = useClipboard({ source: rendered
       </DialogDescription>
       <pre class="bg-black p-4 min-h-20 max-h-[32rem] overflow-scroll select-all leading-none">{{ rendered }}</pre>
       <DialogFooter>
+        <DialogClose as-child>
+          <Button type="button" variant="secondary">
+            {{ $t('app.dialog.common.close') }}
+          </Button>
+        </DialogClose>
         <Button type="button" @click="() => doCopy()">
           <component :is="recentlyCopied ? LucideClipboardCheck : LucideClipboardCopy" class="size-6" />
         </Button>

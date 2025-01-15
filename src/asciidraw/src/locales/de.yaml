@@ -72,7 +72,20 @@ app:
       out:
         tooltip: "Verkleinern"
   dialog:
+    common:
+      cancel: "Abbrechen"
+      close: "Schließen"
     share:
       title: "Link zum Teilen"
       description: "Jeder, der diesen Link hat, kann Ihr Diagramm in der aktuellen Version sehen. Änderungen nach dem Kopieren des Links werden nicht übernommen."
       close: "Schließen"
+    export-clipboard:
+      title: "Exportieren Sie das Diagramm als Text in Ihre Zwischenablage"
+      description: "Der Graph wurde als Klartext gerendert. Sie können ihn nun in Ihre README.md in einen Code-Block kopieren."
+    export-image:
+      title: "Exportieren des Graphen als Bild"
+      description: "Der Graph wird als Bild gerendert, das Sie auf Ihrer Website oder in Ihrer README verwenden können."
+    purge:
+      title: "Projektdaten bereinigen"
+      description: "Ihr Projekt wird gelöscht und alle Änderungen, die Sie vorgenommen haben, gehen für immer verloren."
+      action: "Bereinigen"

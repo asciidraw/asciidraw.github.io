@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {
-  Dialog,
+  Dialog, DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -10,9 +10,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { LucideClipboardCopy, LucideClipboardCheck, LucideDownload } from "lucide-vue-next";
 import { computedAsync, useClipboardItems, useObjectUrl } from "@vueuse/core";
-import { computed, inject, ref } from "vue";
+import { computed, inject } from "vue";
 import { INJECTION_KEY_PROJECT, INJECTION_KEY_RENDERER_MAP } from "@/symbols.ts";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const project = inject(INJECTION_KEY_PROJECT)!;
 const renderMap = inject(INJECTION_KEY_RENDERER_MAP)!;
@@ -33,6 +32,15 @@ const renderedBlob = computedAsync<Blob>(async () => {
 
 const imageUrl = useObjectUrl(renderedBlob);
 
+function startDownload() {
+  const anchor = document.createElement("a");
+  anchor.href = imageUrl.value!;
+  anchor.download = `asciidraw.${imageFormat.slice(6)}`;
+  document.body.appendChild(anchor);
+  anchor.click();
+  document.body.removeChild(anchor);
+}
+
 const clipboardItem = computed(() => [new ClipboardItem({ [imageFormat]: renderedBlob.value })]);
 const { copy: doCopy, copied: recentlyCopied } = useClipboardItems({ source: clipboardItem });
 </script>
@@ -44,18 +52,21 @@ const { copy: doCopy, copied: recentlyCopied } = useClipboardItems({ source: cli
     </DialogTrigger>
     <DialogContent>
       <DialogTitle>
-        {{ $t('app.dialog.export-clipboard.title') }}
+        {{ $t('app.dialog.export-image.title') }}
       </DialogTitle>
       <DialogDescription>
-        {{ $t('app.dialog.export-clipboard.description') }}
+        {{ $t('app.dialog.export-image.description') }}
       </DialogDescription>
       <img :src="imageUrl" alt="preview" class="w-full bg-accent rounded-sm" />
       <DialogFooter>
-        <a :href="imageUrl" :download="`asciidraw.${imageFormat.slice(6)}`">
-          <Button type="button">
-            <LucideDownload class="size-6" />
+        <DialogClose as-child>
+          <Button type="button" variant="secondary">
+            {{ $t('app.dialog.common.close') }}
           </Button>
-        </a>
+        </DialogClose>
+        <Button type="button" @click="() => startDownload()">
+          <LucideDownload class="size-6" />
+        </Button>
         <Button type="button" @click="() => doCopy()">
           <component :is="recentlyCopied ? LucideClipboardCheck : LucideClipboardCopy" class="size-6" />
         </Button>
