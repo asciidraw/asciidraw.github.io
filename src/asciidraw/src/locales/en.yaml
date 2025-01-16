@@ -84,6 +84,10 @@ app:
     export-image:
       title: "Export the Graph as an Image"
       description: "The Graph got rendered as an image to use on your website or your README."
+      style: "Style"
+      style-names:
+        lightMode: "Light"
+        darkMode: "Dark"
     purge:
       title: "Purging Project Data"
       description: "You Project will be purged and any changes you made will be lost forever."

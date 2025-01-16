@@ -85,6 +85,10 @@ app:
     export-image:
       title: "Exportieren des Graphen als Bild"
       description: "Der Graph wird als Bild gerendert, das Sie auf Ihrer Website oder in Ihrer README verwenden können."
+      style: "Stil"
+      style-names:
+        lightMode: "Hell"
+        darkMode: "Dunkel"
     purge:
       title: "Projektdaten bereinigen"
       description: "Ihr Projekt wird gelöscht und alle Änderungen, die Sie vorgenommen haben, gehen für immer verloren."
