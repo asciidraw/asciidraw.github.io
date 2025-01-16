@@ -15,7 +15,7 @@ const props = defineProps<{
 
 <template>
   <div class="min-h-screen w-screen grid grid-rows-[auto,1fr,auto]">
-    <header>
+    <header class="sticky top-0 bg-background">
       <div class="flex p-2 gap-x-2">
         <router-link to="/" class="flex gap-0.5">
           <AsciiDrawIcon />
@@ -38,7 +38,7 @@ const props = defineProps<{
     <main :class="cn('p-1', props.class)">
       <slot />
     </main>
-    <footer>
+    <footer class="sticky bottom-0 bg-background">
       <Separator />
       <div class="p-2">
         <div class="flex gap-x-2 flex-nowrap justify-evenly xs:justify-center">

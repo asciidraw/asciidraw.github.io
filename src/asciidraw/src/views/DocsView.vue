@@ -74,11 +74,13 @@ const directory = computed(() => parseFilesToDirectory(markdownFileList.value.ma
 
 <template>
   <DefaultLayout class="grid grid-cols-[auto,minmax(0,1fr)] w-screen">
-    <div class="p-2 border-r flex flex-col gap-0.5">
-      <router-link :to="{ name: 'docs' }">
-        <LucideBookType class="size-10 mx-auto" />
-      </router-link>
-      <FileTree :directory="directory" :parent-path="[]" />
+    <div class="p-2 border-r">
+      <div class="space-y-0.5 sticky top-14">
+        <router-link :to="{ name: 'docs' }">
+          <LucideBookType class="size-10 mx-auto" />
+        </router-link>
+        <FileTree :directory="directory" :parent-path="[]" />
+      </div>
     </div>
     <div v-if="currentMarkdown === undefined" class="p-4 markdown-body space-y-4">
       <Skeleton class="h-10 w-full max-w-96" />
