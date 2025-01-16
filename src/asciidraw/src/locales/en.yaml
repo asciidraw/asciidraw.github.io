@@ -81,6 +81,20 @@ app:
     export-clipboard:
       title: "Export the Graph as Text to your clipboard"
       description: "The Graph got rendered as plain-text. You can copy it now into your README.md in a Code-Block."
+      comment-style: "Comment-Style"
+      transformer-names:
+        none: "None"
+        multiLine: "Multiline"
+        filledMultiline: "Filled Multiline"
+        quotesMultiline: "Quotes Multiline"
+        hashes: "Hashes"
+        slashes: "Slashes"
+        trippleSlashes: "Tripple-Slashes"
+        dashes: "Dashes"
+        apostrophies: "Apostrophies"
+        backticks: "Backticks"
+        fourSpaces: "Four Spaces"
+        semicolons: "Semicolons"
     export-image:
       title: "Export the Graph as an Image"
       description: "The Graph got rendered as an image to use on your website or your README."

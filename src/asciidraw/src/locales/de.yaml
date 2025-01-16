@@ -82,6 +82,20 @@ app:
     export-clipboard:
       title: "Exportieren Sie das Diagramm als Text in Ihre Zwischenablage"
       description: "Der Graph wurde als Klartext gerendert. Sie können ihn nun in Ihre README.md in einen Code-Block kopieren."
+      comment-style: "Kommentar Stil"
+      transformer-names:
+        none: "Keinen"
+        multiLine: "Mehrzeilig"
+        filledMultiline: "Gefüllter Mehrzeilig"
+        quotesMultiline: "Anführungszeichen Mehrzeilig"
+        hashes: "Hashes"
+        slashes: "Slashes"
+        trippleSlashes: "Dreifach-Slashes"
+        dashes: "Bindestriche"
+        apostrophies: "Apostrophen"
+        backticks: "Backticks"
+        fourSpaces: "Vier Leerzeichen"
+        semicolons: "Semikolon"
     export-image:
       title: "Exportieren des Graphen als Bild"
       description: "Der Graph wird als Bild gerendert, das Sie auf Ihrer Website oder in Ihrer README verwenden können."
