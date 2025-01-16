@@ -9,35 +9,23 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { LucideClipboardCopy, LucideClipboardCheck, LucideDownload } from "lucide-vue-next";
-import { computedAsync, useClipboardItems, useObjectUrl } from "@vueuse/core";
+import { computedAsync, useClipboardItems, useLocalStorage, useObjectUrl } from "@vueuse/core";
 import { computed, inject, ref } from "vue";
 import { INJECTION_KEY_PROJECT, INJECTION_KEY_RENDERER_MAP } from "@/symbols.ts";
-import { CanvasRenderer, type ColorPalette, LayerRenderer } from "@/app/core";
+import { CanvasRenderer, LayerRenderer } from "@/app/core";
 import type { DrawContext } from "@/types";
 import { findMinMaxOfLayer } from "@/app/floating-menu/export/util.ts";
 import * as constants from "@/constants";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import * as colorPalettes from "./export/color-palettes.ts";
 
 const project = inject(INJECTION_KEY_PROJECT)!;
 const renderMap = inject(INJECTION_KEY_RENDERER_MAP)!;
 
 const imageFormat = "image/png";
 
-const colorPalettes: Record<string, ColorPalette> = {
-  lightMode: {
-    background: "white",
-    text: "black",
-    grid: "red", highlight: "red", selection: "red",  // unused
-  },
-  darkMode: {
-    background: "black",
-    text: "white",
-    grid: "red", highlight: "red", selection: "red",  // unused
-  },
-};
-
-const activePalette = ref(Object.keys(colorPalettes)[0]);
+const activePalette = useLocalStorage<keyof typeof colorPalettes>("export-image-palette", "lightMode");
 
 const renderedBlob = computedAsync<Blob>(async () => {
   const layer = new LayerRenderer(renderMap).render(project.value);

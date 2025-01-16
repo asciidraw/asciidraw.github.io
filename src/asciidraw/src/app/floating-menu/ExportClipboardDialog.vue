@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { LucideClipboardCopy, LucideClipboardCheck } from "lucide-vue-next";
-import { useClipboard } from "@vueuse/core";
+import { useClipboard, useLocalStorage } from "@vueuse/core";
 import { computed, inject, ref } from "vue";
 import { INJECTION_KEY_PROJECT, INJECTION_KEY_RENDERER_MAP } from "@/symbols.ts";
 import { LayerRenderer } from "@/app/core";
@@ -22,7 +22,7 @@ import { Badge } from "@/components/ui/badge";
 const project = inject(INJECTION_KEY_PROJECT)!;
 const rendererMap = inject(INJECTION_KEY_RENDERER_MAP)!;
 
-const activeTextTransformer = ref<keyof typeof textTransformerMap>("none");
+const activeTextTransformer = useLocalStorage<keyof typeof textTransformerMap>("export-clipboard-comment-style", "none");
 
 const rendered = computed(() => {
   const layer = new LayerRenderer(rendererMap).render(project.value);
