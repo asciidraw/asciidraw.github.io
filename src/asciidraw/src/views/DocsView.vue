@@ -3,7 +3,7 @@ import DefaultLayout from "@/layouts/DefaultLayout.vue";
 import "@/docs/style.css";
 import "@/docs/code-style.css";
 import { useRouter } from "vue-router";
-import {computed, ref, shallowRef, watch} from "vue";
+import { type Component, computed, ref, shallowRef, watch } from "vue";
 import {useI18n} from "vue-i18n";
 import {Alert, AlertDescription, AlertTitle} from "@/components/ui/alert";
 import {LucideBookType, LucideSearchX} from "lucide-vue-next";
@@ -12,7 +12,11 @@ import FileTree from "@/docs/components/FileTree.vue";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const pathPrefix = "/src/docs/"
-const markdownFiles = import.meta.glob("@/docs/**/*.md", { import: "default" });
+interface MarkdownComponent {
+  default: Component
+  // frontmatter fields can be added here
+}
+const markdownFiles = import.meta.glob<MarkdownComponent>("@/docs/**/*.md");
 
 const { locale } = useI18n();
 
@@ -20,7 +24,7 @@ const router = useRouter();
 const path = computed(() => router.currentRoute.value.params.path);
 const hash = computed(() => router.currentRoute.value.hash);
 
-const currentMarkdown = shallowRef();
+const currentMarkdown = shallowRef<MarkdownComponent | null | undefined>();
 const loadingId = ref<number>();
 
 watch([locale, path], () => {
@@ -79,11 +83,11 @@ const directory = computed(() => parseFilesToDirectory(markdownFileList.value.ma
     <div v-if="currentMarkdown === undefined" class="p-4 markdown-body space-y-4">
       <Skeleton class="h-10 w-full max-w-96" />
       <div class="space-y-2">
-        <Skeleton v-for="ignored in 3" class="h-5 last:w-3/5" />
+        <Skeleton v-for="i in 3" :key="i" class="h-5 last:w-3/5" />
       </div>
       <Skeleton class="h-8 w-full max-w-72" />
       <div class="space-y-2">
-        <Skeleton v-for="ignored in 5" class="h-5 last:w-1/5" />
+        <Skeleton v-for="i in 5" :key="i" class="h-5 last:w-1/5" />
       </div>
     </div>
     <div v-else-if="currentMarkdown === null" class="h-full p-4 grid place-content-center">
@@ -97,6 +101,6 @@ const directory = computed(() => parseFilesToDirectory(markdownFileList.value.ma
         </AlertDescription>
       </Alert>
     </div>
-    <component v-else :is="currentMarkdown" class="p-4" />
+    <component v-else :is="currentMarkdown.default" class="p-4" />
   </DefaultLayout>
 </template>
