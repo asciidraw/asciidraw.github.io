@@ -48,7 +48,7 @@ export default defineExtension({
         return {
           top: element.y,
           left: element.x,
-          bottom: element.y + 1,
+          bottom: element.y,
           right: element.x + element.width,
         }
       },

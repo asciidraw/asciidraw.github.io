@@ -5,6 +5,7 @@ import { Layer, type VectorLike } from "@/lib";
 export interface DrawContext {
   offset: VectorLike
   zoom: number
+  highlights: BoundingBox[]
 }
 
 

@@ -2,15 +2,14 @@
 import { computed, inject, markRaw, onMounted, useTemplateRef, watch } from "vue";
 import { useColorMode, useDebounceFn, useEventListener, useMouse, useWindowSize } from "@vueuse/core";
 import AppZoomButton from "@/app/ZoomButton.vue";
-import * as constants from "@/constants";
-import { isPointWithinBox, Layer, Vector, type VectorLike } from "@/lib";
+import { isPointWithinBox, type VectorLike } from "@/lib";
 import {
   INJECTION_KEY_APP,
   INJECTION_KEY_DRAW_CONTEXT,
   INJECTION_KEY_PROJECT,
   INJECTION_KEY_RENDERER_MAP
 } from "@/symbols.ts";
-import { CanvasRenderer, LayerRenderer } from "@/app/core";
+import { CanvasRenderer, type ColorPalette, LayerRenderer } from "@/app/core";
 
 
 const MouseButtons = {
@@ -35,7 +34,6 @@ const { width: windowWidth, height: windowHeight } = useWindowSize();
 const canvasRef = useTemplateRef<HTMLCanvasElement>("canvas");
 const { x: mouseX, y: mouseY } = useMouse({ target: canvasRef, touch: false, scroll: false });
 
-
 const normalZoom = computed(() => drawContext.value.zoom / 10);
 
 function zoomIn() {
@@ -45,15 +43,16 @@ function zoomOut() {
   drawContext.value.zoom = Math.max(1, drawContext.value.zoom-1);
 }
 
-function getColorPalette(context: CanvasRenderingContext2D) {
+function getColorPalette(context: CanvasRenderingContext2D): ColorPalette {
   const canvas = context.canvas;
   const style = getComputedStyle(canvas);
-  return {
+  return <ColorPalette>{
+    // background: `hsl(${style.getPropertyValue("--background")})`,
     grid: `hsl(${style.getPropertyValue("--border")})`,
     text: `hsl(${style.getPropertyValue("--foreground")})`,
-    highlight: `hsl(${style.getPropertyValue("--accent-foreground")} / 0.25)`,
-    selection: `hsl(${style.getPropertyValue("--card-foreground")} / 0.25)`,
-  } as const;
+    highlight: `hsl(${style.getPropertyValue("--accent-foreground")} / 0.2)`,
+    selection: `hsl(${style.getPropertyValue("--card-foreground")} / 0.2)`,
+  };
 }
 
 // todo: improve
@@ -71,6 +70,7 @@ function redraw() {
   const canvasRenderer = new CanvasRenderer(colorPalette, drawContext.value, renderingContext);
   canvasRenderer.initCanvas();
   canvasRenderer.drawGrid();
+  canvasRenderer.drawHighlights(drawContext.value.highlights);
   canvasRenderer.drawLayer(layer)
 }
 
@@ -136,8 +136,8 @@ useEventListener("mouseup", (event: MouseEvent) => {
 
   if (event.button === MouseButtons.right) {
     const point = canvasToCell({ x: event.clientX, y: event.clientY });
-    console.log("Checking", point)
 
+    drawContext.value.highlights.length = 0;  // clearing the array
     app.value.extraMenu = undefined;
 
     for (let i = project.value.elements.length - 1; i >= 0; i--) {
@@ -145,13 +145,12 @@ useEventListener("mouseup", (event: MouseEvent) => {
       const renderer = rendererMap[element.type];
       const box = renderer.getBoundingBox(element);
       if (isPointWithinBox(point, box)) {
-        console.log("intercept")
         if (renderer.EditComponent) {
-          console.log("Adding")
           app.value.extraMenu = {
             component: markRaw(renderer.EditComponent!),
             props: { data: element },
           }
+          drawContext.value.highlights.push(renderer.getBoundingBox(element));
         }
         break;
       }

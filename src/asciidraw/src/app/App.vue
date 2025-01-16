@@ -63,6 +63,7 @@ function loadOrCreateProject(): Project {
 const drawContext = ref<DrawContext>({
   offset: { x: 0, y: 0 },
   zoom: 10,
+  highlights: [],
 });
 const project = ref(loadOrCreateProject());
 

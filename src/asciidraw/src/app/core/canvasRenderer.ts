@@ -1,9 +1,10 @@
 import { Layer, Vector, type VectorLike } from "@/lib";
 import * as constants from "@/constants.ts";
-import type { DrawContext } from "@/types";
+import type { BoundingBox, DrawContext } from "@/types";
 
 
 export interface ColorPalette {
+  background?: string
   grid: string
   text: string
   highlight: string
@@ -28,7 +29,12 @@ export class CanvasRenderer {
 
   initCanvas(): void {
     this.renderingContext.setTransform(1, 0, 0, 1, 0, 0);
-    this.renderingContext.clearRect(0, 0, this.renderingContext.canvas.width, this.renderingContext.canvas.height);
+    if (this.colorPalette.background) {
+      this.renderingContext.fillStyle = this.colorPalette.background;
+      this.renderingContext.fillRect(0, 0, this.renderingContext.canvas.width, this.renderingContext.canvas.height);
+    } else {
+      this.renderingContext.clearRect(0, 0, this.renderingContext.canvas.width, this.renderingContext.canvas.height);
+    }
     this.renderingContext.scale(this.normalZoom, this.normalZoom);
     this.renderingContext.translate(this.renderingContext.canvas.width / 2 / this.normalZoom, this.renderingContext.canvas.height / 2 / this.normalZoom);
     this.renderingContext.font = constants.FONT;
@@ -61,11 +67,19 @@ export class CanvasRenderer {
     this.renderingContext.stroke();
   }
 
+  drawHighlights(highlights: BoundingBox[]): void {
+    for (const highlight of highlights) {
+      this.highlight({ x: highlight.left, y: highlight.top }, { x: highlight.right, y: highlight.bottom });
+    }
+  }
+
   drawLayer(layer: Layer): void {
     for (const [[x, y], char] of layer.entries()) {
       this.drawText({ x, y }, char);
     }
   }
+
+  //
 
   highlight(start: VectorLike, end: VectorLike, color?: string) {
     this.renderingContext.fillStyle = color ?? this.colorPalette.highlight;
@@ -101,6 +115,7 @@ export class CanvasRenderer {
     }
   }
 
+  //
 
   canvasToFrame(screen: VectorLike): Vector {
     return new Vector(
