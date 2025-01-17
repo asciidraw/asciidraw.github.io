@@ -59,20 +59,6 @@ export default defineExtension({
       }
     };
   },
-  on: {
-    initProject(project) {
-      project.elements.push(<GroupData>{
-        id: uuid(),
-        type: "group",
-        x: -15,
-        y: 15,
-        width: 15,
-        height: 5,
-        style: "basic",
-        label: "Hello World",
-      });
-    },
-  },
   renderer: {
     group: defineElementRenderer<GroupData>({
       EditComponent: EditOptions,

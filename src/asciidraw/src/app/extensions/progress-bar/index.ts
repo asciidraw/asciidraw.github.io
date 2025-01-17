@@ -59,30 +59,6 @@ export default defineExtension({
       }
     };
   },
-  on: {
-    initProject(project) {
-      project.elements.push(<ProgressBarData>{
-        id: uuid(),
-        type: "progressBar",
-        x: 20,
-        y: -15,
-        width: 20,
-        value: 40,
-        style: "basic",
-        showValue: true,
-      });
-      project.elements.push(<ProgressBarData>{
-        id: uuid(),
-        type: "progressBar",
-        x: 20,
-        y: -14,
-        width: 20,
-        value: 60,
-        style: "block1",
-        showValue: false,
-      });
-    }
-  },
   renderer: {
     progressBar: defineElementRenderer<ProgressBarData>({
       EditComponent: EditOptions,

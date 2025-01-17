@@ -55,19 +55,6 @@ export default defineExtension({
       }
     };
   },
-  on: {
-    initProject(project) {
-      project.elements.push(<LabelData>{
-        id: uuid(),
-        type: "label",
-        x: -8,
-        y: -2,
-        width: 20,
-        height: 1,
-        text: "Hello World\nHello AsciiDraw",
-      });
-    }
-  },
   renderer: {
     label: defineElementRenderer<LabelData>({
       EditComponent: EditOptions,

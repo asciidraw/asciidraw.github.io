@@ -49,15 +49,9 @@ for (const extension of Object.values(extensions)) {
 provide(INJECTION_KEY_APP, appContext);
 provide(INJECTION_KEY_RENDERER_MAP, rendererMap);
 
-function createProject() {
-  const newProject = createNewProject();
-  appContext.value.events.emit("initProject", newProject);
-  return newProject;
-}
-
 function loadOrCreateProject(): Project {
   const stored = localStorage.getItem("project");
-  return stored === null ? createProject() : loadProjectData(stored);
+  return stored === null ? createNewProject() : loadProjectData(stored);
 }
 
 const drawContext = ref<DrawContext>({

@@ -39,5 +39,4 @@ export interface Action {
 export type AppEvents = {
   loadProject: string
   downloadProject: undefined
-  initProject: Project
 }

@@ -56,37 +56,6 @@ export default defineExtension({
       }
     };
   },
-  on: {
-    initProject(project) {
-      project.elements.push(<BoxData>{
-        id: uuid(),
-        type: "box",
-        x: 0,
-        y: 0,
-        width: 10,
-        height: 10,
-        style: "basic",
-      });
-      project.elements.push(<BoxData>{
-        id: uuid(),
-        type: "box",
-        x: 7,
-        y: 5,
-        width: 20,
-        height: 10,
-        style: "light",
-      });
-      project.elements.push(<BoxData>{
-        id: uuid(),
-        type: "box",
-        x: 3,
-        y: -5,
-        width: 13,
-        height: 13,
-        style: "double",
-      });
-    }
-  },
   renderer: {
     box: defineElementRenderer<BoxData>({
       EditComponent: EditOptions,
