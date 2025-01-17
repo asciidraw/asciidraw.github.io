@@ -103,7 +103,14 @@ const moveStartOffset = { x: 0, y: 0 };
 const moveStartPosition = { x: 0, y: 0 };
 
 function getAppClickParams(mouseEvent: MouseEvent) {
-  return { mouseEvent, project: project.value, drawContext: drawContext.value, canvasToCell };
+  return {
+    mouseEvent: mouseEvent,
+    project: project.value,
+    appContext: app.value,
+    drawContext: drawContext.value,
+    rendererMap: rendererMap,
+    canvasToCell: canvasToCell,
+  };
 }
 
 useEventListener(canvasRef, "mousedown", (event: MouseEvent) => {

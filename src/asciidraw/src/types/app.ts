@@ -3,7 +3,7 @@ import type {Extension} from "@/types/extensions.ts";
 import type {Emitter} from "mitt";
 import type { Project } from "@/types/project.ts";
 import type { Component } from "vue";
-import type { DrawContext } from "@/types/rendering.ts";
+import type { DrawContext, ElementRenderer } from "@/types/rendering.ts";
 import type { VectorLike } from "@/lib";
 
 
@@ -23,6 +23,8 @@ type ActionClickEventHandler = (_: {
   mouseEvent: MouseEvent,
   drawContext: DrawContext,
   project: Project,
+  appContext: AppContext,
+  rendererMap: Record<string, ElementRenderer>
   canvasToCell: CanvasToCell,
 }) => void
 
