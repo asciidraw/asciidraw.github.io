@@ -7,6 +7,7 @@ export function useIsDropAvailable(): Ref<boolean> {
 
   useEventListener('dragenter', () => isAvailable.value = true);
   useEventListener('dragover', () => isAvailable.value = true);
+  useEventListener('dragend', () => isAvailable.value = false);
   useEventListener('dragleave', () => isAvailable.value = false);
   useEventListener('drop', () => isAvailable.value = false);
 
