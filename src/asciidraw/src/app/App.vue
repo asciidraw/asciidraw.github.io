@@ -2,7 +2,7 @@
 import AppMenu from "@/app/floating-menu/FloatingMenu.vue";
 import AppCanvas from "@/app/Canvas.vue";
 import ContextMenuHandler from "@/app/ContextMenuHandler.vue";
-import { type Component, onMounted, provide, ref } from "vue";
+import { type Component, provide, ref } from "vue";
 import { createNewProject } from "@/app/createNewProject.ts";
 import type { AppContext, DrawContext, ElementRenderer, Extension, Project } from "@/types";
 import {
@@ -11,7 +11,7 @@ import {
   INJECTION_KEY_PROJECT,
   INJECTION_KEY_RENDERER_MAP
 } from "@/symbols.ts";
-import {watchDebounced} from "@vueuse/core";
+import { watchDebounced } from "@vueuse/core";
 import { loadProjectData, storeProjectData } from "@/lib";
 const extensions: Record<string, Extension> = import.meta.glob("./extensions/*/index.ts", { eager: true, import: 'default' });
 import createEmitter from "mitt";
