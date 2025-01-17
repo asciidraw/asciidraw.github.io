@@ -100,8 +100,13 @@ app:
       description: "The Graph got rendered as an image to use on your website or your README."
       style: "Style"
       style-names:
-        lightMode: "Light"
-        darkMode: "Dark"
+        light: "Light"
+        dark: "Dark"
+        blackText: "Black Text (No Background)"
+        whiteText: "White Text (No Background)"
+        github: "GitHub"
+        monokai: "Monokai"
+        dracula: "Dracula"
     purge:
       title: "Purging Project Data"
       description: "You Project will be purged and any changes you made will be lost forever."

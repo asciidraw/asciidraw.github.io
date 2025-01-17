@@ -19,13 +19,14 @@ import * as constants from "@/constants";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import * as colorPalettes from "./export/color-palettes.ts";
+import { Badge } from "@/components/ui/badge";
 
 const project = inject(INJECTION_KEY_PROJECT)!;
 const renderMap = inject(INJECTION_KEY_RENDERER_MAP)!;
 
 const imageFormat = "image/png";
 
-const activePalette = useLocalStorage<keyof typeof colorPalettes>("export-image-palette", "lightMode");
+const activePalette = useLocalStorage<keyof typeof colorPalettes>("export-image-palette", "github");
 
 const renderedBlob = computedAsync<Blob>(async () => {
   const layer = new LayerRenderer(renderMap).render(project.value);
@@ -86,9 +87,12 @@ const { copy: doCopy, copied: recentlyCopied } = useClipboardItems({ source: cli
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            <template v-for="palette in Object.keys(colorPalettes)" :key="palette">
-              <SelectItem :value="palette">
-                {{ $t(`app.dialog.export-image.style-names.${palette}`) }}
+            <template v-for="[name, palette] in Object.entries(colorPalettes)" :key="name">
+              <SelectItem :value="name">
+                {{ $t(`app.dialog.export-image.style-names.${name}`) }}
+                <Badge variant="secondary" class="ml-1" :style="{ backgroundColor: palette.background, color: palette.text }">
+                  <pre>+---+</pre>
+                </Badge>
               </SelectItem>
             </template>
           </SelectContent>

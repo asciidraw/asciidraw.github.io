@@ -102,7 +102,13 @@ app:
       style: "Stil"
       style-names:
         lightMode: "Hell"
-        darkMode: "Dunkel"
+        light: "Hell"
+        dark: "Dunkel"
+        blackText: "Schwarzer Text (Ohne Hintergrund)"
+        whiteText: "Weißer Text (Ohne Hintergrund)"
+        github: "GitHub"
+        monokai: "Monokai"
+        dracula: "Dracula"
     purge:
       title: "Projektdaten bereinigen"
       description: "Ihr Projekt wird gelöscht und alle Änderungen, die Sie vorgenommen haben, gehen für immer verloren."

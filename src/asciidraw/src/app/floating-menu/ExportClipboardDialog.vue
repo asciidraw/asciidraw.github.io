@@ -65,7 +65,7 @@ const { copy: doCopy, copied: recentlyCopied } = useClipboard({ source: rendered
             <template v-for="[name, transformer] in Object.entries(commentStyleMap)" :key="name">
               <SelectItem :value="name">
                 {{ $t(`app.dialog.export-clipboard.comment-style-names.${name}`) }}
-                <Badge v-if="transformer.example" variant="secondary">
+                <Badge v-if="transformer.example" variant="secondary" class="ml-1">
                   <pre>{{ transformer.example }}</pre>
                 </Badge>
               </SelectItem>
