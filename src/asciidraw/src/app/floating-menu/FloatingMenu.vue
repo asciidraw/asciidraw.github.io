@@ -64,6 +64,12 @@ fileDialog.onChange((files) => {
     <Separator :label="$t('app.menu.project.label')" />
     <div>
       <div class="flex gap-x-2">
+        <PurgeProjectDialog>
+          <IconButton>
+            <LucideEraser />
+            <template #tooltip>{{ $t('app.menu.project.purge.tooltip') }}</template>
+          </IconButton>
+        </PurgeProjectDialog>
         <IconButton @click="fileDialog.open">
           <LucideHardDriveUpload />
           <template #tooltip>{{ $t('app.menu.project.import.project.tooltip') }}</template>
@@ -91,13 +97,6 @@ fileDialog.onChange((files) => {
             <template #tooltip>{{ $t('app.menu.project.export.image.tooltip') }}</template>
           </IconButton>
         </ExportImageDialog>
-        <Separator orientation="vertical" class="h-6" />
-        <PurgeProjectDialog>
-          <IconButton>
-            <LucideEraser />
-            <template #tooltip>{{ $t('app.menu.project.purge.tooltip') }}</template>
-          </IconButton>
-        </PurgeProjectDialog>
         <Separator orientation="vertical" class="h-6" />
         <IconButton @click="() => appContext.events.emit('undo')">
           <LucideUndo />
