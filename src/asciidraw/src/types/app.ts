@@ -4,6 +4,7 @@ import type {Emitter} from "mitt";
 import type { Project } from "@/types/project.ts";
 import type { Component } from "vue";
 import type { DrawContext } from "@/types/rendering.ts";
+import type { VectorLike } from "@/lib";
 
 
 export interface AppContext {
@@ -17,7 +18,13 @@ export interface AppContext {
   }
 }
 
-type ActionClickEventHandler = (_: { mouseEvent: MouseEvent, drawContext: DrawContext, project: Project }) => void
+type CanvasToCell = (screen: VectorLike) => VectorLike
+type ActionClickEventHandler = (_: {
+  mouseEvent: MouseEvent,
+  drawContext: DrawContext,
+  project: Project,
+  canvasToCell: CanvasToCell,
+}) => void
 
 export interface Action {
   icon?: LucideIcon

@@ -102,11 +102,15 @@ const mouseButtonsDown: Record<number, boolean> = {};
 const moveStartOffset = { x: 0, y: 0 };
 const moveStartPosition = { x: 0, y: 0 };
 
+function getAppClickParams(mouseEvent: MouseEvent) {
+  return { mouseEvent, project: project.value, drawContext: drawContext.value, canvasToCell };
+}
+
 useEventListener(canvasRef, "mousedown", (event: MouseEvent) => {
   mouseButtonsDown[event.button] = true;
   switch (event.button) {
     case MouseButtons.left:
-      app.value.actions[app.value.activeActionId]?.onClickDown?.({ mouseEvent: event, project: project.value, drawContext: drawContext.value });
+      app.value.actions[app.value.activeActionId]?.onClickDown?.(getAppClickParams(event));
       break;
     case MouseButtons.middle:
       moveStartOffset.x = drawContext.value.offset.x;
@@ -119,7 +123,7 @@ useEventListener(canvasRef, "mousedown", (event: MouseEvent) => {
 
 useEventListener("mousemove", (event: MouseEvent) => {
   if (mouseButtonsDown[MouseButtons.left])
-    app.value.actions[app.value.activeActionId]?.onClickMove?.({ mouseEvent: event, project: project.value, drawContext: drawContext.value });
+    app.value.actions[app.value.activeActionId]?.onClickMove?.(getAppClickParams(event));
 
   if (mouseButtonsDown[MouseButtons.middle]) {
     const diffX = (moveStartPosition.x - event.clientX) / normalZoom.value;
@@ -132,12 +136,10 @@ useEventListener("mousemove", (event: MouseEvent) => {
 });
 
 useEventListener("mouseup", (event: MouseEvent) => {
-  mouseButtonsDown[event.button] = false;
+  if (mouseButtonsDown[MouseButtons.left])
+    app.value.actions[app.value.activeActionId]?.onClickUp?.(getAppClickParams(event));
 
-  if (event.button === MouseButtons.left)
-    app.value.actions[app.value.activeActionId]?.onClickUp?.({ mouseEvent: event, project: project.value, drawContext: drawContext.value });
-
-  if (event.button === MouseButtons.right) {
+  if (mouseButtonsDown[MouseButtons.right]) {
     const point = canvasToCell({ x: event.clientX, y: event.clientY });
 
     drawContext.value.highlights.length = 0;  // clearing the array
@@ -159,6 +161,8 @@ useEventListener("mouseup", (event: MouseEvent) => {
       }
     }
   }
+
+  mouseButtonsDown[event.button] = false;
 });
 
 useEventListener(canvasRef, "contextmenu", (event: MouseEvent) => {

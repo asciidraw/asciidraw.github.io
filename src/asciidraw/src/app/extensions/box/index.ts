@@ -1,4 +1,4 @@
-import { defineElementRenderer, defineExtension, doInRange, Layer } from "@/lib";
+import { defineElementRenderer, defineExtension, doInRange, Layer, Vector, type VectorLike } from "@/lib";
 import * as styles from "./styles.ts";
 import EditOptions from "./EditOptions.vue";
 import { v4 as uuid } from "uuid";
@@ -18,9 +18,42 @@ export interface BoxData {
 
 export default defineExtension({
   setup(app) {
+    let startPosition: VectorLike = { x: 0, y: 0 };
+
     app.actions["box"] = {
       displayName: "actions.box.display-name",
       icon: LucideRectangleHorizontal,
+      onClickDown({ mouseEvent, canvasToCell }) {
+        startPosition = canvasToCell({ x: mouseEvent.clientX, y: mouseEvent.clientY });
+      },
+      onClickMove({ mouseEvent, canvasToCell, drawContext }) {
+        const currentPosition = canvasToCell({ x: mouseEvent.clientX, y: mouseEvent.clientY });
+        const [start, end] = Vector.minMax(startPosition, currentPosition);
+        drawContext.scratchElements.length = 0;
+        drawContext.scratchElements.push(<BoxData>{
+          id: uuid(),
+          type: "box",
+          x: start.x,
+          y: start.y,
+          width: end.x - start.x,
+          height: end.y - start.y,
+          style: "basic",
+        });
+      },
+      onClickUp({ mouseEvent, canvasToCell, drawContext, project }) {
+        drawContext.scratchElements.length = 0;
+        const endPosition = canvasToCell({ x: mouseEvent.clientX, y: mouseEvent.clientY });
+        const [start, end] = Vector.minMax(startPosition, endPosition);
+        project.elements.push(<BoxData>{
+          id: uuid(),
+          type: "box",
+          x: start.x,
+          y: start.y,
+          width: end.x - start.x,
+          height: end.y - start.y,
+          style: "basic",
+        });
+      }
     };
   },
   on: {

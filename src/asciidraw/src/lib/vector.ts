@@ -22,6 +22,20 @@ export class Vector implements VectorLike {
 
   // ---------------------------------------------------------------------------
 
+  /**
+   * sorts min x,y and max x,y of two vectors so that the first returned vector x is smaller than the second returned vector x.
+   * @param a first vector
+   * @param b second vector
+   */
+  public static minMax(a: VectorLike, b: VectorLike): [Vector, Vector] {
+    return [
+      new Vector(Math.min(a.x, b.x), Math.min(a.y, b.y)),
+      new Vector(Math.max(a.x, b.x), Math.max(a.y, b.y)),
+    ];
+  }
+
+  // ---------------------------------------------------------------------------
+
   public x: number;
   public y: number;
 
