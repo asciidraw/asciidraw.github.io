@@ -1,4 +1,4 @@
-import { defineElementRenderer, defineExtension, doInRange, Layer } from "@/lib";
+import { defineElementRenderer, defineExtension, doInRange, Layer, Vector, type VectorLike } from "@/lib";
 import { v4 as uuid } from "uuid";
 import * as styles from "./styles.ts";
 import EditOptions from "@/app/extensions/progress-bar/EditOptions.vue";
@@ -19,9 +19,44 @@ export interface ProgressBarData {
 
 export default defineExtension({
   setup(app) {
+    let startPosition: VectorLike = { x: 0, y: 0 };
+
     app.actions["progress-bar"] = {
       displayName: "actions.progress-bar.display-name",
       icon: LucideRectangleEllipsis,
+      onClickDown({ mouseEvent, canvasToCell }) {
+        startPosition = canvasToCell({ x: mouseEvent.clientX, y: mouseEvent.clientY });
+      },
+      onClickMove({ mouseEvent, canvasToCell, drawContext }) {
+        const currentPosition = canvasToCell({ x: mouseEvent.clientX, y: mouseEvent.clientY });
+        const [start, end] = Vector.minMax(startPosition, currentPosition);
+        drawContext.scratchElements.length = 0;
+        drawContext.scratchElements.push(<ProgressBarData>{
+          id: uuid(),
+          type: "progressBar",
+          x: start.x,
+          y: start.y,
+          width: end.x - start.x,
+          style: "basic",
+          value: 0.0,
+          showValue: false,
+        });
+      },
+      onClickUp({ mouseEvent, canvasToCell, drawContext, project }) {
+        drawContext.scratchElements.length = 0;
+        const endPosition = canvasToCell({ x: mouseEvent.clientX, y: mouseEvent.clientY });
+        const [start, end] = Vector.minMax(startPosition, endPosition);
+        project.elements.push(<ProgressBarData>{
+          id: uuid(),
+          type: "progressBar",
+          x: start.x,
+          y: start.y,
+          width: end.x - start.x,
+          style: "basic",
+          value: 0.0,
+          showValue: false,
+        });
+      }
     };
   },
   on: {
