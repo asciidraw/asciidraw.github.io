@@ -1,4 +1,4 @@
-import { defineElementRenderer, defineExtension, Layer } from "@/lib";
+import { defineElementRenderer, defineExtension, Layer, Vector, type VectorLike } from "@/lib";
 import EditOptions from "./EditOptions.vue";
 import { v4 as uuid } from "uuid";
 import { LucideWholeWord } from "lucide-vue-next";
@@ -17,9 +17,42 @@ export interface LabelData {
 
 export default defineExtension({
   setup(app) {
+    let startPosition: VectorLike = { x: 0, y: 0 };
+
     app.actions["label"] = {
       displayName: "actions.label.display-name",
       icon: LucideWholeWord,
+      onClickDown({ mouseEvent, canvasToCell }) {
+        startPosition = canvasToCell({ x: mouseEvent.clientX, y: mouseEvent.clientY });
+      },
+      onClickMove({ mouseEvent, canvasToCell, drawContext }) {
+        const currentPosition = canvasToCell({ x: mouseEvent.clientX, y: mouseEvent.clientY });
+        const [start, end] = Vector.minMax(startPosition, currentPosition);
+        drawContext.scratchElements.length = 0;
+        drawContext.scratchElements.push(<LabelData>{
+          id: uuid(),
+          type: "label",
+          x: start.x,
+          y: start.y,
+          width: end.x - start.x,
+          height: end.y - start.y,
+          text: "Lorem ipsum dolor sit amet.",
+        });
+      },
+      onClickUp({ mouseEvent, canvasToCell, drawContext, project }) {
+        drawContext.scratchElements.length = 0;
+        const endPosition = canvasToCell({x: mouseEvent.clientX, y: mouseEvent.clientY});
+        const [start, end] = Vector.minMax(startPosition, endPosition);
+        project.elements.push(<LabelData>{
+          id: uuid(),
+          type: "label",
+          x: start.x,
+          y: start.y,
+          width: end.x - start.x,
+          height: end.y - start.y,
+          text: "Lorem ipsum dolor sit amet.",
+        });
+      }
     };
   },
   on: {
