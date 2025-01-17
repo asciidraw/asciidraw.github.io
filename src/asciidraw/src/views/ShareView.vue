@@ -1,32 +1,44 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
-import { watch } from "vue";
+import { computed } from "vue";
 import DefaultLayout from "@/layouts/DefaultLayout.vue";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { LucideLoaderCircle } from "lucide-vue-next";
-import { loadProjectData } from "@/lib";
+import { loadProjectData, storeProjectData } from "@/lib";
+import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 const router = useRouter();
 
-watch(() => router.currentRoute.value.params, () => {
+const parsedRouteValue = computed(() => {
   const rawData = router.currentRoute.value.params.data as string;
   const decoded = atob(rawData);
-  const parsed = loadProjectData(decoded);
-  console.warn({parsed, todo: "Process this"});
-  router.push({ name: "app" });
-}, { immediate: true });
+  return loadProjectData(decoded);
+});
+
+function importProject() {
+  localStorage.setItem("project", storeProjectData(parsedRouteValue.value));
+  router.push("/app");
+}
 </script>
 
 <template>
   <DefaultLayout class="grid place-content-center p-5">
-    <Alert class="max-w-lg">
-      <LucideLoaderCircle class="size-4 animate-spin" />
-      <AlertTitle>
-        {{ $t('share.alert.title') }}
-      </AlertTitle>
-      <AlertDescription class="text-muted-foreground">
-        {{ $t('share.alert.description') }}
-      </AlertDescription>
-    </Alert>
+    <Card class="max-w-lg">
+      <CardHeader>
+        <CardTitle>
+          {{ $t('share.title') }}
+        </CardTitle>
+        <CardDescription class="text-muted-foreground">
+          {{ $t('share.description') }}
+        </CardDescription>
+      </CardHeader>
+      <CardFooter class="flex justify-between ">
+        <Button variant="secondary" @click="() => $router.push('/')">
+          {{ $t('app.dialog.common.cancel') }}
+        </Button>
+        <Button @click="importProject">
+          {{ $t('share.import') }}
+        </Button>
+      </CardFooter>
+    </Card>
   </DefaultLayout>
 </template>

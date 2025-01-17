@@ -31,9 +31,9 @@ about:
       title: "Team"
       description: "Just two guys. Nothing special."
 share:
-  alert:
-    title: "Loading Data..."
-    description: "Shared data should be loaded automatically and you will be redirected. If you see this message to long it must mean something went wrong. Whoops"
+  title: "Importing Shared Project"
+  description: "Someone shared a project with you. When you import it your own project will be overwritten and lost forever."
+  import: "Import"
 docs:
   title: "Documentation"
   loading: "Loading..."

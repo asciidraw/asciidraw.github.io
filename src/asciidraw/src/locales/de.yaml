@@ -31,9 +31,9 @@ about:
       title: "Team"
       description: "Nur zwei Typen. Nichts Besonderes."
 share:
-  alert:
-    title: "Daten werden geladen..."
-    description: "Die geteilten Daten sollten automatisch geladen werden und Sie werden weitergeleitet. Wenn Sie diese Meldung zu lange sehen, ist etwas schief gelaufen. Hoppla"
+  title: "Geteiltes Projekt importieren"
+  description: "Jemand hat ein Projekt mit Ihnen geteilt. Wenn Sie es importieren, wird Ihr eigenes Projekt überschrieben und geht für immer verloren."
+  import: "Importieren"
 docs:
   title: "Dokumentation"
   loading: "Lädt..."
