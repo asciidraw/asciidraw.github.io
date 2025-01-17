@@ -14,8 +14,12 @@ export function compare_arrays<T>(arr1: T[], arr2: T[]): boolean {
 }
 
 
-export function doInRange(start: number, end: number, cb: (n: number, i: number) => void) {
-  return Array.from(Array(end - start).keys()).forEach(i => cb(i + start, i));
+export function doInRange(start: number, end: number, cb: (n: number, i: number) => void): void {
+  const range = end - start;
+  for (let i = 0; i < range; i++) {
+    const val = i + start;
+    cb(val, i);
+  }
 }
 
 
