@@ -2,6 +2,7 @@ import { defineElementRenderer, defineExtension, doInRange, Layer } from "@/lib"
 import * as styles from "./styles.ts";
 import EditOptions from "./EditOptions.vue";
 import { v4 as uuid } from "uuid";
+import { LucideGroup } from "lucide-vue-next";
 
 
 export interface GroupData {
@@ -17,6 +18,12 @@ export interface GroupData {
 
 
 export default defineExtension({
+  setup(app) {
+    app.actions["group"] = {
+      displayName: "actions.group.display-name",
+      icon: LucideGroup,
+    };
+  },
   on: {
     initProject(project) {
       project.elements.push(<GroupData>{

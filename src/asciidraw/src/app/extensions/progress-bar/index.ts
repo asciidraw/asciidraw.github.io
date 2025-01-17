@@ -2,6 +2,7 @@ import { defineElementRenderer, defineExtension, doInRange, Layer } from "@/lib"
 import { v4 as uuid } from "uuid";
 import * as styles from "./styles.ts";
 import EditOptions from "@/app/extensions/progress-bar/EditOptions.vue";
+import { LucideRectangleEllipsis } from "lucide-vue-next";
 
 
 export interface ProgressBarData {
@@ -17,6 +18,12 @@ export interface ProgressBarData {
 
 
 export default defineExtension({
+  setup(app) {
+    app.actions["progress-bar"] = {
+      displayName: "actions.progress-bar.display-name",
+      icon: LucideRectangleEllipsis,
+    };
+  },
   on: {
     initProject(project) {
       project.elements.push(<ProgressBarData>{

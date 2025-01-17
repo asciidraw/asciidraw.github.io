@@ -6,9 +6,9 @@ export default defineExtension({
     const moveStartOffset = { x: 0, y: 0 };
     const moveStartPosition = { x: 0, y: 0 };
 
-    app.activeActionId = "move-cam";
-    app.actions['move-cam'] = {
-      displayName: "actions.move-cam.display-name",
+    app.activeActionId = "move-view";
+    app.actions['move-view'] = {
+      displayName: "actions.move-view.display-name",
       icon: LucideHand,
       onClickDown({ mouseEvent, drawContext }) {
         moveStartOffset.x = drawContext.offset.x;

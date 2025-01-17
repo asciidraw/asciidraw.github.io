@@ -1,6 +1,7 @@
 import { defineElementRenderer, defineExtension, Layer } from "@/lib";
 import EditOptions from "./EditOptions.vue";
 import { v4 as uuid } from "uuid";
+import { LucideWholeWord } from "lucide-vue-next";
 
 
 export interface LabelData {
@@ -15,6 +16,12 @@ export interface LabelData {
 
 
 export default defineExtension({
+  setup(app) {
+    app.actions["label"] = {
+      displayName: "actions.label.display-name",
+      icon: LucideWholeWord,
+    };
+  },
   on: {
     initProject(project) {
       project.elements.push(<LabelData>{

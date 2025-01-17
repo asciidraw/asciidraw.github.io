@@ -112,11 +112,15 @@ app:
       description: "You Project will be purged and any changes you made will be lost forever."
       action: "Purge"
 actions:
-  move-cam:
-    display-name: "Move"
+  move-view:
+    display-name: "Move View"
   select:
     display-name: "Select"
   box:
     display-name: "Box"
   label:
     display-name: "Label"
+  group:
+    display-name: "Group"
+  progress-bar:
+    display-name: "Progress-Bar"
