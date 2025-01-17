@@ -2,6 +2,7 @@ import { defineElementRenderer, defineExtension, doInRange, Layer } from "@/lib"
 import * as styles from "./styles.ts";
 import EditOptions from "./EditOptions.vue";
 import { v4 as uuid } from "uuid";
+import { LucideRectangleHorizontal } from "lucide-vue-next";
 
 
 export interface BoxData {
@@ -16,6 +17,12 @@ export interface BoxData {
 
 
 export default defineExtension({
+  setup(app) {
+    app.actions["box"] = {
+      displayName: "actions.box.display-name",
+      icon: LucideRectangleHorizontal,
+    };
+  },
   on: {
     initProject(project) {
       project.elements.push(<BoxData>{

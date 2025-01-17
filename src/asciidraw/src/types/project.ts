@@ -1,5 +1,5 @@
 
-interface ElementBase {
+export interface ElementBase {
   id: string
   type: string
 }

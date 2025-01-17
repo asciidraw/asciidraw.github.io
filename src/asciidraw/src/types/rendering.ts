@@ -1,11 +1,13 @@
 import type { Component } from "vue";
 import { Layer, type VectorLike } from "@/lib";
+import type { ElementBase } from "@/types/project.ts";
 
 
 export interface DrawContext {
   offset: VectorLike
   zoom: number
   highlights: BoundingBox[]
+  scratchElements: Array<ElementBase & object>
 }
 
 

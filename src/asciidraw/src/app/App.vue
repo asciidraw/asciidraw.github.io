@@ -64,6 +64,7 @@ const drawContext = ref<DrawContext>({
   offset: { x: 0, y: 0 },
   zoom: 10,
   highlights: [],
+  scratchElements: [],
 });
 const project = ref(loadOrCreateProject());
 

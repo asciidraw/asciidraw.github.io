@@ -2,7 +2,7 @@
 import { computed, inject, markRaw, onMounted, useTemplateRef, watch } from "vue";
 import { useColorMode, useDebounceFn, useEventListener, useMouse, useWindowSize } from "@vueuse/core";
 import AppZoomButton from "@/app/ZoomButton.vue";
-import { isPointWithinBox, type VectorLike } from "@/lib";
+import { isPointWithinBox, Layer, type VectorLike } from "@/lib";
 import {
   INJECTION_KEY_APP,
   INJECTION_KEY_DRAW_CONTEXT,
@@ -64,14 +64,17 @@ function canvasToCell(pos: VectorLike): VectorLike {
 
 
 function redraw() {
-  const layer = new LayerRenderer(rendererMap).render(project.value);
+  const layerRendered = new LayerRenderer(rendererMap);
+  const layer = new Layer();
+  layer.merge(layerRendered.render(project.value.elements));
+  layer.merge(layerRendered.render(drawContext.value.scratchElements));
   const renderingContext = canvasRef.value!.getContext("2d")!;
   const colorPalette = getColorPalette(renderingContext);
   const canvasRenderer = new CanvasRenderer(colorPalette, drawContext.value, renderingContext);
   canvasRenderer.initCanvas();
   canvasRenderer.drawGrid();
   canvasRenderer.drawHighlights(drawContext.value.highlights);
-  canvasRenderer.drawLayer(layer)
+  canvasRenderer.drawLayer(layer);
 }
 
 const debouncedRedraw = useDebounceFn(redraw, 5);
@@ -103,7 +106,7 @@ useEventListener(canvasRef, "mousedown", (event: MouseEvent) => {
   mouseButtonsDown[event.button] = true;
   switch (event.button) {
     case MouseButtons.left:
-      app.value.actions[app.value.activeActionId]?.onClickDown?.(event);
+      app.value.actions[app.value.activeActionId]?.onClickDown?.({ mouseEvent: event, project: project.value, drawContext: drawContext.value });
       break;
     case MouseButtons.middle:
       moveStartOffset.x = drawContext.value.offset.x;
@@ -116,7 +119,7 @@ useEventListener(canvasRef, "mousedown", (event: MouseEvent) => {
 
 useEventListener("mousemove", (event: MouseEvent) => {
   if (mouseButtonsDown[MouseButtons.left])
-    app.value.actions[app.value.activeActionId]?.onClickMove?.(event);
+    app.value.actions[app.value.activeActionId]?.onClickMove?.({ mouseEvent: event, project: project.value, drawContext: drawContext.value });
 
   if (mouseButtonsDown[MouseButtons.middle]) {
     const diffX = (moveStartPosition.x - event.clientX) / normalZoom.value;
@@ -132,7 +135,7 @@ useEventListener("mouseup", (event: MouseEvent) => {
   mouseButtonsDown[event.button] = false;
 
   if (event.button === MouseButtons.left)
-    app.value.actions[app.value.activeActionId]?.onClickUp?.(event);
+    app.value.actions[app.value.activeActionId]?.onClickUp?.({ mouseEvent: event, project: project.value, drawContext: drawContext.value });
 
   if (event.button === MouseButtons.right) {
     const point = canvasToCell({ x: event.clientX, y: event.clientY });
