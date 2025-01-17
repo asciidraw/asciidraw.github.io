@@ -88,8 +88,11 @@ export default defineExtension({
         const text = element.text;
 
         for (let i = 0; i < text.length; i++) {
+          if (row > element.height) {
+            break;
+          }
           const char = text[i];
-          if (char === '\n') {
+          if (char === '\n' || col > element.width) {
             col = 0;
             row++;
             continue;
