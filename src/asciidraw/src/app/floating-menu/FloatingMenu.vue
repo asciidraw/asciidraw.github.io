@@ -3,8 +3,8 @@ import {
   LucideCircleChevronLeft,
   LucideClipboardCopy, LucideEraser,
   LucideHardDriveDownload, LucideHardDriveUpload,
-  LucideImageDown,
-  LucideShare2,
+  LucideImageDown, LucideRedo,
+  LucideShare2, LucideUndo,
 } from "lucide-vue-next";
 import ThemeToggle from "@/components/ThemeToggle.vue";
 import {Button} from "@/components/ui/button";
@@ -98,6 +98,15 @@ fileDialog.onChange((files) => {
             <template #tooltip>{{ $t('app.menu.project.purge.tooltip') }}</template>
           </IconButton>
         </PurgeProjectDialog>
+        <Separator orientation="vertical" class="h-6" />
+        <IconButton @click="() => appContext.events.emit('undo')">
+          <LucideUndo />
+          <template #tooltip>{{ $t('app.menu.project.undo.tooltip') }}</template>
+        </IconButton>
+        <IconButton @click="() => appContext.events.emit('redo')">
+          <LucideRedo />
+          <template #tooltip>{{ $t('app.menu.project.redo.tooltip') }}</template>
+        </IconButton>
       </div>
       <div v-if="isDropAvailable" ref="upload-dropzone" class="border border-dashed h-20 grid place-content-center m-2">
         {{ $t('app.menu.project.dropzone') }}
