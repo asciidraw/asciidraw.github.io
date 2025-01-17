@@ -83,7 +83,7 @@ app:
       title: "Exportieren Sie das Diagramm als Text in Ihre Zwischenablage"
       description: "Der Graph wurde als Klartext gerendert. Sie können ihn nun in Ihre README.md in einen Code-Block kopieren."
       comment-style: "Kommentar Stil"
-      transformer-names:
+      comment-style-names:
         none: "Keinen"
         multiLine: "Mehrzeilig"
         filledMultiline: "Gefüllter Mehrzeilig"

@@ -82,7 +82,7 @@ app:
       title: "Export the Graph as Text to your clipboard"
       description: "The Graph got rendered as plain-text. You can copy it now into your README.md in a Code-Block."
       comment-style: "Comment-Style"
-      transformer-names:
+      comment-style-names:
         none: "None"
         multiLine: "Multiline"
         filledMultiline: "Filled Multiline"

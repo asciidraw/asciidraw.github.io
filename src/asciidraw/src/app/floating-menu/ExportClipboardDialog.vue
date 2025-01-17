@@ -10,11 +10,11 @@ import {
 import { Button } from "@/components/ui/button";
 import { LucideClipboardCopy, LucideClipboardCheck } from "lucide-vue-next";
 import { useClipboard, useLocalStorage } from "@vueuse/core";
-import { computed, inject, ref } from "vue";
+import { computed, inject } from "vue";
 import { INJECTION_KEY_PROJECT, INJECTION_KEY_RENDERER_MAP } from "@/symbols.ts";
 import { LayerRenderer } from "@/app/core";
 import { findMinMaxOfLayer } from "@/app/floating-menu/export/util.ts";
-import * as textTransformerMap from "./export/text-transformers.ts";
+import * as commentStyleMap from "./export/comment-styles.ts";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
@@ -22,7 +22,7 @@ import { Badge } from "@/components/ui/badge";
 const project = inject(INJECTION_KEY_PROJECT)!;
 const rendererMap = inject(INJECTION_KEY_RENDERER_MAP)!;
 
-const activeTextTransformer = useLocalStorage<keyof typeof textTransformerMap>("export-clipboard-comment-style", "none");
+const activeCommentStyle = useLocalStorage<keyof typeof commentStyleMap>("export-clipboard-comment-style", "none");
 
 const rendered = computed(() => {
   const layer = new LayerRenderer(rendererMap).render(project.value);
@@ -34,11 +34,11 @@ const rendered = computed(() => {
   return gridArray.map(row => row.join('')).join('\n');
 });
 
-const renderedAndTransformed = computed(() => {
-  return textTransformerMap[activeTextTransformer.value].transform(rendered.value);
-})
+const renderedWithCommentStyle = computed(() => {
+  return commentStyleMap[activeCommentStyle.value].transform(rendered.value);
+});
 
-const { copy: doCopy, copied: recentlyCopied } = useClipboard({ source: renderedAndTransformed });
+const { copy: doCopy, copied: recentlyCopied } = useClipboard({ source: renderedWithCommentStyle });
 </script>
 
 <template>
@@ -57,14 +57,14 @@ const { copy: doCopy, copied: recentlyCopied } = useClipboard({ source: rendered
         <Label>
           {{ $t('app.dialog.export-clipboard.comment-style') }}
         </Label>
-        <Select v-model:model-value="activeTextTransformer">
+        <Select v-model:model-value="activeCommentStyle">
           <SelectTrigger>
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            <template v-for="[name, transformer] in Object.entries(textTransformerMap)" :key="name">
+            <template v-for="[name, transformer] in Object.entries(commentStyleMap)" :key="name">
               <SelectItem :value="name">
-                {{ $t(`app.dialog.export-clipboard.transformer-names.${name}`) }}
+                {{ $t(`app.dialog.export-clipboard.comment-style-names.${name}`) }}
                 <Badge v-if="transformer.example" variant="secondary">
                   <pre>{{ transformer.example }}</pre>
                 </Badge>
@@ -73,7 +73,9 @@ const { copy: doCopy, copied: recentlyCopied } = useClipboard({ source: rendered
           </SelectContent>
         </Select>
       </div>
-      <pre class="bg-black p-2 min-h-20 max-h-[32rem] overflow-scroll select-all leading-none">{{ renderedAndTransformed }}</pre>
+      <pre class="bg-black p-2 min-h-20 max-h-[32rem] overflow-scroll select-all leading-none">{{
+          renderedWithCommentStyle
+        }}</pre>
       <DialogFooter>
         <DialogClose as-child>
           <Button type="button" variant="secondary">
