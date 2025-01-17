@@ -1,5 +1,5 @@
 import { Layer } from "@/lib";
-import type { ElementRenderer, Project } from "@/types";
+import type { ElementBase, ElementRenderer } from "@/types";
 
 export class LayerRenderer {
   private readonly rendererMap: Record<string, ElementRenderer>
@@ -8,9 +8,9 @@ export class LayerRenderer {
     this.rendererMap = rendererMap;
   }
 
-  render(project: Project): Layer {
+  render(elements: Array<ElementBase & object>): Layer {
     const finalLayer = new Layer();
-    for (const element of project.elements) {
+    for (const element of elements) {
       const renderer = this.rendererMap[element.type];
       if (renderer === undefined) {
         console.error(`missing renderer ${element.type}`);

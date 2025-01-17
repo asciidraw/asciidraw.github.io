@@ -29,7 +29,7 @@ const imageFormat = "image/png";
 const activePalette = useLocalStorage<keyof typeof colorPalettes>("export-image-palette", "github");
 
 const renderedBlob = computedAsync<Blob>(async () => {
-  const layer = new LayerRenderer(renderMap).render(project.value);
+  const layer = new LayerRenderer(renderMap).render(project.value.elements);
 
   const canvas = document.createElement("canvas");
   const renderingContext = canvas.getContext("2d")!;
@@ -42,7 +42,7 @@ const renderedBlob = computedAsync<Blob>(async () => {
       x: ((maxX-minX)/2+minX+0.5) * constants.CHARACTER_PIXEL_WIDTH,
       y: ((maxY-minY)/2+minY-0.5) * constants.CHARACTER_PIXEL_HEIGHT,
     },
-    highlights: [],
+    highlights: [], scratchElements: [],
   };
   const canvasRenderer = new CanvasRenderer(colorPalettes[activePalette.value], drawContext, renderingContext);
   canvasRenderer.initCanvas();
