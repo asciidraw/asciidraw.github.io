@@ -68,6 +68,8 @@ app:
     actions:
       label: "Actions"
       select+move: "Select & Move"
+    extra-menu:
+      label: "Element"
     help:
       label: "Help"
       text: "Maybe I put some helpful information here later on. Till then this will stay useless."

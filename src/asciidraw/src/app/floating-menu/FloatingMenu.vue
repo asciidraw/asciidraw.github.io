@@ -122,7 +122,7 @@ fileDialog.onChange((files) => {
       </template>
     </div>
     <template v-if="appContext.extraMenu">
-      <Separator label="ELEMENT" />
+      <Separator :label="$t('app.menu.extra-menu.label')" />
       <component :is="appContext.extraMenu.component" v-bind="appContext.extraMenu.props" />
     </template>
     <Separator :label="$t('app.menu.help.label')" />
