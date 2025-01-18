@@ -7,6 +7,11 @@ layout:
     docs: "Documentation"
     about: "About Us"
     github: "GitHub"
+dialog-common:
+  cancel: "Cancel"
+  close: "Close"
+  save: "Save"
+  delete: "Delete"
 components:
   locale-toggle:
     tooltip: "Controls the language of the site"
@@ -16,6 +21,15 @@ components:
       light: "Light"
       dark: "Dark"
       system: "System"
+  project-list:
+    delete:
+      dialog:
+        title: "Delete Project?"
+        description: "Are you sure you want to delete your project. This can't be undone."
+    edit-name:
+      dialog:
+        title: "Project Name"
+        description: "Here you can change the name of the project."
 home:
   dev-notice: "Note: This app is under development"
   draw: "Draw Something"
@@ -40,10 +54,15 @@ docs:
   not-found:
     title: "404 Page Not Found"
     description: "The requested URL was not found. If you entered the URL manually please check your spelling and try again."
+app-init:
+  title: "Project Selection"
+  description: "Select the project you want to edit"
 app:
   menu:
     hide:
       tooltip: "Hide this overly large menu"
+    project-list:
+      label: "Project List"
     project:
       label: "Project"
       import:
@@ -80,9 +99,6 @@ app:
       out:
         tooltip: "Zoom out"
   dialog:
-    common:
-      cancel: "Cancel"
-      close: "Close"
     share:
       title: "Share link"
       description: "Anyone who has this link will be able to view your graph at the current version. Changes after copying the link will not be reflected."

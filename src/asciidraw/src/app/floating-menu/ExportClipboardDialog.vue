@@ -73,13 +73,11 @@ const { copy: doCopy, copied: recentlyCopied } = useClipboard({ source: rendered
           </SelectContent>
         </Select>
       </div>
-      <pre class="bg-black p-2 min-h-20 max-h-[32rem] overflow-scroll select-all leading-none">{{
-          renderedWithCommentStyle
-        }}</pre>
+      <pre class="bg-black p-2 min-h-20 max-h-[32rem] overflow-scroll select-all leading-none">{{ renderedWithCommentStyle }}</pre>
       <DialogFooter>
         <DialogClose as-child>
-          <Button type="button" variant="secondary">
-            {{ $t('app.dialog.common.close') }}
+          <Button variant="secondary">
+            {{ $t('dialog-common.close') }}
           </Button>
         </DialogClose>
         <Button type="button" @click="() => doCopy()">

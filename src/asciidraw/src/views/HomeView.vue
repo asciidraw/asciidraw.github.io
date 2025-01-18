@@ -10,7 +10,7 @@ import AsciiDrawIcon from "@/components/AsciiDrawIcon.vue";
       <p class="text-muted-foreground">{{ $t('home.dev-notice') }}</p>
       <h1 class="text-4xl">AsciiDraw</h1>
       <AsciiDrawIcon class="size-52 sm:size-64 md:size-80 lg:size-96 mx-auto" />
-      <router-link to="/app" class="w-fit mx-auto">
+      <router-link :to="{ name: 'app-init' }" class="w-fit mx-auto">
         <Button>{{ $t('home.draw') }}</Button>
       </router-link>
     </div>

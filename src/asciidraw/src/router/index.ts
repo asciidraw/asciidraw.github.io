@@ -14,7 +14,12 @@ export default createRouter({
       component: () => import('../views/AboutView.vue'),
     },
     {
-      path: '/app',
+      path: '/app/',
+      name: 'app-init',
+      component: () => import('../views/AppInitView.vue'),
+    },
+    {
+      path: '/app/:projectId',
       name: 'app',
       component: () => import('../app/App.vue'),
     },

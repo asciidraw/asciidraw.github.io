@@ -59,8 +59,8 @@ const { copied: recentlyCopied, copy: copyToClipboard } = useClipboard({ source:
       </div>
       <DialogFooter class="sm:justify-start">
         <DialogClose as-child>
-          <Button type="button" variant="secondary">
-            {{ $t('app.dialog.common.close') }}
+          <Button variant="secondary">
+            {{ $t('dialog-common.close') }}
           </Button>
         </DialogClose>
       </DialogFooter>

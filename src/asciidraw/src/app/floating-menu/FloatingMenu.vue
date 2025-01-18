@@ -16,10 +16,10 @@ import {templateRef, useDropZone, useFileDialog } from "@vueuse/core";
 import {INJECTION_KEY_APP} from "@/symbols.ts";
 import {useIsDropAvailable} from "@/composables/useIsDropAvailable.ts";
 import CopyShareLinkDialog from "@/app/floating-menu/CopyShareLinkDialog.vue";
-import PurgeProjectDialog from "@/app/floating-menu/PurgeProjectDialog.vue";
 import AsciiDrawIcon from "@/components/AsciiDrawIcon.vue";
 import ExportClipboardDialog from "@/app/floating-menu/ExportClipboardDialog.vue";
 import ExportImageDialog from "@/app/floating-menu/ExportImageDialog.vue";
+import ProjectList from "@/components/app/project-list/ProjectList.vue";
 
 const appContext = inject(INJECTION_KEY_APP)!;
 
@@ -61,15 +61,13 @@ fileDialog.onChange((files) => {
         <template #tooltip>{{ $t('app.menu.hide.tooltip') }}</template>
       </IconButton>
     </div>
+    <Separator :label="$t('app.menu.project-list.label')" />
+    <div class="space-y-0.5">
+      <ProjectList allow-project-deletion />
+    </div>
     <Separator :label="$t('app.menu.project.label')" />
     <div>
       <div class="flex gap-x-2">
-        <PurgeProjectDialog>
-          <IconButton>
-            <LucideEraser />
-            <template #tooltip>{{ $t('app.menu.project.purge.tooltip') }}</template>
-          </IconButton>
-        </PurgeProjectDialog>
         <IconButton @click="fileDialog.open">
           <LucideHardDriveUpload />
           <template #tooltip>{{ $t('app.menu.project.import.project.tooltip') }}</template>

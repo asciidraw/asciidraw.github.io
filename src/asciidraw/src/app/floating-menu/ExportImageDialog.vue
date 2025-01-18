@@ -101,8 +101,8 @@ const { copy: doCopy, copied: recentlyCopied } = useClipboardItems({ source: cli
       <img :src="imageUrl" alt="preview" class="w-full bg-accent rounded-sm" />
       <DialogFooter>
         <DialogClose as-child>
-          <Button type="button" variant="secondary">
-            {{ $t('app.dialog.common.close') }}
+          <Button variant="secondary">
+            {{ $t('dialog-common.close') }}
           </Button>
         </DialogClose>
         <Button type="button" @click="() => startDownload()">

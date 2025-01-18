@@ -5,6 +5,6 @@ export interface ElementBase {
 }
 
 export interface Project {
-  id: string
+  name?: string
   elements: Array<ElementBase & object>
 }

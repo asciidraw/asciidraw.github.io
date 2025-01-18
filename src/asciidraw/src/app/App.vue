@@ -2,19 +2,20 @@
 import AppMenu from "@/app/floating-menu/FloatingMenu.vue";
 import AppCanvas from "@/app/Canvas.vue";
 import ContextMenuHandler from "@/app/ContextMenuHandler.vue";
-import { type Component, provide, ref } from "vue";
+import { type Component, computed, provide, ref } from "vue";
 import { createNewProject } from "@/app/createNewProject.ts";
-import type { AppContext, DrawContext, ElementRenderer, Extension, Project } from "@/types";
+import type { AppContext, DrawContext, ElementRenderer, Extension } from "@/types";
 import {
   INJECTION_KEY_APP,
   INJECTION_KEY_DRAW_CONTEXT,
   INJECTION_KEY_PROJECT,
   INJECTION_KEY_RENDERER_MAP
 } from "@/symbols.ts";
-import { watchDebounced } from "@vueuse/core";
+import { useLocalStorage } from "@vueuse/core";
 import { loadProjectData, storeProjectData } from "@/lib";
 const extensions: Record<string, Extension> = import.meta.glob("./extensions/*/index.ts", { eager: true, import: 'default' });
 import createEmitter from "mitt";
+import { useRoute } from "vue-router";
 
 const appContext = ref<AppContext>({
   extensions: [],
@@ -49,10 +50,18 @@ for (const extension of Object.values(extensions)) {
 provide(INJECTION_KEY_APP, appContext);
 provide(INJECTION_KEY_RENDERER_MAP, rendererMap);
 
-function loadOrCreateProject(): Project {
-  const stored = localStorage.getItem("project");
-  return stored === null ? createNewProject() : loadProjectData(stored);
-}
+const route = useRoute();
+
+const projectId = computed(() => route.params.projectId ?? null);
+const projectStorageKey = computed(() => `project-${projectId.value}`);
+
+const project = useLocalStorage(projectStorageKey, createNewProject, {
+  serializer: {
+    read: loadProjectData,
+    write: storeProjectData,
+  },
+  deep: true,
+});
 
 const drawContext = ref<DrawContext>({
   offset: { x: 0, y: 0 },
@@ -60,12 +69,6 @@ const drawContext = ref<DrawContext>({
   highlights: [],
   scratchElements: [],
 });
-const project = ref(loadOrCreateProject());
-
-watchDebounced(project, () => {
-  console.log("saving project data");
-  localStorage.setItem("project", storeProjectData(project.value));
-}, { debounce: 500, maxWait: 1000, immediate: true, deep: true });
 
 provide(INJECTION_KEY_DRAW_CONTEXT, drawContext);
 provide(INJECTION_KEY_PROJECT, project);
