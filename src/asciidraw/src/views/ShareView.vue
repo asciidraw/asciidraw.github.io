@@ -35,7 +35,7 @@ function importProject() {
       </CardHeader>
       <CardFooter class="flex justify-between ">
         <Button variant="secondary" @click="() => $router.push('/')">
-          {{ $t('app.dialog.common.cancel') }}
+          {{ $t('dialog-common.cancel') }}
         </Button>
         <Button @click="importProject">
           {{ $t('share.import') }}

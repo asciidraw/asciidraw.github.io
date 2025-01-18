@@ -36,7 +36,7 @@ function newProject() {
         </Button>
       </router-link>
       <EditProjectNameButton :project-id="projectId" />
-      <DeleteProjectButton v-if="allowProjectDeletion" :disabled="activeProjectId === projectId" :project-id="projectId" />
+      <DeleteProjectButton v-if="allowProjectDeletion" :project-id="projectId" />
     </div>
   </template>
   <Button variant="outline" size="xs" class="w-full" @click="newProject">

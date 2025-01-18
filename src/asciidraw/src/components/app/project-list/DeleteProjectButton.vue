@@ -12,7 +12,6 @@ import {
 
 const props = defineProps<{
   projectId: string;
-  disabled?: boolean
 }>();
 
 function deleteProject(): void {
@@ -23,7 +22,7 @@ function deleteProject(): void {
 <template>
   <AlertDialog>
     <AlertDialogTrigger as-child>
-      <Button variant="outline" size="icon" :disabled="disabled">
+      <Button variant="outline" size="icon">
         <LucideTrash />
       </Button>
     </AlertDialogTrigger>
