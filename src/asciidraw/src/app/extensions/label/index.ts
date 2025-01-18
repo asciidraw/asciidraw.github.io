@@ -82,7 +82,7 @@ export default defineExtension({
           if (char === '\n' || col > element.width) {
             col = 0;
             row++;
-            continue;
+            if (char === '\n') continue;
           }
           layer.set(element.x + col, element.y + row, char);
           col++;

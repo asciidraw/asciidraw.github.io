@@ -159,10 +159,10 @@ useEventListener("mouseup", (event: MouseEvent) => {
       if (isPointWithinBox(point, box)) {
         if (renderer.EditComponent) {
           app.value.extraMenu = {
-            component: markRaw(renderer.EditComponent!),
+            component: markRaw(renderer.EditComponent),
             props: { data: element },
           }
-          drawContext.value.highlights.push(renderer.getBoundingBox(element));
+          drawContext.value.highlights.push(box);
         }
         break;
       }
