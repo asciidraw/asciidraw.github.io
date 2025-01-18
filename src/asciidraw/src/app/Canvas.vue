@@ -37,7 +37,7 @@ const { x: mouseX, y: mouseY } = useMouse({ target: canvasRef, touch: false, scr
 const normalZoom = computed(() => drawContext.value.zoom / 10);
 
 function zoomIn() {
-  drawContext.value.zoom++;
+  drawContext.value.zoom = Math.min(30, drawContext.value.zoom+1);
 }
 function zoomOut() {
   drawContext.value.zoom = Math.max(1, drawContext.value.zoom-1);
