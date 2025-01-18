@@ -42,7 +42,7 @@ const renderedBlob = computedAsync<Blob>(async () => {
       x: ((maxX-minX)/2+minX+0.5) * constants.CHARACTER_PIXEL_WIDTH,
       y: ((maxY-minY)/2+minY-0.5) * constants.CHARACTER_PIXEL_HEIGHT,
     },
-    highlights: [], scratchElements: [],
+    selectedElements: new Set(), scratchElements: [],
   };
   const canvasRenderer = new CanvasRenderer(colorPalettes[activePalette.value], drawContext, renderingContext);
   canvasRenderer.initCanvas();

@@ -2,7 +2,6 @@ import type {LucideIcon} from "lucide-vue-next";
 import type {Extension} from "@/types/extensions.ts";
 import type {Emitter} from "mitt";
 import type { Project } from "@/types/project.ts";
-import type { Component } from "vue";
 import type { DrawContext, ElementRenderer } from "@/types/rendering.ts";
 import type { VectorLike } from "@/lib";
 
@@ -12,10 +11,6 @@ export interface AppContext {
   readonly actions: Record<string, Action>
   activeActionId: string
   events: Emitter<AppEvents>
-  extraMenu?: {
-    component: Component
-    props: Record<string, unknown>
-  }
 }
 
 type CanvasToCell = (screen: VectorLike) => VectorLike

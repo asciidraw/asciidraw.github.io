@@ -73,7 +73,12 @@ function redraw() {
   const canvasRenderer = new CanvasRenderer(colorPalette, drawContext.value, renderingContext);
   canvasRenderer.initCanvas();
   canvasRenderer.drawGrid();
-  canvasRenderer.drawHighlights(drawContext.value.highlights);
+  for (const selectedElementId of drawContext.value.selectedElements) {
+    const selectedElement = project.value.elements.find(e => e.id === selectedElementId);
+    if (!selectedElement) continue;
+    const highlight = rendererMap[selectedElement.type].getBoundingBox(selectedElement);
+    canvasRenderer.highlight({ x: highlight.left, y: highlight.top }, { x: highlight.right, y: highlight.bottom });
+  }
   canvasRenderer.drawLayer(layer);
 }
 
@@ -149,21 +154,17 @@ useEventListener("mouseup", (event: MouseEvent) => {
   if (mouseButtonsDown[MouseButtons.right]) {
     const point = canvasToCell({ x: event.clientX, y: event.clientY });
 
-    drawContext.value.highlights.length = 0;  // clearing the array
-    app.value.extraMenu = undefined;
+    drawContext.value.selectedElements.clear();
 
     for (let i = project.value.elements.length - 1; i >= 0; i--) {
       const element = project.value.elements[i];
       const renderer = rendererMap[element.type];
       const box = renderer.getBoundingBox(element);
       if (isPointWithinBox(point, box)) {
-        if (renderer.EditComponent) {
-          app.value.extraMenu = {
-            component: markRaw(renderer.EditComponent),
-            props: { data: element },
-          }
-          drawContext.value.highlights.push(box);
-        }
+        if (drawContext.value.selectedElements.has(element.id))
+          drawContext.value.selectedElements.delete(element.id);
+        else
+          drawContext.value.selectedElements.add(element.id);
         break;
       }
     }

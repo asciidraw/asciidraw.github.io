@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {
   LucideCircleChevronLeft,
-  LucideClipboardCopy, LucideEraser,
+  LucideClipboardCopy,
   LucideHardDriveDownload, LucideHardDriveUpload,
   LucideImageDown, LucideRedo,
   LucideShare2, LucideUndo,
@@ -13,15 +13,17 @@ import {Separator} from "@/components/ui/separator";
 import IconButton from "@/components/composed/IconButton.vue";
 import LocaleToggle from "@/components/LocaleToggle.vue";
 import {templateRef, useDropZone, useFileDialog } from "@vueuse/core";
-import {INJECTION_KEY_APP} from "@/symbols.ts";
+import { INJECTION_KEY_APP, INJECTION_KEY_DRAW_CONTEXT } from "@/symbols.ts";
 import {useIsDropAvailable} from "@/composables/useIsDropAvailable.ts";
 import CopyShareLinkDialog from "@/app/floating-menu/CopyShareLinkDialog.vue";
 import AsciiDrawIcon from "@/components/AsciiDrawIcon.vue";
 import ExportClipboardDialog from "@/app/floating-menu/ExportClipboardDialog.vue";
 import ExportImageDialog from "@/app/floating-menu/ExportImageDialog.vue";
 import ProjectList from "@/components/app/project-list/ProjectList.vue";
+import ElementComponent from "@/app/floating-menu/ElementComponent.vue";
 
 const appContext = inject(INJECTION_KEY_APP)!;
+const drawContext = inject(INJECTION_KEY_DRAW_CONTEXT)!;
 
 const menuIsHidden = ref(false);
 
@@ -119,9 +121,9 @@ fileDialog.onChange((files) => {
         </Button>
       </template>
     </div>
-    <template v-if="appContext.extraMenu">
+    <template v-if="drawContext.selectedElements.size === 1">
       <Separator :label="$t('app.menu.extra-menu.label')" />
-      <component :is="appContext.extraMenu.component" v-bind="appContext.extraMenu.props" />
+      <ElementComponent :element-id="drawContext.selectedElements.values().next().value!" />
     </template>
     <Separator :label="$t('app.menu.help.label')" />
     <p>{{ $t('app.menu.help.text') }}</p>
