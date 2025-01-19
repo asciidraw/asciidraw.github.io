@@ -7,12 +7,22 @@ import {
   AlertDialogContent,
   AlertDialogDescription, AlertDialogFooter,
   AlertDialogHeader, AlertDialogTitle,
-  AlertDialogTrigger
 } from "@/components/ui/alert-dialog";
+import { ref } from "vue";
 
 const props = defineProps<{
   projectId: string;
 }>();
+
+const open = ref(false);
+
+function onClick(event: MouseEvent) {
+  event.stopImmediatePropagation();
+  if (event.ctrlKey || event.shiftKey)
+    deleteProject();
+  else
+    open.value = true;
+}
 
 function deleteProject(): void {
   setStorageSync(`project-${props.projectId}`, null);
@@ -20,12 +30,11 @@ function deleteProject(): void {
 </script>
 
 <template>
-  <AlertDialog>
-    <AlertDialogTrigger as-child>
-      <Button variant="outline" size="icon">
-        <LucideTrash />
-      </Button>
-    </AlertDialogTrigger>
+  <AlertDialog v-model:open="open">
+    <!-- Note: custom AlertDialogTrigger handling -->
+    <Button variant="outline" size="icon" @click="onClick">
+      <LucideTrash />
+    </Button>
     <AlertDialogContent>
       <AlertDialogHeader>
         <AlertDialogTitle>

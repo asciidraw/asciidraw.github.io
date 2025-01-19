@@ -20,10 +20,11 @@ const activeProjectId = computed(() => router.currentRoute.value.params.projectI
 
 const projectIds = useProjectIds();
 
-function newProject() {
+function newProject(event: KeyboardEvent) {
   const newProjectId = uuid();
   setStorageSync(`project-${newProjectId}`, storeProjectData(createNewProject()));
-  router.push({ name: "app", params: { projectId: newProjectId } });
+  if (!(event.ctrlKey || event.shiftKey))
+    router.push({ name: "app", params: { projectId: newProjectId } });
 }
 </script>
 
