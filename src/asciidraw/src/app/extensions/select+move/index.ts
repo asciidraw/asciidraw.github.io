@@ -54,7 +54,7 @@ function newSelectionAreaHandler(): SubHandler {
       } else {
         const element = getElementAtPos({ pos: endPosition, elements: project.elements, rendererMap });
         if (element) {
-          if (drawContext.selectedElements.has(element.id))
+          if (drawContext.selectedElements.has(element.id))  // note: impossible to reach as of now. can be solved? by moving hasMoved to action and switch handler when moved
             drawContext.selectedElements.delete(element.id);
           else
             drawContext.selectedElements.add(element.id);

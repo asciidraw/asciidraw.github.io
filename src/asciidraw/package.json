@@ -22,6 +22,7 @@
     "radix-vue": "^1.9.12",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",
+    "unique-names-generator": "^4.7.1",
     "uuid": "^11.0.5",
     "vue": "^3.5.13",
     "vue-i18n": "^11.0.1",
