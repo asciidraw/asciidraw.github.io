@@ -39,3 +39,12 @@ export function isPointWithinBox(point: VectorLike, box: BoundingBox): boolean {
     && box.top <= point.y && point.y <= box.bottom
   );
 }
+
+export function areAreasOverlapping(area1: BoundingBox, area2: BoundingBox): boolean {
+  return (
+    area1.left < area2.right &&
+    area1.right > area2.left &&
+    area1.top < area2.bottom &&
+    area1.bottom > area2.top
+  );
+}

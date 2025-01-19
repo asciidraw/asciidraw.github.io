@@ -13,7 +13,7 @@ export interface DrawContext {
 
 export interface ElementRenderer<D extends object = object> {
   EditComponent?: Component;
-  getBoundingBox<EL extends D>(element: EL): BoundingBox
+  getBoundingBox(element: D): BoundingBox
   render(element: D): Layer
 }
 

@@ -13,14 +13,13 @@ export interface AppContext {
   events: Emitter<AppEvents>
 }
 
-type CanvasToCell = (screen: VectorLike) => VectorLike
-type ActionClickEventHandler = (_: {
+export type ActionClickEventHandler = (_: {
   mouseEvent: MouseEvent,
   drawContext: DrawContext,
   project: Project,
   appContext: AppContext,
   rendererMap: Record<string, ElementRenderer>
-  canvasToCell: CanvasToCell,
+  canvasToCell: (screen: VectorLike) => VectorLike,
 }) => void
 
 export interface Action {

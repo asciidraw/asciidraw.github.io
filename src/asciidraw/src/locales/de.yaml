@@ -134,8 +134,8 @@ app:
 actions:
   move-view:
     display-name: "Ansicht Bewegen"
-  select:
-    display-name: "Auswählen"
+  select+move:
+    display-name: "Auswählen & Bewegen"
   box:
     display-name: "Box"
   label:

@@ -2,6 +2,8 @@
 export interface ElementBase {
   id: string
   type: string
+  x: number
+  y: number
 }
 
 export interface Project {

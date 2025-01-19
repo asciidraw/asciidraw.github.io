@@ -67,8 +67,12 @@ export class Vector implements VectorLike {
    * checks if two vectors are the same
    * @param other vector to compare to
    */
-  public equals(other: VectorLike) {
+  public equals(other: null | VectorLike) {
     return other != null && this.x == other.x && this.y == other.y;
+  }
+
+  public static equals(first: null | VectorLike, second: null | VectorLike): boolean {
+    return first !== null && second !== null && first.x === second.x && first.y === second.y;
   }
 
   /**

@@ -138,8 +138,8 @@ app:
 actions:
   move-view:
     display-name: "Move View"
-  select:
-    display-name: "Select"
+  select+move:
+    display-name: "Select & Move"
   box:
     display-name: "Box"
   label:
