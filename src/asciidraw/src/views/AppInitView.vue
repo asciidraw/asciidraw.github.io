@@ -4,7 +4,7 @@ import DefaultLayout from "@/layouts/DefaultLayout.vue";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { v4 as uuid } from "uuid";
 import { createNewProject } from "@/app/createNewProject.ts";
-import { setStorageSync, storeProjectData } from "@/lib";
+import { setStorageSync, StorageType, storeProjectData } from "@/lib";
 import { useProjectIds } from "@/composables/useProjectIds.ts";
 import ProjectList from "@/components/app/project-list/ProjectList.vue";
 
@@ -14,7 +14,7 @@ const projectIds = useProjectIds();
 
 if (projectIds.value.length === 0) {
   const newProjectId = uuid();
-  setStorageSync(`project-${newProjectId}`, storeProjectData(createNewProject()));
+  setStorageSync(`project-${newProjectId}`, storeProjectData(StorageType.storage, createNewProject()));
   router.push({ name: "app", params: { projectId: newProjectId } });
 } else if (projectIds.value.length === 1) {
   router.push({ name: "app", params: { projectId: projectIds.value[0] } });
@@ -33,7 +33,7 @@ if (projectIds.value.length === 0) {
         </CardDescription>
       </CardHeader>
       <CardContent class="space-y-0.5">
-        <ProjectList allow-project-deletion />
+        <ProjectList />
       </CardContent>
     </Card>
   </DefaultLayout>

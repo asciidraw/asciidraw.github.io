@@ -46,7 +46,7 @@ about:
       description: "Just two guys. Nothing special."
 share:
   title: "Importing Shared Project"
-  description: "Someone shared a project with you. When you import it your own project will be overwritten and lost forever."
+  description: "Someone shared a project with you. Click on import to load it."
   import: "Import"
 docs:
   title: "Documentation"

@@ -12,10 +12,11 @@ import {
   INJECTION_KEY_RENDERER_MAP
 } from "@/symbols.ts";
 import { useLocalStorage } from "@vueuse/core";
-import { loadProjectData, storeProjectData } from "@/lib";
-const extensions: Record<string, Extension> = import.meta.glob("./extensions/*/index.ts", { eager: true, import: 'default' });
+import { loadProjectData, StorageType, storeProjectData } from "@/lib";
 import createEmitter from "mitt";
 import { useRoute } from "vue-router";
+
+const extensions: Record<string, Extension> = import.meta.glob("./extensions/*/index.ts", { eager: true, import: 'default' });
 
 const appContext = ref<AppContext>({
   extensions: [],
@@ -57,8 +58,8 @@ const projectStorageKey = computed(() => `project-${projectId.value}`);
 
 const project = useLocalStorage(projectStorageKey, createNewProject, {
   serializer: {
-    read: loadProjectData,
-    write: storeProjectData,
+    read: (p) => loadProjectData(StorageType.storage, p),
+    write: (p) => storeProjectData(StorageType.storage, p),
   },
   deep: true,
 });

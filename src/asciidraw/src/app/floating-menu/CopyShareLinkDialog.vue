@@ -5,7 +5,9 @@ import {
   DialogContent,
   DialogDescription,
   DialogFooter,
-  DialogHeader, DialogTitle, DialogTrigger
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -14,15 +16,14 @@ import { INJECTION_KEY_PROJECT } from "@/symbols.ts";
 import { useRouter } from "vue-router";
 import { LucideCopy, LucideThumbsUp } from "lucide-vue-next";
 import { useClipboard } from "@vueuse/core";
-import { storeProjectData } from "@/lib";
+import { StorageType, storeProjectData } from "@/lib";
 
 const project = inject(INJECTION_KEY_PROJECT)!;
 const router = useRouter();
 
 const changeLink = computed(() => {
-  const stored = storeProjectData(project.value);
-  const encoded = btoa(stored);
-  const resolved = router.resolve({ name: "share", params: { data: encoded } });
+  const stored = storeProjectData(StorageType.url, project.value);
+  const resolved = router.resolve({ name: "share", params: { data: stored } });
   return new URL(resolved.href, window.location.toString()).href;
 });
 

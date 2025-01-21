@@ -46,7 +46,7 @@ about:
       description: "Nur zwei Typen. Nichts Besonderes."
 share:
   title: "Geteiltes Projekt importieren"
-  description: "Jemand hat ein Projekt mit Ihnen geteilt. Wenn Sie es importieren, wird Ihr eigenes Projekt überschrieben und geht für immer verloren."
+  description: "Jemand hat ein Projekt für Sie freigegeben. Klicken Sie auf Importieren, um es zu laden."
   import: "Importieren"
 docs:
   title: "Dokumentation"

@@ -2,44 +2,49 @@
 import {
   LucideCircleChevronLeft,
   LucideClipboardCopy,
-  LucideHardDriveDownload, LucideHardDriveUpload,
-  LucideImageDown, LucideRedo,
-  LucideShare2, LucideUndo,
+  LucideHardDriveDownload,
+  LucideHardDriveUpload,
+  LucideImageDown,
+  LucideRedo,
+  LucideShare2,
+  LucideUndo,
 } from "lucide-vue-next";
 import ThemeToggle from "@/components/ThemeToggle.vue";
-import {Button} from "@/components/ui/button";
-import {inject, ref} from "vue";
-import {Separator} from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
+import { inject, ref } from "vue";
+import { Separator } from "@/components/ui/separator";
 import IconButton from "@/components/composed/IconButton.vue";
 import LocaleToggle from "@/components/LocaleToggle.vue";
-import {templateRef, useDropZone, useFileDialog } from "@vueuse/core";
-import { INJECTION_KEY_APP, INJECTION_KEY_DRAW_CONTEXT } from "@/symbols.ts";
-import {useIsDropAvailable} from "@/composables/useIsDropAvailable.ts";
+import { useFileDialog } from "@vueuse/core";
+import { INJECTION_KEY_APP, INJECTION_KEY_DRAW_CONTEXT, INJECTION_KEY_PROJECT } from "@/symbols.ts";
 import CopyShareLinkDialog from "@/app/floating-menu/CopyShareLinkDialog.vue";
 import AsciiDrawIcon from "@/components/AsciiDrawIcon.vue";
 import ExportClipboardDialog from "@/app/floating-menu/ExportClipboardDialog.vue";
 import ExportImageDialog from "@/app/floating-menu/ExportImageDialog.vue";
 import ProjectList from "@/components/app/project-list/ProjectList.vue";
 import ElementComponent from "@/app/floating-menu/ElementComponent.vue";
+import { loadProjectData, startTextDownload, StorageType, storeProjectData } from "@/lib";
+
 
 const appContext = inject(INJECTION_KEY_APP)!;
 const drawContext = inject(INJECTION_KEY_DRAW_CONTEXT)!;
+const project = inject(INJECTION_KEY_PROJECT)!;
 
 const menuIsHidden = ref(false);
 
-const isDropAvailable = useIsDropAvailable();
-const uploadDropZoneRef = templateRef("upload-dropzone");
-useDropZone(uploadDropZoneRef, {
-  onDrop: (files) => {
-    files?.forEach(file => file.text().then((content) => appContext.value.events.emit('loadProject', content)))
-  },
-});
+function downloadProject() {
+  const content = storeProjectData(StorageType.file, project.value);
+  const filename = `${project.value.name ?? (Date.now().toString())}.asciidraw.github.io`;
+  startTextDownload(content, filename);
+}
 
 const fileDialog = useFileDialog({ accept: "application/json", multiple: true });
 
 fileDialog.onChange((files) => {
   if (files?.length) {
-    [...files].forEach(file => file.text().then((content) => appContext.value.events.emit('loadProject', content)));
+    [...files].forEach(file => file.text().then((data) => {
+      project.value = loadProjectData(StorageType.file, data);
+    }));
   }
 });
 </script>
@@ -65,7 +70,7 @@ fileDialog.onChange((files) => {
     </div>
     <Separator :label="$t('app.menu.project-list.label')" />
     <div class="space-y-0.5">
-      <ProjectList allow-project-deletion />
+      <ProjectList />
     </div>
     <Separator :label="$t('app.menu.project.label')" />
     <div>
@@ -75,7 +80,7 @@ fileDialog.onChange((files) => {
           <template #tooltip>{{ $t('app.menu.project.import.project.tooltip') }}</template>
         </IconButton>
         <Separator orientation="vertical" class="h-6" />
-        <IconButton @click="appContext.events.emit('downloadProject', undefined)">
+        <IconButton @click="downloadProject">
           <LucideHardDriveDownload />
           <template #tooltip>{{ $t('app.menu.project.export.project.tooltip') }}</template>
         </IconButton>
@@ -106,9 +111,6 @@ fileDialog.onChange((files) => {
           <LucideRedo />
           <template #tooltip>{{ $t('app.menu.project.redo.tooltip') }}</template>
         </IconButton>
-      </div>
-      <div v-if="isDropAvailable" ref="upload-dropzone" class="border border-dashed h-20 grid place-content-center m-2">
-        {{ $t('app.menu.project.dropzone') }}
       </div>
     </div>
     <Separator :label="$t('app.menu.actions.label')" />

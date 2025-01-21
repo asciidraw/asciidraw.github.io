@@ -2,17 +2,14 @@
 import { Button } from "@/components/ui/button";
 import { LucidePlus } from "lucide-vue-next";
 import { v4 as uuid } from "uuid";
-import { loadProjectName, setStorageSync, storeProjectData } from "@/lib";
+import { loadProjectName, setStorageSync, StorageType, storeProjectData } from "@/lib";
 import { createNewProject } from "@/app/createNewProject.ts";
 import { useRouter } from "vue-router";
 import { useProjectIds } from "@/composables/useProjectIds.ts";
 import DeleteProjectButton from "@/components/app/project-list/DeleteProjectButton.vue";
 import EditProjectNameButton from "@/components/app/project-list/EditProjectNameButton.vue";
 import { computed } from "vue";
-
-defineProps<{
-  allowProjectDeletion?: boolean
-}>();
+import DropZone from "@/components/app/project-list/DropZone.vue";
 
 const router = useRouter();
 
@@ -22,7 +19,7 @@ const projectIds = useProjectIds();
 
 function newProject(event: KeyboardEvent) {
   const newProjectId = uuid();
-  setStorageSync(`project-${newProjectId}`, storeProjectData(createNewProject()));
+  setStorageSync(`project-${newProjectId}`, storeProjectData(StorageType.storage, createNewProject()));
   if (!(event.ctrlKey || event.shiftKey))
     router.push({ name: "app", params: { projectId: newProjectId } });
 }
@@ -37,10 +34,11 @@ function newProject(event: KeyboardEvent) {
         </Button>
       </router-link>
       <EditProjectNameButton :project-id="projectId" />
-      <DeleteProjectButton v-if="allowProjectDeletion" :project-id="projectId" />
+      <DeleteProjectButton :project-id="projectId" />
     </div>
   </template>
   <Button variant="outline" size="xs" class="w-full" @click="newProject">
     <LucidePlus />
   </Button>
+  <DropZone />
 </template>
