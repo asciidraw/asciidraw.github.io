@@ -145,6 +145,17 @@ actions:
     display-name: "Select & Move"
   box:
     display-name: "Box"
+    edit:
+      style:
+        label: "Style"
+        style-names:
+          basic: "Basic"
+          dashedHeavy: "Dashed Heavy"
+          dashedLight: "Dashed Light"
+          double: "Double"
+          heavy: "Heavy"
+          light: "Light"
+          lightRounded: "Light Rounded"
   label:
     display-name: "Label"
   group:
