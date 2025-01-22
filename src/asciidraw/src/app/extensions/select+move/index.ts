@@ -23,11 +23,14 @@ function newSelectionAreaHandler(): SubHandler {
   return {
     onClickDown({ mouseEvent, canvasToCell, drawContext }) {
       startPosition = canvasToCell({ x: mouseEvent.clientX, y: mouseEvent.clientY });
+      hasMoved = false;
+      onStartElements.clear();
       drawContext.selectedElements.forEach(v => onStartElements.add(v));
     },
     onClickMove({ mouseEvent, canvasToCell, drawContext, project, rendererMap }) {
       const currentPosition = canvasToCell({x: mouseEvent.clientX, y: mouseEvent.clientY});
       hasMoved = hasMoved || !Vector.equals(startPosition, currentPosition);
+      if (!hasMoved) return;
       const [start, end] = Vector.minMax(startPosition, currentPosition);
       const selectionArea: BoundingBox = {left: start.x, top: start.y, right: end.x, bottom: end.y};
       const elements = getElementsInArea({area: selectionArea, elements: project.elements, rendererMap});
@@ -41,7 +44,7 @@ function newSelectionAreaHandler(): SubHandler {
       const endPosition = canvasToCell({x: mouseEvent.clientX, y: mouseEvent.clientY});
 
       drawContext.selectedElements.clear();
-      if (mouseEvent.ctrlKey || mouseEvent.shiftKey)
+      if (isMod(mouseEvent))
         onStartElements.forEach(v => drawContext.selectedElements.add(v));
 
       if (hasMoved) {
@@ -71,6 +74,7 @@ function newMoveSelectionHandler(): SubHandler {
   return {
     onClickDown({ mouseEvent, canvasToCell, drawContext, project }) {
       startPosition = canvasToCell({ x: mouseEvent.clientX, y: mouseEvent.clientY });
+      startOffsets.clear();
       for (const elementId of drawContext.selectedElements) {
         const element = project.elements.find(el => el.id === elementId)!;
         startOffsets.set(element.id, {
@@ -97,29 +101,38 @@ function newMoveSelectionHandler(): SubHandler {
 
 export default defineExtension({
   setup(app) {
-    let handler: SubHandler;
+    let useMoveHandler = false;
+    let hasSelectedStartElement = false;
+    let startPosition: VectorLike = { x: 0, y: 0 };
+    let moveSelectionHandler: SubHandler = newMoveSelectionHandler();
+    let selectionAreaHandler: SubHandler = newSelectionAreaHandler();
 
     app.actions['select+move'] = {
       displayName: "actions.select+move.display-name",
       icon: LucideSquareDashedMousePointer,
       onClickDown(_) {
         const { mouseEvent, canvasToCell, drawContext, rendererMap, project } = _;
-        const startPosition = canvasToCell({ x: mouseEvent.clientX, y: mouseEvent.clientY });
-        const elementAtPosition = getElementAtPos({ pos: startPosition, elements: project.elements, rendererMap });
-        // problem
-        if (!isMod(mouseEvent))
-          drawContext.selectedElements.clear();
-        if (elementAtPosition !== null) {
-          drawContext.selectedElements.add(elementAtPosition.id);
-        }
-        handler = elementAtPosition !== null ? newMoveSelectionHandler() : newSelectionAreaHandler();
-        handler.onClickDown(_);
+        startPosition = canvasToCell({ x: mouseEvent.clientX, y: mouseEvent.clientY });
+        const element = getElementAtPos({ pos: startPosition, elements: project.elements, rendererMap });
+        hasSelectedStartElement = element !== null && drawContext.selectedElements.has(element.id);
+        useMoveHandler = false;
+        moveSelectionHandler.onClickDown(_);
+        selectionAreaHandler.onClickDown(_);
       },
       onClickMove(_) {
-        handler.onClickMove(_);
+        const { mouseEvent, canvasToCell } = _;
+        const currentPosition = canvasToCell({x: mouseEvent.clientX, y: mouseEvent.clientY});
+        useMoveHandler = useMoveHandler || (hasSelectedStartElement && !Vector.equals(startPosition, currentPosition));
+        if (useMoveHandler)
+          moveSelectionHandler.onClickMove(_);
+        else
+          selectionAreaHandler.onClickMove(_);
       },
       onClickUp(_) {
-        handler.onClickUp(_);
+        if (useMoveHandler)
+          moveSelectionHandler.onClickUp(_);
+        else
+          selectionAreaHandler.onClickUp(_);
       },
     };
   }
