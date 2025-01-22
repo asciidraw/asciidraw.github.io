@@ -106,6 +106,7 @@ export default defineExtension({
         const { mouseEvent, canvasToCell, drawContext, rendererMap, project } = _;
         const startPosition = canvasToCell({ x: mouseEvent.clientX, y: mouseEvent.clientY });
         const elementAtPosition = getElementAtPos({ pos: startPosition, elements: project.elements, rendererMap });
+        // problem
         if (!isMod(mouseEvent))
           drawContext.selectedElements.clear();
         if (elementAtPosition !== null) {

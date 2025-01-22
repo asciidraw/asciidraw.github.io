@@ -102,6 +102,9 @@ app:
     share:
       title: "Share link"
       description: "Anyone who has this link will be able to view your graph at the current version. Changes after copying the link will not be reflected."
+      warning:
+        title: "Long Url"
+        description: "The share-url contains your whole project and could get very large. Some messengers have a limit to the message length or may split it into chunks which will break it. In those cases it's recommended to download the project and share it as a file."
     export-clipboard:
       title: "Export the Graph as Text to your clipboard"
       description: "The Graph got rendered as plain-text. You can copy it now into your README.md in a Code-Block."

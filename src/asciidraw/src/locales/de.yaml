@@ -96,7 +96,9 @@ app:
     share:
       title: "Link zum Teilen"
       description: "Jeder, der diesen Link hat, kann Ihr Diagramm in der aktuellen Version sehen. Änderungen nach dem Kopieren des Links werden nicht übernommen."
-      close: "Schließen"
+      warning:
+        title: "Lange URL"
+        description: "Die Share-url enthält Ihr gesamtes Projekt und kann sehr groß werden. Einige Messenger haben ein Limit für die Länge der Nachricht oder teilen sie in Stücke auf, wodurch die Nachricht kaputt geht. In diesen Fällen empfiehlt es sich, das Projekt herunterzuladen und als Datei zu teilen."
     export-clipboard:
       title: "Exportieren Sie das Diagramm als Text in Ihre Zwischenablage"
       description: "Der Graph wurde als Klartext gerendert. Sie können ihn nun in Ihre README.md in einen Code-Block kopieren."
