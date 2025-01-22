@@ -14,9 +14,10 @@ import { Button } from "@/components/ui/button";
 import { computed, inject } from "vue";
 import { INJECTION_KEY_PROJECT } from "@/symbols.ts";
 import { useRouter } from "vue-router";
-import { LucideCopy, LucideThumbsUp } from "lucide-vue-next";
+import { LucideCopy, LucideThumbsUp, LucideTriangleAlert } from "lucide-vue-next";
 import { useClipboard } from "@vueuse/core";
 import { StorageType, storeProjectData } from "@/lib";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 const project = inject(INJECTION_KEY_PROJECT)!;
 const router = useRouter();
@@ -64,6 +65,22 @@ const { copied: recentlyCopied, copy: copyToClipboard } = useClipboard({ source:
             {{ $t('dialog-common.close') }}
           </Button>
         </DialogClose>
+        <Popover>
+          <PopoverTrigger as-child>
+            <Button variant="outline" class="px-3">
+              <LucideTriangleAlert class="size-4" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent class="space-y-1.5">
+            <h3 class="text-2xl font-semibold leading-none tracking-tight flex gap-2 items-baseline">
+              <LucideTriangleAlert class="size-5 inline" />
+              {{ $t('app.dialog.share.warning.title') }}
+            </h3>
+            <p class="text-sm text-muted-foreground text-justify">
+              {{ $t('app.dialog.share.warning.description') }}
+            </p>
+          </PopoverContent>
+        </Popover>
       </DialogFooter>
     </DialogContent>
   </Dialog>
