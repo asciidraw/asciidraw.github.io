@@ -1,6 +1,12 @@
 <script setup lang="ts">
-import { computed, inject, markRaw, onMounted, useTemplateRef, watch } from "vue";
-import { useColorMode, useDebounceFn, useEventListener, useMouse, useWindowSize } from "@vueuse/core";
+import { computed, inject, onMounted, useTemplateRef, watch } from "vue";
+import {
+  useColorMode,
+  useDebounceFn,
+  useEventListener,
+  useMouse,
+  useWindowSize,
+} from "@vueuse/core";
 import AppZoomButton from "@/app/ZoomButton.vue";
 import { isPointWithinBox, Layer, type VectorLike } from "@/lib";
 import {
@@ -119,6 +125,7 @@ function getAppClickParams(mouseEvent: MouseEvent) {
 }
 
 useEventListener(canvasRef, "mousedown", (event: MouseEvent) => {
+  canvasRef.value!.focus();
   mouseButtonsDown[event.button] = true;
   switch (event.button) {
     case MouseButtons.left:
@@ -175,12 +182,24 @@ useEventListener("mouseup", (event: MouseEvent) => {
 
 useEventListener(canvasRef, "contextmenu", (event: MouseEvent) => {
   event.preventDefault();
-})
+});
+
+useEventListener(canvasRef, "keydown", (event: KeyboardEvent) => {
+  if (event.key === "Delete") {
+    for (const selectedElementId of drawContext.value.selectedElements) {
+      const elementIndex = project.value.elements.findIndex(el => el.id === selectedElementId);
+      if (elementIndex > -1) {
+        project.value.elements.splice(elementIndex, 1);
+        drawContext.value.selectedElements.delete(selectedElementId);
+      }
+    }
+  }
+});
 </script>
 
 <template>
   <div class="w-screen h-screen">
-    <canvas ref="canvas" class="w-full h-full" :width="windowWidth" :height="windowHeight" />
+    <canvas ref="canvas" class="w-full h-full" :width="windowWidth" :height="windowHeight" tabindex="0" />
   </div>
   <div class="fixed top-0 left-1/2 -translate-x-1/2 pointer-events-none">
     Zoom: {{ drawContext.zoom }} | offset: {{ drawContext.offset.x.toFixed(2) }}x{{ drawContext.offset.y.toFixed(2) }} | Mouse: {{ canvasToCell({ x: mouseX, y: mouseY }) }}
