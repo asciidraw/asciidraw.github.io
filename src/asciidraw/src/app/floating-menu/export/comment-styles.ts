@@ -22,7 +22,7 @@ export const multiLine: TextTransformer = {
 export const filledMultiline: TextTransformer = {
   example: `/***/`,
   transform: (text: string) => {
-    return `/*\n${indentWith(text, " * ")}\n*/`;
+    return `/**\n${indentWith(text, " * ")}\n*/`;
   }
 }
 

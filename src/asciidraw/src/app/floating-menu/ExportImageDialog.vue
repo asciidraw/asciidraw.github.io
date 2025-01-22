@@ -10,7 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { LucideClipboardCopy, LucideClipboardCheck, LucideDownload } from "lucide-vue-next";
 import { computedAsync, useClipboardItems, useLocalStorage, useObjectUrl } from "@vueuse/core";
-import { computed, inject, ref } from "vue";
+import { computed, inject } from "vue";
 import { INJECTION_KEY_PROJECT, INJECTION_KEY_RENDERER_MAP } from "@/symbols.ts";
 import { CanvasRenderer, LayerRenderer } from "@/app/core";
 import type { DrawContext } from "@/types";
