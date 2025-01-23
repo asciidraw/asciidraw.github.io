@@ -14,7 +14,7 @@ defineProps<{
 <template>
   <div>
     <Label>
-      Label
+      {{ $t('actions.group.edit.label.label') }}
     </Label>
     <Input v-model:model-value.trim="data.label" />
   </div>

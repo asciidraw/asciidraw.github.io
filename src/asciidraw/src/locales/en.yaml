@@ -162,9 +162,14 @@ actions:
           lightRounded: "Light Rounded"
   label:
     display-name: "Label"
+    edit:
+      text:
+        label: "Text"
   group:
     display-name: "Group"
     edit:
+      label:
+        label: "Label"
       style:
         label: "Style"
         style-names:
@@ -178,6 +183,10 @@ actions:
   progress-bar:
     display-name: "Progress-Bar"
     edit:
+      value:
+        label: "Value"
+      show-value:
+        label: "Show Value"
       style:
         label: "Style"
         style-names:

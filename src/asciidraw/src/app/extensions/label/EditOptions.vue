@@ -11,8 +11,8 @@ defineProps<{
 <template>
   <div>
     <Label>
-      Text
+      {{ $t('actions.label.edit.text.label') }}
     </Label>
-    <Textarea v-model:model-value="data.text" class="max-h-[10rem]" />
+    <Textarea v-model:model-value="data.text" class="max-h-[10rem] font-mono" />
   </div>
 </template>

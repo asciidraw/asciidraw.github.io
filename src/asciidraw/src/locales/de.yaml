@@ -146,7 +146,7 @@ actions:
     display-name: "Box"
     edit:
       style:
-        label: "Style"
+        label: "Stil"
         style-names:
           basic: "Basic"
           dashedHeavy: "Gestrichelt Fett"
@@ -157,11 +157,16 @@ actions:
           lightRounded: "Dünn abgerundet"
   label:
     display-name: "Label"
+    edit:
+      text:
+        label: "Text"
   group:
     display-name: "Gruppe"
     edit:
+      label:
+        label: "Bezeichnung"
       style:
-        label: "Style"
+        label: "Stil"
         style-names:
           basic: "Basic"
           dashedHeavy: "Gestrichelt Fett"
@@ -173,8 +178,12 @@ actions:
   progress-bar:
     display-name: "Fortschrittsbalken"
     edit:
+      value:
+        label: "Wert"
+      show-value:
+        label: "Wert anzeigen"
       style:
-        label: "Style"
+        label: "Stil"
         style-names:
           basic: "Basic"
           block1: "Block"

@@ -14,13 +14,15 @@ defineProps<{
 
 <template>
   <div>
-    <Label>Value</Label>
+    <Label>
+      {{ $t('actions.progress-bar.edit.value.label') }}
+    </Label>
     <Input type="number" min="0" max="100" v-model:model-value.number="data.value" class="invalid:border-destructive" />
   </div>
   <div class="flex items-center space-x-2">
     <Checkbox v-model:checked="data.showValue" />
     <Label>
-      Show Value
+      {{ $t('actions.progress-bar.edit.show-value.label') }}
     </Label>
   </div>
   <div>
