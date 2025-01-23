@@ -7,16 +7,20 @@ import { type Component, computed, ref, shallowRef, watch } from "vue";
 import {useI18n} from "vue-i18n";
 import {Alert, AlertDescription, AlertTitle} from "@/components/ui/alert";
 import {LucideBookType, LucideSearchX} from "lucide-vue-next";
-import {parseFilesToDirectory} from "@/docs/util.ts";
 import FileTree from "@/docs/components/FileTree.vue";
 import { Skeleton } from "@/components/ui/skeleton";
+import { docsTreeConfig } from "@/docs/config.ts";
+import { useTitle } from "@vueuse/core";
 
 const pathPrefix = "/src/docs/"
 interface MarkdownComponent {
   default: Component
   // frontmatter fields can be added here
+  title?: string
 }
 const markdownFiles = import.meta.glob<MarkdownComponent>("@/docs/**/*.md");
+const documentTitles = import.meta.glob<string>("@/docs/**/*.md", { eager: true, import: "title" });
+console.log(documentTitles);
 
 const { locale } = useI18n();
 
@@ -63,13 +67,12 @@ watch([hash, currentMarkdown], () => {
   }
 }, { flush: "post" });
 
-const markdownFileList = computed(() => {
-  return Object.keys(markdownFiles)
-    .filter(path => path.startsWith(`${pathPrefix}${locale.value}/`))
-    .map(path => path.split("/").slice(4));
-});
+function pathToTitle(path: string): string | undefined {
+  return documentTitles[`/src/docs/${locale.value}/${path}/index.md`]
+    ?? documentTitles[`/src/docs/${locale.value}/${path}md`];
+}
 
-const directory = computed(() => parseFilesToDirectory(markdownFileList.value.map(p => p.join("/"))));
+useTitle(() => currentMarkdown.value?.title, { titleTemplate: `AsciiDraw - Docs - %s` });
 </script>
 
 <template>
@@ -79,7 +82,7 @@ const directory = computed(() => parseFilesToDirectory(markdownFileList.value.ma
         <router-link :to="{ name: 'docs' }">
           <LucideBookType class="size-10 mx-auto" />
         </router-link>
-        <FileTree :directory="directory" :parent-path="[]" />
+        <FileTree :treeConfig="docsTreeConfig" :parent-path="[]" :path-to-title="pathToTitle" />
       </div>
     </div>
     <div v-if="currentMarkdown === undefined" class="p-4 markdown-body space-y-4">
