@@ -5,6 +5,7 @@ import * as styles from "./styles.ts";
 import type { ProgressBarData } from ".";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
+import Badge from "@/components/ui/badge/Badge.vue";
 
 defineProps<{
   data: ProgressBarData,
@@ -24,16 +25,19 @@ defineProps<{
   </div>
   <div>
     <Label>
-      Style
+      {{ $t('actions.progress-bar.edit.style.label') }}
     </Label>
     <Select v-model:model-value="data.style">
       <SelectTrigger>
         <SelectValue />
       </SelectTrigger>
       <SelectContent>
-        <template v-for="styleId in Object.keys(styles)" :key="styleId">
+        <template v-for="[styleId, style] in Object.entries(styles)" :key="styleId">
           <SelectItem :value="styleId">
-            {{ styleId }}
+            {{ $t(`actions.progress-bar.edit.style.style-names.${styleId}`) }}
+            <Badge variant="secondary" class="ml-1 font-mono">
+              <pre>{{ style.leftWall }}{{ style.fullBar.repeat(3) }}{{ style.emptyBar.repeat(2) }}{{ style.rightWall }}</pre>
+            </Badge>
           </SelectItem>
         </template>
       </SelectContent>
