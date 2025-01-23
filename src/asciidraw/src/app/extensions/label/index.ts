@@ -75,14 +75,14 @@ export default defineExtension({
         const text = element.text;
 
         for (let i = 0; i < text.length; i++) {
-          if (row > element.height) {
-            break;
-          }
           const char = text[i];
           if (char === '\n' || col > element.width) {
             col = 0;
             row++;
             if (char === '\n') continue;
+          }
+          if (row > element.height) {
+            break;
           }
           layer.set(element.x + col, element.y + row, char);
           col++;
