@@ -144,9 +144,38 @@ actions:
     display-name: "Auswählen & Bewegen"
   box:
     display-name: "Box"
+    edit:
+      style:
+        label: "Style"
+        style-names:
+          basic: "Basic"
+          dashedHeavy: "Gestrichelt Fett"
+          dashedLight: "Gestrichelt"
+          double: "Doppellinie"
+          heavy: "Fett"
+          light: "Dünn"
+          lightRounded: "Dünn abgerundet"
   label:
     display-name: "Label"
   group:
     display-name: "Gruppe"
+    edit:
+      style:
+        label: "Style"
+        style-names:
+          basic: "Basic"
+          dashedHeavy: "Gestrichelt Fett"
+          dashedLight: "Gestrichelt"
+          double: "Doppellinie"
+          heavy: "Fett"
+          light: "Dünn"
+          lightRounded: "Dünn abgerundet"
   progress-bar:
     display-name: "Fortschrittsbalken"
+    edit:
+      style:
+        label: "Style"
+        style-names:
+          basic: "Basic"
+          block1: "Block"
+          block2: "Gestreift"
