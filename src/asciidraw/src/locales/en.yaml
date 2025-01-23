@@ -33,6 +33,11 @@ components:
 home:
   dev-notice: "Note: This app is under development"
   draw: "Draw Something"
+  examples:
+    header: "Examples"
+    example:
+      cpu: "Technical Drawing of the CPU Structure"
+      erm: "Entity Relationship Model visualised"
 about:
   steps:
     mission:
