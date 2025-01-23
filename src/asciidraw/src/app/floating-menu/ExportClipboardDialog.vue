@@ -24,7 +24,8 @@ const rendererMap = inject(INJECTION_KEY_RENDERER_MAP)!;
 
 const activeCommentStyle = useLocalStorage<keyof typeof commentStyleMap>("export-clipboard-comment-style", "none");
 
-const rendered = computed(() => {
+const rendered = computed<string>(() => {
+  if (project.value.elements.length === 0) return "";
   const layer = new LayerRenderer(rendererMap).render(project.value.elements);
   const [minX, minY, maxX, maxY] = findMinMaxOfLayer(layer);
   const gridArray = Array(maxY-minY+1).fill(null).map(() => Array(maxX-minX+1).fill(' '));

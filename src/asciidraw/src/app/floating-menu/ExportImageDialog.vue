@@ -29,6 +29,13 @@ const imageFormat = "image/png";
 const activePalette = useLocalStorage<keyof typeof colorPalettes>("export-image-palette", "github");
 
 const renderedBlob = computedAsync<Blob>(async () => {
+  if (project.value.elements.length === 0) {
+    return await new Promise(resolve => {
+      const canvas = document.createElement("canvas");
+      return canvas.toBlob(blob => resolve(blob!), imageFormat);
+    });
+  }
+
   const layer = new LayerRenderer(renderMap).render(project.value.elements);
 
   const canvas = document.createElement("canvas");

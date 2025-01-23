@@ -2,7 +2,10 @@
 import DefaultLayout from "@/layouts/DefaultLayout.vue";
 import {Button} from "@/components/ui/button";
 import AsciiDrawIcon from "@/components/AsciiDrawIcon.vue";
-import * as examples from "./examples";
+import * as examples from "@/assets/homepage/examples";
+import inCodeSrc from "@/assets/homepage/in-code.png?url";
+import inEditorSrc from "@/assets/homepage/in-editor.png?url";
+import {LucideArrowRight, LucideArrowRightLeft} from "lucide-vue-next";
 </script>
 
 <template>
@@ -15,20 +18,26 @@ import * as examples from "./examples";
         <Button>{{ $t('home.draw') }}</Button>
       </router-link>
     </div>
-    <div>
-      <h2 class="text-2xl font-semibold leading-none tracking-tight text-center">
-        {{ $t('home.examples.header') }}
-      </h2>
-      <div class="grid place-items-center grid-cols-2 gap-5 p-5">
-        <template v-for="([id, rendered], i) in Object.entries(examples)">
-          <div v-if="i % 2 === 0">
-            {{ $t(`home.examples.example.${id}`) }}
-          </div>
-          <pre class="bg-accent rounded-md p-2 leading-none select-all">{{ rendered }}</pre>
-          <div v-if="i % 2 === 1">
-            {{ $t(`home.examples.example.${id}`) }}
-          </div>
-        </template>
+    <div class="space-y-16">
+      <div class="grid grid-cols-3 place-items-center gap-5 p-5">
+        <img :src="inEditorSrc" alt="In Editor" />
+        <div class="grid place-items-center">
+          <LucideArrowRight class="size-10" />
+          <p class="text-xl text-center">
+            {{ $t('home.in-code.text') }}
+          </p>
+        </div>
+        <img :src="inCodeSrc" alt="In Code" />
+      </div>
+      <div class="grid place-items-center grid-cols-3 gap-5 p-5">
+        <pre class="p-2 bg-border rounded-md leading-tight tracking-wide select-all text-xl font-mono">{{ examples.erm_dashed }}</pre>
+        <div class="grid place-items-center">
+          <LucideArrowRightLeft class="size-10" />
+          <p class="text-xl text-center">
+            {{ $t('home.comment-styles.text') }}
+          </p>
+        </div>
+        <pre class="p-2 bg-border rounded-md leading-tight tracking-wide select-all text-xl font-mono">{{ examples.erm_slashed }}</pre>
       </div>
     </div>
   </DefaultLayout>

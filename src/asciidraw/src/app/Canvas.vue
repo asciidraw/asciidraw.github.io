@@ -185,7 +185,7 @@ useEventListener(canvasRef, "contextmenu", (event: MouseEvent) => {
 });
 
 useEventListener(canvasRef, "keydown", (event: KeyboardEvent) => {
-  if (event.key === "Delete") {
+  if (event.key === "Delete" || event.key === "Backspace") {
     for (const selectedElementId of drawContext.value.selectedElements) {
       const elementIndex = project.value.elements.findIndex(el => el.id === selectedElementId);
       if (elementIndex > -1) {
