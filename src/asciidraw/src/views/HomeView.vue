@@ -6,6 +6,7 @@ import * as examples from "@/assets/homepage/examples";
 import inCodeSrc from "@/assets/homepage/in-code.png?url";
 import inEditorSrc from "@/assets/homepage/in-editor.png?url";
 import {LucideArrowRight, LucideArrowRightLeft} from "lucide-vue-next";
+import { Badge } from "@/components/ui/badge";
 </script>
 
 <template>
@@ -23,21 +24,38 @@ import {LucideArrowRight, LucideArrowRightLeft} from "lucide-vue-next";
         <img :src="inEditorSrc" alt="In Editor" class="max-h-96" />
         <div class="grid place-items-center">
           <LucideArrowRight class="size-10" />
-          <p class="text-xl text-center">
+          <p class="text-sm sm:text-md md:text-lg lg:text-xl text-center">
             {{ $t('home.in-code.text') }}
           </p>
         </div>
         <img :src="inCodeSrc" alt="In Code" class="max-h-96" />
       </div>
       <div class="grid place-items-center grid-cols-3 gap-5 p-5">
-        <pre class="p-2 bg-border rounded-md leading-tight tracking-wide select-all text-xl font-mono">{{ examples.erm_dashed }}</pre>
+        <div>
+          <pre class="p-2 bg-border rounded-md leading-tight tracking-wide text-sm sm:text-md md:text-lg lg:text-xl font-mono">{{ examples.erm_dashed }}</pre>
+          <div class="flex gap-0.5 flex-wrap p-0.5">
+            <Badge variant="secondary">SQL</Badge>
+            <Badge variant="secondary">Haskell</Badge>
+            <Badge variant="secondary">Lua</Badge>
+          </div>
+        </div>
         <div class="grid place-items-center">
           <LucideArrowRightLeft class="size-10" />
-          <p class="text-xl text-center">
+          <p class="text-sm sm:text-md md:text-lg lg:text-xl text-center">
             {{ $t('home.comment-styles.text') }}
           </p>
         </div>
-        <pre class="p-2 bg-border rounded-md leading-tight tracking-wide select-all text-xl font-mono">{{ examples.erm_slashed }}</pre>
+        <div>
+          <pre class="p-2 bg-border rounded-md leading-tight tracking-wide text-sm sm:text-md md:text-lg lg:text-xl font-mono">{{ examples.erm_slashed }}</pre>
+          <div class="flex gap-0.5 flex-wrap p-0.5">
+            <Badge variant="secondary">C/C++</Badge>
+            <Badge variant="secondary">Java</Badge>
+            <Badge variant="secondary">JavaScript</Badge>
+            <Badge variant="secondary">C#</Badge>
+            <Badge variant="secondary">Rust</Badge>
+            <Badge variant="secondary">PHP</Badge>
+          </div>
+        </div>
       </div>
     </div>
   </DefaultLayout>
