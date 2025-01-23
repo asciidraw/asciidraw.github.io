@@ -33,11 +33,10 @@ components:
 home:
   dev-notice: "Hinweis: Diese App befindet sich in der Entwicklung"
   draw: "Zeichne Etwas"
-  examples:
-    header: "Beispiele"
-    example:
-      cpu: "Technische Zeichnung der CPU-Struktur"
-      erm: "Entity-Relationship-Modell visualisiert"
+  in-code:
+    text: "Wenn Sie es in Ihren Code einfügen, wird es gleich aussehen"
+  comment-styles:
+    text: "Je nach Sprache können Sie den Kommentar-Stil beim Export ändern"
 about:
   steps:
     mission:
