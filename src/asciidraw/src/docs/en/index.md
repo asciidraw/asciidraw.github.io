@@ -1,3 +1,7 @@
+---
+title: "Markdown Kitchen Sink"
+---
+
 # Markdown Kitchen Sink
 This file is https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet plus a few fixes and additions. Used by [obedm503/bootmark](https://github.com/obedm503/bootmark) to [demonstrate](https://obedm503.github.io/bootmark/docs/markdown-cheatsheet.html) it's styling features.
 

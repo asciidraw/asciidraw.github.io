@@ -1,3 +1,7 @@
+---
+title: "Markdown Küchenspüle"
+---
+
 # Markdown Küchenspüle
 Diese Datei ist https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet plus einige Korrekturen und Ergänzungen. Wird von [obedm503/bootmark](https://github.com/obedm503/bootmark) verwendet, um seine Styling-Funktionen zu [demonstrieren](https://obedm503.github.io/bootmark/docs/markdown-cheatsheet.html).
 
