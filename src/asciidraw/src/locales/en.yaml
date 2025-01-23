@@ -33,11 +33,10 @@ components:
 home:
   dev-notice: "Note: This app is under development"
   draw: "Draw Something"
-  examples:
-    header: "Examples"
-    example:
-      cpu: "Technical Drawing of the CPU Structure"
-      erm: "Entity Relationship Model visualised"
+  in-code:
+    text: "When pasted into your code it will look the same"
+  comment-styles:
+    text: "Depending on you language you can change the export comment style"
 about:
   steps:
     mission:
