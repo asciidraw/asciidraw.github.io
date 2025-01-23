@@ -145,7 +145,7 @@ actions:
     display-name: "Auswählen & Bewegen"
   box:
     display-name: "Box"
-      edit:
+    edit:
       style:
         label: "Style"
         style-names:
@@ -173,7 +173,7 @@ actions:
           lightRounded: "Dünn abgerundet"
   progress-bar:
     display-name: "Fortschrittsbalken"
-      edit:
+    edit:
       style:
         label: "Style"
         style-names:
