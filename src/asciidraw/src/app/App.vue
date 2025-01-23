@@ -11,7 +11,7 @@ import {
   INJECTION_KEY_PROJECT,
   INJECTION_KEY_RENDERER_MAP
 } from "@/symbols.ts";
-import { useLocalStorage } from "@vueuse/core";
+import { useLocalStorage, useTitle } from "@vueuse/core";
 import { loadProjectData, StorageType, storeProjectData } from "@/lib";
 import createEmitter from "mitt";
 import { useRoute } from "vue-router";
@@ -73,6 +73,8 @@ const drawContext = ref<DrawContext>({
 
 provide(INJECTION_KEY_DRAW_CONTEXT, drawContext);
 provide(INJECTION_KEY_PROJECT, project);
+
+useTitle(() => project.value.name, { titleTemplate: "AsciiDraw - %s" });
 </script>
 
 <template>

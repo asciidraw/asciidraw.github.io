@@ -20,7 +20,6 @@ interface MarkdownComponent {
 }
 const markdownFiles = import.meta.glob<MarkdownComponent>("@/docs/**/*.md");
 const documentTitles = import.meta.glob<string>("@/docs/**/*.md", { eager: true, import: "title" });
-console.log(documentTitles);
 
 const { locale } = useI18n();
 
