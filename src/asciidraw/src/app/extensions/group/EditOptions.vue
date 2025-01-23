@@ -20,7 +20,7 @@ defineProps<{
   </div>
   <div>
     <Label>
-      Style
+      {{ $t('actions.group.edit.style.label') }}
     </Label>
     <Select v-model:model-value="data.style">
       <SelectTrigger>
