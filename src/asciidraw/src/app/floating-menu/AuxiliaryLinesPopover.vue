@@ -32,7 +32,7 @@ const entries: Entry[] = [
       <template v-for="[label, value] in entries" :key="value">
         <Button
           :variant="drawContext.auxiliaryLines === value ? 'secondary' : 'outline'"
-          @click="() => drawContext.auxiliaryLines = value"
+          @click="() => { drawContext.auxiliaryLines = value }"
         >
           {{ label() }}
         </Button>

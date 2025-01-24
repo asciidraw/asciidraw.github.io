@@ -13,7 +13,7 @@ const props = defineProps<ComponentProps<typeof Button> & {
 <template>
   <Tooltip>
     <TooltipTrigger as-child>
-      <Button variant="ghost" size="icon" v-bind="$attrs" v-on="$attrs">
+      <Button variant="ghost" size="icon" v-bind="$attrs">
         <slot />
       </Button>
     </TooltipTrigger>
