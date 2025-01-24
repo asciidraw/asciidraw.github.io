@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { LucideTrash } from "lucide-vue-next";
 import { setStorageSync } from "@/lib";
-import { Button } from "@/components/ui/button";
 import {
   AlertDialog, AlertDialogAction, AlertDialogCancel,
   AlertDialogContent,
@@ -9,6 +8,7 @@ import {
   AlertDialogHeader, AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { ref } from "vue";
+import IconButton from "@/components/composed/IconButton.vue";
 
 const props = defineProps<{
   projectId: string;
@@ -32,9 +32,10 @@ function deleteProject(): void {
 <template>
   <AlertDialog v-model:open="open">
     <!-- Note: custom AlertDialogTrigger handling -->
-    <Button variant="outline" size="icon" @click="onClick">
+    <IconButton variant="outline" size="icon" @click="onClick">
       <LucideTrash />
-    </Button>
+      <template #tooltip>{{ $t('components.project-list.delete.tooltip') }}</template>
+    </IconButton>
     <AlertDialogContent>
       <AlertDialogHeader>
         <AlertDialogTitle>

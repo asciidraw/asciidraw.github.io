@@ -22,11 +22,15 @@ components:
       dark: "Dunkel"
       system: "System"
   project-list:
+    new:
+      tooltip: "Neues Projekt"
     delete:
+      tooltip: "Projekt Löschen"
       dialog:
         title: "Projekt Löschen?"
         description: "Sind Sie sicher, dass Sie Ihr Projekt löschen wollen? Dies kann nicht rückgängig gemacht werden."
     edit-name:
+      tooltip: "Projekt Name ändern"
       dialog:
         title: "Projekt Name"
         description: "Hier können Sie den Namen des Projekts ändern."

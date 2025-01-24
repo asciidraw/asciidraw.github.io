@@ -11,6 +11,7 @@ import { ref } from "vue";
 import { Input } from "@/components/ui/input";
 import { loadProjectName, setProjectName } from "@/lib";
 import { whenever } from "@vueuse/core";
+import IconButton from "@/components/composed/IconButton.vue";
 
 const props = defineProps<{
   projectId: string;
@@ -33,9 +34,10 @@ const inputValue = ref<string>("");
 <template>
   <Dialog v-model:open="isOpen">
     <DialogTrigger as-child>
-      <Button variant="outline" size="icon">
+      <IconButton variant="outline" size="icon">
         <LucidePencil />
-      </Button>
+        <template #tooltip>{{ $t('components.project-list.edit-name.tooltip') }}</template>
+      </IconButton>
     </DialogTrigger>
     <DialogContent>
       <DialogHeader>
@@ -48,8 +50,8 @@ const inputValue = ref<string>("");
       </DialogHeader>
       <Input v-model.trim="inputValue" @keydown.exact.enter="submit" />
       <DialogFooter>
-        <DialogClose>
-          <Button variant="secondary">
+        <DialogClose as-child>
+          <Button variant="outline">
             {{ $t('dialog-common.cancel') }}
           </Button>
         </DialogClose>

@@ -10,6 +10,7 @@ import DeleteProjectButton from "@/components/app/project-list/DeleteProjectButt
 import EditProjectNameButton from "@/components/app/project-list/EditProjectNameButton.vue";
 import { computed } from "vue";
 import DropZone from "@/components/app/project-list/DropZone.vue";
+import IconButton from "@/components/composed/IconButton.vue";
 
 const router = useRouter();
 
@@ -37,8 +38,9 @@ function newProject(event: KeyboardEvent) {
       <DeleteProjectButton :project-id="projectId" />
     </div>
   </template>
-  <Button variant="outline" size="xs" class="w-full" @click="newProject">
+  <IconButton variant="outline" size="xs" class="w-full" @click="newProject">
     <LucidePlus />
-  </Button>
+    <template #tooltip>{{ $t('components.project-list.new.tooltip') }}</template>
+  </IconButton>
   <DropZone />
 </template>

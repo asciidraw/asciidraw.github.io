@@ -22,11 +22,15 @@ components:
       dark: "Dark"
       system: "System"
   project-list:
+    new:
+      tooltip: "New Project"
     delete:
+      tooltip: "Delete Project"
       dialog:
         title: "Delete Project?"
         description: "Are you sure you want to delete your project. This can't be undone."
     edit-name:
+      tooltip: "Edit Project Name"
       dialog:
         title: "Project Name"
         description: "Here you can change the name of the project."
