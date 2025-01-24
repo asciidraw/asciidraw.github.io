@@ -1,23 +1,24 @@
 <script setup lang="ts">
-import {Button} from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {Tooltip, TooltipContent, TooltipTrigger} from "@/components/ui/tooltip";
 import type {TooltipContentProps} from "radix-vue";
 
-const props = defineProps<{
+type ComponentProps<T> = /* @vue-ignore */ T extends new () => { $props: infer P } ? Partial<P> : never;
+
+const props = defineProps<ComponentProps<typeof Button> & {
   contentProps?: TooltipContentProps
 }>();
 </script>
 
 <template>
-  <Button variant="ghost" size="icon" v-bind="$props">
-    <slot v-if="!$slots.tooltip" />
-    <Tooltip v-else>
-      <TooltipTrigger as-child>
+  <Tooltip>
+    <TooltipTrigger as-child>
+      <Button variant="ghost" size="icon" v-bind="$attrs" v-on="$attrs">
         <slot />
-      </TooltipTrigger>
-      <TooltipContent v-bind="props.contentProps">
-        <slot name="tooltip" />
-      </TooltipContent>
-    </Tooltip>
-  </Button>
+      </Button>
+    </TooltipTrigger>
+    <TooltipContent v-bind="props.contentProps">
+      <slot name="tooltip" />
+    </TooltipContent>
+  </Tooltip>
 </template>
