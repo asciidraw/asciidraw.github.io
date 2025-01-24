@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {
   LucideCircleChevronLeft,
-  LucideClipboardCopy,
+  LucideClipboardCopy, LucideEqual, LucideEqualNot,
   LucideHardDriveDownload,
   LucideHardDriveUpload,
   LucideImageDown,
@@ -24,12 +24,13 @@ import ExportImageDialog from "@/app/floating-menu/ExportImageDialog.vue";
 import ProjectList from "@/components/app/project-list/ProjectList.vue";
 import ElementComponent from "@/app/floating-menu/ElementComponent.vue";
 import { loadProjectData, startTextDownload, StorageType, storeProjectData } from "@/lib";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import AuxiliaryLinesPopover from "@/app/floating-menu/AuxiliaryLinesPopover.vue";
 
 
 const appContext = inject(INJECTION_KEY_APP)!;
 const drawContext = inject(INJECTION_KEY_DRAW_CONTEXT)!;
 const project = inject(INJECTION_KEY_PROJECT)!;
-
 const menuIsHidden = ref(false);
 
 function downloadProject() {
@@ -74,7 +75,7 @@ fileDialog.onChange((files) => {
     </div>
     <Separator :label="$t('app.menu.project.label')" />
     <div>
-      <div class="flex gap-x-2">
+      <div class="flex justify-between">
         <IconButton @click="fileDialog.open">
           <LucideHardDriveUpload />
           <template #tooltip>{{ $t('app.menu.project.import.project.tooltip') }}</template>
@@ -111,6 +112,8 @@ fileDialog.onChange((files) => {
           <LucideRedo />
           <template #tooltip>{{ $t('app.menu.project.redo.tooltip') }}</template>
         </IconButton>
+        <Separator orientation="vertical" class="h-6" />
+        <AuxiliaryLinesPopover />
       </div>
     </div>
     <Separator :label="$t('app.menu.actions.label')" />

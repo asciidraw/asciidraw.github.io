@@ -85,13 +85,14 @@ app:
           tooltip: "Export this graph as text into your clipboard"
         image:
           tooltip: "Export this graph as an image"
-      dropzone: "Drop a Project here"
-      purge:
-        tooltip: "Purge all elements and start with a clean project"
       undo:
         tooltip: "Reverse your last action and return to the previous state"
       redo:
         tooltip: "Restore the action you just undid, moving forward again"
+      auxiliary-lines:
+        tooltip: "Auxiliary lines"
+        off: "Off"
+      dropzone: "Drop a Project here"
     actions:
       label: "Actions"
       select+move: "Select & Move"

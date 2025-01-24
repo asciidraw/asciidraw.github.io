@@ -6,6 +6,7 @@ import type { ElementBase } from "@/types/project.ts";
 export interface DrawContext {
   offset: VectorLike
   zoom: number
+  auxiliaryLines?: number
   readonly selectedElements: Set<string>
   readonly scratchElements: Array<ElementBase & object>
 }

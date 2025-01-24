@@ -85,6 +85,13 @@ app:
           tooltip: "Exportieren Sie dieses Diagramm als Text in Ihre Zwischenablage"
         image:
           tooltip: "Dieses Diagramm als Bild exportieren"
+      undo:
+        tooltip: "Ihre letzte Aktion rückgängig machen und zum vorherigen Zustand zurückkehren"
+      redo:
+        tooltip: "Stellen Sie die gerade rückgängig gemachte Aktion wieder her und gehen Sie wieder vorwärts."
+      auxiliary-lines:
+        tooltip: "Hilfslinien"
+        off: "Aus"
       dropzone: "Ein Projekt hier ablegen"
     actions:
       label: "Aktionen"

@@ -79,6 +79,8 @@ function redraw() {
   const canvasRenderer = new CanvasRenderer(colorPalette, drawContext.value, renderingContext);
   canvasRenderer.initCanvas();
   canvasRenderer.drawGrid();
+  if (drawContext.value.auxiliaryLines)
+    canvasRenderer.drawAuxiliaryLines(drawContext.value.auxiliaryLines);
   for (const selectedElementId of drawContext.value.selectedElements) {
     const selectedElement = project.value.elements.find(e => e.id === selectedElementId);
     if (!selectedElement) continue;

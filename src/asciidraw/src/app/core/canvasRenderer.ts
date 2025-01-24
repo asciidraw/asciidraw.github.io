@@ -67,6 +67,22 @@ export class CanvasRenderer {
     this.renderingContext.stroke();
   }
 
+  drawAuxiliaryLines(width: number): void {
+    const posX1 = (-width/2 * constants.CHARACTER_PIXEL_WIDTH) - this.drawContext.offset.x;
+    const posX2 = (+width/2 * constants.CHARACTER_PIXEL_WIDTH) - this.drawContext.offset.x;
+    const startY = -this.renderingContext.canvas.height / 2 / this.normalZoom;
+    const endY = this.renderingContext.canvas.height / 2 / this.normalZoom;
+
+    this.renderingContext.lineWidth = 1;
+    this.renderingContext.strokeStyle = this.colorPalette.highlight;
+    this.renderingContext.beginPath();
+    this.renderingContext.moveTo(posX1, startY);
+    this.renderingContext.lineTo(posX1, endY);
+    this.renderingContext.moveTo(posX2, startY);
+    this.renderingContext.lineTo(posX2, endY);
+    this.renderingContext.stroke();
+  }
+
   drawHighlights(highlights: BoundingBox[]): void {
     for (const highlight of highlights) {
       this.highlight({ x: highlight.left, y: highlight.top }, { x: highlight.right, y: highlight.bottom });
