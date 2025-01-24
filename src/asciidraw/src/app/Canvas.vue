@@ -187,6 +187,7 @@ useEventListener(canvasRef, "contextmenu", (event: MouseEvent) => {
 });
 
 useEventListener(canvasRef, "keydown", (event: KeyboardEvent) => {
+  event.preventDefault();
   if (event.key === "Delete" || event.key === "Backspace") {
     for (const selectedElementId of drawContext.value.selectedElements) {
       const elementIndex = project.value.elements.findIndex(el => el.id === selectedElementId);
@@ -194,6 +195,18 @@ useEventListener(canvasRef, "keydown", (event: KeyboardEvent) => {
         project.value.elements.splice(elementIndex, 1);
         drawContext.value.selectedElements.delete(selectedElementId);
       }
+    }
+  }
+  if (event.ctrlKey && event.key === "a") {
+    for (const element of project.value.elements)
+      drawContext.value.selectedElements.add(element.id);
+  }
+  if (event.ctrlKey && event.key === "i") {
+    for (const element of project.value.elements) {
+      if (drawContext.value.selectedElements.has(element.id))
+        drawContext.value.selectedElements.delete(element.id);
+      else
+        drawContext.value.selectedElements.add(element.id);
     }
   }
 });
