@@ -1,7 +1,10 @@
 import { type ClassValue, clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
-import type { BoundingBox, ElementRenderer, Extension } from "@/types";
-import type { VectorLike } from "@/lib/vector.ts";
+import type { BoundingBox, ElementBase, ElementRenderer, Extension } from "@/types";
+import type { VectorLike } from "@/lib/";
+import { toRaw } from "vue";
+import { v4 as uuid } from "uuid";
+
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -47,4 +50,16 @@ export function areAreasOverlapping(area1: BoundingBox, area2: BoundingBox): boo
     area1.top < area2.bottom &&
     area1.bottom > area2.top
   );
+}
+
+
+/**
+ * clones an element and changing the id to prevent conflicts
+ * @param element element to clone
+ * @returns cloned `element`
+ */
+export function cloneElement<T extends ElementBase>(element: T): T {
+  const cloned = structuredClone(toRaw(element));
+  cloned.id = uuid();
+  return cloned;
 }

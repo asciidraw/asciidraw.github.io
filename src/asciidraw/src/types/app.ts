@@ -7,9 +7,13 @@ import type { VectorLike } from "@/lib";
 
 
 export interface AppContext {
+  /** list of extensions that got loaded */
   readonly extensions: Extension[]
+  /** record of actions that the user can do */
   readonly actions: Record<string, Action>
+  /** currently active action */
   activeActionId: string
+  /** event-system */
   events: Emitter<AppEvents>
 }
 
@@ -22,8 +26,11 @@ export type ActionClickEventHandler = (_: {
   canvasToCell: (screen: VectorLike) => VectorLike,
 }) => void
 
+
 export interface Action {
-  icon?: LucideIcon
+  /** icon of the action */
+  icon: LucideIcon
+  /** translation-key to get the display-name of the action */
   displayName: string
   onClickDown?: ActionClickEventHandler
   onClickMove?: ActionClickEventHandler

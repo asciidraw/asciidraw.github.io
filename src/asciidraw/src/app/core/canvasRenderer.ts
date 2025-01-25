@@ -23,10 +23,14 @@ export class CanvasRenderer {
     this.renderingContext = renderingContext;
   }
 
+  /** zoom normalized */
   get normalZoom(): number {
     return this.drawContext.zoom / 10;
   }
 
+  /**
+   * initialises the canvas with transformation, scale, translation, ...
+   */
   initCanvas(): void {
     this.renderingContext.setTransform(1, 0, 0, 1, 0, 0);
     if (this.colorPalette.background) {
@@ -40,6 +44,9 @@ export class CanvasRenderer {
     this.renderingContext.font = constants.FONT;
   }
 
+  /**
+   * draws the grid on the canvas
+   */
   drawGrid(): void {
     this.renderingContext.lineWidth = 1;
     this.renderingContext.strokeStyle = this.colorPalette.grid;
@@ -67,6 +74,10 @@ export class CanvasRenderer {
     this.renderingContext.stroke();
   }
 
+  /**
+   * draws auxiliary lines on the canvas
+   * @param width number of characters in between the two auxiliary lines
+   */
   drawAuxiliaryLines(width: number): void {
     const posX1 = (-width/2 * constants.CHARACTER_PIXEL_WIDTH) - this.drawContext.offset.x;
     const posX2 = (+width/2 * constants.CHARACTER_PIXEL_WIDTH) - this.drawContext.offset.x;
@@ -89,13 +100,17 @@ export class CanvasRenderer {
     }
   }
 
+  /**
+   * draws a layer on the canvas
+   * @param layer layer to draw
+   */
   drawLayer(layer: Layer): void {
     for (const [[x, y], char] of layer.entries()) {
       this.drawText({ x, y }, char);
     }
   }
 
-  //
+  // internal drawing-functions
 
   highlight(start: VectorLike, end: VectorLike, color?: string) {
     this.renderingContext.fillStyle = color ?? this.colorPalette.highlight;
@@ -131,7 +146,7 @@ export class CanvasRenderer {
     }
   }
 
-  //
+  // converter function who translate between cell, frame and canvas coordinates
 
   canvasToFrame(screen: VectorLike): Vector {
     return new Vector(

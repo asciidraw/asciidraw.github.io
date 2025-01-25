@@ -1,3 +1,8 @@
+/**
+ * starts the download of `content`
+ * @param content content of the file to download
+ * @param filename name of the file
+ */
 export function startTextDownload(content: string, filename: string): void {
   const blob = new Blob([content], { type: "text/plain" });
 

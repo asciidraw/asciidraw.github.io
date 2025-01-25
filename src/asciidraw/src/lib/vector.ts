@@ -1,26 +1,17 @@
 /**
- * vector-like with x and y. Used as parameter in {@link Vector}
+ * vector-like with x and y.
+ * @see Vector
  */
 export interface VectorLike {
-  x: number;
-  y: number;
+  x: number
+  y: number
 }
 
 /**
  * Class to store a 2D vector and simplify mathematical methods
+ * @see VectorLike
  */
 export class Vector implements VectorLike {
-  // ---------------------------------------------------------------------------
-
-  public static serialize(value: Vector) {
-    return value.toString();
-  }
-
-  public static deserialize(value: string) {
-    return Vector.fromString(value);
-  }
-
-  // ---------------------------------------------------------------------------
 
   /**
    * sorts min x,y and max x,y of two vectors so that the first returned vector x is smaller than the second returned vector x.
@@ -36,29 +27,12 @@ export class Vector implements VectorLike {
 
   // ---------------------------------------------------------------------------
 
-  public x: number;
-  public y: number;
-
-  public static copy(vector: VectorLike): Vector {
-    return new Vector(vector.x, vector.y);
-  }
+  readonly x: number
+  readonly y: number
 
   public constructor(x: number, y: number) {
     this.x = x;
     this.y = y;
-  }
-
-  toJSON(): VectorLike {
-    return { x: this.x, y: this.y };
-  }
-
-  toString() {
-    return `${this.x}:${this.y}`;
-  }
-
-  static fromString(value: string) {
-    const split = value.split(":");
-    return new Vector(Number(split[0]), Number(split[1]));
   }
 
   // ---------------------------------------------------------------------------
@@ -71,6 +45,11 @@ export class Vector implements VectorLike {
     return other != null && this.x == other.x && this.y == other.y;
   }
 
+  /**
+   * checks if two vectors are the same
+   * @param first vector to compare
+   * @param second vector to compare
+   */
   public static equals(first: null | VectorLike, second: null | VectorLike): boolean {
     return first !== null && second !== null && first.x === second.x && first.y === second.y;
   }

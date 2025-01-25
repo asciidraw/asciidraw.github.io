@@ -10,11 +10,15 @@ import type { ElementRenderer } from "./rendering.ts";
 
 
 export interface Extension {
+  /** setup function to initialize the {@link AppContext} */
   setup?(app: AppContext): void
+  /** event handlers that are registered automatically */
   on?: {
     [K in keyof AppEvents]?: Handler<AppEvents[K]>
   }
+  /** list of components to mount to extend the ui */
   components?: Component[]
+  /** element renderer to register */
   renderer?: {
     [T in string]: ElementRenderer
   },

@@ -24,7 +24,6 @@ import ExportImageDialog from "@/app/floating-menu/ExportImageDialog.vue";
 import ProjectList from "@/components/app/project-list/ProjectList.vue";
 import ElementComponent from "@/app/floating-menu/ElementComponent.vue";
 import { loadProjectData, startTextDownload, StorageType, storeProjectData } from "@/lib";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import AuxiliaryLinesPopover from "@/app/floating-menu/AuxiliaryLinesPopover.vue";
 
 

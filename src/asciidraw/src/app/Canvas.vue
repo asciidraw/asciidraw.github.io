@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, inject, onMounted, toRaw, useTemplateRef, watch } from "vue";
+import { computed, inject, onMounted, useTemplateRef, watch } from "vue";
 import {
   useColorMode,
   useDebounceFn,
@@ -8,7 +8,7 @@ import {
   useWindowSize,
 } from "@vueuse/core";
 import AppZoomButton from "@/app/ZoomButton.vue";
-import { isPointWithinBox, Layer, type VectorLike } from "@/lib";
+import { cloneElement, isPointWithinBox, Layer, type VectorLike } from "@/lib";
 import {
   INJECTION_KEY_APP,
   INJECTION_KEY_DRAW_CONTEXT,
@@ -238,7 +238,7 @@ function cutCopyEventHandler(event: ClipboardEvent) {
   const selectedElements = project.value.elements
     .filter(element => selectedIds.has(element.id))
     .map(element => {
-      const copied = structuredClone(toRaw(element));
+      const copied = cloneElement(element);
       // make relative to screen-center
       copied.x = element.x - centerX;
       copied.y = element.y - centerY;

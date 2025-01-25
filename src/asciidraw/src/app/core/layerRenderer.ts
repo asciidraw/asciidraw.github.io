@@ -8,6 +8,11 @@ export class LayerRenderer {
     this.rendererMap = rendererMap;
   }
 
+  /**
+   * renders `elements` with their associated {@link ElementRenderer} and merging all to one layer
+   * @param elements elements to render
+   * @returns `element` renderede and merged
+   */
   render(elements: Array<ElementBase & object>): Layer {
     const finalLayer = new Layer();
     for (const element of elements) {
