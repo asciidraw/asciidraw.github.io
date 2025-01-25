@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, inject, onMounted, useTemplateRef, watch } from "vue";
+import { computed, inject, onMounted, toRaw, useTemplateRef, watch } from "vue";
 import {
   useColorMode,
   useDebounceFn,
@@ -16,6 +16,9 @@ import {
   INJECTION_KEY_RENDERER_MAP
 } from "@/symbols.ts";
 import { CanvasRenderer, type ColorPalette, LayerRenderer } from "@/app/core";
+import { v4 as uuid } from "uuid";
+import type { ElementBase } from "@/types";
+import type { LabelData } from "@/app/extensions/label";
 
 
 const MouseButtons = {
@@ -65,7 +68,9 @@ function getColorPalette(context: CanvasRenderingContext2D): ColorPalette {
 function canvasToCell(pos: VectorLike): VectorLike {
   if (!canvasRef.value) return { x: 0, y: 0 };
   const renderingContext = canvasRef.value!.getContext("2d")!;
-  return new CanvasRenderer(getColorPalette(renderingContext), drawContext.value, renderingContext).canvasToCell(pos);
+  // @ts-expect-error: setting colorPalette to null as it's unused
+  const canvasRenderer = new CanvasRenderer(null, drawContext.value, renderingContext);
+  return canvasRenderer.canvasToCell(pos);
 }
 
 
@@ -186,22 +191,29 @@ useEventListener(canvasRef, "contextmenu", (event: MouseEvent) => {
   event.preventDefault();
 });
 
-useEventListener(canvasRef, "keydown", (event: KeyboardEvent) => {
-  event.preventDefault();
-  if (event.key === "Delete" || event.key === "Backspace") {
-    for (const selectedElementId of drawContext.value.selectedElements) {
-      const elementIndex = project.value.elements.findIndex(el => el.id === selectedElementId);
-      if (elementIndex > -1) {
-        project.value.elements.splice(elementIndex, 1);
-        drawContext.value.selectedElements.delete(selectedElementId);
-      }
+
+function deleteElementsById(...elementIds: string[]) {
+  for (const elementId of elementIds) {
+    const elementIndex = project.value.elements.findIndex(el => el.id === elementId);
+    if (elementIndex > -1) {
+      project.value.elements.splice(elementIndex, 1);
+      drawContext.value.selectedElements.delete(elementId);
     }
   }
+}
+
+useEventListener(canvasRef, "keydown", (event: KeyboardEvent) => {
+  if (event.key === "Delete" || event.key === "Backspace") {
+    event.preventDefault();
+    deleteElementsById(...drawContext.value.selectedElements);
+  }
   if (event.ctrlKey && event.key === "a") {
+    event.preventDefault();
     for (const element of project.value.elements)
       drawContext.value.selectedElements.add(element.id);
   }
   if (event.ctrlKey && event.key === "i") {
+    event.preventDefault();
     for (const element of project.value.elements) {
       if (drawContext.value.selectedElements.has(element.id))
         drawContext.value.selectedElements.delete(element.id);
@@ -210,10 +222,82 @@ useEventListener(canvasRef, "keydown", (event: KeyboardEvent) => {
     }
   }
 });
+
+function validCopyCutPasteEvent(event: ClipboardEvent): boolean {
+  if (event.target === canvasRef.value) return true;
+  if (event.target instanceof HTMLDivElement && event.target.classList.contains("canvas-wrapper")) return true;
+  return false;
+}
+
+function cutCopyEventHandler(event: ClipboardEvent) {
+  if (!validCopyCutPasteEvent(event)) return;
+  event.preventDefault();
+  const selectedIds = drawContext.value.selectedElements;
+  if (selectedIds.size === 0) return;
+  const { x: centerX, y: centerY } = canvasToCell(canvasRef.value ? { x : canvasRef.value.width / 2, y: canvasRef.value.height / 2 } : { x: 0, y: 0 });
+  const selectedElements = project.value.elements
+    .filter(element => selectedIds.has(element.id))
+    .map(element => {
+      const copied = structuredClone(toRaw(element));
+      // make relative to screen-center
+      copied.x = element.x - centerX;
+      copied.y = element.y - centerY;
+      return copied;
+    });
+  const stringified = JSON.stringify(selectedElements);
+  event.clipboardData!.setData("application/asciidraw", stringified);
+  if (event.type === "cut")
+    deleteElementsById(...drawContext.value.selectedElements);
+}
+
+useEventListener(canvasRef, "auxclick", (event: MouseEvent) => {
+  event.preventDefault();  // prevent paste triggering from mouse-wheel button
+});
+
+useEventListener("copy", cutCopyEventHandler);
+useEventListener("cut", cutCopyEventHandler);
+useEventListener("paste", (event: ClipboardEvent) => {
+  if (!validCopyCutPasteEvent(event)) return;
+  const clipboard = event.clipboardData!;
+  event.preventDefault();
+  if (clipboard.types.includes("application/asciidraw")) {
+    const loaded: Array<ElementBase> = JSON.parse(clipboard.getData("application/asciidraw"));
+    if (!Array.isArray(loaded)) throw new Error("Bad paste content");
+    const { x: centerX, y: centerY } = canvasToCell(canvasRef.value ? { x : canvasRef.value.width / 2, y: canvasRef.value.height / 2 } : {x: 0, y: 0});
+    const newElements = loaded.map(raw => {
+      const newElement = structuredClone(raw);
+      newElement.id = uuid();
+      // make relative to screen-center
+      newElement.x += centerX;
+      newElement.y += centerY;
+      return newElement;
+    });
+    project.value.elements.push(...newElements);
+    drawContext.value.selectedElements.clear();
+    newElements.forEach(element => drawContext.value.selectedElements.add(element.id))
+  } else if (clipboard.types.includes("text/plain")) {
+    const text = clipboard.getData("text/plain");
+    const { x: centerX, y: centerY } = canvasToCell(canvasRef.value ? { x : canvasRef.value.width / 2, y: canvasRef.value.height / 2 } : {x: 0, y: 0});
+    const lines = text.split("\n");
+    const width = lines.reduce((prev, curr) => Math.max(curr.length, prev), 0)-1;
+    const height = lines.length-1;
+    project.value.elements.push(<LabelData>{
+      id: uuid(),
+      type: "label",
+      x: Math.floor(centerX - width / 2),
+      y: Math.floor(centerY - height / 2),
+      width: width,
+      height: height,
+      text: text,
+    });
+  } else {
+    throw new Error("Unsupported Clipboard-Data");
+  }
+});
 </script>
 
 <template>
-  <div class="w-screen h-screen">
+  <div class="w-screen h-screen canvas-wrapper">
     <canvas ref="canvas" class="w-full h-full" :width="windowWidth" :height="windowHeight" tabindex="0" />
   </div>
   <div class="fixed top-0 left-1/2 -translate-x-1/2 pointer-events-none">
