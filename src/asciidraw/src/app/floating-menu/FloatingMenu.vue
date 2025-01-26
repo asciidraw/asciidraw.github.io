@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {
   LucideCircleChevronLeft,
-  LucideClipboardCopy, LucideEqual, LucideEqualNot,
+  LucideClipboardCopy,
   LucideHardDriveDownload,
   LucideHardDriveUpload,
   LucideImageDown,
@@ -22,9 +22,9 @@ import AsciiDrawIcon from "@/components/AsciiDrawIcon.vue";
 import ExportClipboardDialog from "@/app/floating-menu/ExportClipboardDialog.vue";
 import ExportImageDialog from "@/app/floating-menu/ExportImageDialog.vue";
 import ProjectList from "@/components/app/project-list/ProjectList.vue";
-import ElementComponent from "@/app/floating-menu/ElementComponent.vue";
 import { loadProjectData, startTextDownload, StorageType, storeProjectData } from "@/lib";
 import AuxiliaryLinesPopover from "@/app/floating-menu/AuxiliaryLinesPopover.vue";
+import ElementMenu from "@/app/floating-menu/ElementMenu.vue";
 
 
 const appContext = inject(INJECTION_KEY_APP)!;
@@ -125,10 +125,7 @@ fileDialog.onChange((files) => {
         </Button>
       </template>
     </div>
-    <template v-if="drawContext.selectedElements.size === 1">
-      <Separator :label="$t('app.menu.extra-menu.label')" />
-      <ElementComponent :element-id="drawContext.selectedElements.values().next().value!" />
-    </template>
+    <ElementMenu />
     <Separator :label="$t('app.menu.help.label')" />
     <p>{{ $t('app.menu.help.text') }}</p>
   </div>
