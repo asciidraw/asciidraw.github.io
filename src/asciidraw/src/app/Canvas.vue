@@ -221,6 +221,18 @@ useEventListener(canvasRef, "keydown", (event: KeyboardEvent) => {
         drawContext.value.selectedElements.add(element.id);
     }
   }
+  if (["ArrowUp", "ArrowRight", "ArrowDown", "ArrowLeft"].includes(event.key)) {
+    event.preventDefault();
+    const selectedElements = project.value.elements.filter(el => drawContext.value.selectedElements.has(el.id));
+    selectedElements.forEach(el => {
+      switch (event.key) {
+        case "ArrowUp": el.y -= 1; break;
+        case "ArrowRight": el.x += 1; break;
+        case "ArrowDown": el.y += 1; break;
+        case "ArrowLeft": el.x -= 1; break;
+      }
+    });
+  }
 });
 
 function validCopyCutPasteEvent(event: ClipboardEvent): boolean {
