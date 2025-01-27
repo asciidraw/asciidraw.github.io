@@ -34,6 +34,8 @@ components:
       dialog:
         title: "Projekt Name"
         description: "Hier können Sie den Namen des Projekts ändern."
+  download-project:
+    tooltip: "Dieses Projekt herunterladen"
   issue-dialog:
     title: "Melde einen Fehler oder schlage eine Erweiterung vor"
     description: "Diese Seite hat kein eigenes Ticket-Management-System. Daher werden alle Tickets über GitHub verwaltet."
@@ -85,8 +87,6 @@ app:
         project:
           tooltip: "Vorhandenes Projekt hochladen"
       export:
-        project:
-          tooltip: "Dieses Projekt herunterladen"
         share:
           tooltip: "Teilen Sie diesen Graphen mit anderen Personen"
         clipboard:

@@ -16,27 +16,22 @@ import { Separator } from "@/components/ui/separator";
 import IconButton from "@/components/composed/IconButton.vue";
 import LocaleToggle from "@/components/LocaleToggle.vue";
 import { useFileDialog } from "@vueuse/core";
-import { INJECTION_KEY_APP, INJECTION_KEY_DRAW_CONTEXT, INJECTION_KEY_PROJECT } from "@/symbols.ts";
+import { INJECTION_KEY_APP, INJECTION_KEY_PROJECT } from "@/symbols.ts";
 import CopyShareLinkDialog from "@/app/floating-menu/CopyShareLinkDialog.vue";
 import AsciiDrawIcon from "@/components/AsciiDrawIcon.vue";
 import ExportClipboardDialog from "@/app/floating-menu/ExportClipboardDialog.vue";
 import ExportImageDialog from "@/app/floating-menu/ExportImageDialog.vue";
 import ProjectList from "@/components/app/project-list/ProjectList.vue";
-import { loadProjectData, startTextDownload, StorageType, storeProjectData } from "@/lib";
+import { loadProjectData, StorageType } from "@/lib";
 import AuxiliaryLinesPopover from "@/app/floating-menu/AuxiliaryLinesPopover.vue";
 import ElementMenu from "@/app/floating-menu/ElementMenu.vue";
+import DownloadProjectButton from "@/components/app/DownloadProjectButton.vue";
+import IssueDialog from "@/components/IssueDialog.vue";
 
 
 const appContext = inject(INJECTION_KEY_APP)!;
-const drawContext = inject(INJECTION_KEY_DRAW_CONTEXT)!;
 const project = inject(INJECTION_KEY_PROJECT)!;
 const menuIsHidden = ref(false);
-
-function downloadProject() {
-  const content = storeProjectData(StorageType.file, project.value);
-  const filename = `${project.value.name ?? (Date.now().toString())}.asciidraw.github.io`;
-  startTextDownload(content, filename);
-}
 
 const fileDialog = useFileDialog({ accept: "application/json", multiple: true });
 
@@ -53,7 +48,7 @@ fileDialog.onChange((files) => {
   <Button variant="ghost" v-if="menuIsHidden" @click="menuIsHidden = false" class="fixed bg-primary shadow left-4 top-4 z-20 p-2 rounded-full size-10">
     <AsciiDrawIcon class="size-10" />
   </Button>
-  <div v-else class="fixed bg-card border-2 border-border shadow left-4 top-4 max-h-[calc(100vh-2rem)] overflow-y-scroll z-20 max-w-xs p-2 rounded-lg space-y-4">
+  <div v-else class="fixed bg-card border-2 border-border shadow left-4 top-4 max-h-[calc(100vh-2rem)] max-w-xs overflow-y-scroll z-20 p-2 rounded-lg space-y-4">
     <div class="flex gap-x-2">
       <router-link to="/" class="flex">
         <AsciiDrawIcon />
@@ -61,6 +56,7 @@ fileDialog.onChange((files) => {
       </router-link>
       <div class="min-w-10" />
       <div class="grow" />
+      <IssueDialog />
       <LocaleToggle />
       <ThemeToggle />
       <IconButton @click="menuIsHidden = true">
@@ -80,10 +76,7 @@ fileDialog.onChange((files) => {
           <template #tooltip>{{ $t('app.menu.project.import.project.tooltip') }}</template>
         </IconButton>
         <Separator orientation="vertical" class="h-6" />
-        <IconButton @click="downloadProject">
-          <LucideHardDriveDownload />
-          <template #tooltip>{{ $t('app.menu.project.export.project.tooltip') }}</template>
-        </IconButton>
+        <DownloadProjectButton />
         <CopyShareLinkDialog>
           <IconButton>
             <LucideShare2 />
