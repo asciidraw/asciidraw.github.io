@@ -1,0 +1,51 @@
+name: Feature Request
+description: Suggest an idea to improve this project
+title: "[Feature]: "
+labels:
+  - enhancement
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Feature Request Guidelines
+        Thank you for taking the time to suggest a feature! Please fill out the details below.
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Feature Summary
+      description: Provide a clear and concise description of the feature you're proposing
+      placeholder: "As a [user type], I want to [goal/desire] so that [benefit]"
+    validations:
+      required: true
+
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Motivation
+      description: Explain why this feature would be valuable to the project and its users
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed-solution
+    attributes:
+      label: Proposed Solution
+      description: Describe how you envision this feature being implemented
+      placeholder: "Describe the technical approach or user interface changes"
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternative Solutions
+      description: Have you considered any alternative ways to achieve the same goal?
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Contribution Checklist
+      options:
+        - label: I have searched existing issues to ensure this is not a duplicate request
+          required: true
+        - label: I am willing to help implement this feature or provide additional information
