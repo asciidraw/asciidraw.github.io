@@ -34,6 +34,14 @@ components:
       dialog:
         title: "Projekt Name"
         description: "Hier können Sie den Namen des Projekts ändern."
+  issue-dialog:
+    title: "Melde einen Fehler oder schlage eine Erweiterung vor"
+    description: "Diese Seite hat kein eigenes Ticket-Management-System. Daher werden alle Tickets über GitHub verwaltet."
+    account-required: "Hinweis: Ein GitHub-Konto ist erforderlich, um ein Ticket zu erstellen"
+    bug: "Fehler melden"
+    feature: "Erweiterung vorschlagen"
+    copy-commit-hash:
+      tooltip: "Commit Hash Kopieren"
 home:
   dev-notice: "Hinweis: Diese App befindet sich in der Entwicklung"
   draw: "Zeichne Etwas"

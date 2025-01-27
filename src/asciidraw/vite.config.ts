@@ -10,9 +10,17 @@ import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite';
 import MarkdownPlugin from 'unplugin-vue-markdown/vite';
 import MarkdownItPrism from 'markdown-it-prism';
 import MarkdownItAnchor from 'markdown-it-anchor';
+import { execSync } from "node:child_process";
 
 // https://vite.dev/config/
 export default defineConfig({
+  define: {
+    __BUILD_TIME__: JSON.stringify(new Date().toISOString()),
+    __GIT_REPOSITORY_OWNER__: JSON.stringify(getGitRepositoryOwner()),
+    __GIT_REPOSITORY_NAME__: JSON.stringify(getGitRepositoryName()),
+    __GIT_BRANCH__: JSON.stringify(getGitBranch()),
+    __GIT_COMMIT_HASH__: JSON.stringify(getGitCommitHash()),
+  },
   css: {
     postcss: {
       plugins: [tailwindcss(), autoprefixer()],
@@ -56,3 +64,25 @@ export default defineConfig({
     },
   },
 });
+
+
+function _execCmd(cmd: string): string {
+  try {
+    return execSync(cmd).toString().trim();
+  } catch (error) {
+    console.error(error);
+    return '';
+  }
+}
+function getGitRepositoryOwner(): string {
+  return _execCmd("git config --get remote.origin.url | sed -n 's/.*github.com[:/]\\([^/]*\\).*/\\1/p'\n");
+}
+function getGitRepositoryName(): string {
+  return _execCmd("basename -s .git `git config --get remote.origin.url`");
+}
+function getGitBranch(): string {
+  return _execCmd('git branch --show-current');
+}
+function getGitCommitHash(): string {
+  return _execCmd('git rev-parse HEAD');
+}

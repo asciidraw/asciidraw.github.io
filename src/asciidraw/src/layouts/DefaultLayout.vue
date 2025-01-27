@@ -7,6 +7,7 @@ import LocaleToggle from "@/components/LocaleToggle.vue";
 import type { HTMLAttributes } from "vue";
 import { cn } from "@/lib";
 import AsciiDrawIcon from "@/components/AsciiDrawIcon.vue";
+import IssueDialog from "@/components/IssueDialog.vue";
 
 const props = defineProps<{
   class?: HTMLAttributes['class']
@@ -22,6 +23,8 @@ const props = defineProps<{
           <span>AsciiDraw</span>
         </router-link>
         <div class="grow" />
+        <IssueDialog />
+        <Separator orientation="vertical" class="h-6" />
         <LocaleToggle />
         <Separator orientation="vertical" class="h-6" />
         <ThemeToggle />
