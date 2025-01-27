@@ -3,17 +3,19 @@ description: File a bug Report
 title: "[BUG]: "
 label:
   - bug
+
 body:
   - type: markdown
     attributes:
       value: |
-        Thanks for taking the time to fill out this bug report! Please fill out the details below.
+        Thanks for taking the time to fill out this bug report!
 
   - type: input
     id: commit-hash
     attributes:
       label: Commit Hash
-      description: The commit hash can be copied from the issue dialog
+      description: (The commit hash can be copied from the issue dialog)
+      placeholder: d35dc7de97b15cc7d3d0bea25ae972ee8d44e689
 
   - type: dropdown
     id: browsers
@@ -28,20 +30,31 @@ body:
         - Other
 
   - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Tell us what you expected to happen and what happened instead.
+    validations:
+      required: true
+
+  - type: textarea
     id: bug-description
     attributes:
-      label: What is the Bug
-      description: What is the unexpected behavior and how did you trigger it. Please go into as much details as possible.
+      label: Steps for reproduction
+      description: |
+        What is the unexpected behavior and how did you trigger it.
+        Please go into as much details as possible. <br>
+        If you can, it would be helpful if you upload the project-file here.
       value: |
-        # What is the Bug
-        
-        
-        # Steps to reproduce the bug
         1. 
         2. 
         3.
 
-  - type: markdown
+  - type: checkboxes
+    id: terms
     attributes:
-      value: |
-        Thanks for reporting the bug. We will look into it and report back.
+      label: Contribution Checklist
+      options:
+        - label: I have searched existing issues to ensure this is not a duplicate request
+          required: true
+        - label: I am willing to help implement a fix or provide additional information
