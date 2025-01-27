@@ -1,7 +1,7 @@
 name: Bug Report
 description: File a bug Report
 title: "[BUG]: "
-label:
+labels:
   - bug
 
 body:
