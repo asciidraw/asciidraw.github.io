@@ -1,0 +1,43 @@
+name: Bug Report
+description: File a bug Report
+title: "[BUG]: "
+label:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+  - type: input
+    id: commit-hash
+    attributes:
+      label: Commit Hash
+      description: The commit hash can be copied from the issue dialog
+  - type: dropdown
+    id: browsers
+    attributes:
+      label: What browsers are you seeing the problem on?
+      multiple: true
+      options:
+        - Firefox
+        - Chrome
+        - Safari
+        - Microsoft Edge
+        - Other
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: What is the Bug
+      description: What is the unexpected behavior and how did you trigger it. Please go into as much details as possible.
+      value: |
+        # What is the Bug
+        
+        
+        # Steps to reproduce the bug
+        1. 
+        2. 
+        3.
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting the bug. We will look into it and report back.
