@@ -7,12 +7,14 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thanks for taking the time to fill out this bug report!
+        Thanks for taking the time to fill out this bug report! Please fill out the details below.
+
   - type: input
     id: commit-hash
     attributes:
       label: Commit Hash
       description: The commit hash can be copied from the issue dialog
+
   - type: dropdown
     id: browsers
     attributes:
@@ -24,6 +26,7 @@ body:
         - Safari
         - Microsoft Edge
         - Other
+
   - type: textarea
     id: bug-description
     attributes:
@@ -37,6 +40,7 @@ body:
         1. 
         2. 
         3.
+
   - type: markdown
     attributes:
       value: |
