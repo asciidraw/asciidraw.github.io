@@ -6,13 +6,15 @@ declare const __GIT_REPOSITORY_NAME__: string
 declare const __GIT_BRANCH__: string
 declare const __GIT_COMMIT_HASH__: string
 
+type Pretty<T> = {
+  [K in keyof T]: T[K]
+} & {}
+
+type CssCursor = "auto" | "default" | "none" | "context-menu" | "help" | "pointer" | "progress" | "wait" | "cell" | "crosshair" | "text" | "vertical-text" | "alias" | "copy" | "move" | "no-drop" | "not-allowed" | "grab" | "grabbing" | "e-resize" | "n-resize" | "ne-resize" | "nw-resize" | "s-resize" | "se-resize" | "sw-resize" | "w-resize" | "ew-resize" | "ns-resize" | "nesw-resize" | "nwse-resize" | "col-resize" | "row-resize" | "all-scroll" | "zoom-in" | "zoom-out";
+
 declare module '*.md' {
   import type { ComponentOptions } from 'vue'
 
   const Component: ComponentOptions
   export default Component
 }
-
-type Pretty<T> = {
-  [K in keyof T]: T[K]
-} & {}
