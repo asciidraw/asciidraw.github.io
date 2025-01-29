@@ -10,6 +10,7 @@ import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite';
 import MarkdownPlugin from 'unplugin-vue-markdown/vite';
 import MarkdownItPrism from 'markdown-it-prism';
 import MarkdownItAnchor from 'markdown-it-anchor';
+import MarkdownItGitHubAlerts from 'markdown-it-github-alerts';
 import { execSync } from "node:child_process";
 
 // https://vite.dev/config/
@@ -40,9 +41,10 @@ export default defineConfig({
         md.use(MarkdownItAnchor, {
           permalink: MarkdownItAnchor.permalink.linkInsideHeader()
         });
+        md.use(MarkdownItGitHubAlerts);
 
         md.renderer.rules.link_open = (tokens, idx) => {
-          const href = tokens[idx].attrGet('href');
+          const href = tokens[idx].attrGet('href')?.replace(/index\.(?:md|html)$/g, '');
           return `<docs-link to="${href}">`;
         };
         md.renderer.rules.link_close = () => {
