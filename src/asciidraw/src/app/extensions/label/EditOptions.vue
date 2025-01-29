@@ -10,8 +10,8 @@ const { data } = defineProps<{
 
 function fitToContent(): void {
   const lines = data.text.split("\n");
-  data.width = lines.reduce((prev, curr) => Math.max(curr.length, prev), 0)-1;
-  data.height = lines.length-1;
+  data.width = Math.max(1, lines.reduce((prev, curr) => Math.max(curr.length, prev), 0)-1);
+  data.height = Math.max(lines.length-1);
 }
 </script>
 

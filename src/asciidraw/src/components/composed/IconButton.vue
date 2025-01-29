@@ -3,9 +3,9 @@ import { Button } from "@/components/ui/button";
 import {Tooltip, TooltipContent, TooltipTrigger} from "@/components/ui/tooltip";
 import type {TooltipContentProps} from "radix-vue";
 
-type ComponentProps<T> = /* @vue-ignore */ T extends new () => { $props: infer P } ? Partial<P> : never;
+type ExtractComponentProps<T> = /* @vue-ignore */ T extends new () => { $props: infer P } ? Partial<P> : never;
 
-const props = defineProps<ComponentProps<typeof Button> & {
+const props = defineProps<ExtractComponentProps<typeof Button> & {
   contentProps?: TooltipContentProps
 }>();
 </script>
