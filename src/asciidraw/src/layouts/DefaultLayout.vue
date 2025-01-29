@@ -45,17 +45,17 @@ const props = defineProps<{
       <Separator />
       <div class="p-2">
         <div class="flex gap-x-2 flex-nowrap justify-evenly xs:justify-center">
-          <router-link to="/" class="">
+          <router-link :to="{ name: 'home' }" class="">
             <LucideHouse class="h-4 inline" />
             <span class="hidden xs:inline">{{ $t('layout.footer.home') }}</span>
           </router-link>
           <Separator orientation="vertical" class="h-6" />
-          <router-link to="/docs" class="">
+          <router-link :to="{ name: 'docs', params: { path: [''] } }" class="">
             <LucideBookType class="h-4 inline" />
             <span class="hidden xs:inline">{{ $t('layout.footer.docs') }}</span>
           </router-link>
           <Separator orientation="vertical" class="h-6" />
-          <router-link to="/about" class="">
+          <router-link :to="{ name: 'about' }" class="">
             <LucideInfo class="h-4 inline" />
             <span class="hidden xs:inline">{{ $t('layout.footer.about') }}</span>
           </router-link>
