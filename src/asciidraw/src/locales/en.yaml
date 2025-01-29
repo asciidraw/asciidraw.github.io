@@ -156,6 +156,16 @@ app:
         backticks: "Backticks"
         fourSpaces: "Four Spaces"
         semicolons: "Semicolons"
+      warnings:
+        ascii:
+          title: "Only Basic Ascii Characters are used"
+          description: "Only Basic Characters are used in your graph. The graph should be properly displayed in every application."
+        extended-ascii:
+          title: "Some Extended-Ascii Characters are used"
+          description: "Your graph uses some Characters from the Extended-Ascii set. The graph should be properly displayed in almost all applications."
+        unicode:
+          title: "Unicode Characters are used"
+          description: "Your graph uses some Unicode Characters. Some (older) applications may not support or properly display these characters."
     export-image:
       title: "Export the Graph as an Image"
       description: "The Graph got rendered as an image to use on your website or your README."

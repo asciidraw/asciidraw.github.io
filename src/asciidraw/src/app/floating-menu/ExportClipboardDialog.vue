@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {
-  Dialog, DialogClose,
+  Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -8,16 +9,17 @@ import {
   DialogTrigger
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { LucideClipboardCopy, LucideClipboardCheck } from "lucide-vue-next";
+import { LucideClipboardCheck, LucideClipboardCopy, LucideSpellCheck, LucideSpellCheck2 } from "lucide-vue-next";
 import { useClipboard, useLocalStorage } from "@vueuse/core";
 import { computed, inject } from "vue";
 import { INJECTION_KEY_DRAW_CONTEXT, INJECTION_KEY_PROJECT, INJECTION_KEY_RENDERER_MAP } from "@/symbols.ts";
 import { LayerRenderer } from "@/app/core";
-import { findMinMaxOfLayer } from "@/app/floating-menu/export/util.ts";
+import { CharacterType, detectCharacterType, findMinMaxOfLayer } from "@/app/floating-menu/export/util.ts";
 import * as commentStyleMap from "./export/comment-styles.ts";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 const project = inject(INJECTION_KEY_PROJECT)!;
 const drawContext = inject(INJECTION_KEY_DRAW_CONTEXT)!;
@@ -43,6 +45,8 @@ const renderedWithCommentStyle = computed(() => {
   return commentStyleMap[activeCommentStyle.value].transform(rendered.value);
 });
 
+const characterType = computed(() => detectCharacterType(renderedWithCommentStyle.value));
+
 const { copy: doCopy, copied: recentlyCopied } = useClipboard({ source: renderedWithCommentStyle });
 </script>
 
@@ -58,6 +62,21 @@ const { copy: doCopy, copied: recentlyCopied } = useClipboard({ source: rendered
       <DialogDescription>
         {{ $t('app.dialog.export-clipboard.description') }}
       </DialogDescription>
+      <Alert :variant="characterType === CharacterType.ASCII ? 'default' : 'warning'">
+        <component :is="characterType === CharacterType.ASCII ? LucideSpellCheck : LucideSpellCheck2" class="size-4" />
+        <AlertTitle>
+          <template v-if="characterType === CharacterType.ASCII">{{ $t('app.dialog.export-clipboard.warnings.ascii.title') }}</template>
+          <template v-else-if="characterType === CharacterType.EXTENDED_ASCII">{{ $t('app.dialog.export-clipboard.warnings.extended-ascii.title') }}</template>
+          <template v-else-if="characterType === CharacterType.UNICODE">{{ $t('app.dialog.export-clipboard.warnings.unicode.title') }}</template>
+          <template v-else>!BUG!</template>
+        </AlertTitle>
+        <AlertDescription>
+          <template v-if="characterType === CharacterType.ASCII">{{ $t('app.dialog.export-clipboard.warnings.ascii.description') }}</template>
+          <template v-else-if="characterType === CharacterType.EXTENDED_ASCII">{{ $t('app.dialog.export-clipboard.warnings.extended-ascii.description') }}</template>
+          <template v-else-if="characterType === CharacterType.UNICODE">{{ $t('app.dialog.export-clipboard.warnings.unicode.description') }}</template>
+          <template v-else>!BUG!</template>
+        </AlertDescription>
+      </Alert>
       <div>
         <Label>
           {{ $t('app.dialog.export-clipboard.comment-style') }}
