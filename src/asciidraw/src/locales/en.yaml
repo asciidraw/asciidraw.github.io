@@ -195,6 +195,7 @@ actions:
     edit:
       text:
         label: "Text"
+      fit-to-content: "Fit to Content"
   group:
     display-name: "Group"
     edit:
