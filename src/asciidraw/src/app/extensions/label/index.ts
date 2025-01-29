@@ -15,6 +15,22 @@ export interface LabelData {
 }
 
 
+export function createLabelElement(text: string, pos?: VectorLike, width?: number, height?: number): LabelData {
+  const lines = text.split("\n");
+  const altWidth = lines.reduce((prev, curr) => Math.max(curr.length, prev), 0)-1;
+  const altHeight = lines.length-1;
+  return {
+    id: uuid(),
+    type: "label",
+    x: pos?.x ?? 0,
+    y: pos?.y ?? 0,
+    width: width ?? altWidth,
+    height: height ?? altHeight,
+    text: text,
+  }
+}
+
+
 export default defineExtension({
   setup(app) {
     let startPosition: VectorLike = { x: 0, y: 0 };

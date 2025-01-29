@@ -18,7 +18,8 @@ import {
 import { CanvasRenderer, type ColorPalette, LayerRenderer } from "@/app/core";
 import { v4 as uuid } from "uuid";
 import type { ElementBase } from "@/types";
-import type { LabelData } from "@/app/extensions/label";
+import { createLabelElement } from "@/app/extensions/label";
+import ContextMenuHandler from "@/app/context-menu/ContextMenuHandler.vue";
 
 
 const MouseButtons = {
@@ -187,11 +188,6 @@ useEventListener("mouseup", (event: MouseEvent) => {
   mouseButtonsDown[event.button] = false;
 });
 
-useEventListener(canvasRef, "contextmenu", (event: MouseEvent) => {
-  event.preventDefault();
-});
-
-
 function deleteElementsById(...elementIds: string[]) {
   for (const elementId of elementIds) {
     const elementIndex = project.value.elements.findIndex(el => el.id === elementId);
@@ -293,15 +289,11 @@ useEventListener("paste", (event: ClipboardEvent) => {
     const lines = text.split("\n");
     const width = lines.reduce((prev, curr) => Math.max(curr.length, prev), 0)-1;
     const height = lines.length-1;
-    project.value.elements.push(<LabelData>{
-      id: uuid(),
-      type: "label",
-      x: Math.floor(centerX - width / 2),
-      y: Math.floor(centerY - height / 2),
-      width: width,
-      height: height,
-      text: text,
-    });
+    project.value.elements.push(createLabelElement(
+      text,
+      { x: Math.floor(centerX - width / 2), y: Math.floor(centerY - height / 2) },
+      width, height,
+    ));
   } else {
     throw new Error("Unsupported Clipboard-Data");
   }
@@ -310,7 +302,15 @@ useEventListener("paste", (event: ClipboardEvent) => {
 
 <template>
   <div class="w-screen h-screen canvas-wrapper">
-    <canvas ref="canvas" class="w-full h-full" :width="windowWidth" :height="windowHeight" tabindex="0" />
+    <ContextMenuHandler>
+      <canvas
+        ref="canvas"
+        class="w-full h-full"
+        :width="windowWidth"
+        :height="windowHeight"
+        tabindex="0"
+      />
+    </ContextMenuHandler>
   </div>
   <div class="fixed top-0 left-1/2 -translate-x-1/2 pointer-events-none">
     Zoom: {{ drawContext.zoom }} | offset: {{ drawContext.offset.x.toFixed(2) }}x{{ drawContext.offset.y.toFixed(2) }} | Mouse: {{ canvasToCell({ x: mouseX, y: mouseY }) }}

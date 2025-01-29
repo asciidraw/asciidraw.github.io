@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import AppMenu from "@/app/floating-menu/FloatingMenu.vue";
 import AppCanvas from "@/app/Canvas.vue";
-import ContextMenuHandler from "@/app/ContextMenuHandler.vue";
 import { type Component, computed, provide, ref } from "vue";
 import { createNewProject } from "@/app/createNewProject.ts";
 import type { AppContext, DrawContext, ElementRenderer, Extension } from "@/types";
@@ -79,9 +78,7 @@ useTitle(() => project.value.name, { titleTemplate: "AsciiDraw - %s" });
 
 <template>
   <AppMenu />
-  <ContextMenuHandler disabled>
-    <AppCanvas />
-  </ContextMenuHandler>
+  <AppCanvas />
   <template v-for="component in additionalComponents">
     <component :is="component" />
   </template>

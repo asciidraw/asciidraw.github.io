@@ -115,6 +115,23 @@ app:
         tooltip: "Zoom in"
       out:
         tooltip: "Zoom out"
+  context-menu:
+    cut:
+      label: "Cut"
+      shortcut: "Ctrl+X"
+    copy:
+      label: "Copy"
+      shortcut: "Ctrl+C"
+    paste:
+      label: "Paste"
+      shortcut: "Ctrl+V"
+    raise:
+      label: "Raise"
+    lower:
+      label: "Lower"
+    delete:
+      label: "Delete"
+      shortcut: "Delete"
   dialog:
     share:
       title: "Share link"

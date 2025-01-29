@@ -115,6 +115,23 @@ app:
         tooltip: "Vergrößern"
       out:
         tooltip: "Verkleinern"
+  context-menu:
+    cut:
+      label: "Ausschneiden"
+      shortcut: "Strg+X"
+    copy:
+      label: "Kopieren"
+      shortcut: "Strg+C"
+    paste:
+      label: "Einfügen"
+      shortcut: "Strg+V"
+    raise:
+      label: "Raise"
+    lower:
+      label: "Lower"
+    delete:
+      label: "Löschen"
+      shortcut: "Entfernen"
   dialog:
     share:
       title: "Link zum Teilen"
