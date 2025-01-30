@@ -5,21 +5,37 @@ import AsciiDrawIcon from "@/components/AsciiDrawIcon.vue";
 import * as examples from "@/assets/homepage/examples";
 import inCodeSrc from "@/assets/homepage/in-code.png?url";
 import inEditorSrc from "@/assets/homepage/in-editor.png?url";
-import {LucideArrowRight, LucideArrowRightLeft} from "lucide-vue-next";
+import { LucideArrowRight, LucideArrowRightLeft, LucideBookType, LucideSwatchBook } from "lucide-vue-next";
 import { Badge } from "@/components/ui/badge";
 </script>
 
 <template>
   <DefaultLayout>
-    <div class="h-[calc(100vh-10rem)] grid place-content-center text-center">
+    <div class="h-[calc(100vh-16rem)] grid place-content-center gap-1 text-center">
       <p class="text-muted-foreground">{{ $t('home.dev-notice') }}</p>
       <h1 class="text-4xl font-bold leading-none tracking-wide">AsciiDraw</h1>
       <AsciiDrawIcon class="size-52 sm:size-64 md:size-80 lg:size-96 mx-auto" />
       <router-link :to="{ name: 'app-init' }" class="w-fit mx-auto">
-        <Button>{{ $t('home.draw') }}</Button>
+        <Button>
+          {{ $t('home.draw') }}
+        </Button>
       </router-link>
     </div>
     <div class="space-y-16">
+      <div class="grid grid-cols-[repeat(2,1fr)] gap-2 w-fit mx-auto">
+        <router-link :to="{ name: 'example-projects' }">
+          <Button variant="secondary" class="size-full">
+            <LucideSwatchBook />
+            {{ $t('home.links.example-projects') }}
+          </Button>
+        </router-link>
+        <router-link :to="{ name: 'docs' }">
+          <Button variant="secondary" class="size-full">
+            <LucideBookType />
+            {{ $t('home.links.docs') }}
+          </Button>
+        </router-link>
+      </div>
       <div class="grid grid-cols-3 place-items-center gap-5 p-5">
         <img :src="inEditorSrc" alt="In Editor" class="max-h-96" />
         <div class="grid place-items-center">

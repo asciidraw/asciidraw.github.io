@@ -29,6 +29,11 @@ export default createRouter({
       component: () => import('../views/ShareView.vue'),
     },
     {
+      path: '/example-projects',
+      name: 'example-projects',
+      component: () => import('@/views/ExampleProjectsView.vue'),
+    },
+    {
       path: '/docs/:path*',
       name: 'docs',
       component: () => import('@/views/DocsView.vue'),

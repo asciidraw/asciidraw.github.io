@@ -48,6 +48,9 @@ components:
 home:
   dev-notice: "Hinweis: Diese App befindet sich in der Entwicklung"
   draw: "Zeichne Etwas"
+  links:
+    example-projects: "Beispiel Projekte"
+    docs: "Dokumentation"
   in-code:
     text: "Wenn Sie es in Ihren Code einfügen, wird es gleich aussehen"
   comment-styles:
@@ -73,6 +76,12 @@ docs:
   not-found:
     title: "404 Seite nicht gefunden"
     description: "Die angeforderte URL wurde nicht gefunden. Wenn Sie die URL manuell eingegeben haben, überprüfen Sie bitte Ihre Schreibweise und versuchen Sie es erneut."
+example-projects:
+  title: "Beispiel Projekte"
+  names:
+    cpu-architecture: "CPU Architektur"
+  actions:
+    load: "Beispiel Laden"
 app-init:
   title: "Projekt Auswahl"
   description: "Wählen Sie das Projekt, das Sie bearbeiten möchten"
