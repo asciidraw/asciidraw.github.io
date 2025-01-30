@@ -15,33 +15,20 @@ import { inject, ref } from "vue";
 import { Separator } from "@/components/ui/separator";
 import IconButton from "@/components/composed/IconButton.vue";
 import LocaleToggle from "@/components/LocaleToggle.vue";
-import { useFileDialog } from "@vueuse/core";
-import { INJECTION_KEY_APP, INJECTION_KEY_PROJECT } from "@/symbols.ts";
+import { INJECTION_KEY_APP } from "@/symbols.ts";
 import CopyShareLinkDialog from "@/app/floating-menu/CopyShareLinkDialog.vue";
 import AsciiDrawIcon from "@/components/AsciiDrawIcon.vue";
 import ExportClipboardDialog from "@/app/floating-menu/ExportClipboardDialog.vue";
 import ExportImageDialog from "@/app/floating-menu/ExportImageDialog.vue";
 import ProjectList from "@/components/app/project-list/ProjectList.vue";
-import { loadProjectData, StorageType } from "@/lib";
 import AuxiliaryLinesPopover from "@/app/floating-menu/AuxiliaryLinesPopover.vue";
 import ElementMenu from "@/app/floating-menu/ElementMenu.vue";
 import DownloadProjectButton from "@/components/app/DownloadProjectButton.vue";
 import IssueDialog from "@/components/IssueDialog.vue";
-
+import UploadProjectButton from "@/app/floating-menu/UploadProjectButton.vue";
 
 const appContext = inject(INJECTION_KEY_APP)!;
-const project = inject(INJECTION_KEY_PROJECT)!;
 const menuIsHidden = ref(false);
-
-const fileDialog = useFileDialog({ accept: "application/json", multiple: true });
-
-fileDialog.onChange((files) => {
-  if (files?.length) {
-    [...files].forEach(file => file.text().then((data) => {
-      project.value = loadProjectData(StorageType.file, data);
-    }));
-  }
-});
 </script>
 
 <template>
@@ -71,10 +58,7 @@ fileDialog.onChange((files) => {
     <Separator :label="$t('app.menu.project.label')" />
     <div>
       <div class="flex justify-between">
-        <IconButton @click="fileDialog.open">
-          <LucideHardDriveUpload />
-          <template #tooltip>{{ $t('app.menu.project.import.project.tooltip') }}</template>
-        </IconButton>
+        <UploadProjectButton />
         <Separator orientation="vertical" class="h-6" />
         <DownloadProjectButton />
         <CopyShareLinkDialog>
