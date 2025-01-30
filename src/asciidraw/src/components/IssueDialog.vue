@@ -32,7 +32,7 @@ const { copy, copied: recentlyCopied } = useClipboard();
     <DialogTrigger as-child>
       <IconButton>
         <LucideBadgeAlert />
-        <template #tooltip>{{ $t('components.issue-dialog.toolip') }}</template>
+        <template #tooltip>{{ $t('components.issue-dialog.tooltip') }}</template>
       </IconButton>
     </DialogTrigger>
     <DialogContent>

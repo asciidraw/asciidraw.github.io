@@ -37,6 +37,7 @@ components:
   download-project:
     tooltip: "Download this project"
   issue-dialog:
+    tooltip: "Report a bug or suggest a feature"
     title: "Report a bug or suggest a feature"
     description: "This site doesn't have an ticket-management system on it's own. So all tickets are handled with GitHub."
     account-required: "Note: A GitHub account is required to create a ticket"

@@ -37,6 +37,7 @@ components:
   download-project:
     tooltip: "Dieses Projekt herunterladen"
   issue-dialog:
+    tooltip: "Melde einen Fehler oder schlage eine Erweiterung vor"
     title: "Melde einen Fehler oder schlage eine Erweiterung vor"
     description: "Diese Seite hat kein eigenes Ticket-Management-System. Daher werden alle Tickets über GitHub verwaltet."
     account-required: "Hinweis: Ein GitHub-Konto ist erforderlich, um ein Ticket zu erstellen"
