@@ -27,13 +27,13 @@ const router = useRouter();
 const path = computed(() => router.currentRoute.value.params.path);
 const hash = computed(() => router.currentRoute.value.hash);
 
-const currentMarkdown = shallowRef<MarkdownComponent | null | undefined>();
+const currentMarkdown = shallowRef<MarkdownComponent | null | undefined>(null);
 const loadingId = ref<number>();
 
 watch([locale, path], () => {
   currentMarkdown.value = undefined;
   let loadId = loadingId.value = Date.now();
-  const pathParts: string[] = Array.isArray(path.value) ? path.value : [];
+  const pathParts: string[] = Array.isArray(path.value) ? path.value.filter(e => !!e) : [];
   const prefix = `${pathPrefix}${locale.value}`;
   const pathString = pathParts.length ? "/" + pathParts.join('/') : "";
   const possiblePaths = [
