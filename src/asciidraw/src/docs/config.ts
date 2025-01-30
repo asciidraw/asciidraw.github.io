@@ -12,8 +12,10 @@ export const docsTreeConfig: DocsTreeConfig = {
     "label": {},
     "progress-bar": {},
   },
+  "shortcuts": {},
   "export": {
     "text": {},
     "image": {},
   },
-}
+  'faq': {},
+};
