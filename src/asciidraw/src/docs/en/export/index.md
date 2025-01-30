@@ -2,7 +2,7 @@
 title: "How to Export"
 ---
 
-<script setup lang="ts">
+<script setup>
 import { LucideType, LucideImage } from "lucide-vue-next";
 </script>
 <style scoped>
