@@ -5,7 +5,13 @@ import AsciiDrawIcon from "@/components/AsciiDrawIcon.vue";
 import * as examples from "@/assets/homepage/examples";
 import inCodeSrc from "@/assets/homepage/in-code.png?url";
 import inEditorSrc from "@/assets/homepage/in-editor.png?url";
-import { LucideArrowRight, LucideArrowRightLeft, LucideBookType, LucideSwatchBook } from "lucide-vue-next";
+import {
+  LucideArrowRight,
+  LucideArrowRightLeft,
+  LucideBookType,
+  LucidePencilRuler,
+  LucideSwatchBook
+} from "lucide-vue-next";
 import { Badge } from "@/components/ui/badge";
 </script>
 
@@ -16,7 +22,8 @@ import { Badge } from "@/components/ui/badge";
       <h1 class="text-4xl font-bold leading-none tracking-wide">AsciiDraw</h1>
       <AsciiDrawIcon class="size-52 sm:size-64 md:size-80 lg:size-96 mx-auto" />
       <router-link :to="{ name: 'app-init' }" class="w-fit mx-auto">
-        <Button>
+        <Button size="lg">
+          <LucidePencilRuler />
           {{ $t('home.draw') }}
         </Button>
       </router-link>
