@@ -3,11 +3,13 @@ import DefaultLayout from "@/layouts/DefaultLayout.vue";
 import type { Project } from "@/types";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { LucideCpu, LucidePencilRuler } from "lucide-vue-next";
+import { LucideImageOff, LucidePencilRuler } from "lucide-vue-next";
 import { createNewProjectId, setStorageSync, StorageType, storeProjectData } from "@/lib";
 import { useRouter } from "vue-router";
+import { computed } from "vue";
 
 const exampleProjectsMap = import.meta.glob<Project>("@/assets/example-projects/*.json");
+const exampleProjectImageMap = import.meta.glob<string>("@/assets/example-projects/*.png", { eager: true, import: 'default', query: { url: true } });
 type Loader = typeof exampleProjectsMap[keyof typeof exampleProjectsMap];
 
 const router = useRouter();
@@ -23,6 +25,16 @@ function loadProject(loader: Loader): void {
     router.push({ name: 'app', params: { projectId: newProjectId } });
   });
 }
+
+type ExampleProjectInfo = { name: string, loader: Loader, imgSrc?: string };
+
+const exampleProjects = computed<ExampleProjectInfo[]>(() => {
+  return Object.entries(exampleProjectsMap).map(([path, loader]) => {
+    const name = extractName(path);
+    const imgSrc = exampleProjectImageMap[path.replace(/\.json$/, ".png")];
+    return { name, loader, imgSrc };
+  });
+});
 </script>
 
 <template>
@@ -31,20 +43,20 @@ function loadProject(loader: Loader): void {
       <h1 class="text-4xl font-bold leading-none tracking-wide text-center">
         {{ $t('example-projects.title') }}
       </h1>
-      <div class="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-5">
-        <template v-for="[path, loader] in Object.entries(exampleProjectsMap)" :key="path">
+      <div class="grid grid-cols-[repeat(auto-fill,minmax(0,500px))] gap-5">
+        <template v-for="example in exampleProjects" :key="example.name">
           <Card class="aspect-square grid grid-rows-[auto,1fr,auto]">
             <CardHeader>
               <CardTitle>
-                {{ $t(`example-projects.names.${extractName(path)}`) }}
+                {{ $t(`example-projects.names.${example.name}`) }}
               </CardTitle>
             </CardHeader>
             <CardContent class="grid place-items-center">
-              <!-- todo: replace with render? or other preview -->
-              <LucideCpu class="size-20" />
+              <img v-if="example.imgSrc" :src="example.imgSrc" alt="Preview" class="size-full rounded-md dark:invert" />
+              <LucideImageOff v-else class="size-12" />
             </CardContent>
             <CardFooter class="justify-end">
-              <Button @click="loadProject(loader)">
+              <Button @click="loadProject(example.loader)">
                 <LucidePencilRuler class="size-4 mr-1" />
                 {{ $t('example-projects.actions.load') }}
               </Button>
