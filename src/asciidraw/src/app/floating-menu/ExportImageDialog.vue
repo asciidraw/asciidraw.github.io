@@ -67,7 +67,7 @@ const imageUrl = useObjectUrl(renderedBlob);
 function startDownload() {
   const anchor = document.createElement("a");
   anchor.href = imageUrl.value!;
-  anchor.download = `asciidraw.${imageFormat.slice(6)}`;
+  anchor.download = `${project.value.name ?? "asciidraw"}.${imageFormat.slice(6)}`;
   document.body.appendChild(anchor);
   anchor.click();
   document.body.removeChild(anchor);
