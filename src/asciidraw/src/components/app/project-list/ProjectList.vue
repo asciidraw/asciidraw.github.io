@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { Button } from "@/components/ui/button";
 import { LucidePlus } from "lucide-vue-next";
-import { v4 as uuid } from "uuid";
-import { loadProjectName, setStorageSync, StorageType, storeProjectData } from "@/lib";
+import { createNewProjectId, loadProjectName, setStorageSync, StorageType, storeProjectData } from "@/lib";
 import { createNewProject } from "@/app/createNewProject.ts";
 import { useRouter } from "vue-router";
 import { useProjectIds } from "@/composables/useProjectIds.ts";
@@ -19,7 +18,7 @@ const activeProjectId = computed(() => router.currentRoute.value.params.projectI
 const projectIds = useProjectIds();
 
 function newProject(event: KeyboardEvent) {
-  const newProjectId = uuid();
+  const newProjectId = createNewProjectId();
   setStorageSync(`project-${newProjectId}`, storeProjectData(StorageType.storage, createNewProject()));
   if (!(event.ctrlKey || event.shiftKey))
     router.push({ name: "app", params: { projectId: newProjectId } });

@@ -1,7 +1,6 @@
-import { defineElementRenderer, defineExtension, doInRange, Layer, Vector, type VectorLike } from "@/lib";
+import { defineElementRenderer, defineExtension, doInRange, Layer, createNewElementId, Vector, type VectorLike } from "@/lib";
 import * as styles from "./styles.ts";
 import EditOptions from "./EditOptions.vue";
-import { v4 as uuid } from "uuid";
 import { LucideRectangleHorizontal } from "lucide-vue-next";
 
 
@@ -31,7 +30,7 @@ export default defineExtension({
         const [start, end] = Vector.minMax(startPosition, currentPosition);
         drawContext.scratchElements.length = 0;
         drawContext.scratchElements.push(<BoxData>{
-          id: uuid(),
+          id: createNewElementId(),
           type: "box",
           x: start.x,
           y: start.y,
@@ -45,7 +44,7 @@ export default defineExtension({
         const endPosition = canvasToCell({ x: mouseEvent.clientX, y: mouseEvent.clientY });
         const [start, end] = Vector.minMax(startPosition, endPosition);
         project.elements.push(<BoxData>{
-          id: uuid(),
+          id: createNewElementId(),
           type: "box",
           x: start.x,
           y: start.y,

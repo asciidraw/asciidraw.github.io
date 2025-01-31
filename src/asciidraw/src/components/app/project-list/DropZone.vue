@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { useIsDropAvailable } from "@/composables/useIsDropAvailable.ts";
 import { templateRef, useDropZone } from "@vueuse/core";
-import { loadProjectData, setStorageSync, StorageType, storeProjectData } from "@/lib";
-import { v4 as uuid } from "uuid";
+import { createNewProjectId, loadProjectData, setStorageSync, StorageType, storeProjectData } from "@/lib";
 
 const isDropAvailable = useIsDropAvailable();
 const uploadDropZoneRef = templateRef("upload-dropzone");
@@ -25,7 +24,7 @@ useDropZone(uploadDropZoneRef, {
             break;
         }
         if (loaded === null) throw Error("Project data is bad");
-        const newProjectId = uuid();
+        const newProjectId = createNewProjectId();
         setStorageSync(`project-${newProjectId}`, storeProjectData(StorageType.storage, loaded));
       });
     });

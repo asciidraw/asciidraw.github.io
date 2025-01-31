@@ -1,6 +1,5 @@
-import { defineElementRenderer, defineExtension, Layer, Vector, type VectorLike } from "@/lib";
+import { createNewElementId, defineElementRenderer, defineExtension, Layer, Vector, type VectorLike } from "@/lib";
 import EditOptions from "./EditOptions.vue";
-import { v4 as uuid } from "uuid";
 import { LucideWholeWord } from "lucide-vue-next";
 
 
@@ -20,7 +19,7 @@ export function createLabelElement(text: string, pos?: VectorLike, width?: numbe
   const altWidth = lines.reduce((prev, curr) => Math.max(curr.length, prev), 0)-1;
   const altHeight = lines.length-1;
   return {
-    id: uuid(),
+    id: createNewElementId(),
     type: "label",
     x: pos?.x ?? 0,
     y: pos?.y ?? 0,
@@ -46,7 +45,7 @@ export default defineExtension({
         const [start, end] = Vector.minMax(startPosition, currentPosition);
         drawContext.scratchElements.length = 0;
         drawContext.scratchElements.push(<LabelData>{
-          id: uuid(),
+          id: createNewElementId(),
           type: "label",
           x: start.x,
           y: start.y,
@@ -60,7 +59,7 @@ export default defineExtension({
         const endPosition = canvasToCell({x: mouseEvent.clientX, y: mouseEvent.clientY});
         const [start, end] = Vector.minMax(startPosition, endPosition);
         project.elements.push(<LabelData>{
-          id: uuid(),
+          id: createNewElementId(),
           type: "label",
           x: start.x,
           y: start.y,

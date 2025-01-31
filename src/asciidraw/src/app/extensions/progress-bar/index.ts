@@ -1,5 +1,12 @@
-import { defineElementRenderer, defineExtension, doInRange, Layer, Vector, type VectorLike } from "@/lib";
-import { v4 as uuid } from "uuid";
+import {
+  createNewElementId,
+  defineElementRenderer,
+  defineExtension,
+  doInRange,
+  Layer,
+  Vector,
+  type VectorLike
+} from "@/lib";
 import * as styles from "./styles.ts";
 import EditOptions from "@/app/extensions/progress-bar/EditOptions.vue";
 import { LucideRectangleEllipsis } from "lucide-vue-next";
@@ -32,7 +39,7 @@ export default defineExtension({
         const [start, end] = Vector.minMax(startPosition, currentPosition);
         drawContext.scratchElements.length = 0;
         drawContext.scratchElements.push(<ProgressBarData>{
-          id: uuid(),
+          id: createNewElementId(),
           type: "progressBar",
           x: start.x,
           y: start.y,
@@ -47,7 +54,7 @@ export default defineExtension({
         const endPosition = canvasToCell({ x: mouseEvent.clientX, y: mouseEvent.clientY });
         const [start, end] = Vector.minMax(startPosition, endPosition);
         project.elements.push(<ProgressBarData>{
-          id: uuid(),
+          id: createNewElementId(),
           type: "progressBar",
           x: start.x,
           y: start.y,

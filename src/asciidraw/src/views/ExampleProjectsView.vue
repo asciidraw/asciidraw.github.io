@@ -4,8 +4,7 @@ import type { Project } from "@/types";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { LucideCpu, LucidePencilRuler } from "lucide-vue-next";
-import { setStorageSync, StorageType, storeProjectData } from "@/lib";
-import { v4 as uuid } from "uuid";
+import { createNewProjectId, setStorageSync, StorageType, storeProjectData } from "@/lib";
 import { useRouter } from "vue-router";
 
 const exampleProjectsMap = import.meta.glob<Project>("@/assets/example-projects/*.json");
@@ -19,7 +18,7 @@ function extractName(path: string): string {
 
 function loadProject(loader: Loader): void {
   loader().then(project => {
-    const newProjectId = uuid();
+    const newProjectId = createNewProjectId();
     setStorageSync(`project-${newProjectId}`, storeProjectData(StorageType.storage, project));
     router.push({ name: 'app', params: { projectId: newProjectId } });
   });

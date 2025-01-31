@@ -2,10 +2,9 @@
 import { useRouter } from "vue-router";
 import { computed } from "vue";
 import DefaultLayout from "@/layouts/DefaultLayout.vue";
-import { loadProjectData, StorageType, storeProjectData } from "@/lib";
+import { createNewProjectId, loadProjectData, StorageType, storeProjectData } from "@/lib";
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { v4 as uuid } from "uuid";
 
 const router = useRouter();
 
@@ -15,7 +14,7 @@ const parsedRouteValue = computed(() => {
 });
 
 function importProject() {
-  const newProjectId = uuid();
+  const newProjectId = createNewProjectId();
   localStorage.setItem(`project-${newProjectId}`, storeProjectData(StorageType.storage, parsedRouteValue.value));
   router.push({ name: "app", params: { projectId: newProjectId } });
 }

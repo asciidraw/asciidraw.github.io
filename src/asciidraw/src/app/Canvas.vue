@@ -16,7 +16,6 @@ import {
   INJECTION_KEY_RENDERER_MAP
 } from "@/symbols.ts";
 import { CanvasRenderer, type ColorPalette, LayerRenderer } from "@/app/core";
-import { v4 as uuid } from "uuid";
 import type { ElementBase } from "@/types";
 import { createLabelElement } from "@/app/extensions/label";
 import ContextMenuHandler from "@/app/context-menu/ContextMenuHandler.vue";
@@ -273,8 +272,7 @@ useEventListener("paste", (event: ClipboardEvent) => {
     if (!Array.isArray(loaded)) throw new Error("Bad paste content");
     const { x: centerX, y: centerY } = canvasToCell(canvasRef.value ? { x : canvasRef.value.width / 2, y: canvasRef.value.height / 2 } : {x: 0, y: 0});
     const newElements = loaded.map(raw => {
-      const newElement = structuredClone(raw);
-      newElement.id = uuid();
+      const newElement = cloneElement(raw);
       // make relative to screen-center
       newElement.x += centerX;
       newElement.y += centerY;
