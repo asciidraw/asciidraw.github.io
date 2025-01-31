@@ -34,6 +34,8 @@ components:
       dialog:
         title: "Project Name"
         description: "Here you can change the name of the project."
+    list-link:
+      tooltip: "See all your Projects"
   download-project:
     tooltip: "Download this project"
   issue-dialog:

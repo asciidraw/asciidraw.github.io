@@ -11,12 +11,15 @@ const router = useRouter();
 
 const projectIds = useProjectIds();
 
-if (projectIds.value.length === 0) {
-  const newProjectId = createNewProjectId();
-  setStorageSync(`project-${newProjectId}`, storeProjectData(StorageType.storage, createNewProject()));
-  router.push({ name: "app", params: { projectId: newProjectId } });
-} else if (projectIds.value.length === 1) {
-  router.push({ name: "app", params: { projectId: projectIds.value[0] } });
+if (router.currentRoute.value.query.autoRedirect === 'true') {
+  router.replace({ query: { autoRedirect: undefined } });
+  if (projectIds.value.length === 0) {
+    const newProjectId = createNewProjectId();
+    setStorageSync(`project-${newProjectId}`, storeProjectData(StorageType.storage, createNewProject()));
+    router.push({ name: "app", params: { projectId: newProjectId } });
+  } else if (projectIds.value.length === 1) {
+    router.push({ name: "app", params: { projectId: projectIds.value[0] } });
+  }
 }
 </script>
 

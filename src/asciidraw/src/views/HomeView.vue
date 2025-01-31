@@ -21,7 +21,7 @@ import { Badge } from "@/components/ui/badge";
       <p class="text-muted-foreground">{{ $t('home.dev-notice') }}</p>
       <h1 class="text-4xl font-bold leading-none tracking-wide">AsciiDraw</h1>
       <AsciiDrawIcon class="size-52 sm:size-64 md:size-80 lg:size-96 mx-auto" />
-      <router-link :to="{ name: 'app-init' }" class="w-fit mx-auto">
+      <router-link :to="{ name: 'app-init', query: { autoRedirect: 'true' } }" class="w-fit mx-auto">
         <Button size="lg">
           <LucidePencilRuler />
           {{ $t('home.draw') }}

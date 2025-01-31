@@ -34,8 +34,8 @@ const inputValue = ref<string>("");
 <template>
   <Dialog v-model:open="isOpen">
     <DialogTrigger as-child>
-      <IconButton variant="outline" size="icon">
-        <LucidePencil />
+      <IconButton variant="outline" size="icon" class="size-7">
+        <LucidePencil class="size-full" />
         <template #tooltip>{{ $t('components.project-list.edit-name.tooltip') }}</template>
       </IconButton>
     </DialogTrigger>

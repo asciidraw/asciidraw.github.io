@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Button } from "@/components/ui/button";
-import { LucidePlus } from "lucide-vue-next";
+import { LucideList, LucidePlus } from "lucide-vue-next";
 import { createNewProjectId, loadProjectName, setStorageSync, StorageType, storeProjectData } from "@/lib";
 import { createNewProject } from "@/app/createNewProject.ts";
 import { useRouter } from "vue-router";
@@ -10,6 +10,10 @@ import EditProjectNameButton from "@/components/app/project-list/EditProjectName
 import { computed } from "vue";
 import DropZone from "@/components/app/project-list/DropZone.vue";
 import IconButton from "@/components/composed/IconButton.vue";
+
+defineProps<{
+  showLinkToList?: boolean;
+}>();
 
 const router = useRouter();
 
@@ -37,9 +41,17 @@ function newProject(event: KeyboardEvent) {
       <DeleteProjectButton :project-id="projectId" />
     </div>
   </template>
-  <IconButton variant="outline" size="xs" class="w-full" @click="newProject">
-    <LucidePlus />
-    <template #tooltip>{{ $t('components.project-list.new.tooltip') }}</template>
-  </IconButton>
+  <div class="flex gap-x-0.5">
+    <IconButton variant="outline" size="xs" class="w-full" @click="newProject">
+      <LucidePlus />
+      <template #tooltip>{{ $t('components.project-list.new.tooltip') }}</template>
+    </IconButton>
+    <router-link v-if="showLinkToList" :to="{ name: 'app-init' }" class="leading-none">
+      <IconButton variant="outline" size="icon" class="size-7">
+        <LucideList class="size-full" />
+        <template #tooltip>{{ $t('components.project-list.list-link.tooltip') }}</template>
+      </IconButton>
+    </router-link>
+  </div>
   <DropZone />
 </template>

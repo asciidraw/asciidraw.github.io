@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { LucideTrash } from "lucide-vue-next";
+import { LucidePencil, LucideTrash } from "lucide-vue-next";
 import { setStorageSync } from "@/lib";
 import {
   AlertDialog, AlertDialogAction, AlertDialogCancel,
@@ -32,8 +32,8 @@ function deleteProject(): void {
 <template>
   <AlertDialog v-model:open="open">
     <!-- Note: custom AlertDialogTrigger handling -->
-    <IconButton variant="outline" size="icon" @click="onClick">
-      <LucideTrash />
+    <IconButton variant="outline" size="icon" @click="onClick" class="size-7">
+      <LucideTrash class="size-full" />
       <template #tooltip>{{ $t('components.project-list.delete.tooltip') }}</template>
     </IconButton>
     <AlertDialogContent>

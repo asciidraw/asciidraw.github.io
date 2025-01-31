@@ -53,7 +53,7 @@ const menuIsHidden = ref(false);
     </div>
     <Separator :label="$t('app.menu.project-list.label')" />
     <div class="space-y-0.5">
-      <ProjectList />
+      <ProjectList show-link-to-list />
     </div>
     <Separator :label="$t('app.menu.project.label')" />
     <div>
