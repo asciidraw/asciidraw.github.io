@@ -24,8 +24,8 @@ if (router.currentRoute.value.query.autoRedirect === 'true') {
 </script>
 
 <template>
-  <DefaultLayout class="grid place-content-center p-5">
-    <Card class="min-w-96 max-w-lg">
+  <DefaultLayout class="grid place-items-center p-5">
+    <Card class="w-full max-w-lg">
       <CardHeader>
         <CardTitle>
           {{ $t('app-init.title') }}
@@ -35,7 +35,7 @@ if (router.currentRoute.value.query.autoRedirect === 'true') {
         </CardDescription>
       </CardHeader>
       <CardContent class="space-y-0.5">
-        <ProjectList :features="['edit-name', 'delete']" />
+        <ProjectList :features="['edit-name', 'duplicate', 'delete']" />
       </CardContent>
     </Card>
   </DefaultLayout>
