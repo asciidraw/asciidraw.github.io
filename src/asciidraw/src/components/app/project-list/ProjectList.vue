@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Button } from "@/components/ui/button";
 import { LucideList, LucidePlus } from "lucide-vue-next";
-import { createNewProjectId, loadProjectName, setStorageSync, StorageType, storeProjectData } from "@/lib";
+import { createNewProjectId, loadProjectFromStorage, setStorageSync, StorageType, storeProjectData } from "@/lib";
 import { createNewProject } from "@/app/createNewProject.ts";
 import { useRouter } from "vue-router";
 import { useProjectIds } from "@/composables/useProjectIds.ts";
@@ -41,7 +41,7 @@ function newProject(event: KeyboardEvent) {
     <div class="flex gap-x-0.5">
       <router-link class="grow truncate" :to="{ name: 'app', params: { projectId } }">
         <Button :variant="(activeProjectId === undefined || activeProjectId === projectId) ? 'secondary' : 'outline'" size="xs" class="w-full justify-start">
-          {{ loadProjectName(projectId) ?? projectId }}
+          {{ loadProjectFromStorage(projectId)?.name ?? projectId }}
         </Button>
       </router-link>
       <EditProjectNameButton v-if="isEnabled('edit-name')" :project-id="projectId" />

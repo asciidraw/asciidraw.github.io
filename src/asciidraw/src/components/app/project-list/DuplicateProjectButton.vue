@@ -9,7 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { ref } from "vue";
 import { Input } from "@/components/ui/input";
-import { createNewProjectId, loadProject, loadProjectName, storeProject } from "@/lib";
+import { createNewProjectId, loadProjectFromStorage, storeProjectToStorage } from "@/lib";
 import { whenever } from "@vueuse/core";
 import IconButton from "@/components/composed/IconButton.vue";
 
@@ -20,13 +20,13 @@ const props = defineProps<{
 const isOpen = ref(false);
 
 whenever(isOpen, () => {
-  inputValue.value = loadProjectName(props.projectId) ?? props.projectId;
+  inputValue.value = loadProjectFromStorage(props.projectId)?.name ?? props.projectId;
 });
 
 function submit(): void {
-  const projectData = loadProject(props.projectId)!;
+  const projectData = loadProjectFromStorage(props.projectId)!;
   const newProjectId = createNewProjectId();
-  storeProject(newProjectId, projectData);
+  storeProjectToStorage(newProjectId, projectData);
   isOpen.value = false;
 }
 

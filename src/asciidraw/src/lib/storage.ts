@@ -73,30 +73,25 @@ export function setStorageSync(key: string, value: string | null, storage: Stora
   }));
 }
 
-
 /**
- * loads the name of a stored project
+ * loads a stored project
  * @param projectId id of the project
- * @returns name of the project
+ * @returns the project
  * @returns {@link undefined} if project does not exist or is invalid
  */
-export function loadProjectName(projectId: string): string | undefined {
+export function loadProjectFromStorage(projectId: string): Project | undefined {
   const stored = localStorage.getItem(`project-${projectId}`)!;
   const project = loadProjectData(StorageType.storage, stored);
   if (project === null) return undefined;
-  return project.name;
+  return project;
 }
 
 /**
- * sets the name of a project based on its id
+ * replaces a project based on its id
  * @param projectId id of the project
- * @param newName new name of the project
+ * @param project new project data
  */
-export function setProjectName(projectId: string, newName: undefined | string): void {
-  const storageKey = `project-${projectId}`
-  const stored = localStorage.getItem(storageKey)!;
-  const project = loadProjectData(StorageType.storage, stored);
-  project.name = newName?.length ? newName : undefined;
+export function storeProjectToStorage(projectId: string, project: Project): void {
   const packed = storeProjectData(StorageType.storage, project);
-  setStorageSync(storageKey, packed);
+  setStorageSync(`project-${projectId}`, packed);
 }
