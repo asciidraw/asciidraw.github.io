@@ -11,9 +11,15 @@ import { computed } from "vue";
 import DropZone from "@/components/app/project-list/DropZone.vue";
 import IconButton from "@/components/composed/IconButton.vue";
 
-defineProps<{
-  showLinkToList?: boolean;
+type FeatureName = "list-link" | "edit-name" | "delete"
+
+const props = defineProps<{
+  features: FeatureName[]
 }>();
+
+function isEnabled(feature: FeatureName): boolean {
+  return !props.features.length || props.features.includes(feature);
+}
 
 const router = useRouter();
 
@@ -37,8 +43,8 @@ function newProject(event: KeyboardEvent) {
           {{ loadProjectName(projectId) ?? projectId }}
         </Button>
       </router-link>
-      <EditProjectNameButton :project-id="projectId" />
-      <DeleteProjectButton :project-id="projectId" />
+      <EditProjectNameButton v-if="isEnabled('edit-name')" :project-id="projectId" />
+      <DeleteProjectButton v-if="isEnabled('delete')" :project-id="projectId" />
     </div>
   </template>
   <div class="flex gap-x-0.5">
@@ -46,7 +52,7 @@ function newProject(event: KeyboardEvent) {
       <LucidePlus />
       <template #tooltip>{{ $t('components.project-list.new.tooltip') }}</template>
     </IconButton>
-    <router-link v-if="showLinkToList" :to="{ name: 'app-init' }" class="leading-none">
+    <router-link v-if="isEnabled('list-link')" :to="{ name: 'app-init' }" class="leading-none">
       <IconButton variant="outline" size="icon" class="size-7">
         <LucideList class="size-full" />
         <template #tooltip>{{ $t('components.project-list.list-link.tooltip') }}</template>

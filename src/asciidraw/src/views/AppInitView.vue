@@ -35,7 +35,7 @@ if (router.currentRoute.value.query.autoRedirect === 'true') {
         </CardDescription>
       </CardHeader>
       <CardContent class="space-y-0.5">
-        <ProjectList />
+        <ProjectList :features="['edit-name', 'delete']" />
       </CardContent>
     </Card>
   </DefaultLayout>
