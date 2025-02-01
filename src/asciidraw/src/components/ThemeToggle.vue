@@ -17,17 +17,24 @@ import {
   LucideCassetteTape, LucideSailboat, LucideSprout, LucideSnowflake
 } from "lucide-vue-next";
 import IconButton from "@/components/composed/IconButton.vue";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const colorsModes = {
   auto: "auto",
   light: "light",
   dark: "dark",
-  bubblegumPop: "bubblegum-pop",
-  steampunkCogs: "steampunk-cogs",
-  vintageVinyl: "vintage-vinyl",
-  mistyHarbor: "misty-harbor",
-  zenGarden: "zen-garden",
-  winter: "winter",
+  lightBubblegumPop: "light-bubblegum-pop",
+  darkBubblegumPop: "dark-bubblegum-pop",
+  lightSteampunkCogs: "light-steampunk-cogs",
+  darkSteampunkCogs: "dark-steampunk-cogs",
+  lightVintageVinyl: "light-vintage-vinyl",
+  darkVintageVinyl: "dark-vintage-vinyl",
+  lightMistyHarbor: "light-misty-harbor",
+  darkMistyHarbor: "dark-misty-harbor",
+  lightZenGarden: "light-zen-garden",
+  darkZenGarden: "dark-zen-garden",
+  lightWinter: "light-winter",
+  darkWinter: "dark-winter",
 } as const;
 
 type ColorMode = keyof typeof colorsModes;
@@ -36,18 +43,25 @@ const IconMap: Record<ColorMode, LucideIcon | undefined> = {
   auto: LucideSunMoon,
   light: LucideSun,
   dark: LucideMoon,
-  bubblegumPop: LucideShell,
-  steampunkCogs: LucideWind,
-  vintageVinyl: LucideCassetteTape,
-  mistyHarbor: LucideSailboat,
-  zenGarden: LucideSprout,
-  winter: LucideSnowflake,
+  lightBubblegumPop: LucideShell,
+  darkBubblegumPop: LucideShell,
+  lightSteampunkCogs: LucideWind,
+  darkSteampunkCogs: LucideWind,
+  lightVintageVinyl: LucideCassetteTape,
+  darkVintageVinyl: LucideCassetteTape,
+  lightMistyHarbor: LucideSailboat,
+  darkMistyHarbor: LucideSailboat,
+  lightZenGarden: LucideSprout,
+  darkZenGarden: LucideSprout,
+  lightWinter: LucideSnowflake,
+  darkWinter: LucideSnowflake,
 }
 
 const preferredDark = usePreferredDark();
 const colorMode = useColorMode<ColorMode>({
   initialValue: "auto",
   modes: colorsModes,
+  emitAuto: true,  // todo: replace
 });
 </script>
 
@@ -64,18 +78,43 @@ const colorMode = useColorMode<ColorMode>({
       </IconButton>
     </DropdownMenuTrigger>
     <DropdownMenuContent class="space-y-0.5">
-      <template v-for="mode in Object.keys(colorsModes) as ColorMode[]" :key="mode">
-        <DropdownMenuItem
-          class="gap-x-1 bg-background text-foreground"
-          :class="mode === 'auto' ? (preferredDark ? 'dark' : 'light') : colorsModes[mode]"
-          @click="colorMode = mode"
-        >
-          <component :is="IconMap[mode]" class="text-primary" />
-          {{ $t(`components.theme-toggle.mode.${mode}`) }}
-          <div class="w-1" />
-          <DropdownMenuShortcut v-if="colorMode === mode">&bullet;</DropdownMenuShortcut>
-        </DropdownMenuItem>
-      </template>
+      <DropdownMenuItem
+        class="gap-x-1 bg-background text-foreground"
+        :class="preferredDark ? 'dark' : 'light'"
+        @click="colorMode = 'auto'"
+      >
+        <component :is="LucideSunMoon" class="text-primary" />
+        {{ $t(`components.theme-toggle.mode.auto`) }}
+        <div class="w-1" />
+        <DropdownMenuShortcut v-if="colorMode === 'auto'">&bullet;</DropdownMenuShortcut>
+      </DropdownMenuItem>
+      <Tabs :default-value="preferredDark ? 'dark' : 'light'">
+        <TabsList class="w-full grid grid-cols-2">
+          <TabsTrigger value="light">
+            <LucideSun />
+          </TabsTrigger>
+          <TabsTrigger value="dark">
+            <LucideMoon />
+          </TabsTrigger>
+        </TabsList>
+        <template v-for="scheme in ['light', 'dark']">
+          <TabsContent :value="scheme" class="space-y-0.5">
+            <template v-for="mode in Object.keys(colorsModes) as ColorMode[]" :key="mode">
+              <DropdownMenuItem
+                v-if="mode.startsWith(scheme)"
+                class="gap-x-1 bg-background text-foreground"
+                :class="mode === 'auto' ? (preferredDark ? 'dark' : 'light') : colorsModes[mode]"
+                @click="colorMode = mode"
+              >
+                <component :is="IconMap[mode]" class="text-primary" />
+                {{ $t(`components.theme-toggle.mode.${mode}`) }}
+                <div class="w-1" />
+                <DropdownMenuShortcut v-if="colorMode === mode">&bullet;</DropdownMenuShortcut>
+              </DropdownMenuItem>
+            </template>
+          </TabsContent>
+        </template>
+      </Tabs>
     </DropdownMenuContent>
   </DropdownMenu>
 </template>
