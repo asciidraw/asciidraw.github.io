@@ -11,24 +11,26 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { computed, inject } from "vue";
-import { INJECTION_KEY_PROJECT } from "@/symbols.ts";
+import { computed } from "vue";
 import { useRouter } from "vue-router";
 import { LucideCopy, LucideThumbsUp, LucideTriangleAlert } from "lucide-vue-next";
 import { useClipboard } from "@vueuse/core";
 import { StorageType, storeProjectData } from "@/lib";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import type { Project } from "@/types";
 
-const project = inject(INJECTION_KEY_PROJECT)!;
+const { project } = defineProps<{
+  project: Project
+}>();
 const router = useRouter();
 
-const changeLink = computed(() => {
-  const stored = storeProjectData(StorageType.url, project.value);
+const shareLink = computed(() => {
+  const stored = storeProjectData(StorageType.url, project);
   const resolved = router.resolve({ name: "share", params: { data: stored } });
   return new URL(resolved.href, window.location.toString()).href;
 });
 
-const { copied: recentlyCopied, copy: copyToClipboard } = useClipboard({ source: changeLink });
+const { copied: recentlyCopied, copy: copyToClipboard } = useClipboard({ source: shareLink });
 </script>
 
 <template>
@@ -50,7 +52,7 @@ const { copied: recentlyCopied, copy: copyToClipboard } = useClipboard({ source:
           <label for="link" class="sr-only">Link</label>
           <Input
             id="link"
-            :default-value="changeLink"
+            :default-value="shareLink"
             read-only
           />
         </div>

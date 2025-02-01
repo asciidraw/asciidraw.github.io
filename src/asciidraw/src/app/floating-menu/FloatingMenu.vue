@@ -2,8 +2,6 @@
 import {
   LucideCircleChevronLeft,
   LucideClipboardCopy,
-  LucideHardDriveDownload,
-  LucideHardDriveUpload,
   LucideImageDown,
   LucideRedo,
   LucideShare2,
@@ -15,8 +13,8 @@ import { inject, ref } from "vue";
 import { Separator } from "@/components/ui/separator";
 import IconButton from "@/components/composed/IconButton.vue";
 import LocaleToggle from "@/components/LocaleToggle.vue";
-import { INJECTION_KEY_APP } from "@/symbols.ts";
-import CopyShareLinkDialog from "@/app/floating-menu/CopyShareLinkDialog.vue";
+import { INJECTION_KEY_APP, INJECTION_KEY_PROJECT } from "@/symbols.ts";
+import CopyShareLinkDialog from "@/components/app/CopyShareLinkDialog.vue";
 import AsciiDrawIcon from "@/components/AsciiDrawIcon.vue";
 import ExportClipboardDialog from "@/app/floating-menu/ExportClipboardDialog.vue";
 import ExportImageDialog from "@/app/floating-menu/ExportImageDialog.vue";
@@ -28,6 +26,7 @@ import IssueDialog from "@/components/IssueDialog.vue";
 import UploadProjectButton from "@/app/floating-menu/UploadProjectButton.vue";
 
 const appContext = inject(INJECTION_KEY_APP)!;
+const project = inject(INJECTION_KEY_PROJECT)!;
 const menuIsHidden = ref(false);
 </script>
 
@@ -61,7 +60,7 @@ const menuIsHidden = ref(false);
         <UploadProjectButton />
         <Separator orientation="vertical" class="h-6" />
         <DownloadProjectButton />
-        <CopyShareLinkDialog>
+        <CopyShareLinkDialog :project="project">
           <IconButton>
             <LucideShare2 />
             <template #tooltip>{{ $t('app.menu.project.export.share.tooltip') }}</template>
