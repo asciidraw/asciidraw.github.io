@@ -10,8 +10,9 @@ import EditProjectNameButton from "@/components/app/project-list/EditProjectName
 import { computed } from "vue";
 import DropZone from "@/components/app/project-list/DropZone.vue";
 import IconButton from "@/components/composed/IconButton.vue";
+import DuplicateProjectButton from "@/components/app/project-list/DuplicateProjectButton.vue";
 
-type FeatureName = "list-link" | "edit-name" | "delete"
+type FeatureName = "list-link" | "edit-name" | "duplicate" | "delete"
 
 const props = defineProps<{
   features: FeatureName[]
@@ -44,6 +45,7 @@ function newProject(event: KeyboardEvent) {
         </Button>
       </router-link>
       <EditProjectNameButton v-if="isEnabled('edit-name')" :project-id="projectId" />
+      <DuplicateProjectButton v-if="isEnabled('duplicate')" :project-id="projectId" />
       <DeleteProjectButton v-if="isEnabled('delete')" :project-id="projectId" />
     </div>
   </template>

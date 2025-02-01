@@ -30,10 +30,16 @@ components:
         title: "Projekt Löschen?"
         description: "Sind Sie sicher, dass Sie Ihr Projekt löschen wollen? Dies kann nicht rückgängig gemacht werden."
     edit-name:
-      tooltip: "Projekt Name ändern"
+      tooltip: "Projektnamen ändern"
       dialog:
         title: "Projekt Name"
         description: "Hier können Sie den Namen des Projekts ändern."
+    duplicate:
+      tooltip: "Projekt Duplizieren"
+      dialog:
+        title: "Projekt Duplizieren"
+        description: "Dadurch wird Ihr Projekt dupliziert, so dass Sie ohne Probleme Änderungen vornehmen können."
+        action: "Duplizieren"
     list-link:
       tooltip: "Alle Projekte anzeigen"
   download-project:
