@@ -1,10 +1,54 @@
 <script setup lang="ts">
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
-import { useColorMode } from '@vueuse/core'
-import {LucideSun, LucideMoon, LucideSunMoon} from "lucide-vue-next";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuShortcut,
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu'
+import { useColorMode, usePreferredDark } from '@vueuse/core'
+import {
+  LucideSun,
+  LucideMoon,
+  LucideSunMoon,
+  type LucideIcon,
+  LucideShell,
+  LucideWind,
+  LucideCassetteTape, LucideSailboat, LucideSprout, LucideSnowflake
+} from "lucide-vue-next";
 import IconButton from "@/components/composed/IconButton.vue";
 
-const mode = useColorMode({ initialValue: "auto" });
+const colorsModes = {
+  auto: "auto",
+  light: "light",
+  dark: "dark",
+  bubblegumPop: "bubblegum-pop",
+  steampunkCogs: "steampunk-cogs",
+  vintageVinyl: "vintage-vinyl",
+  mistyHarbor: "misty-harbor",
+  zenGarden: "zen-garden",
+  winter: "winter",
+} as const;
+
+type ColorMode = keyof typeof colorsModes;
+
+const IconMap: Record<ColorMode, LucideIcon | undefined> = {
+  auto: LucideSunMoon,
+  light: LucideSun,
+  dark: LucideMoon,
+  bubblegumPop: LucideShell,
+  steampunkCogs: LucideWind,
+  vintageVinyl: LucideCassetteTape,
+  mistyHarbor: LucideSailboat,
+  zenGarden: LucideSprout,
+  winter: LucideSnowflake,
+}
+
+const preferredDark = usePreferredDark();
+const colorMode = useColorMode<ColorMode>({
+  initialValue: "auto",
+  modes: colorsModes,
+});
 </script>
 
 <template>
@@ -19,16 +63,19 @@ const mode = useColorMode({ initialValue: "auto" });
         <template #tooltip>{{ $t('components.theme-toggle.tooltip') }}</template>
       </IconButton>
     </DropdownMenuTrigger>
-    <DropdownMenuContent align="end">
-      <DropdownMenuItem class="gap-x-1" @click="mode = 'light'">
-        <LucideSun/> {{ $t('components.theme-toggle.mode.light') }}
-      </DropdownMenuItem>
-      <DropdownMenuItem class="gap-x-1" @click="mode = 'dark'">
-        <LucideMoon/> {{ $t('components.theme-toggle.mode.dark') }}
-      </DropdownMenuItem>
-      <DropdownMenuItem class="gap-x-1" @click="mode = 'auto'">
-        <LucideSunMoon/> {{ $t('components.theme-toggle.mode.system') }}
-      </DropdownMenuItem>
+    <DropdownMenuContent class="space-y-0.5">
+      <template v-for="mode in Object.keys(colorsModes) as ColorMode[]" :key="mode">
+        <DropdownMenuItem
+          class="gap-x-1 bg-background text-foreground"
+          :class="mode === 'auto' ? (preferredDark ? 'dark' : 'light') : colorsModes[mode]"
+          @click="colorMode = mode"
+        >
+          <component :is="IconMap[mode]" class="text-primary" />
+          {{ $t(`components.theme-toggle.mode.${mode}`) }}
+          <div class="w-1" />
+          <DropdownMenuShortcut v-if="colorMode === mode">&bullet;</DropdownMenuShortcut>
+        </DropdownMenuItem>
+      </template>
     </DropdownMenuContent>
   </DropdownMenu>
 </template>

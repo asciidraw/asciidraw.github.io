@@ -20,7 +20,13 @@ components:
     mode:
       light: "Light"
       dark: "Dark"
-      system: "System"
+      auto: "System"
+      bubblegumPop: "Bubblegum Pop"
+      steampunkCogs: "Steampunk Cogs"
+      vintageVinyl: "Vintage Vinyl"
+      mistyHarbor: "Misty Harbor"
+      zenGarden: "Zen Garden"
+      winter: "Winter"
   project-list:
     new:
       tooltip: "New Project"

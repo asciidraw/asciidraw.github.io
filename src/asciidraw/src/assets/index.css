@@ -3,7 +3,8 @@
 @tailwind utilities;
 
 @layer base {
-    :root {
+    /* https://shadcncolors.com/ */
+    :root, .light {
         --background: 0 0% 100%;
         --foreground: 222.2 84% 4.9%;
 
@@ -68,6 +69,163 @@
         --border:217.2 32.6% 17.5%;
         --input:217.2 32.6% 17.5%;
         --ring:224.3 76.3% 48%;
+    }
+
+    .bubblegum-pop {
+        --background: 330 50% 10%;
+        --foreground: 330 10% 95%;
+        --card: 330 50% 12%;
+        --card-foreground: 330 10% 95%;
+        --popover: 330 50% 12%;
+        --popover-foreground: 330 10% 95%;
+        --primary: 330 90% 60%;
+        --primary-foreground: 330 10% 98%;
+        --secondary: 275 90% 40%;
+        --secondary-foreground: 275 10% 98%;
+        --muted: 330 30% 20%;
+        --muted-foreground: 330 10% 70%;
+        --accent: 30 90% 40%;
+        --accent-foreground: 30 10% 98%;
+        --destructive: 0 90% 40%;
+        --destructive-foreground: 0 10% 98%;
+        --border: 330 60% 20%;
+        --input: 330 60% 20%;
+        --ring: 330 90% 60%;
+        --chart-1: 330 90% 60%;
+        --chart-2: 275 90% 60%;
+        --chart-3: 30 90% 60%;
+        --chart-4: 180 90% 60%;
+        --chart-5: 60 90% 60%;
+    }
+
+    .steampunk-cogs {
+        --background: 30 30% 10%;
+        --foreground: 30 20% 95%;
+        --card: 30 30% 12%;
+        --card-foreground: 30 20% 95%;
+        --popover: 30 30% 12%;
+        --popover-foreground: 30 20% 95%;
+        --primary: 25 80% 50%;
+        --primary-foreground: 25 80% 10%;
+        --secondary: 45 70% 60%;
+        --secondary-foreground: 45 70% 10%;
+        --muted: 30 25% 25%;
+        --muted-foreground: 30 15% 70%;
+        --accent: 15 80% 60%;
+        --accent-foreground: 15 80% 10%;
+        --destructive: 0 80% 60%;
+        --destructive-foreground: 0 80% 10%;
+        --border: 30 30% 30%;
+        --input: 30 30% 30%;
+        --ring: 25 80% 50%;
+        --chart-1: 25 80% 50%;
+        --chart-2: 45 70% 60%;
+        --chart-3: 15 80% 60%;
+        --chart-4: 35 80% 50%;
+        --chart-5: 55 70% 60%;
+    }
+
+    .vintage-vinyl {
+        --background: 30 15% 10%;
+        --foreground: 30 10% 98%;
+        --card: 30 15% 12%;
+        --card-foreground: 30 10% 98%;
+        --popover: 30 15% 12%;
+        --popover-foreground: 30 10% 98%;
+        --primary: 25 20% 50%;
+        --primary-foreground: 25 20% 10%;
+        --secondary: 200 15% 40%;
+        --secondary-foreground: 200 15% 98%;
+        --muted: 30 15% 20%;
+        --muted-foreground: 30 10% 70%;
+        --accent: 340 15% 45%;
+        --accent-foreground: 340 15% 98%;
+        --destructive: 0 60% 40%;
+        --destructive-foreground: 0 60% 98%;
+        --border: 30 15% 25%;
+        --input: 30 15% 25%;
+        --ring: 25 20% 50%;
+        --chart-1: 25 20% 50%;
+        --chart-2: 200 15% 40%;
+        --chart-3: 340 15% 45%;
+        --chart-4: 150 15% 40%;
+        --chart-5: 50 20% 50%;
+    }
+
+    .misty-harbor {
+        --background: 210 20% 10%;
+        --foreground: 210 15% 98%;
+        --card: 210 20% 12%;
+        --card-foreground: 210 15% 98%;
+        --popover: 210 20% 12%;
+        --popover-foreground: 210 15% 98%;
+        --primary: 200 20% 55%;
+        --primary-foreground: 200 20% 10%;
+        --secondary: 180 10% 35%;
+        --secondary-foreground: 180 10% 98%;
+        --muted: 210 20% 20%;
+        --muted-foreground: 210 15% 70%;
+        --accent: 240 15% 65%;
+        --accent-foreground: 240 15% 10%;
+        --destructive: 0 60% 40%;
+        --destructive-foreground: 0 60% 98%;
+        --border: 210 20% 25%;
+        --input: 210 20% 25%;
+        --ring: 200 20% 55%;
+        --chart-1: 200 20% 55%;
+        --chart-2: 180 10% 35%;
+        --chart-3: 240 15% 65%;
+        --chart-4: 160 20% 60%;
+        --chart-5: 30 15% 50%;
+    }
+
+    .zen-garden {
+        --background: 90 15% 10%;
+        --foreground: 90 10% 98%;
+        --card: 90 15% 12%;
+        --card-foreground: 90 10% 98%;
+        --popover: 90 15% 12%;
+        --popover-foreground: 90 10% 98%;
+        --primary: 120 15% 55%;
+        --primary-foreground: 120 15% 10%;
+        --secondary: 60 10% 30%;
+        --secondary-foreground: 60 10% 98%;
+        --muted: 90 15% 20%;
+        --muted-foreground: 90 10% 70%;
+        --accent: 180 15% 55%;
+        --accent-foreground: 180 15% 10%;
+        --destructive: 0 60% 40%;
+        --destructive-foreground: 0 60% 98%;
+        --border: 90 15% 25%;
+        --input: 90 15% 25%;
+        --ring: 120 15% 55%;
+        --chart-1: 120 15% 55%;
+        --chart-2: 60 10% 30%;
+        --chart-3: 180 15% 55%;
+        --chart-4: 30 15% 60%;
+        --chart-5: 240 10% 40%;
+    }
+
+    .winter {
+        --background: 217 44% 10%;
+        --foreground: 217 44% 98%;
+        --card: 217 44% 12%;
+        --card-foreground: 217 44% 98%;
+        --popover: 217 44% 12%;
+        --popover-foreground: 217 44% 98%;
+        --primary: 217 44% 60%;
+        --primary-foreground: 217 44% 10%;
+        --secondary: 247 44% 30%;
+        --secondary-foreground: 247 44% 98%;
+        --muted: 217 22% 20%;
+        --muted-foreground: 217 44% 70%;
+        --accent: 277 44% 40%;
+        --accent-foreground: 277 44% 98%;
+        --destructive: 0 100% 40%;
+        --destructive-foreground: 0 100% 98%;
+        --border: 217 44% 25%;
+        --input: 217 44% 25%;
+        --ring: 217 44% 60%;
     }
 }
 
