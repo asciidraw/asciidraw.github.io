@@ -7,6 +7,9 @@ layout:
     docs: "Documentation"
     about: "About Us"
     github: "GitHub"
+locale:
+  de: "Deutsch"
+  en: "English"
 dialog-common:
   cancel: "Cancel"
   close: "Close"

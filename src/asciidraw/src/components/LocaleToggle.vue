@@ -28,7 +28,7 @@ function setI18n(locale: string) {
     </DropdownMenuTrigger>
     <DropdownMenuContent>
       <DropdownMenuItem v-for="locale in $i18n.availableLocales" :key="locale" @click="setI18n(locale)">
-        {{ locale }}
+        {{ $t(`locale.${locale}`) }}
         <DropdownMenuShortcut v-if="locale === $i18n.locale">&bullet;</DropdownMenuShortcut>
       </DropdownMenuItem>
     </DropdownMenuContent>
