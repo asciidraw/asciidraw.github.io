@@ -209,6 +209,12 @@ app:
         github: "GitHub"
         monokai: "Monokai"
         dracula: "Dracula"
+    export-svg:
+      title: "Exportieren des Graphen als SVG-Bild"
+      description: "Der Graph wird als SVG gerendert und kann auf Ihrer Website oder in Ihrer README verwendet werden."
+      experimental:
+        title: "Experimentelle Funktion"
+        description: "Der Export als SVG-Bild ist eine experimentelle Funktion und die Ergebnisse werden nicht perfekt sein."
     purge:
       title: "Projektdaten bereinigen"
       description: "Ihr Projekt wird gelöscht und alle Änderungen, die Sie vorgenommen haben, gehen für immer verloren."

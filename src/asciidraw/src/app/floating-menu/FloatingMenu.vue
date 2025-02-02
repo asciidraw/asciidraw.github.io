@@ -4,7 +4,7 @@ import {
   LucideClipboardCopy,
   LucideImageDown,
   LucideRedo,
-  LucideShare2,
+  LucideShare2, LucideTangent,
   LucideUndo,
 } from "lucide-vue-next";
 import ThemeToggle from "@/components/ThemeToggle.vue";
@@ -23,6 +23,7 @@ import AuxiliaryLinesPopover from "@/app/floating-menu/AuxiliaryLinesPopover.vue
 import ElementMenu from "@/app/floating-menu/ElementMenu.vue";
 import DownloadProjectButton from "@/components/app/DownloadProjectButton.vue";
 import IssueDialog from "@/components/IssueDialog.vue";
+import ExportSvgDialog from "@/app/floating-menu/ExportSvgDialog.vue";
 
 const appContext = inject(INJECTION_KEY_APP)!;
 const project = inject(INJECTION_KEY_PROJECT)!;
@@ -75,6 +76,12 @@ const menuIsHidden = ref(false);
             <template #tooltip>{{ $t('app.menu.project.export.image.tooltip') }}</template>
           </IconButton>
         </ExportImageDialog>
+        <ExportSvgDialog>
+          <IconButton>
+            <LucideTangent />
+            <template #tooltip>{{ $t('app.menu.project.export.svg.tooltip') }}</template>
+          </IconButton>
+        </ExportSvgDialog>
         <Separator orientation="vertical" class="h-6" />
         <IconButton @click="() => appContext.events.emit('undo')">
           <LucideUndo />

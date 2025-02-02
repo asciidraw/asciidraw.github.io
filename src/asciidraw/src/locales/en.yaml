@@ -126,6 +126,8 @@ app:
           tooltip: "Export this graph as text into your clipboard"
         image:
           tooltip: "Export this graph as an image"
+        svg:
+          tooltip: "Export this graph as an svg-image"
       undo:
         tooltip: "Reverse your last action and return to the previous state"
       redo:
@@ -211,6 +213,12 @@ app:
         github: "GitHub"
         monokai: "Monokai"
         dracula: "Dracula"
+    export-svg:
+      title: "Export the Graph as an SVG-Image"
+      description: "The Graph got rendered as an SVG to use on your website or your README."
+      experimental:
+        title: "Experimental Feature"
+        description: "Exporting as an SVG-Image is an experimental feature and the results won't be perfect."
     purge:
       title: "Purging Project Data"
       description: "You Project will be purged and any changes you made will be lost forever."

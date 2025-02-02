@@ -1,0 +1,135 @@
+<script setup lang="ts">
+import {
+  Dialog, DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogTitle,
+  DialogTrigger
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { LucideClipboardCopy, LucideClipboardCheck, LucideDownload, LucideAlertTriangle } from "lucide-vue-next";
+import { computedAsync, useClipboardItems, useLocalStorage, useObjectUrl } from "@vueuse/core";
+import { computed, inject } from "vue";
+import { INJECTION_KEY_DRAW_CONTEXT, INJECTION_KEY_PROJECT, INJECTION_KEY_RENDERER_MAP } from "@/symbols.ts";
+import { CanvasRenderer, LayerRenderer } from "@/app/core";
+import type { DrawContext } from "@/types";
+import { findMinMaxOfLayer } from "@/app/floating-menu/export/util.ts";
+import * as constants from "@/constants";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import * as colorPalettes from "./export/color-palettes.ts";
+import { Badge } from "@/components/ui/badge";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+
+const project = inject(INJECTION_KEY_PROJECT)!;
+const drawContext = inject(INJECTION_KEY_DRAW_CONTEXT)!;
+const renderMap = inject(INJECTION_KEY_RENDERER_MAP)!;
+
+const SVG_MIMETYPE = "image/svg+xml";
+
+const activePalette = useLocalStorage<keyof typeof colorPalettes>("export-image-palette", "github");
+
+const renderedBlob = computed<Blob>(() => {
+  if (project.value.elements.length === 0) {
+    return new Blob();
+  }
+
+  const fontSize = 16;
+
+  const elements = drawContext.value.selectedElements.size
+    ? project.value.elements.filter(el => drawContext.value.selectedElements.has(el.id))
+    : project.value.elements;
+  const layer = new LayerRenderer(renderMap).render(elements);
+
+  const [minX, minY, maxX, maxY] = findMinMaxOfLayer(layer);
+  const gridArray = Array(maxY-minY+1).fill(null).map(() => Array(maxX-minX+1).fill(' '));
+  layer.entries().forEach(([[x, y], char]) => {
+    gridArray[y-minY][x-minX] = char;
+  });
+  const lines =  gridArray.map(row => row.join(''));
+
+  const viewBoxHeight = lines.length * fontSize;
+  const viewBoxWidth = lines[0].length * Math.floor((9/16) * fontSize);
+
+  const svgNode = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svgNode.setAttribute("viewBox", `0 0 ${viewBoxWidth} ${viewBoxHeight}`);
+  svgNode.setAttribute("fill", "currentColor");
+  svgNode.setAttribute("stroke", "currentColor");
+
+  const textNode = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+  textNode.setAttribute("x", "0");
+  textNode.setAttribute("y", `${fontSize}`);
+  textNode.setAttribute("font-family", "monospace");
+  textNode.setAttribute("font-size", `${fontSize-2}`);
+  textNode.setAttribute("xml:space", "preserve");
+
+  for (let i = 0; i < lines.length; i++) {
+    const tspan = document.createElementNS('http://www.w3.org/2000/svg', 'tspan');
+    tspan.setAttribute("x", "0");
+    tspan.setAttribute("y", `${(i+1)*fontSize}`);
+    tspan.textContent = lines[i];
+    textNode.appendChild(tspan);
+  }
+
+  svgNode.appendChild(textNode);
+
+  const serializer = new XMLSerializer();
+  const svgDocument = serializer.serializeToString(svgNode);
+
+  return new Blob([svgDocument], { type: SVG_MIMETYPE });
+});
+
+const imageUrl = useObjectUrl(renderedBlob);
+
+function startDownload() {
+  const anchor = document.createElement("a");
+  anchor.href = imageUrl.value!;
+  anchor.download = `${project.value.name ?? "asciidraw"}.svg`;
+  document.body.appendChild(anchor);
+  anchor.click();
+  document.body.removeChild(anchor);
+}
+
+const clipboardItem = computed(() => [new ClipboardItem({ ["text/plain"]: renderedBlob.value })]);
+const { copy: doCopy, copied: recentlyCopied } = useClipboardItems({ source: clipboardItem });
+</script>
+
+<template>
+  <Dialog>
+    <DialogTrigger as-child>
+      <slot />
+    </DialogTrigger>
+    <DialogContent>
+      <DialogTitle>
+        {{ $t('app.dialog.export-svg.title') }}
+      </DialogTitle>
+      <DialogDescription>
+        {{ $t('app.dialog.export-svg.description') }}
+      </DialogDescription>
+      <Alert variant="warning">
+        <LucideAlertTriangle class="size-4" />
+        <AlertTitle>
+          {{ $t('app.dialog.export-svg.experimental.title') }}
+        </AlertTitle>
+        <AlertDescription>
+          {{ $t('app.dialog.export-svg.experimental.description') }}
+        </AlertDescription>
+      </Alert>
+      <img :src="imageUrl" alt="preview" class="w-full bg-secondary text-foreground rounded-sm" />
+      <DialogFooter>
+        <DialogClose as-child>
+          <Button variant="secondary">
+            {{ $t('dialog-common.close') }}
+          </Button>
+        </DialogClose>
+        <Button type="button" @click="() => startDownload()">
+          <LucideDownload class="size-6" />
+        </Button>
+        <Button type="button" @click="() => doCopy()">
+          <component :is="recentlyCopied ? LucideClipboardCheck : LucideClipboardCopy" class="size-6" />
+        </Button>
+      </DialogFooter>
+    </DialogContent>
+  </Dialog>
+</template>
