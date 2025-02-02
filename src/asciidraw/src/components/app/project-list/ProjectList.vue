@@ -12,6 +12,7 @@ import ProjectDropZone from "@/components/app/project-list/ProjectDropZone.vue";
 import IconButton from "@/components/composed/IconButton.vue";
 import DuplicateProjectButton from "@/components/app/project-list/DuplicateProjectButton.vue";
 import UploadProjectButton from "@/components/app/project-list/UploadProjectButton.vue";
+import ProjectListLink from "@/components/app/project-list/ProjectListLink.vue";
 
 type FeatureName = "edit-name" | "duplicate" | "delete" | "upload-project" | "list-link"
 
@@ -56,12 +57,7 @@ function newProject(event: KeyboardEvent) {
       <template #tooltip>{{ $t('components.project-list.new.tooltip') }}</template>
     </IconButton>
     <UploadProjectButton v-if="isEnabled('upload-project')" />
-    <router-link v-if="isEnabled('list-link')" :to="{ name: 'app-init' }" class="leading-none">
-      <IconButton variant="outline" size="icon" class="size-7">
-        <LucideList class="size-full" />
-        <template #tooltip>{{ $t('components.project-list.list-link.tooltip') }}</template>
-      </IconButton>
-    </router-link>
+    <ProjectListLink v-if="isEnabled('list-link')" />
   </div>
   <ProjectDropZone />
 </template>

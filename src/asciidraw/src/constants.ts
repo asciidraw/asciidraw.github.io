@@ -2,8 +2,9 @@
 export const CHARACTER_PIXEL_WIDTH = 9;
 /** height of a character in pixels */
 export const CHARACTER_PIXEL_HEIGHT = 16;
+export const FONT_SIZE = CHARACTER_PIXEL_HEIGHT-2;
 /** font used on the canvas */
-export const FONT = `${CHARACTER_PIXEL_HEIGHT-2}px Courier New`;
+export const FONT = `${FONT_SIZE}px Courier New`;
 /** maximum number of cells (x axis) */
 export const MAX_GRID_WIDTH = 2000;
 /** maximum number of cells (y axis) */
