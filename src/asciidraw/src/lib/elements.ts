@@ -27,5 +27,5 @@ export function createNewProjectId(): string {
  * creates a new element id
  */
 export function createNewElementId(): string {
-  return uuid();
+  return uuid().replace(/-/g, "");
 }
