@@ -215,10 +215,6 @@ app:
       experimental:
         title: "Experimentelle Funktion"
         description: "Der Export als SVG-Bild ist eine experimentelle Funktion und die Ergebnisse werden nicht perfekt sein."
-    purge:
-      title: "Projektdaten bereinigen"
-      description: "Ihr Projekt wird gelöscht und alle Änderungen, die Sie vorgenommen haben, gehen für immer verloren."
-      action: "Bereinigen"
 actions:
   move-view:
     display-name: "Ansicht Bewegen"

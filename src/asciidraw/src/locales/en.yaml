@@ -219,10 +219,6 @@ app:
       experimental:
         title: "Experimental Feature"
         description: "Exporting as an SVG-Image is an experimental feature and the results won't be perfect."
-    purge:
-      title: "Purging Project Data"
-      description: "You Project will be purged and any changes you made will be lost forever."
-      action: "Purge"
 actions:
   move-view:
     display-name: "Move View"
