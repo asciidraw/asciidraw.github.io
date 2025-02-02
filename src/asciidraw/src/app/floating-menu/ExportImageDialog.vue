@@ -109,7 +109,7 @@ const { copy: doCopy, copied: recentlyCopied } = useClipboardItems({ source: cli
           </SelectContent>
         </Select>
       </div>
-      <img :src="imageUrl" alt="preview" class="w-full bg-accent rounded-sm" />
+      <img :src="imageUrl" alt="preview" class="w-full bg-secondary rounded-sm" />
       <DialogFooter>
         <DialogClose as-child>
           <Button variant="secondary">
