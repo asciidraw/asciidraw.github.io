@@ -88,7 +88,7 @@ const colorMode = useColorMode<ColorMode>({
         <div class="w-1" />
         <DropdownMenuShortcut v-if="colorMode === 'auto'">&bullet;</DropdownMenuShortcut>
       </DropdownMenuItem>
-      <Tabs :default-value="preferredDark ? 'dark' : 'light'">
+      <Tabs :default-value="colorMode.startsWith('light') ? 'light' : 'dark'">
         <TabsList class="w-full grid grid-cols-2">
           <TabsTrigger value="light">
             <LucideSun />
