@@ -34,6 +34,7 @@ const renderedBlob = computed<Blob>(() => {
   }
 
   const fontSize = 16;
+  const padding = 4;
 
   const elements = drawContext.value.selectedElements.size
     ? project.value.elements.filter(el => drawContext.value.selectedElements.has(el.id))
@@ -47,25 +48,26 @@ const renderedBlob = computed<Blob>(() => {
   });
   const lines = gridArray.map(row => row.join(''));
 
-  const viewBoxHeight = lines.length * fontSize;
-  const viewBoxWidth = lines[0].length * Math.floor((9/16) * fontSize);
+  const viewBoxHeight = Math.ceil(lines.length * fontSize) + padding*2;
+  const viewBoxWidth = Math.ceil((lines[0].length+2) * (9/16) * fontSize) + padding*2;
 
   const svgNode = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-  svgNode.setAttribute("viewBox", `0 0 ${viewBoxWidth} ${viewBoxHeight}`);
+  svgNode.setAttribute("width", `${viewBoxWidth}`);
+  svgNode.setAttribute("height", `${viewBoxHeight}`);
   svgNode.setAttribute("fill", "currentColor");
   svgNode.setAttribute("stroke", "currentColor");
 
   const textNode = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-  textNode.setAttribute("x", "0");
-  textNode.setAttribute("y", "0");
+  textNode.setAttribute("x", `${padding}`);
+  textNode.setAttribute("y", `${padding}`);
   textNode.setAttribute("font-family", "monospace");
-  textNode.setAttribute("font-size", `${fontSize-2}`);
+  textNode.setAttribute("font-size", `${fontSize}`);
   textNode.setAttribute("xml:space", "preserve");
 
   for (let i = 0; i < lines.length; i++) {
     const tspan = document.createElementNS('http://www.w3.org/2000/svg', 'tspan');
-    tspan.setAttribute("x", "1");
-    tspan.setAttribute("y", `${(i+1)*fontSize}`);
+    tspan.setAttribute("x", `${padding}`);
+    tspan.setAttribute("dy", `1em`);
     tspan.textContent = lines[i];
     textNode.appendChild(tspan);
   }
