@@ -8,11 +8,12 @@ import { useProjectIds } from "@/composables/useProjectIds.ts";
 import DeleteProjectButton from "@/components/app/project-list/DeleteProjectButton.vue";
 import EditProjectNameButton from "@/components/app/project-list/EditProjectNameButton.vue";
 import { computed } from "vue";
-import DropZone from "@/components/app/project-list/DropZone.vue";
+import ProjectDropZone from "@/components/app/project-list/ProjectDropZone.vue";
 import IconButton from "@/components/composed/IconButton.vue";
 import DuplicateProjectButton from "@/components/app/project-list/DuplicateProjectButton.vue";
+import UploadProjectButton from "@/components/app/project-list/UploadProjectButton.vue";
 
-type FeatureName = "list-link" | "edit-name" | "duplicate" | "delete"
+type FeatureName = "edit-name" | "duplicate" | "delete" | "upload-project" | "list-link"
 
 const props = defineProps<{
   features: FeatureName[]
@@ -54,6 +55,7 @@ function newProject(event: KeyboardEvent) {
       <LucidePlus />
       <template #tooltip>{{ $t('components.project-list.new.tooltip') }}</template>
     </IconButton>
+    <UploadProjectButton v-if="isEnabled('upload-project')" />
     <router-link v-if="isEnabled('list-link')" :to="{ name: 'app-init' }" class="leading-none">
       <IconButton variant="outline" size="icon" class="size-7">
         <LucideList class="size-full" />
@@ -61,5 +63,5 @@ function newProject(event: KeyboardEvent) {
       </IconButton>
     </router-link>
   </div>
-  <DropZone />
+  <ProjectDropZone />
 </template>

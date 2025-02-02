@@ -23,7 +23,6 @@ import AuxiliaryLinesPopover from "@/app/floating-menu/AuxiliaryLinesPopover.vue
 import ElementMenu from "@/app/floating-menu/ElementMenu.vue";
 import DownloadProjectButton from "@/components/app/DownloadProjectButton.vue";
 import IssueDialog from "@/components/IssueDialog.vue";
-import UploadProjectButton from "@/app/floating-menu/UploadProjectButton.vue";
 
 const appContext = inject(INJECTION_KEY_APP)!;
 const project = inject(INJECTION_KEY_PROJECT)!;
@@ -52,13 +51,11 @@ const menuIsHidden = ref(false);
     </div>
     <Separator :label="$t('app.menu.project-list.label')" />
     <div class="space-y-0.5">
-      <ProjectList :features="['list-link', 'delete']" />
+      <ProjectList :features="['list-link', 'delete', 'upload-project']" />
     </div>
     <Separator :label="$t('app.menu.project.label')" />
     <div>
       <div class="flex justify-between">
-        <UploadProjectButton />
-        <Separator orientation="vertical" class="h-6" />
         <DownloadProjectButton />
         <CopyShareLinkDialog :project="project">
           <IconButton>
