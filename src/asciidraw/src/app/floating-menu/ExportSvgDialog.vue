@@ -28,8 +28,6 @@ const renderMap = inject(INJECTION_KEY_RENDERER_MAP)!;
 
 const SVG_MIMETYPE = "image/svg+xml";
 
-const activePalette = useLocalStorage<keyof typeof colorPalettes>("export-image-palette", "github");
-
 const renderedBlob = computed<Blob>(() => {
   if (project.value.elements.length === 0) {
     return new Blob();
@@ -47,7 +45,7 @@ const renderedBlob = computed<Blob>(() => {
   layer.entries().forEach(([[x, y], char]) => {
     gridArray[y-minY][x-minX] = char;
   });
-  const lines =  gridArray.map(row => row.join(''));
+  const lines = gridArray.map(row => row.join(''));
 
   const viewBoxHeight = lines.length * fontSize;
   const viewBoxWidth = lines[0].length * Math.floor((9/16) * fontSize);
@@ -59,14 +57,14 @@ const renderedBlob = computed<Blob>(() => {
 
   const textNode = document.createElementNS('http://www.w3.org/2000/svg', 'text');
   textNode.setAttribute("x", "0");
-  textNode.setAttribute("y", `${fontSize}`);
+  textNode.setAttribute("y", "0");
   textNode.setAttribute("font-family", "monospace");
   textNode.setAttribute("font-size", `${fontSize-2}`);
   textNode.setAttribute("xml:space", "preserve");
 
   for (let i = 0; i < lines.length; i++) {
     const tspan = document.createElementNS('http://www.w3.org/2000/svg', 'tspan');
-    tspan.setAttribute("x", "0");
+    tspan.setAttribute("x", "1");
     tspan.setAttribute("y", `${(i+1)*fontSize}`);
     tspan.textContent = lines[i];
     textNode.appendChild(tspan);
