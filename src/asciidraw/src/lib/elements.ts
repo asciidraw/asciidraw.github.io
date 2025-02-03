@@ -1,6 +1,7 @@
 import type { ElementBase } from "@/types";
 import { toRaw } from "vue";
 import { v4 as uuid } from "uuid";
+import { nanoid } from "nanoid";
 
 
 /**
@@ -19,7 +20,7 @@ export function cloneElement<T extends ElementBase>(element: T): T {
  * creates a new project id
  */
 export function createNewProjectId(): string {
-  return uuid();
+  return uuid();  // uuid is more human-readable
 }
 
 
@@ -27,5 +28,5 @@ export function createNewProjectId(): string {
  * creates a new element id
  */
 export function createNewElementId(): string {
-  return uuid().replace(/-/g, "");
+  return nanoid();  // nanoid is shorter than uuid (21 vs 36 characters)
 }

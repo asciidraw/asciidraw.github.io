@@ -23,6 +23,7 @@
     "lz-string": "^1.5.0",
     "markdown-it-github-alerts": "^0.3.0",
     "mitt": "^3.0.1",
+    "nanoid": "^5.0.9",
     "radix-vue": "^1.9.12",
     "tailwind-merge": "^2.6.0",
     "unique-names-generator": "^4.7.1",
