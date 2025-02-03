@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { ContextMenuItem, ContextMenuShortcut } from "@/components/ui/context-menu";
 
-type ExtractComponentProps<T> = /* @vue-ignore */ T extends new () => { $props: infer P } ? Partial<P> : never;
+type ContextMenuItemProps = /* @vue-ignore */ InstanceType<typeof ContextMenuItem>['$props'];
 
-const props = defineProps<ExtractComponentProps<typeof ContextMenuItem> & {
-
-}>();
+defineOptions({
+  inheritAttrs: false,
+});
+defineProps<ContextMenuItemProps>();
 </script>
 
 <template>

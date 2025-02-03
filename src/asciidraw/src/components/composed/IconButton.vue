@@ -2,20 +2,31 @@
 import { Button } from "@/components/ui/button";
 import {Tooltip, TooltipContent, TooltipTrigger} from "@/components/ui/tooltip";
 import type {TooltipContentProps} from "radix-vue";
+import { createReusableTemplate } from "@vueuse/core";
 
-type ExtractComponentProps<T> = /* @vue-ignore */ T extends new () => { $props: infer P } ? Partial<P> : never;
+type ButtonProps = /* @vue-ignore */ InstanceType<typeof Button>['$props'];
 
-const props = defineProps<ExtractComponentProps<typeof Button> & {
+defineOptions({
+  inheritAttrs: false,
+});
+const props = defineProps<ButtonProps & {
   contentProps?: TooltipContentProps
 }>();
+
+const [DefineTemplate, ReuseTemplate] = createReusableTemplate();
 </script>
 
 <template>
-  <Tooltip>
+  <DefineTemplate>
+    <Button variant="ghost" size="icon" v-bind="$attrs">
+      <slot />
+    </Button>
+  </DefineTemplate>
+
+  <ReuseTemplate v-if="!$slots.tooltip" />
+  <Tooltip v-else>
     <TooltipTrigger as-child>
-      <Button variant="ghost" size="icon" v-bind="$attrs">
-        <slot />
-      </Button>
+      <ReuseTemplate />
     </TooltipTrigger>
     <TooltipContent v-bind="props.contentProps">
       <slot name="tooltip" />
