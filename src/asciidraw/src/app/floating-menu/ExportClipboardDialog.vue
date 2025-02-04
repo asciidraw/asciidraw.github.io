@@ -27,13 +27,20 @@ const rendererMap = inject(INJECTION_KEY_RENDERER_MAP)!;
 
 const activeCommentStyle = useLocalStorage<keyof typeof commentStyleMap>("export-clipboard-comment-style", "none");
 
+function fallbackData() {
+  return "";
+}
+
 const rendered = computed<string>(() => {
-  if (project.value.elements.length === 0) return "";
   const elements = drawContext.value.selectedElements.size
     ? project.value.elements.filter(el => drawContext.value.selectedElements.has(el.id))
     : project.value.elements;
+  if (elements.length === 0) return fallbackData();
+
   const layer = new LayerRenderer(rendererMap).render(elements);
   const [minX, minY, maxX, maxY] = findMinMaxOfLayer(layer);
+  if (minX === Infinity) return fallbackData();
+
   const gridArray = Array(maxY-minY+1).fill(null).map(() => Array(maxX-minX+1).fill(' '));
   layer.entries().forEach(([[x, y], char]) => {
     gridArray[y-minY][x-minX] = char;

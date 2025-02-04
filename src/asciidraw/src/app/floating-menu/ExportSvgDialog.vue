@@ -28,20 +28,27 @@ const renderMap = inject(INJECTION_KEY_RENDERER_MAP)!;
 
 const SVG_MIMETYPE = "image/svg+xml";
 
+function fallbackData() {
+  return new Blob(['<svg xmlns="http://www.w3.org/2000/svg" width="1" height="1"></svg>'], { type: "image/svg+xml" });
+}
+
 const renderedBlob = computed<Blob>(() => {
-  if (project.value.elements.length === 0) {
-    return new Blob();
+  const elements = drawContext.value.selectedElements.size
+    ? project.value.elements.filter(el => drawContext.value.selectedElements.has(el.id))
+    : project.value.elements;
+
+  if (elements.length === 0) {
+    return fallbackData();
   }
 
   const fontSize = 16;
   const padding = 4;
 
-  const elements = drawContext.value.selectedElements.size
-    ? project.value.elements.filter(el => drawContext.value.selectedElements.has(el.id))
-    : project.value.elements;
   const layer = new LayerRenderer(renderMap).render(elements);
 
   const [minX, minY, maxX, maxY] = findMinMaxOfLayer(layer);
+  if (minX === Infinity) return fallbackData();
+  
   const gridArray = Array(maxY-minY+1).fill(null).map(() => Array(maxX-minX+1).fill(' '));
   layer.entries().forEach(([[x, y], char]) => {
     gridArray[y-minY][x-minX] = char;

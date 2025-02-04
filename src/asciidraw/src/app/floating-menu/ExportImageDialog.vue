@@ -29,22 +29,26 @@ const imageFormat = "image/png";
 
 const activePalette = useLocalStorage<keyof typeof colorPalettes>("export-image-palette", "github");
 
-const renderedBlob = computedAsync<Blob>(async () => {
-  if (project.value.elements.length === 0) {
-    return await new Promise(resolve => {
-      const canvas = document.createElement("canvas");
-      return canvas.toBlob(blob => resolve(blob!), imageFormat);
-    });
-  }
+function fallbackData() {
+  return new Promise(resolve => {
+    const canvas = document.createElement("canvas");
+    return canvas.toBlob(blob => resolve(blob!), imageFormat);
+  });
+}
 
+const renderedBlob = computedAsync<Blob>(async () => {
   const elements = drawContext.value.selectedElements.size
     ? project.value.elements.filter(el => drawContext.value.selectedElements.has(el.id))
     : project.value.elements;
+
+  if (elements.length === 0) return fallbackData();
+
   const layer = new LayerRenderer(renderMap).render(elements);
+  const [minX, minY, maxX, maxY] = findMinMaxOfLayer(layer);
+  if (minX === Infinity) return fallbackData();
 
   const canvas = document.createElement("canvas");
   const renderingContext = canvas.getContext("2d")!;
-  const [minX, minY, maxX, maxY] = findMinMaxOfLayer(layer);
   canvas.width = (maxX-minX+1) * constants.CHARACTER_PIXEL_WIDTH + 10;
   canvas.height = (maxY-minY+1) * constants.CHARACTER_PIXEL_HEIGHT + 10;
   const renderDrawContext: DrawContext = {
