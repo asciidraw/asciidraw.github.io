@@ -1,11 +1,5 @@
-/**
- * vector-like with x and y.
- * @see Vector
- */
-export interface VectorLike {
-  x: number
-  y: number
-}
+import type { VectorLike } from "@/types";
+
 
 /**
  * Class to store a 2D vector and simplify mathematical methods

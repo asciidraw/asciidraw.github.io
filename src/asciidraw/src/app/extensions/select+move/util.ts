@@ -1,5 +1,5 @@
-import { areAreasOverlapping, isPointWithinBox, type VectorLike } from "@/lib";
-import type { BoundingBox, ElementBase, ElementRenderer } from "@/types";
+import { areAreasOverlapping, isPointWithinBox } from "@/lib";
+import type { BoundingBox, ElementBase, ElementRenderer, VectorLike } from "@/types";
 
 
 interface GetElementAtPositionParams {

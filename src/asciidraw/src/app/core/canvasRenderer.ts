@@ -1,6 +1,6 @@
-import { Layer, Vector, type VectorLike } from "@/lib";
+import { Layer, Vector } from "@/lib";
 import * as constants from "@/constants.ts";
-import type { BoundingBox, DrawContext } from "@/types";
+import type { BoundingBox, DrawContext, VectorLike, SizeLike } from "@/types";
 
 
 export interface ColorPalette {
@@ -95,8 +95,8 @@ export class CanvasRenderer {
   }
 
   drawHighlights(highlights: BoundingBox[]): void {
-    for (const highlight of highlights) {
-      this.highlight({ x: highlight.left, y: highlight.top }, { x: highlight.right, y: highlight.bottom });
+    for (const highlightBox of highlights) {
+      this.highlight(highlightBox, highlightBox);
     }
   }
 
@@ -106,19 +106,20 @@ export class CanvasRenderer {
    */
   drawLayer(layer: Layer): void {
     for (const [[x, y], char] of layer.entries()) {
-      this.drawText({ x, y }, char);
+      this.drawCharacter({ x, y }, char);
     }
   }
 
   // internal drawing-functions
 
-  highlight(start: VectorLike, end: VectorLike, color?: string) {
+  highlight(start: VectorLike, size: SizeLike, color?: string) {
+    if (size.width <= 0 || size.height <= 0) return;
     this.renderingContext.fillStyle = color ?? this.colorPalette.highlight;
     this.renderingContext.fillRect(
       start.x * constants.CHARACTER_PIXEL_WIDTH - this.drawContext.offset.x + 0.5,
       (start.y-1) * constants.CHARACTER_PIXEL_HEIGHT - this.drawContext.offset.y + 0.5,
-      (end.x - start.x + 1) * constants.CHARACTER_PIXEL_WIDTH - 1,
-      (end.y - start.y + 1) * constants.CHARACTER_PIXEL_HEIGHT - 1,
+      size.width * constants.CHARACTER_PIXEL_WIDTH - 1,
+      size.height * constants.CHARACTER_PIXEL_HEIGHT - 1,
     );
   }
 
@@ -139,11 +140,16 @@ export class CanvasRenderer {
         continue
       }
 
-      const canvasX = ((position.x + col) * constants.CHARACTER_PIXEL_WIDTH) - this.drawContext.offset.x;
-      const canvasY = ((position.y + row) * constants.CHARACTER_PIXEL_HEIGHT) - this.drawContext.offset.y - 3;
-      this.renderingContext.fillText(char, canvasX, canvasY);
+      this.drawCharacter({ x: position.x + col, y: position.y + row }, char);
       col++;
     }
+  }
+
+  drawCharacter(position: VectorLike, character: string): void {
+    this.renderingContext.fillStyle = this.colorPalette.text;
+    const canvasX = (position.x * constants.CHARACTER_PIXEL_WIDTH) - this.drawContext.offset.x;
+    const canvasY = (position.y * constants.CHARACTER_PIXEL_HEIGHT) - this.drawContext.offset.y - 3;
+    this.renderingContext.fillText(character, canvasX, canvasY);
   }
 
   // converter function who translate between cell, frame and canvas coordinates

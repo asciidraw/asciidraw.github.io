@@ -5,11 +5,11 @@ import {
   doInRange,
   Layer,
   Vector,
-  type VectorLike
 } from "@/lib";
 import * as styles from "./styles.ts";
 import EditOptions from "@/app/extensions/progress-bar/EditOptions.vue";
 import { LucideRectangleEllipsis } from "lucide-vue-next";
+import type { VectorLike } from "@/types";
 
 
 export interface ProgressBarData {
@@ -43,7 +43,7 @@ export default defineExtension({
           type: "progressBar",
           x: start.x,
           y: start.y,
-          width: end.x - start.x,
+          width: end.x - start.x + 1,
           style: "basic",
           value: 0.0,
           showValue: false,
@@ -58,7 +58,7 @@ export default defineExtension({
           type: "progressBar",
           x: start.x,
           y: start.y,
-          width: end.x - start.x,
+          width: end.x - start.x + 1,
           style: "basic",
           value: 0.0,
           showValue: false,
@@ -71,10 +71,10 @@ export default defineExtension({
       EditComponent: EditOptions,
       getBoundingBox(element) {
         return {
-          top: element.y,
-          left: element.x,
-          bottom: element.y,
-          right: element.x + element.width,
+          x: element.x,
+          y: element.y,
+          height: 1,
+          width: element.width,
         }
       },
       render(element) {

@@ -8,7 +8,7 @@ import {
   useWindowSize,
 } from "@vueuse/core";
 import AppZoomButton from "@/app/ZoomButton.vue";
-import { cloneElement, isPointWithinBox, Layer, type VectorLike } from "@/lib";
+import { cloneElement, isPointWithinBox, Layer } from "@/lib";
 import {
   INJECTION_KEY_APP,
   INJECTION_KEY_DRAW_CONTEXT,
@@ -16,7 +16,7 @@ import {
   INJECTION_KEY_RENDERER_MAP
 } from "@/symbols.ts";
 import { CanvasRenderer, type ColorPalette, LayerRenderer } from "@/app/core";
-import type { ElementBase } from "@/types";
+import type { ElementBase, VectorLike } from "@/types";
 import { createLabelElement } from "@/app/extensions/label";
 import ContextMenuHandler from "@/app/context-menu/ContextMenuHandler.vue";
 
@@ -89,8 +89,8 @@ function redraw() {
   for (const selectedElementId of drawContext.value.selectedElements) {
     const selectedElement = project.value.elements.find(e => e.id === selectedElementId);
     if (!selectedElement) continue;
-    const highlight = rendererMap[selectedElement.type].getBoundingBox(selectedElement);
-    canvasRenderer.highlight({ x: highlight.left, y: highlight.top }, { x: highlight.right, y: highlight.bottom });
+    const highlightBox = rendererMap[selectedElement.type].getBoundingBox(selectedElement);
+    canvasRenderer.highlight(highlightBox, highlightBox);
   }
   canvasRenderer.drawLayer(layer);
 }

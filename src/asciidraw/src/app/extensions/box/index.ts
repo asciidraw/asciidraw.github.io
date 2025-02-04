@@ -1,7 +1,8 @@
-import { defineElementRenderer, defineExtension, doInRange, Layer, createNewElementId, Vector, type VectorLike } from "@/lib";
+import { defineElementRenderer, defineExtension, doInRange, Layer, createNewElementId, Vector } from "@/lib";
 import * as styles from "./styles.ts";
 import EditOptions from "./EditOptions.vue";
 import { LucideRectangleHorizontal } from "lucide-vue-next";
+import type { VectorLike } from "@/types";
 
 
 export interface BoxData {
@@ -34,8 +35,8 @@ export default defineExtension({
           type: "box",
           x: start.x,
           y: start.y,
-          width: end.x - start.x,
-          height: end.y - start.y,
+          width: end.x - start.x + 1,
+          height: end.y - start.y + 1,
           style: "basic",
         });
       },
@@ -48,8 +49,8 @@ export default defineExtension({
           type: "box",
           x: start.x,
           y: start.y,
-          width: end.x - start.x,
-          height: end.y - start.y,
+          width: end.x - start.x + 1,
+          height: end.y - start.y + 1,
           style: "basic",
         });
       }
@@ -60,10 +61,10 @@ export default defineExtension({
       EditComponent: EditOptions,
       getBoundingBox(element){
         return {
-          top: element.y,
-          left: element.x,
-          bottom: element.y + element.height,
-          right: element.x + element.width,
+          x: element.x,
+          y: element.y,
+          width: element.width,
+          height: element.height,
         }
       },
       render(element) {
@@ -71,18 +72,20 @@ export default defineExtension({
         const layer = new Layer();
 
         layer.set(element.x, element.y, style.topLeft);
-        layer.set(element.x+element.width, element.y, style.topRight);
-        layer.set(element.x, element.y+element.height, style.bottomLeft);
-        layer.set(element.x+element.width, element.y+element.height, style.bottomRight);
+        layer.set(element.x+element.width-1, element.y, style.topRight);
+        layer.set(element.x, element.y+element.height-1, style.bottomLeft);
+        layer.set(element.x+element.width-1, element.y+element.height-1, style.bottomRight);
 
-        doInRange(element.x + 1, element.x + element.width, x => {
+        // horizontal lines
+        doInRange(element.x + 1, element.x + element.width - 1, x => {
           layer.set(x, element.y, style.top);
-          layer.set(x, element.y+element.height, style.bottom);
+          layer.set(x, element.y + element.height-1, style.bottom);
         });
 
-        doInRange(element.y + 1, element.y + element.height, y => {
+        // vertical lines
+        doInRange(element.y + 1, element.y + element.height - 1, y => {
           layer.set(element.x, y, style.left);
-          layer.set(element.x+element.width, y, style.right);
+          layer.set(element.x + element.width-1, y, style.right);
         });
 
         return layer;

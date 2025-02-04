@@ -1,7 +1,7 @@
-import { defineExtension, Vector, type VectorLike } from "@/lib";
+import { defineExtension, Vector } from "@/lib";
 import { LucideSquareDashedMousePointer } from "lucide-vue-next";
 import { getElementAtPos, getElementsInArea } from "@/app/extensions/select+move/util.ts";
-import type { ActionClickEventHandler, BoundingBox } from "@/types";
+import type { ActionClickEventHandler, BoundingBox, VectorLike } from "@/types";
 
 
 interface SubHandler {
@@ -32,8 +32,8 @@ function newSelectionAreaHandler(): SubHandler {
       hasMoved = hasMoved || !Vector.equals(startPosition, currentPosition);
       if (!hasMoved) return;
       const [start, end] = Vector.minMax(startPosition, currentPosition);
-      const selectionArea: BoundingBox = {left: start.x, top: start.y, right: end.x, bottom: end.y};
-      const elements = getElementsInArea({area: selectionArea, elements: project.elements, rendererMap});
+      const selectionArea: BoundingBox = { x: start.x, y: start.y, width: start.x + end.x + 1, height: start.y + end.y + 1 };  // todo: verify size
+      const elements = getElementsInArea({ area: selectionArea, elements: project.elements, rendererMap });
       drawContext.selectedElements.clear();
       if (isMod(mouseEvent))
         onStartElements.forEach(v => drawContext.selectedElements.add(v));
@@ -41,7 +41,7 @@ function newSelectionAreaHandler(): SubHandler {
         drawContext.selectedElements.add(element.id);
     },
     onClickUp({ mouseEvent, canvasToCell, drawContext, project, rendererMap }) {
-      const endPosition = canvasToCell({x: mouseEvent.clientX, y: mouseEvent.clientY});
+      const endPosition = canvasToCell({ x: mouseEvent.clientX, y: mouseEvent.clientY });
 
       drawContext.selectedElements.clear();
       if (isMod(mouseEvent))
@@ -49,7 +49,7 @@ function newSelectionAreaHandler(): SubHandler {
 
       if (hasMoved) {
         const [start, end] = Vector.minMax(startPosition, endPosition);
-        const selectionArea: BoundingBox = { left: start.x, top: start.y, right: end.x, bottom: end.y };
+        const selectionArea: BoundingBox = { x: start.x, y: start.y, width: start.x + end.x + 1, height: start.y + end.y + 1 };  // todo: verify size
         const elements = getElementsInArea({ area: selectionArea, elements: project.elements, rendererMap });
         for (const element of elements) {
           drawContext.selectedElements.add(element.id);

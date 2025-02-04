@@ -1,7 +1,20 @@
 import type { Component } from "vue";
-import { Layer, type VectorLike } from "@/lib";
+import { Layer } from "@/lib";
 import type { ElementBase } from "@/types/project.ts";
 
+
+/**
+ * @see Vector
+ */
+export interface VectorLike {
+  x: number
+  y: number
+}
+
+export interface SizeLike {
+  width: number
+  height: number
+}
 
 export interface DrawContext {
   /** draw-offset of the canvas */
@@ -27,9 +40,4 @@ export interface ElementRenderer<D extends object = object> {
 }
 
 
-export interface BoundingBox {
-  top: number
-  left: number
-  bottom: number
-  right: number
-}
+export type BoundingBox = VectorLike & SizeLike
