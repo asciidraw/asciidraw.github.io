@@ -238,6 +238,8 @@ actions:
     edit:
       text:
         label: "Text"
+      block:
+        label: "Block"
       fit-to-content: "An Inhalt anpassen"
   group:
     display-name: "Gruppe"

@@ -242,6 +242,8 @@ actions:
     edit:
       text:
         label: "Text"
+      block:
+        label: "Block"
       fit-to-content: "Fit to Content"
   group:
     display-name: "Group"

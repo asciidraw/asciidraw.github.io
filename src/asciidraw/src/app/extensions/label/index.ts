@@ -1,6 +1,8 @@
-import { createNewElementId, defineElementRenderer, defineExtension, Layer, Vector, type VectorLike } from "@/lib";
+import { createNewElementId, defineElementRenderer, defineExtension, Layer, Vector } from "@/lib";
 import EditOptions from "./EditOptions.vue";
 import { LucideWholeWord } from "lucide-vue-next";
+import { splitTextToLines } from "@/app/extensions/label/util.ts";
+import type { VectorLike } from "@/types";
 
 
 export interface LabelData {
@@ -11,6 +13,7 @@ export interface LabelData {
   width: number
   height: number
   text: string
+  block: boolean
 }
 
 
@@ -26,6 +29,7 @@ export function createLabelElement(text: string, pos?: VectorLike, width?: numbe
     width: width ?? altWidth,
     height: height ?? altHeight,
     text: text,
+    block: false,
   }
 }
 
@@ -49,9 +53,10 @@ export default defineExtension({
           type: "label",
           x: start.x,
           y: start.y,
-          width: end.x - start.x,
-          height: end.y - start.y,
+          width: end.x - start.x + 1,
+          height: end.y - start.y + 1,
           text: "Lorem ipsum dolor sit amet.",
+          block: false,
         });
       },
       onClickUp({ mouseEvent, canvasToCell, drawContext, project }) {
@@ -63,9 +68,10 @@ export default defineExtension({
           type: "label",
           x: start.x,
           y: start.y,
-          width: end.x - start.x,
-          height: end.y - start.y,
+          width: end.x - start.x + 1,
+          height: end.y - start.y + 1,
           text: "Lorem ipsum dolor sit amet.",
+          block: false,
         });
       }
     };
@@ -75,32 +81,32 @@ export default defineExtension({
       EditComponent: EditOptions,
       getBoundingBox(element) {
         return {
-          left: element.x,
-          top: element.y,
-          right: element.x + element.width,
-          bottom: element.y + element.height,
+          x: element.x,
+          y: element.y,
+          height: element.height,
+          width: element.width,
         }
       },
       render(element) {
         const layer = new Layer();
 
-        let col: number = 0;
+        const xOffset = element.x;
+        const yOffset = element.y;
+        const maxWidth = element.width;
+        const maxHeight = element.height;
+
+        const lines = splitTextToLines(element.text, maxWidth, element.block);
+
         let row: number = 0;
+        for (const line of lines) {
 
-        const text = element.text;
+          for (let c = 0; c < line.length; c++) {
+            const character = line[c];
+            layer.set(xOffset + c, yOffset + row, character);
+          }
 
-        for (let i = 0; i < text.length; i++) {
-          const char = text[i];
-          if (char === '\n' || col > element.width) {
-            col = 0;
-            row++;
-            if (char === '\n') continue;
-          }
-          if (row > element.height) {
-            break;
-          }
-          layer.set(element.x + col, element.y + row, char);
-          col++;
+          row++;
+          if (row >= maxHeight) break;
         }
 
         return layer;
