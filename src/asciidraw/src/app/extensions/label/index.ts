@@ -5,6 +5,10 @@ import { splitTextToLines } from "@/app/extensions/label/util.ts";
 import type { VectorLike } from "@/types";
 
 
+type TextAlignmentVertical = "t" | "m" | "b";
+type TextAlignmentHorizontal = "l" | "c" | "r";
+type TextAlignment = `${TextAlignmentVertical}${TextAlignmentHorizontal}`;
+
 export interface LabelData {
   id: string
   type: "label"
@@ -14,6 +18,7 @@ export interface LabelData {
   height: number
   text: string
   block: boolean
+  alignment: TextAlignment
 }
 
 
@@ -30,6 +35,7 @@ export function createLabelElement(text: string, pos?: VectorLike, width?: numbe
     height: height ?? altHeight,
     text: text,
     block: false,
+    alignment: "tl",
   }
 }
 
@@ -57,6 +63,7 @@ export default defineExtension({
           height: end.y - start.y + 1,
           text: "Lorem ipsum dolor sit amet.",
           block: false,
+          alignment: "tl",
         });
       },
       onClickUp({ mouseEvent, canvasToCell, drawContext, project }) {
@@ -72,6 +79,7 @@ export default defineExtension({
           height: end.y - start.y + 1,
           text: "Lorem ipsum dolor sit amet.",
           block: false,
+          alignment: "tl",
         });
       }
     };
@@ -87,7 +95,7 @@ export default defineExtension({
           width: element.width,
         }
       },
-      render(element) {
+      render(element: LabelData) {
         const layer = new Layer();
 
         const xOffset = element.x;
@@ -97,12 +105,24 @@ export default defineExtension({
 
         const lines = splitTextToLines(element.text, maxWidth, element.block);
 
-        let row: number = 0;
+        if (element.alignment === undefined) element.alignment = "tl";
+        const vAlign = element.alignment[0] as TextAlignmentVertical;
+        const hAlign = element.alignment[1] as TextAlignmentHorizontal;
+
+        let row: number;
+        if (vAlign === "b") row = Math.max(0, maxHeight - lines.length);
+        else if (vAlign === "m") row = Math.max(0, Math.floor(maxHeight / 2 - lines.length / 2));
+        else row = 0;
+
         for (const line of lines) {
+          let cOff: number;
+          if (hAlign === "r") cOff = Math.max(0, maxWidth - line.length);
+          else if (hAlign === "c") cOff = Math.max(0, Math.floor(maxWidth / 2 - line.length / 2));
+          else cOff = 0;
 
           for (let c = 0; c < line.length; c++) {
             const character = line[c];
-            layer.set(xOffset + c, yOffset + row, character);
+            layer.set(xOffset + cOff + c, yOffset + row, character);
           }
 
           row++;

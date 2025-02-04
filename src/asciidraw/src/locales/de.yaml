@@ -240,6 +240,8 @@ actions:
         label: "Text"
       block:
         label: "Block"
+      alignment:
+        label: "Textausrichtung"
       fit-to-content: "An Inhalt anpassen"
   group:
     display-name: "Gruppe"

@@ -4,6 +4,7 @@ import { Textarea } from "@/components/ui/textarea";
 import type { LabelData } from ".";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 const { data } = defineProps<{
   data: LabelData,
@@ -28,6 +29,24 @@ function fitToContent(): void {
     <Label>
       {{ $t('actions.label.edit.block.label') }}
     </Label>
+  </div>
+  <div>
+    <Label>
+      {{ $t('actions.label.edit.alignment.label') }}
+    </Label>
+    <div class="mx-auto w-fit">
+      <RadioGroup class="grid grid-cols-3 gap-3" v-model:model-value="data.alignment">
+        <RadioGroupItem value="tl" />
+        <RadioGroupItem value="tc" />
+        <RadioGroupItem value="tr" />
+        <RadioGroupItem value="ml" />
+        <RadioGroupItem value="mc" />
+        <RadioGroupItem value="mr" />
+        <RadioGroupItem value="bl" />
+        <RadioGroupItem value="bc" />
+        <RadioGroupItem value="br" />
+      </RadioGroup>
+    </div>
   </div>
   <Button variant="secondary" @click="fitToContent" class="w-full">
     {{ $t('actions.label.edit.fit-to-content') }}

@@ -244,6 +244,8 @@ actions:
         label: "Text"
       block:
         label: "Block"
+      alignment:
+        label: "Text Alignment"
       fit-to-content: "Fit to Content"
   group:
     display-name: "Group"
