@@ -4,7 +4,7 @@ import {Tooltip, TooltipContent, TooltipTrigger} from "@/components/ui/tooltip";
 import type {TooltipContentProps} from "radix-vue";
 import { createReusableTemplate } from "@vueuse/core";
 
-type ButtonProps = /* @vue-ignore */ InstanceType<typeof Button>['$props'];
+type ButtonProps = /* @vue-ignore */ UndefinedToOptional<InstanceType<typeof Button>['$props']>;
 
 defineOptions({
   inheritAttrs: false,

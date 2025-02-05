@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ContextMenuItem, ContextMenuShortcut } from "@/components/ui/context-menu";
 
-type ContextMenuItemProps = /* @vue-ignore */ InstanceType<typeof ContextMenuItem>['$props'];
+type ContextMenuItemProps = /* @vue-ignore */ UndefinedToOptional<InstanceType<typeof ContextMenuItem>['$props']>;
 
 defineOptions({
   inheritAttrs: false,
