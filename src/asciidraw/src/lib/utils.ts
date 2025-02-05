@@ -24,8 +24,8 @@ export function doInRange(start: number, end: number, cb: (n: number, i: number)
 
 export function isPointWithinBox(point: VectorLike, box: BoundingBox): boolean {
   return (
-    box.x <= point.x && point.x <= (box.x + box.width)
-    && box.y <= point.y && point.y <= (box.y + box.height)
+    box.x <= point.x && point.x < (box.x + box.width)
+    && box.y <= point.y && point.y < (box.y + box.height)
   );
 }
 
