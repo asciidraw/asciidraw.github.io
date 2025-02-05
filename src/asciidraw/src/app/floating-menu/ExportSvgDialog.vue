@@ -42,25 +42,26 @@ const renderedBlob = computed<Blob>(() => {
   }
 
   const fontSize = 16;
+  const characterHeight = fontSize;
+  const characterWidth = (9/16) * fontSize;
   const padding = 4;
 
   const layer = new LayerRenderer(renderMap).render(elements);
 
   const [minX, minY, maxX, maxY] = findMinMaxOfLayer(layer);
   if (minX === Infinity) return fallbackData();
-  
+
   const gridArray = Array(maxY-minY+1).fill(null).map(() => Array(maxX-minX+1).fill(' '));
   layer.entries().forEach(([[x, y], char]) => {
     gridArray[y-minY][x-minX] = char;
   });
   const lines = gridArray.map(row => row.join(''));
 
-  const viewBoxHeight = Math.ceil(lines.length * fontSize) + padding*2;
-  const viewBoxWidth = Math.ceil((lines[0].length+2) * (9/16) * fontSize) + padding*2;
+  const viewBoxHeight = Math.ceil(lines.length * characterHeight) + padding*2;
+  const viewBoxWidth = Math.ceil((lines[0].length+2) * characterWidth + padding*2);
 
   const svgNode = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-  svgNode.setAttribute("width", `${viewBoxWidth}`);
-  svgNode.setAttribute("height", `${viewBoxHeight}`);
+  svgNode.setAttribute("viewBox", `0 0 ${viewBoxWidth} ${viewBoxHeight}`);
   svgNode.setAttribute("fill", "currentColor");
   svgNode.setAttribute("stroke", "currentColor");
 
