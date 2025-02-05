@@ -8,7 +8,7 @@ import { createNewProjectId, setStorageSync, StorageType, storeProjectData } fro
 import { useRouter } from "vue-router";
 import { computed } from "vue";
 
-const exampleProjectsMap = import.meta.glob<Project>("@/assets/example-projects/*.json");
+const exampleProjectsMap = import.meta.glob<Project>("@/assets/example-projects/*.json", { eager: false, import: 'default' });
 const exampleProjectImageMap = import.meta.glob<string>("@/assets/example-projects/*.png", { eager: true, import: 'default', query: { url: true } });
 type Loader = typeof exampleProjectsMap[keyof typeof exampleProjectsMap];
 
@@ -52,7 +52,7 @@ const exampleProjects = computed<ExampleProjectInfo[]>(() => {
               </CardTitle>
             </CardHeader>
             <CardContent class="grid place-items-center">
-              <img v-if="example.imgSrc" :src="example.imgSrc" alt="Preview" class="size-full rounded-md dark:invert" />
+              <img v-if="example.imgSrc" :src="example.imgSrc" alt="Preview" class="size-full rounded-md object-contain" />
               <LucideImageOff v-else class="size-12" />
             </CardContent>
             <CardFooter class="justify-end">

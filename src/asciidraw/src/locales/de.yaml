@@ -100,6 +100,7 @@ example-projects:
   title: "Beispiel Projekte"
   names:
     cpu-architecture: "CPU Architektur"
+    orm: "Object Relational Mapping (ORM)"
   actions:
     load: "Beispiel Laden"
 app-init:

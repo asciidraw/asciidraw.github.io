@@ -103,6 +103,7 @@ example-projects:
   title: "Example Projects"
   names:
     cpu-architecture: "CPU Architecture"
+    orm: "Object Relational Mapping (ORM)"
   actions:
     load: "Load Example"
 app-init:
