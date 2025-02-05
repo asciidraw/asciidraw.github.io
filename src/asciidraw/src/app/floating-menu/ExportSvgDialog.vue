@@ -71,6 +71,11 @@ const renderedBlob = computed<Blob>(() => {
   textNode.setAttribute("font-family", "monospace");
   textNode.setAttribute("font-size", `${fontSize}`);
   textNode.setAttribute("xml:space", "preserve");
+  textNode.setAttribute("style", "white-space: pre");
+  textNode.setAttribute("text-anchor", "start");
+  textNode.setAttribute("direction", "ltr");
+  textNode.setAttribute("letter-spacing", "normal");
+  textNode.setAttribute("font-size-adjust", "none");
 
   for (let i = 0; i < lines.length; i++) {
     const tspan = document.createElementNS('http://www.w3.org/2000/svg', 'tspan');
