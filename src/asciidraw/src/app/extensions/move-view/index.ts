@@ -6,7 +6,6 @@ export default defineExtension({
     const moveStartOffset = { x: 0, y: 0 };
     const moveStartPosition = { x: 0, y: 0 };
 
-    app.activeActionId = "move-view";
     app.actions['move-view'] = {
       displayName: "actions.move-view.display-name",
       icon: LucideHand,

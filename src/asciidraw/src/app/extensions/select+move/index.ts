@@ -32,7 +32,7 @@ function newSelectionAreaHandler(): SubHandler {
       hasMoved = hasMoved || !Vector.equals(startPosition, currentPosition);
       if (!hasMoved) return;
       const [start, end] = Vector.minMax(startPosition, currentPosition);
-      const selectionArea: BoundingBox = { x: start.x, y: start.y, width: start.x + end.x + 1, height: start.y + end.y + 1 };  // todo: verify size
+      const selectionArea: BoundingBox = { x: start.x, y: start.y, width: end.x - start.x + 1, height: end.y - start.y + 1 };  // todo: verify size
       const elements = getElementsInArea({ area: selectionArea, elements: project.elements, rendererMap });
       drawContext.selectedElements.clear();
       if (isMod(mouseEvent))
@@ -49,7 +49,7 @@ function newSelectionAreaHandler(): SubHandler {
 
       if (hasMoved) {
         const [start, end] = Vector.minMax(startPosition, endPosition);
-        const selectionArea: BoundingBox = { x: start.x, y: start.y, width: start.x + end.x + 1, height: start.y + end.y + 1 };  // todo: verify size
+        const selectionArea: BoundingBox = { x: start.x, y: start.y, width: end.x - start.x + 1, height: end.y - start.y + 1 };  // todo: verify size
         const elements = getElementsInArea({ area: selectionArea, elements: project.elements, rendererMap });
         for (const element of elements) {
           drawContext.selectedElements.add(element.id);
@@ -107,6 +107,7 @@ export default defineExtension({
     let moveSelectionHandler: SubHandler = newMoveSelectionHandler();
     let selectionAreaHandler: SubHandler = newSelectionAreaHandler();
 
+    app.activeActionId = "select+move";
     app.actions['select+move'] = {
       displayName: "actions.select+move.display-name",
       icon: LucideSquareDashedMousePointer,
