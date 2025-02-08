@@ -38,6 +38,7 @@ watch([locale, path], () => {
   const pathString = pathParts.length ? "/" + pathParts.join('/') : "";
   const possiblePaths = [
     `${prefix}${pathString}`,
+    `${prefix}${pathString}.md`,
     `${prefix}${pathString}/index.md`,
   ]
   let anyMatch = false;
