@@ -32,16 +32,10 @@ const currentStepIndex = ref<null | number>(null);
 const currentStep = computed(() => currentStepIndex.value === null ? null : steps[currentStepIndex.value]);
 const currentElement = computed(() => currentStep.value === null ? null : getElementBySelector(currentStep.value.selector));
 
-watch(currentElement, (newElement, _, onCleanup) => {
+watch(currentElement, (newElement) => {
   if (newElement === null) return;
-
-  newElement.style.zIndex = `60`;
   newElement.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" });
-
-  onCleanup(() => {
-    newElement.removeAttribute('style');
-  });
-}, {  });
+});
 
 function startGuide() {
   currentStepIndex.value = 0;

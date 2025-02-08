@@ -160,7 +160,8 @@ app:
       label: "Element"
     help:
       label: "Help"
-      text: "Maybe I put some helpful information here later on. Till then this will stay useless."
+      text: "If you don't know what to do you can look at our {0} or follow the Guide {1}."
+      docs-link: "Documentation"
   canvas:
     zoom:
       in:
@@ -236,6 +237,22 @@ app:
       experimental:
         title: "Experimental Feature"
         description: "Exporting as an SVG-Image is an experimental feature and the results won't be perfect."
+  guide:
+    floating-menu:
+      title: "Project Menu"
+      description: "Here are most of the relevant actions of the workspace."
+    project-list:
+      title: "Project List"
+      description: "Here you can manage your different projects, create new ones or delete some you no longer need."
+    project-actions:
+      title: "Project Actions"
+      description: "Here you can export your graph or do other helpful things."
+    tools:
+      title: "Tools"
+      description: "Here you can select the tool you want to use."
+    zoom:
+      title: "Zoom"
+      description: "In case things get to small or you want to see the bigger picture."
 actions:
   move-view:
     display-name: "Move View"
