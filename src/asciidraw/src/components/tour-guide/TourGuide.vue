@@ -77,7 +77,7 @@ function previousStep() {
         <div
           class="fixed inset-0 z-40 bg-black/80"
         />
-        <PopoverContent side="bottom">
+        <PopoverContent side="bottom" class="w-80">
           <PopoverArrow />
           <div class="flex flex-col gap-2.5">
             <h4 class="text-lg">
@@ -86,20 +86,20 @@ function previousStep() {
             <p class="text-muted-foreground">
               {{ currentStep!.description }}
             </p>
-            <div class="flex gap-x-1 [&>*]:flex-1">
-              <Button v-if="currentStepIndex === 0" variant="outline" class="gap-x-0.5" @click="previousStep">
+            <div class="flex gap-x-1 [&>*]:flex-1 [&>*]:gap-x-0.5 [&>*]:whitespace-normal">
+              <Button v-if="currentStepIndex === 0" variant="outline" @click="previousStep">
                 <LucideCircleSlash />
                 {{ $t('components.tour-guide.skip') }}
               </Button>
-              <Button v-else variant="outline" class="gap-x-0.5" @click="previousStep">
+              <Button v-else variant="outline" @click="previousStep">
                 <LucideCircleArrowLeft />
                 {{ $t('components.tour-guide.previous') }}
               </Button>
-              <Button v-if="currentStepIndex! < (steps.length-1)" variant="secondary" class="gap-x-0.5" @click="nextStep">
+              <Button v-if="currentStepIndex! < (steps.length-1)" variant="secondary" @click="nextStep">
                 <LucideCircleArrowRight />
                 {{ $t('components.tour-guide.next') }}
               </Button>
-              <Button v-else variant="secondary" class="gap-x-0.5" @click="resetTour">
+              <Button v-else variant="secondary" @click="resetTour">
                 <LucideCircleCheck />
                 {{ $t('components.tour-guide.finish') }}
               </Button>
