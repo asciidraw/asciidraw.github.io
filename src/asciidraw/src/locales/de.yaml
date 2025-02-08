@@ -69,7 +69,7 @@ components:
     skip: "Tour überspringen"
     previous: "Zurück"
     next: "Weiter"
-    finish: "Tour beendens"
+    finish: "Tour beenden"
 home:
   dev-notice: "Hinweis: Diese App befindet sich in der Entwicklung"
   draw: "Zeichne Etwas"
@@ -81,6 +81,16 @@ home:
     text: "Wenn Sie es in Ihren Code einfügen, wird es gleich aussehen"
   comment-styles:
     text: "Je nach Sprache können Sie den Kommentar-Stil beim Export ändern"
+  tour:
+    project-list:
+      title: "Projekt Liste"
+      description: "Hier können Sie alle Ihre Projekte sehen und verwalten"
+    documentation:
+      title: "Dokumentation"
+      description: "Hier können Sie die Dokumentation mit zusätzlichen Informationen über AsciiDraw sehen"
+    example-projects:
+      title: "Beispiel Projekte"
+      description: "Hier können Sie Beispielprojekte sehen und laden"
 about:
   steps:
     mission:

@@ -84,6 +84,16 @@ home:
     text: "When pasted into your code it will look the same"
   comment-styles:
     text: "Depending on you language you can change the export comment style"
+  tour:
+    project-list:
+      title: "Project List"
+      description: "Here you can see and manage all your projects"
+    documentation:
+      title: "Documentation"
+      description: "Here you can see the documentation with additional information about AsciiDraw"
+    example-projects:
+      title: "Example Projects"
+      description: "Here you can see and load example projects"
 about:
   steps:
     mission:
