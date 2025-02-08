@@ -10,8 +10,8 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { LucideClipboardCheck, LucideClipboardCopy, LucideSpellCheck, LucideSpellCheck2 } from "lucide-vue-next";
-import { useClipboard, useLocalStorage } from "@vueuse/core";
-import { computed, inject } from "vue";
+import { useClipboard, useLocalStorage, useMagicKeys, whenever } from "@vueuse/core";
+import { computed, inject, ref } from "vue";
 import { INJECTION_KEY_DRAW_CONTEXT, INJECTION_KEY_PROJECT, INJECTION_KEY_RENDERER_MAP } from "@/symbols.ts";
 import { LayerRenderer } from "@/app/core";
 import { CharacterType, detectCharacterType, findMinMaxOfLayer } from "@/app/floating-menu/export/util.ts";
@@ -24,6 +24,20 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 const project = inject(INJECTION_KEY_PROJECT)!;
 const drawContext = inject(INJECTION_KEY_DRAW_CONTEXT)!;
 const rendererMap = inject(INJECTION_KEY_RENDERER_MAP)!;
+
+const { ctrl_s } = useMagicKeys({
+  onEventFired: (event) => {
+    if (event.ctrlKey && event.key === 's')
+      event.preventDefault();
+  },
+  passive: false,
+});
+
+const dialogOpen = ref(false);
+
+whenever(ctrl_s, () => {
+  dialogOpen.value = true;
+});
 
 const activeCommentStyle = useLocalStorage<keyof typeof commentStyleMap>("export-clipboard-comment-style", "none");
 
@@ -58,7 +72,7 @@ const { copy: doCopy, copied: recentlyCopied } = useClipboard({ source: rendered
 </script>
 
 <template>
-  <Dialog>
+  <Dialog v-model:open="dialogOpen">
     <DialogTrigger as-child>
       <slot />
     </DialogTrigger>
