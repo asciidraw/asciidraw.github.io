@@ -13,10 +13,14 @@ import {
   LucideSwatchBook
 } from "lucide-vue-next";
 import { Badge } from "@/components/ui/badge";
+import HomePageTourGuide from "@/components/HomePageTourGuide.vue";
 </script>
 
 <template>
   <DefaultLayout>
+    <template #headerIcons>
+      <HomePageTourGuide />
+    </template>
     <div class="h-[calc(100vh-16rem)] grid place-content-center gap-1 text-center">
       <p class="text-muted-foreground">{{ $t('home.dev-notice') }}</p>
       <h1 class="text-4xl font-bold leading-none tracking-wide">AsciiDraw</h1>
@@ -30,19 +34,19 @@ import { Badge } from "@/components/ui/badge";
     </div>
     <div class="space-y-16">
       <div class="grid grid-cols-[repeat(3,1fr)] gap-2 w-fit mx-auto">
-        <router-link :to="{ name: 'app-init' }" class="leading-none">
+        <router-link data-tour="project-list" :to="{ name: 'app-init' }">
           <Button variant="secondary" class="size-full gap-x-0.5">
             <LucideList class="size-6" />
             {{ $t('home.links.project-list') }}
           </Button>
         </router-link>
-        <router-link :to="{ name: 'docs' }">
+        <router-link data-tour="documentation" :to="{ name: 'docs' }">
           <Button variant="secondary" class="size-full gap-x-0.5">
             <LucideBookType />
             {{ $t('home.links.docs') }}
           </Button>
         </router-link>
-        <router-link :to="{ name: 'example-projects' }">
+        <router-link data-tour="example-projects" :to="{ name: 'example-projects' }">
           <Button variant="secondary" class="size-full gap-x-0.5">
             <LucideSwatchBook />
             {{ $t('home.links.example-projects') }}

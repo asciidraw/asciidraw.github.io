@@ -12,6 +12,10 @@ import IssueDialog from "@/components/IssueDialog.vue";
 const props = defineProps<{
   class?: HTMLAttributes['class']
 }>();
+
+defineSlots<{
+  headerIcons(): any
+}>();
 </script>
 
 <template>
@@ -23,6 +27,10 @@ const props = defineProps<{
           <span>AsciiDraw</span>
         </router-link>
         <div class="grow" />
+        <template v-if="$slots.headerIcons" v-for="(child, index) in $slots.headerIcons()">
+          <component :is="child" />
+          <Separator orientation="vertical" class="h-6" />
+        </template>
         <IssueDialog />
         <Separator orientation="vertical" class="h-6" />
         <LocaleToggle />

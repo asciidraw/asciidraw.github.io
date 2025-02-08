@@ -10,7 +10,6 @@ import {
 import IconButton from "@/components/composed/IconButton.vue";
 import {
   LucideAlertTriangle,
-  LucideBadgeAlert,
   LucideBug,
   LucideClipboardCheck,
   LucideClipboardCopy,
@@ -31,7 +30,7 @@ const { copy, copied: recentlyCopied } = useClipboard();
   <Dialog>
     <DialogTrigger as-child>
       <IconButton>
-        <LucideBadgeAlert />
+        <LucideBug />
         <template #tooltip>{{ $t('components.issue-dialog.tooltip') }}</template>
       </IconButton>
     </DialogTrigger>
