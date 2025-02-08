@@ -159,7 +159,8 @@ app:
       label: "Element"
     help:
       label: "Hilfe"
-      text: "Vielleicht stelle ich später einige hilfreiche Informationen hier ein. Bis dahin wird dies nutzlos bleiben."
+      text: "Wenn Sie nicht wissen, was zu tun ist, können Sie sich unsere {0} ansehen oder dem Guide {1} folgen."
+      docs-link: "Dokumentation"
   canvas:
     zoom:
       in:
@@ -236,6 +237,22 @@ app:
       experimental:
         title: "Experimentelle Funktion"
         description: "Der Export als SVG-Bild ist eine experimentelle Funktion und die Ergebnisse werden nicht perfekt sein."
+  guide:
+    floating-menu:
+      title: "Projekt Menü"
+      description: "Hier sind die meisten der relevanten Aktionen des Arbeitsbereichs."
+    project-list:
+      title: "Projekt Liste"
+      description: "Hier können Sie Ihre verschiedenen Projekte verwalten, neue Projekte anlegen oder nicht mehr benötigte Projekte löschen."
+    project-actions:
+      title: "Projekt Aktionen"
+      description: "Hier können Sie Ihr Diagramm exportieren oder andere nützliche Dinge tun."
+    tools:
+      title: "Tools"
+      description: "Hier können Sie das Werkzeug auswählen, das Sie verwenden möchten."
+    zoom:
+      title: "Vergrößern"
+      description: "Für den Fall, dass die Dinge zu klein werden oder Sie das größere Bild sehen wollen."
 actions:
   move-view:
     display-name: "Ansicht Bewegen"

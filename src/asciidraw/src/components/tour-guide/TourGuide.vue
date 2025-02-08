@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import {computed, ref, watch, watchEffect} from "vue";
+import {computed, reactive, ref, watch, watchEffect} from "vue";
 import type {GuideStep} from "@/components/tour-guide/types.ts";
-import {useMagicKeys, whenever} from "@vueuse/core";
+import {useElementBounding, useMagicKeys, whenever} from "@vueuse/core";
 import {DialogOverlay, DialogPortal, PopoverAnchor, PopoverArrow, PopoverPortal, PopoverRoot} from "radix-vue";
 import {PopoverContent} from "@/components/ui/popover";
 import {Button} from "@/components/ui/button";
@@ -12,6 +12,7 @@ import {
   LucideCircleDot,
   LucideCircleSlash
 } from "lucide-vue-next";
+import ElementExclusiveOverlay from "@/components/tour-guide/ElementExclusiveOverlay.vue";
 
 const { steps } = defineProps<{
   steps: GuideStep[]
@@ -29,18 +30,12 @@ function getElementBySelector(selector: string): HTMLElement | null {
 
 const currentStepIndex = ref<null | number>(null);
 const currentStep = computed(() => currentStepIndex.value === null ? null : steps[currentStepIndex.value]);
-const currentElement = computed(() => currentStep.value === null ? null : getElementBySelector(currentStep.value.selector))
+const currentElement = computed(() => currentStep.value === null ? null : getElementBySelector(currentStep.value.selector));
 
-watch(currentElement, (newElement, _, onCleanup) => {
+watch(currentElement, (newElement) => {
   if (newElement === null) return;
-
-  newElement.style.zIndex = `60`;
   setTimeout(() => newElement.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" }));
-
-  onCleanup(() => {
-    newElement.style.zIndex = ``;
-  });
-}, {  });
+});
 
 function startGuide() {
   currentStepIndex.value = 0;
@@ -74,10 +69,8 @@ function previousStep() {
     <PopoverRoot open modal>
       <PopoverAnchor as-child :element="currentElement" />
       <PopoverPortal>
-        <div
-          class="fixed inset-0 z-40 bg-black/80"
-        />
-        <PopoverContent side="bottom" class="w-80">
+        <ElementExclusiveOverlay :element="currentElement" />
+        <PopoverContent :side="currentStep!.side ?? 'bottom'" class="w-80">
           <PopoverArrow />
           <div class="flex flex-col gap-2.5">
             <h4 class="text-lg">

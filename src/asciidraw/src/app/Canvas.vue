@@ -310,8 +310,9 @@ useEventListener("paste", (event: ClipboardEvent) => {
       />
     </ContextMenuHandler>
   </div>
-  <div class="fixed top-0 left-1/2 -translate-x-1/2 pointer-events-none">
+  <AppZoomButton @zoom-in="zoomIn" @zoom-out="zoomOut" />
+  <!-- debug information -->
+  <div v-if="false" class="fixed top-0 left-1/2 -translate-x-1/2 pointer-events-none">
     Zoom: {{ drawContext.zoom }} | offset: {{ drawContext.offset.x.toFixed(2) }}x{{ drawContext.offset.y.toFixed(2) }} | Mouse: {{ canvasToCell({ x: mouseX, y: mouseY }) }}
   </div>
-  <AppZoomButton @zoom-in="zoomIn" @zoom-out="zoomOut" />
 </template>

@@ -24,6 +24,7 @@ import ElementMenu from "@/app/floating-menu/ElementMenu.vue";
 import DownloadProjectButton from "@/components/app/DownloadProjectButton.vue";
 import IssueDialog from "@/components/IssueDialog.vue";
 import ExportSvgDialog from "@/app/floating-menu/ExportSvgDialog.vue";
+import HelpText from "@/app/floating-menu/HelpText.vue";
 
 const appContext = inject(INJECTION_KEY_APP)!;
 const project = inject(INJECTION_KEY_PROJECT)!;
@@ -31,10 +32,10 @@ const menuIsHidden = ref(false);
 </script>
 
 <template>
-  <Button variant="ghost" v-if="menuIsHidden" @click="menuIsHidden = false" class="fixed bg-primary shadow left-4 top-4 z-20 p-2 rounded-full size-10">
+  <Button variant="ghost" v-if="menuIsHidden" @click="menuIsHidden = false" class="fixed bg-primary shadow left-4 top-4 p-2 rounded-full size-10">
     <AsciiDrawIcon class="size-10" />
   </Button>
-  <div v-else class="fixed bg-card border-2 border-border shadow left-4 top-4 max-h-[calc(100vh-2rem)] max-w-xs overflow-y-scroll z-20 p-2 rounded-lg space-y-4">
+  <div v-else data-tour="floating-menu" class="fixed bg-card border-2 border-border shadow left-4 top-4 max-h-[calc(100vh-2rem)] max-w-xs overflow-y-scroll p-2 rounded-lg space-y-4">
     <div class="flex gap-x-2">
       <router-link to="/" class="flex">
         <AsciiDrawIcon />
@@ -51,11 +52,11 @@ const menuIsHidden = ref(false);
       </IconButton>
     </div>
     <Separator :label="$t('app.menu.project-list.label')" />
-    <div class="space-y-0.5">
+    <div data-tour="project-list" class="space-y-0.5">
       <ProjectList :features="['edit-name', 'delete', 'upload-project', 'list-link']" />
     </div>
     <Separator :label="$t('app.menu.project.label')" />
-    <div>
+    <div data-tour="project-actions">
       <div class="flex justify-between">
         <DownloadProjectButton />
         <CopyShareLinkDialog :project="project">
@@ -96,7 +97,7 @@ const menuIsHidden = ref(false);
       </div>
     </div>
     <Separator :label="$t('app.menu.actions.label')" />
-    <div class="space-y-0.5">
+    <div data-tour="tools" class="space-y-0.5">
       <template v-for="[actionId, action] in Object.entries(appContext.actions)" :key="action.id">
         <Button :variant="actionId === appContext.activeActionId ? 'secondary' : 'ghost'" size="xs" class="gap-x-2 w-full" @click="appContext.activeActionId = actionId">
           <component v-if="action.icon" :is="action.icon" class="size-6" />
@@ -107,6 +108,6 @@ const menuIsHidden = ref(false);
     </div>
     <ElementMenu />
     <Separator :label="$t('app.menu.help.label')" />
-    <p>{{ $t('app.menu.help.text') }}</p>
+    <HelpText />
   </div>
 </template>
