@@ -3,7 +3,7 @@ title: "How to Export"
 ---
 
 <script setup>
-import { LucideType, LucideImage } from "lucide-vue-next";
+import { LucideType, LucideImage, LucideTangent } from "lucide-vue-next";
 </script>
 <style scoped>
 .lucide {
@@ -13,5 +13,9 @@ import { LucideType, LucideImage } from "lucide-vue-next";
 
 # How to Export
 
-- [<LucideType/> Text](./export/text)
-- [<LucideImage/> Image](./export/image)
+> [!TIP]
+> If you have some elements selected. Then only these elements are getting exported.
+
+- [<LucideType/> Text](/docs/export/text)
+- [<LucideImage/> Image](./docs/export/image)
+- [<LucideTangent/> SVG](/docs/export/svg)

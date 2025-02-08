@@ -1,8 +1,8 @@
 ---
-title: "ShortCuts"
+title: "Keyboard ShortCuts"
 ---
 
-# Shortcuts
+# Keyboard Shortcuts
 
 | Shortcut       | Description                                                                    |
 |----------------|--------------------------------------------------------------------------------|
