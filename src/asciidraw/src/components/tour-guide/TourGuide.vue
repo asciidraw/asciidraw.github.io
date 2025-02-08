@@ -35,7 +35,7 @@ watch(currentElement, (newElement, _, onCleanup) => {
   if (newElement === null) return;
 
   newElement.style.zIndex = `60`;
-  newElement.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" });
+  setTimeout(() => newElement.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" }));
 
   onCleanup(() => {
     newElement.style.zIndex = ``;
