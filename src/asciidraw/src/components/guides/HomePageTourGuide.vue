@@ -9,6 +9,11 @@ const { t } = useI18n();
 
 const steps = computed<GuideStep[]>(() => [
   {
+    selector: 'draw-something',
+    title: t('home.tour.draw-something.title'),
+    description: t('home.tour.draw-something.description'),
+  },
+  {
     selector: 'project-list',
     title: t('home.tour.project-list.title'),
     description: t('home.tour.project-list.description'),
@@ -30,7 +35,7 @@ const steps = computed<GuideStep[]>(() => [
   <TourGuide :steps="steps" v-slot="{ startGuide }">
     <IconButton @click="startGuide">
       <LucideCircleHelp />
-      <template #tooltip>{{ $t('home.tour.tooltip') }}</template>
+      <template #tooltip>{{ $t('components.tour-guide.tooltip') }}</template>
     </IconButton>
   </TourGuide>
 </template>

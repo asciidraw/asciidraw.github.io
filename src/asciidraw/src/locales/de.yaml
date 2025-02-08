@@ -66,6 +66,7 @@ components:
     copy-commit-hash:
       tooltip: "Commit Hash Kopieren"
   tour-guide:
+    tooltip: "Starten Sie einen Rundgang durch die UI"
     skip: "Tour überspringen"
     previous: "Zurück"
     next: "Weiter"
@@ -82,15 +83,18 @@ home:
   comment-styles:
     text: "Je nach Sprache können Sie den Kommentar-Stil beim Export ändern"
   tour:
+    draw-something:
+      title: "Zeichne Etwas"
+      description: "Öffne den Canvas und beginnen Sie, Ihren ersten Graphen zu zeichnen."
     project-list:
       title: "Projekt Liste"
-      description: "Hier können Sie alle Ihre Projekte sehen und verwalten"
+      description: "Hier können Sie alle Ihre Projekte sehen und verwalten."
     documentation:
       title: "Dokumentation"
-      description: "Hier können Sie die Dokumentation mit zusätzlichen Informationen über AsciiDraw sehen"
+      description: "Hier können Sie die Dokumentation mit zusätzlichen Informationen über AsciiDraw sehen."
     example-projects:
       title: "Beispiel Projekte"
-      description: "Hier können Sie Beispielprojekte sehen und laden"
+      description: "Hier können Sie Beispielprojekte sehen und laden."
 about:
   steps:
     mission:
