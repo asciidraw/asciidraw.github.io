@@ -16,6 +16,7 @@ export const docsTreeConfig: DocsTreeConfig = {
   "export": {
     "text": {},
     "image": {},
+    "svg": {},
   },
   'faq': {},
 };
