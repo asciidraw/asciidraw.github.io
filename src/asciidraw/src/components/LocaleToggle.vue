@@ -8,13 +8,15 @@ import {
 } from "@/components/ui/dropdown-menu";
 import IconButton from "@/components/composed/IconButton.vue";
 import { useI18n } from "vue-i18n";
+import { setStorageSync } from "@/lib";
 
+// todo: sync locale from storage back to i18n object. vueuse useLocalStorage and syncRef could be combined for that.
 
 const i18n = useI18n();
 
 function setI18n(locale: string) {
   i18n.locale.value = locale;
-  localStorage.setItem('i18n-locale', locale);
+  setStorageSync('i18n-locale', locale);
 }
 </script>
 
