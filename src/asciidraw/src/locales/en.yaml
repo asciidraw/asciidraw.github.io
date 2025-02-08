@@ -68,6 +68,11 @@ components:
     feature: "Suggest Feature"
     copy-commit-hash:
       tooltip: "Copy Commit Hash"
+  tour-guide:
+    skip: "Skip Tour"
+    previous: "Previous"
+    next: "Next"
+    finish: "Finish Tour"
 home:
   dev-notice: "Note: This app is under development"
   draw: "Draw Something"

@@ -65,6 +65,11 @@ components:
     feature: "Erweiterung vorschlagen"
     copy-commit-hash:
       tooltip: "Commit Hash Kopieren"
+  tour-guide:
+    skip: "Tour überspringen"
+    previous: "Zurück"
+    next: "Weiter"
+    finish: "Tour beendens"
 home:
   dev-notice: "Hinweis: Diese App befindet sich in der Entwicklung"
   draw: "Zeichne Etwas"
