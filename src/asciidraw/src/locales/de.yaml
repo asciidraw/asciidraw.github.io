@@ -85,7 +85,7 @@ home:
   tour:
     draw-something:
       title: "Zeichne Etwas"
-      description: "Öffne den Canvas und beginnen Sie, Ihren ersten Graphen zu zeichnen."
+      description: "Öffnen Sie die Arbeitsfläche, um Ihr erstes Diagramm zu zeichnen."
     project-list:
       title: "Projekt Liste"
       description: "Hier können Sie alle Ihre Projekte sehen und verwalten."

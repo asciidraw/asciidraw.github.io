@@ -88,7 +88,7 @@ home:
   tour:
     draw-something:
       title: "Draw Something"
-      description: "Öffnen Sie die Arbeitsfläche und beginnen Sie, Ihr erstes Graphen zu zeichnen."
+      description: "Open the workspace to draw your first graph."
     project-list:
       title: "Project List"
       description: "Here you can see and manage all your projects."
