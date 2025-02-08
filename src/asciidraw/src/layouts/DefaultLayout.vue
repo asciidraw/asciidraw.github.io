@@ -14,6 +14,7 @@ const props = defineProps<{
 }>();
 
 defineSlots<{
+  default(): any
   headerIcons(): any
 }>();
 </script>
