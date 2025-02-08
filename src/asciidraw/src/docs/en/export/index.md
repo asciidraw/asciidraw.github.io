@@ -13,8 +13,13 @@ import { LucideType, LucideImage, LucideTangent } from "lucide-vue-next";
 
 # How to Export
 
+Per default, you will export the whole canvas content.
+
 > [!TIP]
-> If you have some elements selected. Then only these elements are getting exported.
+> When you select only some elements, then only these elements are getting exported. <br>
+> This can give you more control.
+
+Find more details on specific export-modes:
 
 - [<LucideType/> Text](/docs/export/text)
 - [<LucideImage/> Image](./docs/export/image)

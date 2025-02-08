@@ -4,6 +4,8 @@ title: "Label"
 
 # Label
 
+With the label element you can create text fields to add information to your graphic. Everytime your text exceeds the labels' borders, you can use the "Fit to content" button to adjust the borders' sizes to the content. For easier handling it comes with multiple text-alignments:
+
 ```text
 Lorem ipsum dolor sit amet, consetetur sadipscing      
 elitr, sed diam nonumy eirmod tempor invidunt ut labore
@@ -38,101 +40,23 @@ est Lorem ipsum dolor sit amet.
 ## Text Alignment
 
 ```text
-Lorem ipsum dolor sit amet, consetetur       
-sadipscing elitr, sed diam nonumy eirmod     
-tempor invidunt ut labore et dolore magna    
-aliquyam erat, sed diam voluptua. At vero eos
-et accusam et justo duo dolores et ea rebum. 
-                                             
-                                             
-```
++-------------------+       +-------------------+       +-------------------+
+| Top left          |       |        Top        |       |         Top right |
+|                   |       |                   |       |                   |
+|                   |       |                   |       |                   |
++-------------------+       +-------------------+       +-------------------+
 
-```text
-    Lorem ipsum dolor sit amet, consetetur   
-   sadipscing elitr, sed diam nonumy eirmod  
-  tempor invidunt ut labore et dolore magna  
-aliquyam erat, sed diam voluptua. At vero eos
- et accusam et justo duo dolores et ea rebum.
-                                             
-                                             
-```
 
-```text
-       Lorem ipsum dolor sit amet, consetetur
-     sadipscing elitr, sed diam nonumy eirmod
-    tempor invidunt ut labore et dolore magna
-aliquyam erat, sed diam voluptua. At vero eos
- et accusam et justo duo dolores et ea rebum.
-                                             
-                                             
-```
++-------------------+       +-------------------+       +-------------------+       
+|                   |       |                   |       |                   |       
+| Left              |       |       Center      |       |             Right |       
+|                   |       |                   |       |                   |       
++-------------------+       +-------------------+       +-------------------+       
 
-```text
-                                             
-Lorem ipsum dolor sit amet, consetetur       
-sadipscing elitr, sed diam nonumy eirmod     
-tempor invidunt ut labore et dolore magna    
-aliquyam erat, sed diam voluptua. At vero eos
-et accusam et justo duo dolores et ea rebum. 
-                                             
-```
 
-```text
-                                             
-    Lorem ipsum dolor sit amet, consetetur   
-   sadipscing elitr, sed diam nonumy eirmod  
-  tempor invidunt ut labore et dolore magna  
-aliquyam erat, sed diam voluptua. At vero eos
- et accusam et justo duo dolores et ea rebum.
-                                             
-```
-
-```text
-                                             
-       Lorem ipsum dolor sit amet, consetetur
-     sadipscing elitr, sed diam nonumy eirmod
-    tempor invidunt ut labore et dolore magna
-aliquyam erat, sed diam voluptua. At vero eos
- et accusam et justo duo dolores et ea rebum.
-                                             
-```
-
-```text
-                                             
-                                             
-Lorem ipsum dolor sit amet, consetetur       
-sadipscing elitr, sed diam nonumy eirmod     
-tempor invidunt ut labore et dolore magna    
-aliquyam erat, sed diam voluptua. At vero eos
-et accusam et justo duo dolores et ea rebum. 
-```
-
-```text
-                                             
-                                             
-    Lorem ipsum dolor sit amet, consetetur   
-   sadipscing elitr, sed diam nonumy eirmod  
-  tempor invidunt ut labore et dolore magna  
-aliquyam erat, sed diam voluptua. At vero eos
- et accusam et justo duo dolores et ea rebum.
-```
-
-```text
-                                             
-                                             
-    Lorem ipsum dolor sit amet, consetetur   
-   sadipscing elitr, sed diam nonumy eirmod  
-  tempor invidunt ut labore et dolore magna  
-aliquyam erat, sed diam voluptua. At vero eos
- et accusam et justo duo dolores et ea rebum.
-```
-
-```text
-                                             
-                                             
-       Lorem ipsum dolor sit amet, consetetur
-     sadipscing elitr, sed diam nonumy eirmod
-    tempor invidunt ut labore et dolore magna
-aliquyam erat, sed diam voluptua. At vero eos
- et accusam et justo duo dolores et ea rebum.
++-------------------+       +-------------------+       +-------------------+
+|                   |       |                   |       |                   |
+|                   |       |                   |       |                   |
+|Botton left        |       |       Bottom      |       |      Bottom right |
++-------------------+       +-------------------+       +-------------------+
 ```

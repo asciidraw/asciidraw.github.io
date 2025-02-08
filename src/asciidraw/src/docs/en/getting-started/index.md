@@ -4,26 +4,24 @@ title: "Getting Started"
 
 # Getting Started
 
+Start creating your first graphic by simply visiting our [Homepage](/) and press the Draw Something button.
+Your workspace will open. A new project will be generated automatically.  
+
 ## Project
 
-A Project is a collection of [elements](#elements) and contains all data that is required to render your graph.
+A project will include all changes you do while implementing your idea for a graphic.
+We suggest creating a new project for every graphic, since you can easily switch between them.
+AsciiDraw supports to have multiple projects in parallel, which means every tab could've opened a different project.
 
-AsciiDraw supports to have multiple project in parallel.
+## Workspace
 
-## Canvas
+In the Workspace you can see and edit your graphics. You have a variety of tools in the toolkit.
 
-The Canvas renders your project for you to see and edit you graph.
+Additionally, there are several alternative handle options implemented, such as right-click or keyboard shortcuts.
+Find further details in the associated section of our documentation.
 
 See: [Helpful Shortcuts](./shortcuts/index.md)
 
-## Elements
-
-Elements are the different entities in your project.
-
-e.g. [label](./elements/label/index.md) or [box](./elements/box/index.md)
-
 ## Export
 
-When you are happy with your graph you can export it.
-
-The first option is to [export as text](./export/text/index.md)
+When you are happy with your graphic you can [export](./export/index.md) it. Depending on further usage you can choose pure text, image or SVG.

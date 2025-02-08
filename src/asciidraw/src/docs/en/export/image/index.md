@@ -12,3 +12,9 @@ After rendering there are two options for you.
    - You can download the image.
 2. Clipboard
    - You can copy the image into your clipboard.
+
+## Color Palettes
+
+During the export you can select a color theme.
+
+`Light`, `Dark`, `Black Text (No Background)`, `White Text (No Background)`, `GitHub`, `Monokai`, `Dracula`

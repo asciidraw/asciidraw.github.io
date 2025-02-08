@@ -42,7 +42,7 @@ npm run build
 ### Preview Build locally
 
 This command should be executed after the [build process](#type-check-compile-and-minify-for-production) and serves the project locally.
-See in the command-line to know how to reach the page. (it should be https://localhost:5173 but this could vary)
+See in the command-line to know under which url you can reach the page. (It should be http://localhost:5173 but this could vary)
 
 ```sh
 npm run preview
