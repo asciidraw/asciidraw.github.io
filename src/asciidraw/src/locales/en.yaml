@@ -72,8 +72,9 @@ home:
   dev-notice: "Note: This app is under development"
   draw: "Draw Something"
   links:
-    example-projects: "Example Projects"
+    project-list: "Your Projects"
     docs: "Documentation"
+    example-projects: "Example Projects"
   in-code:
     text: "When pasted into your code it will look the same"
   comment-styles:

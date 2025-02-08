@@ -8,7 +8,7 @@ import inEditorSrc from "@/assets/homepage/in-editor.png?url";
 import {
   LucideArrowRight,
   LucideArrowRightLeft,
-  LucideBookType,
+  LucideBookType, LucideList,
   LucidePencilRuler,
   LucideSwatchBook
 } from "lucide-vue-next";
@@ -22,24 +22,30 @@ import { Badge } from "@/components/ui/badge";
       <h1 class="text-4xl font-bold leading-none tracking-wide">AsciiDraw</h1>
       <AsciiDrawIcon class="size-52 sm:size-64 md:size-80 lg:size-96 mx-auto" />
       <router-link :to="{ name: 'app-init', query: { autoRedirect: 'true' } }" class="w-fit mx-auto">
-        <Button size="lg">
+        <Button size="lg" class="text-lg gap-x-0.5">
           <LucidePencilRuler />
           {{ $t('home.draw') }}
         </Button>
       </router-link>
     </div>
     <div class="space-y-16">
-      <div class="grid grid-cols-[repeat(2,1fr)] gap-2 w-fit mx-auto">
-        <router-link :to="{ name: 'example-projects' }">
-          <Button variant="secondary" class="size-full">
-            <LucideSwatchBook />
-            {{ $t('home.links.example-projects') }}
+      <div class="grid grid-cols-[repeat(3,1fr)] gap-2 w-fit mx-auto">
+        <router-link :to="{ name: 'app-init' }" class="leading-none">
+          <Button variant="secondary" class="size-full gap-x-0.5">
+            <LucideList class="size-6" />
+            {{ $t('home.links.project-list') }}
           </Button>
         </router-link>
         <router-link :to="{ name: 'docs' }">
-          <Button variant="secondary" class="size-full">
+          <Button variant="secondary" class="size-full gap-x-0.5">
             <LucideBookType />
             {{ $t('home.links.docs') }}
+          </Button>
+        </router-link>
+        <router-link :to="{ name: 'example-projects' }">
+          <Button variant="secondary" class="size-full gap-x-0.5">
+            <LucideSwatchBook />
+            {{ $t('home.links.example-projects') }}
           </Button>
         </router-link>
       </div>

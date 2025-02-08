@@ -69,8 +69,9 @@ home:
   dev-notice: "Hinweis: Diese App befindet sich in der Entwicklung"
   draw: "Zeichne Etwas"
   links:
-    example-projects: "Beispiel Projekte"
+    project-list: "Deine Projekte"
     docs: "Dokumentation"
+    example-projects: "Beispiel Projekte"
   in-code:
     text: "Wenn Sie es in Ihren Code einfügen, wird es gleich aussehen"
   comment-styles:
