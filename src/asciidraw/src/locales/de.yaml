@@ -71,6 +71,7 @@ components:
     previous: "Zurück"
     next: "Weiter"
     finish: "Tour beenden"
+    see-also: "Siehe auch"
 home:
   dev-notice: "Hinweis: Diese App befindet sich in der Entwicklung"
   draw: "Zeichne Etwas"

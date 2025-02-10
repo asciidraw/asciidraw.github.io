@@ -80,19 +80,19 @@ function previousStep() {
 
 <template>
   <slot :currentStepIndex="currentStepIndex" :startGuide="startGuide" :nextStep="nextStep" :previousStep="previousStep" />
-  <template v-if="currentElement">
+  <template v-if="currentElement && currentStep">
     <PopoverRoot open modal>
       <PopoverAnchor as-child :element="currentElement" />
       <PopoverPortal>
         <ElementExclusiveOverlay :element="currentElement" />
-        <PopoverContent :side="currentStep!.side ?? 'bottom'" class="w-80">
+        <PopoverContent :side="currentStep.side ?? 'bottom'" class="w-80">
           <PopoverArrow />
           <div class="flex flex-col gap-2.5">
-            <h4 class="text-lg">
-              {{ currentStep!.title }}
+            <h4 class="text-lg leading-none tracking-wide">
+              {{ currentStep.title }}
             </h4>
             <p class="text-muted-foreground">
-              {{ currentStep!.description }}
+              {{ currentStep.description }}
             </p>
             <div class="flex gap-x-1 [&>*]:flex-1 [&>*]:gap-x-0.5 [&>*]:whitespace-normal">
               <Button v-if="isFirst" variant="outline" @click="previousStep">
@@ -111,6 +111,16 @@ function previousStep() {
                 <LucideCircleCheck />
                 {{ $t('components.tour-guide.finish') }}
               </Button>
+            </div>
+            <div v-if="currentStep.seeAlso">
+              <h5 class="text-muted-foreground leading-none">{{ $t('components.tour-guide.see-also') }}</h5>
+              <div class="flex flex-col gap-y-0.25 items-start">
+                <router-link v-for="see in currentStep.seeAlso" :to="see.ref" class="before:content-['•'] before:mr-1">
+                  <Button variant="link" size="auto">
+                    {{ see.label }}
+                  </Button>
+                </router-link>
+              </div>
             </div>
           </div>
         </PopoverContent>

@@ -74,6 +74,7 @@ components:
     previous: "Previous"
     next: "Next"
     finish: "Finish Tour"
+    see-also: "See Also"
 home:
   dev-notice: "Note: This app is under development"
   draw: "Draw Something"
