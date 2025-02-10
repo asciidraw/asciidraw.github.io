@@ -31,14 +31,36 @@ function getElementBySelector(selector: string): HTMLElement | null {
 const currentStepIndex = ref<null | number>(null);
 const currentStep = computed(() => currentStepIndex.value === null ? null : steps[currentStepIndex.value]);
 const currentElement = computed(() => currentStep.value === null ? null : getElementBySelector(currentStep.value.selector));
+const isFirst = computed(() => currentStepIndex.value !== null && findExistingIndexBefore(currentStepIndex.value) === null);
+const isLast = computed(() => currentStepIndex.value !== null && findExistingIndexAfter(currentStepIndex.value) === null);
 
 watch(currentElement, (newElement) => {
   if (newElement === null) return;
   setTimeout(() => newElement.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" }));
 });
 
+function findExistingIndexAfter(index: number): number | null {
+  while (++index < steps.length) {
+    const step = steps[index];
+    const element = getElementBySelector(step.selector);
+    if (element !== null) return index;
+    console.error(`failed to get element of selector '${step.selector}'`)
+  }
+  return null;
+}
+
+function findExistingIndexBefore(index: number): number | null {
+  while (--index >= 0) {
+    const step = steps[index];
+    const element = getElementBySelector(step.selector);
+    if (element !== null) return index;
+    console.error(`failed to get element of selector '${step.selector}'`)
+  }
+  return null;
+}
+
 function startGuide() {
-  currentStepIndex.value = 0;
+  currentStepIndex.value = findExistingIndexAfter(-1);
 }
 
 function resetTour() {
@@ -47,20 +69,13 @@ function resetTour() {
 
 function nextStep() {
   if (currentStepIndex.value === null) throw new Error("Guide is not running");
-  while (currentStepIndex.value < steps.length && getElementBySelector(steps[currentStepIndex.value++].selector) === null) {
-    console.error(`failed to get element of selector '${steps[currentStepIndex.value].selector}'`)
-  }
-  if (currentStepIndex.value >= steps.length) resetTour()
+  currentStepIndex.value = findExistingIndexAfter(currentStepIndex.value);
 }
 
 function previousStep() {
   if (currentStepIndex.value === null) throw new Error("Guide is not running");
-  while (currentStepIndex.value >= 0 && getElementBySelector(steps[currentStepIndex.value--].selector) === null) {
-    console.error(`failed to get element of selector '${steps[currentStepIndex.value].selector}'`)
-  }
-  if (currentStepIndex.value < 0) resetTour()
+  currentStepIndex.value = findExistingIndexBefore(currentStepIndex.value);
 }
-
 </script>
 
 <template>
@@ -80,7 +95,7 @@ function previousStep() {
               {{ currentStep!.description }}
             </p>
             <div class="flex gap-x-1 [&>*]:flex-1 [&>*]:gap-x-0.5 [&>*]:whitespace-normal">
-              <Button v-if="currentStepIndex === 0" variant="outline" @click="previousStep">
+              <Button v-if="isFirst" variant="outline" @click="previousStep">
                 <LucideCircleSlash />
                 {{ $t('components.tour-guide.skip') }}
               </Button>
@@ -88,7 +103,7 @@ function previousStep() {
                 <LucideCircleArrowLeft />
                 {{ $t('components.tour-guide.previous') }}
               </Button>
-              <Button v-if="currentStepIndex! < (steps.length-1)" variant="secondary" @click="nextStep">
+              <Button v-if="!isLast" variant="secondary" @click="nextStep">
                 <LucideCircleArrowRight />
                 {{ $t('components.tour-guide.next') }}
               </Button>
