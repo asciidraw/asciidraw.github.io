@@ -7,7 +7,7 @@ import {Button} from "@/components/ui/button";
   <div>
     <i18n-t keypath="app.menu.help.text" tag="p">
       <router-link :to="{ name: 'docs' }">
-        <Button variant="link" size="icon" class="p-0">
+        <Button variant="link" size="auto">
           {{ $t('app.menu.help.docs-link') }}
         </Button>
       </router-link>
