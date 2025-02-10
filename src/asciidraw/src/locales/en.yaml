@@ -255,6 +255,20 @@ app:
     tools:
       title: "Tools"
       description: "Here you can select the tool you want to use."
+    action-box:
+      title: "Box"
+      description: "This is one of the most basic elements to add. A Rectangle."
+      see-also-docs: "Documentation: Box"
+    action-label:
+      title: "Label"
+      description: "This can be used to add text to your graph."
+      see-also-docs: "Documentation: Label"
+    action-move-view:
+      title: "Move View"
+      description: "Use this to move your view around. You could also hold your mouse-wheel for that."
+    action-select+move:
+      title: "Select & Move"
+      description: "Use this to select and move elements around."
     zoom:
       title: "Zoom"
       description: "In case things get to small or you want to see the bigger picture."

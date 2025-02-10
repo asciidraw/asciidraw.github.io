@@ -251,6 +251,20 @@ app:
     tools:
       title: "Tools"
       description: "Hier können Sie das Werkzeug auswählen, das Sie verwenden möchten."
+    action-box:
+      title: "Box"
+      description: "Dies ist eines der grundlegendsten Elemente, die man hinzufügen kann. Ein Rechteck."
+      see-also-docs: "Dokumentation: Box"
+    action-label:
+      title: "Label"
+      description: "Mit dieser Funktion können Sie Ihrem Diagramm Text hinzufügen."
+      see-also-docs: "Dokumentation: Label"
+    action-move-view:
+      title: "Ansicht Bewegen"
+      description: "Verwenden Sie dies, um Ihre Ansicht zu verschieben. Sie können dazu auch das Mausrad gedrückt halten."
+    action-select+move:
+      title: "Auswählen & Bewegen"
+      description: "Mit dieser Funktion können Sie Elemente auswählen und verschieben."
     zoom:
       title: "Vergrößern"
       description: "Für den Fall, dass die Dinge zu klein werden oder Sie das größere Bild sehen wollen."
