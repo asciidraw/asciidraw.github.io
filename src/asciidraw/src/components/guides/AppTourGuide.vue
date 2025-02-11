@@ -27,6 +27,24 @@ const steps = computed<GuideStep[]>(() => [
     side: "right",
   },
   {
+    selector: ["download", "share"],
+    title: t('app.guide.download/share.title'),
+    description: t('app.guide.download/share.description'),
+    side: "right",
+  },
+  {
+    selector: ["export-text", "export-image", "export-svg"],
+    title: t('app.guide.export.title'),
+    description: t('app.guide.export.description'),
+    side: "right",
+  },
+  {
+    selector: ["undo", "redo"],
+    title: t('app.guide.undo/repo.title'),
+    description: t('app.guide.undo/repo.description'),
+    side: "right",
+  },
+  {
     selector: "tools",
     title: t('app.guide.tools.title'),
     description: t('app.guide.tools.description'),

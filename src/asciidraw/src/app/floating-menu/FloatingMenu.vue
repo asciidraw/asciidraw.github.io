@@ -58,37 +58,37 @@ const menuIsHidden = ref(false);
     <Separator :label="$t('app.menu.project.label')" />
     <div data-tour="project-actions">
       <div class="flex justify-between">
-        <DownloadProjectButton />
+        <DownloadProjectButton data-tour="download" />
         <CopyShareLinkDialog :project="project">
-          <IconButton>
+          <IconButton data-tour="share">
             <LucideShare2 />
             <template #tooltip>{{ $t('app.menu.project.export.share.tooltip') }}</template>
           </IconButton>
         </CopyShareLinkDialog>
         <ExportClipboardDialog>
-          <IconButton>
+          <IconButton data-tour="export-text">
             <LucideClipboardCopy />
             <template #tooltip>{{ $t('app.menu.project.export.clipboard.tooltip') }}</template>
           </IconButton>
         </ExportClipboardDialog>
         <ExportImageDialog>
-          <IconButton>
+          <IconButton data-tour="export-image">
             <LucideImageDown />
             <template #tooltip>{{ $t('app.menu.project.export.image.tooltip') }}</template>
           </IconButton>
         </ExportImageDialog>
         <ExportSvgDialog>
-          <IconButton>
+          <IconButton data-tour="export-svg">
             <LucideTangent />
             <template #tooltip>{{ $t('app.menu.project.export.svg.tooltip') }}</template>
           </IconButton>
         </ExportSvgDialog>
         <Separator orientation="vertical" class="h-6" />
-        <IconButton @click="() => appContext.events.emit('undo')">
+        <IconButton data-tour="undo" @click="() => appContext.events.emit('undo')">
           <LucideUndo />
           <template #tooltip>{{ $t('app.menu.project.undo.tooltip') }}</template>
         </IconButton>
-        <IconButton @click="() => appContext.events.emit('redo')">
+        <IconButton data-tour="redo" @click="() => appContext.events.emit('redo')">
           <LucideRedo />
           <template #tooltip>{{ $t('app.menu.project.redo.tooltip') }}</template>
         </IconButton>
