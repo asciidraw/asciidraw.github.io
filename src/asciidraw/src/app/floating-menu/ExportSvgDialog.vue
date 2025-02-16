@@ -81,7 +81,8 @@ const renderedBlob = computed<Blob>(() => {
     const tspan = document.createElementNS('http://www.w3.org/2000/svg', 'tspan');
     tspan.setAttribute("x", `${padding}`);
     tspan.setAttribute("dy", `1em`);
-    tspan.textContent = lines[i];
+    // this replaces regular spaces with non-breaking space characters (short: `\u00A0` | long: `&nbsp;`)
+    tspan.textContent = lines[i].replace(/ /g, '\u00A0');
     textNode.appendChild(tspan);
   }
 
