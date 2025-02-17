@@ -1,38 +1,39 @@
 <script setup lang="ts">
-import {computed, reactive, ref, watch, watchEffect} from "vue";
+import {computed, ref, watch} from "vue";
 import type {GuideStep} from "@/components/tour-guide/types.ts";
-import {useElementBounding, useMagicKeys, whenever} from "@vueuse/core";
-import {DialogOverlay, DialogPortal, PopoverAnchor, PopoverArrow, PopoverPortal, PopoverRoot} from "radix-vue";
+import {useMagicKeys, whenever} from "@vueuse/core";
+import {PopoverAnchor, PopoverArrow, PopoverPortal, PopoverRoot} from "radix-vue";
 import {PopoverContent} from "@/components/ui/popover";
 import {Button} from "@/components/ui/button";
 import {
   LucideCircleArrowLeft,
   LucideCircleArrowRight,
   LucideCircleCheck,
-  LucideCircleDot,
   LucideCircleSlash
 } from "lucide-vue-next";
 import ElementExclusiveOverlay from "@/components/tour-guide/ElementExclusiveOverlay.vue";
+import { logicAnd } from "@vueuse/math";
 
 const { steps } = defineProps<{
   steps: GuideStep[]
 }>();
 
-const { escape, arrowLeft, arrowRight } = useMagicKeys();
-
-whenever(escape, () => resetTour());
-whenever(arrowLeft, () => previousStep());
-whenever(arrowRight, () => nextStep());
-
 function getElementBySelector(selector: string): HTMLElement | null {
   return document.querySelector(`[data-tour="${selector}"]`);
 }
 
+const { escape, arrowLeft, arrowRight } = useMagicKeys();
+
 const currentStepIndex = ref<null | number>(null);
+const guideIsRunning = computed(() => currentStepIndex.value !== null);
 const currentStep = computed(() => currentStepIndex.value === null ? null : steps[currentStepIndex.value]);
 const currentElement = computed(() => currentStep.value === null ? null : getElementBySelector(currentStep.value.selector));
 const isFirst = computed(() => currentStepIndex.value !== null && findExistingIndexBefore(currentStepIndex.value) === null);
 const isLast = computed(() => currentStepIndex.value !== null && findExistingIndexAfter(currentStepIndex.value) === null);
+
+whenever(logicAnd(guideIsRunning, escape), () => resetTour());
+whenever(logicAnd(guideIsRunning, arrowLeft), () => previousStep());
+whenever(logicAnd(guideIsRunning, arrowRight), () => nextStep());
 
 watch(currentElement, (newElement) => {
   if (newElement === null) return;
