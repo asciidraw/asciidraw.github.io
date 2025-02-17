@@ -17,6 +17,7 @@
   "dependencies": {
     "@intlify/unplugin-vue-i18n": "^6.0.3",
     "@vueuse/core": "^12.5.0",
+    "@vueuse/math": "^12.7.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "country-flag-icons": "^1.5.16",
