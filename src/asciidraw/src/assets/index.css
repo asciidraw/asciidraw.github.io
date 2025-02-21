@@ -4,7 +4,7 @@
 
 @layer base {
     /* https://shadcncolors.com/ */
-    :root, .light {
+    :root, .light.theme-light {
         --background: 0 0% 100%;
         --foreground: 222.2 84% 4.9%;
 
@@ -38,7 +38,7 @@
         --radius: 0.5rem;
     }
 
-    .dark {
+    .dark.theme-dark {
         --background:222.2 84% 4.9%;
         --foreground:210 40% 98%;
 
@@ -68,7 +68,7 @@
         --ring:224.3 76.3% 48%;
     }
 
-    .light-bubblegum-pop {
+    .light.bubblegum-pop {
         --background: 330 100% 99%;
         --foreground: 330 10% 10%;
         --card: 330 100% 98%;
@@ -96,7 +96,7 @@
         --chart-5: 60 90% 60%;
     }
 
-    .dark-bubblegum-pop {
+    .dark.bubblegum-pop {
         --background: 330 50% 10%;
         --foreground: 330 10% 95%;
         --card: 330 50% 12%;
@@ -123,7 +123,7 @@
         --chart-5: 60 90% 60%;
     }
 
-    .light-steampunk-cogs {
+    .light.steampunk-cogs {
         --background: 30 20% 95%;
         --foreground: 30 20% 10%;
         --card: 30 20% 97%;
@@ -151,7 +151,7 @@
         --chart-5: 55 70% 50%;
     }
 
-    .dark-steampunk-cogs {
+    .dark.steampunk-cogs {
         --background: 30 30% 10%;
         --foreground: 30 20% 95%;
         --card: 30 30% 12%;
@@ -178,7 +178,7 @@
         --chart-5: 55 70% 60%;
     }
 
-    .light-vintage-vinyl {
+    .light.vintage-vinyl {
         --background: 30 10% 98%;
         --foreground: 30 10% 10%;
         --card: 30 10% 99%;
@@ -206,7 +206,7 @@
         --chart-5: 50 20% 60%;
     }
 
-    .dark-vintage-vinyl {
+    .dark.vintage-vinyl {
         --background: 30 15% 10%;
         --foreground: 30 10% 98%;
         --card: 30 15% 12%;
@@ -233,7 +233,7 @@
         --chart-5: 50 20% 50%;
     }
 
-    .light-misty-harbor {
+    .light.misty-harbor {
         --background: 210 15% 98%;
         --foreground: 210 15% 10%;
         --card: 210 15% 99%;
@@ -261,7 +261,7 @@
         --chart-5: 30 15% 60%;
     }
 
-    .dark-misty-harbor {
+    .dark.misty-harbor {
         --background: 210 20% 10%;
         --foreground: 210 15% 98%;
         --card: 210 20% 12%;
@@ -288,7 +288,7 @@
         --chart-5: 30 15% 50%;
     }
 
-    .light-zen-garden {
+    .light.zen-garden {
         --background: 90 10% 98%;
         --foreground: 90 10% 10%;
         --card: 90 10% 99%;
@@ -316,7 +316,7 @@
         --chart-5: 240 10% 60%;
     }
 
-    .dark-zen-garden {
+    .dark.zen-garden {
         --background: 90 15% 10%;
         --foreground: 90 10% 98%;
         --card: 90 15% 12%;
@@ -343,7 +343,7 @@
         --chart-5: 240 10% 40%;
     }
 
-    .light-winter {
+    .light.winter {
         --background: 217 44% 98%;
         --foreground: 217 44% 10%;
         --card: 217 44% 100%;
@@ -365,7 +365,7 @@
         --ring: 217 44% 60%;
     }
 
-    .dark-winter {
+    .dark.winter {
         --background: 217 44% 10%;
         --foreground: 217 44% 98%;
         --card: 217 44% 12%;

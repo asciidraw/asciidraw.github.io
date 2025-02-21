@@ -19,49 +19,35 @@ import {
 import IconButton from "@/components/composed/IconButton.vue";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-const colorsModes = {
-  auto: "auto",
-  light: "light",
-  dark: "dark",
-  lightBubblegumPop: "light-bubblegum-pop",
-  darkBubblegumPop: "dark-bubblegum-pop",
-  lightSteampunkCogs: "light-steampunk-cogs",
-  darkSteampunkCogs: "dark-steampunk-cogs",
-  lightVintageVinyl: "light-vintage-vinyl",
-  darkVintageVinyl: "dark-vintage-vinyl",
-  lightMistyHarbor: "light-misty-harbor",
-  darkMistyHarbor: "dark-misty-harbor",
-  lightZenGarden: "light-zen-garden",
-  darkZenGarden: "dark-zen-garden",
-  lightWinter: "light-winter",
-  darkWinter: "dark-winter",
-} as const;
-
-type ColorMode = keyof typeof colorsModes;
-
-const IconMap: Record<ColorMode, LucideIcon | undefined> = {
-  auto: LucideSunMoon,
-  light: LucideSun,
-  dark: LucideMoon,
-  lightBubblegumPop: LucideShell,
-  darkBubblegumPop: LucideShell,
-  lightSteampunkCogs: LucideWind,
-  darkSteampunkCogs: LucideWind,
-  lightVintageVinyl: LucideCassetteTape,
-  darkVintageVinyl: LucideCassetteTape,
-  lightMistyHarbor: LucideSailboat,
-  darkMistyHarbor: LucideSailboat,
-  lightZenGarden: LucideSprout,
-  darkZenGarden: LucideSprout,
-  lightWinter: LucideSnowflake,
-  darkWinter: LucideSnowflake,
+type ColorMode = {
+  id: string
+  classNames: string
+  icon: LucideIcon
 }
 
+const colorModes: ColorMode[] = [
+  { id: "light", classNames: "light theme-light", icon: LucideSunMoon },
+  { id: "dark", classNames: "dark theme-dark", icon: LucideSunMoon },
+  { id: "light-bubblegum-pop", classNames: "light bubblegum-pop", icon: LucideShell },
+  { id: "dark-bubblegum-pop", classNames: "dark bubblegum-pop", icon: LucideShell },
+  { id: "light-steampunk-cogs", classNames: "light steampunk-cogs", icon: LucideWind },
+  { id: "dark-steampunk-cogs", classNames: "dark steampunk-cogs", icon: LucideWind },
+  { id: "light-vintage-vinyl", classNames: "light vintage-vinyl", icon: LucideCassetteTape },
+  { id: "dark-vintage-vinyl", classNames: "dark vintage-vinyl", icon: LucideCassetteTape },
+  { id: "light-misty-harbor", classNames: "light misty-harbor", icon: LucideSailboat },
+  { id: "dark-misty-harbor", classNames: "dark misty-harbor", icon: LucideSailboat },
+  { id: "light-zen-garden", classNames: "light zen-garden", icon: LucideSprout },
+  { id: "dark-zen-garden", classNames: "dark zen-garden", icon: LucideSprout },
+  { id: "light-winter", classNames: "light winter", icon: LucideSnowflake },
+  { id: "dark-winter", classNames: "dark winter", icon: LucideSnowflake },
+];
+
+type ColorModeName = (typeof colorModes)[number]['classNames'];
+
 const preferredDark = usePreferredDark();
-const colorMode = useColorMode<ColorMode>({
+const { store: colorMode } = useColorMode<ColorModeName>({
   initialValue: "auto",
-  modes: colorsModes,
-  emitAuto: true,  // todo: replace
+  modes: Object.fromEntries(colorModes.map(e => [e.id, e.classNames])),
 });
 </script>
 
@@ -80,7 +66,7 @@ const colorMode = useColorMode<ColorMode>({
     <DropdownMenuContent class="space-y-0.5">
       <DropdownMenuItem
         class="gap-x-1 bg-background text-foreground"
-        :class="preferredDark ? 'dark' : 'light'"
+        :class="preferredDark ? 'dark theme-dark' : 'light theme-light'"
         @click="colorMode = 'auto'"
       >
         <component :is="LucideSunMoon" class="text-primary" />
@@ -97,19 +83,19 @@ const colorMode = useColorMode<ColorMode>({
             <LucideMoon />
           </TabsTrigger>
         </TabsList>
-        <template v-for="scheme in ['light', 'dark']">
-          <TabsContent :value="scheme" class="space-y-0.5">
-            <template v-for="mode in Object.keys(colorsModes) as ColorMode[]" :key="mode">
+        <template v-for="themePrefix in ['light', 'dark']">
+          <TabsContent :value="themePrefix" class="mt-0.5 space-y-0.5">
+            <template v-for="mode in colorModes" :key="mode.id">
               <DropdownMenuItem
-                v-if="mode.startsWith(scheme)"
+                v-if="mode.id.startsWith(themePrefix)"
                 class="gap-x-1 bg-background text-foreground"
-                :class="mode === 'auto' ? (preferredDark ? 'dark' : 'light') : colorsModes[mode]"
-                @click="colorMode = mode"
+                :class="mode.classNames"
+                @click="colorMode = mode.id"
               >
-                <component :is="IconMap[mode]" class="text-primary" />
-                {{ $t(`components.theme-toggle.mode.${mode}`) }}
+                <component :is="mode.icon" class="text-primary" />
+                {{ $t(`components.theme-toggle.mode.${mode.id}`) }}
                 <div class="w-1" />
-                <DropdownMenuShortcut v-if="colorMode === mode">&bullet;</DropdownMenuShortcut>
+                <DropdownMenuShortcut v-if="colorMode === mode.id">&bullet;</DropdownMenuShortcut>
               </DropdownMenuItem>
             </template>
           </TabsContent>
