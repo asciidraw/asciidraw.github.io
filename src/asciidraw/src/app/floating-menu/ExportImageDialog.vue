@@ -8,9 +8,9 @@ import {
   DialogTrigger
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { LucideClipboardCopy, LucideClipboardCheck, LucideDownload } from "lucide-vue-next";
+import { LucideClipboardCopy, LucideClipboardCheck, LucideDownload, LucideImage } from "lucide-vue-next";
 import { computedAsync, useClipboardItems, useLocalStorage, useObjectUrl } from "@vueuse/core";
-import { computed, inject } from "vue";
+import { computed, inject, ref } from "vue";
 import { INJECTION_KEY_DRAW_CONTEXT, INJECTION_KEY_PROJECT, INJECTION_KEY_RENDERER_MAP } from "@/symbols.ts";
 import { CanvasRenderer, LayerRenderer } from "@/app/core";
 import type { DrawContext } from "@/types";
@@ -20,10 +20,25 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import * as colorPalettes from "./export/color-palettes.ts";
 import { Badge } from "@/components/ui/badge";
+import { useI18n } from "vue-i18n";
+import { registerCommand } from "@/components/command-popup";
 
 const project = inject(INJECTION_KEY_PROJECT)!;
 const drawContext = inject(INJECTION_KEY_DRAW_CONTEXT)!;
 const renderMap = inject(INJECTION_KEY_RENDERER_MAP)!;
+
+const { t } = useI18n();
+const dialogOpen = ref(false);
+
+registerCommand({
+  group: "workspace",
+  id: "export-image",
+  icon: LucideImage,
+  label: () => t('commands.workspace.export-image'),
+  action: () => {
+    dialogOpen.value = true;
+  },
+});
 
 const imageFormat = "image/png";
 
@@ -82,7 +97,7 @@ const { copy: doCopy, copied: recentlyCopied } = useClipboardItems({ source: cli
 </script>
 
 <template>
-  <Dialog>
+  <Dialog v-model:open="dialogOpen">
     <DialogTrigger as-child>
       <slot />
     </DialogTrigger>

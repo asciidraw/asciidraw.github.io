@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {computed, ref, watch} from "vue";
 import type {GuideStep} from "@/components/tour-guide/types.ts";
-import {useMagicKeys, whenever} from "@vueuse/core";
+import { useActiveElement, useMagicKeys, whenever } from "@vueuse/core";
 import {PopoverAnchor, PopoverArrow, PopoverPortal, PopoverRoot} from "radix-vue";
 import {PopoverContent} from "@/components/ui/popover";
 import {Button} from "@/components/ui/button";
@@ -23,6 +23,8 @@ function getElementBySelector(selector: string): HTMLElement | null {
 }
 
 const { escape, arrowLeft, arrowRight } = useMagicKeys();
+// const activeElement = useActiveElement();
+// watch(activeElement, (el) => console.log(el));
 
 const currentStepIndex = ref<null | number>(null);
 const guideIsRunning = computed(() => currentStepIndex.value !== null);

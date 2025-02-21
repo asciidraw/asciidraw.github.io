@@ -19,6 +19,9 @@ import { CanvasRenderer, type ColorPalette, LayerRenderer } from "@/app/core";
 import type { ElementBase, VectorLike } from "@/types";
 import { createLabelElement } from "@/app/extensions/label";
 import ContextMenuHandler from "@/app/context-menu/ContextMenuHandler.vue";
+import { registerCommand } from "@/components/command-popup";
+import { LucideSquareDashedMousePointer, LucideTrash2 } from "lucide-vue-next";
+import { useI18n } from "vue-i18n";
 
 
 const MouseButtons = {
@@ -33,6 +36,7 @@ const rendererMap = inject(INJECTION_KEY_RENDERER_MAP)!;
 const drawContext = inject(INJECTION_KEY_DRAW_CONTEXT)!;
 const project = inject(INJECTION_KEY_PROJECT)!;
 
+const { t } = useI18n();
 const colorMode = useColorMode();
 
 watch(colorMode, () => {
@@ -197,6 +201,20 @@ function deleteElementsById(...elementIds: string[]) {
   }
 }
 
+function selectAll(): void {
+  for (const element of project.value.elements)
+    drawContext.value.selectedElements.add(element.id);
+}
+
+function invertSelection(): void {
+  for (const element of project.value.elements) {
+    if (drawContext.value.selectedElements.has(element.id))
+      drawContext.value.selectedElements.delete(element.id);
+    else
+      drawContext.value.selectedElements.add(element.id);
+  }
+}
+
 useEventListener(canvasRef, "keydown", (event: KeyboardEvent) => {
   if (event.key === "Delete" || event.key === "Backspace") {
     event.preventDefault();
@@ -204,17 +222,11 @@ useEventListener(canvasRef, "keydown", (event: KeyboardEvent) => {
   }
   if (event.ctrlKey && event.key === "a") {
     event.preventDefault();
-    for (const element of project.value.elements)
-      drawContext.value.selectedElements.add(element.id);
+    selectAll();
   }
   if (event.ctrlKey && event.key === "i") {
     event.preventDefault();
-    for (const element of project.value.elements) {
-      if (drawContext.value.selectedElements.has(element.id))
-        drawContext.value.selectedElements.delete(element.id);
-      else
-        drawContext.value.selectedElements.add(element.id);
-    }
+    invertSelection();
   }
   if (["ArrowUp", "ArrowRight", "ArrowDown", "ArrowLeft"].includes(event.key)) {
     event.preventDefault();
@@ -295,6 +307,32 @@ useEventListener("paste", (event: ClipboardEvent) => {
   } else {
     throw new Error("Unsupported Clipboard-Data");
   }
+});
+
+registerCommand({
+  group: "canvas",
+  id: "select-all",
+  icon: LucideSquareDashedMousePointer,
+  label: () => t('commands.canvas.select-all'),
+  action: () => { selectAll() },
+  shortcut: () => t('commands.canvas.select-all-shortcut'),
+});
+registerCommand({
+  group: "canvas",
+  id: "invert-selection",
+  icon: LucideSquareDashedMousePointer,
+  label: () => t('commands.canvas.invert-selection'),
+  action: () => { invertSelection() },
+  shortcut: () => t('commands.canvas.invert-selection-shortcut'),
+});
+registerCommand({
+  group: "canvas",
+  id: "delete-selected",
+  icon: LucideTrash2,
+  disabled: () => drawContext.value.selectedElements.size === 0,
+  label: () => t('commands.canvas.delete-selected'),
+  action: () => { console.log("DELETE"); deleteElementsById(...drawContext.value.selectedElements) },
+  shortcut: () => t('commands.canvas.delete-selected-shortcut'),
 });
 </script>
 

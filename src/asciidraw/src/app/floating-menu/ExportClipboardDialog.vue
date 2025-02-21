@@ -9,7 +9,13 @@ import {
   DialogTrigger
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { LucideClipboardCheck, LucideClipboardCopy, LucideSpellCheck, LucideSpellCheck2 } from "lucide-vue-next";
+import {
+  LucideClipboard,
+  LucideClipboardCheck,
+  LucideClipboardCopy,
+  LucideSpellCheck,
+  LucideSpellCheck2
+} from "lucide-vue-next";
 import { useClipboard, useLocalStorage, useMagicKeys, whenever } from "@vueuse/core";
 import { computed, inject, ref } from "vue";
 import { INJECTION_KEY_DRAW_CONTEXT, INJECTION_KEY_PROJECT, INJECTION_KEY_RENDERER_MAP } from "@/symbols.ts";
@@ -20,10 +26,14 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { registerCommand } from "@/components/command-popup";
+import { useI18n } from "vue-i18n";
 
 const project = inject(INJECTION_KEY_PROJECT)!;
 const drawContext = inject(INJECTION_KEY_DRAW_CONTEXT)!;
 const rendererMap = inject(INJECTION_KEY_RENDERER_MAP)!;
+
+const { t } = useI18n();
 
 const { ctrl_s } = useMagicKeys({
   onEventFired: (event) => {
@@ -38,6 +48,17 @@ const dialogOpen = ref(false);
 whenever(ctrl_s, () => {
   dialogOpen.value = true;
 });
+
+registerCommand(() => ({
+  group: "workspace",
+  id: "export-clipboard",
+  icon: LucideClipboard,
+  label: () => t('commands.workspace.export-clipboard'),
+  action: () => {
+    dialogOpen.value = true;
+  },
+  shortcut: () => t('commands.workspace.export-clipboard-shortcut'),
+}));
 
 const activeCommentStyle = useLocalStorage<keyof typeof commentStyleMap>("export-clipboard-comment-style", "none");
 
