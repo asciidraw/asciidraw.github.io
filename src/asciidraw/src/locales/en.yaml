@@ -328,3 +328,37 @@ actions:
           basic: "Basic"
           block1: "Block"
           block2: "Striped"
+commands:
+  navigation:
+    popup-label: "Navigation"
+    home: "Go to Homepage"
+    app-init: "Go to Your Projects"
+    docs: "Go to Documentation"
+  locales:
+    popup-label: "Languages"
+    de: "Sprache auf Deutsch ändern"
+    en: "Change language to english"
+  themes:
+    popup-label: "Color Themes"
+    msg: "Use color theme {theme}"
+  other:
+    popup-label: "Other"
+    new-project: "Create new project"
+    tour-home: "Start tour guide of the homepage"
+    tour-app: "Start tour guide of the workspace"
+  workspace:
+    popup-label: "Workspace"
+    undo: "Undo your last action"
+    redo: "Redo your last action"
+    export-clipboard: "Export into clipboard"
+    export-clipboard-shortcut: "Ctrl+S"
+    export-image: "Export as image"
+    export-svg: "Export as SVG"
+  canvas:
+    popup-label: "Canvas"
+    delete-selected: "Delete selected elements"
+    delete-selected-shortcut: "Delete"
+    invert-selection: "Invert selected elements"
+    invert-selection-shortcut: "Ctrl+I"
+    select-all: "Select all elements"
+    select-all-shortcut: "Ctrl+A"
