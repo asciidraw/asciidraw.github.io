@@ -8,7 +8,7 @@ import {
   useWindowSize,
 } from "@vueuse/core";
 import AppZoomButton from "@/app/ZoomButton.vue";
-import { cloneElement, isPointWithinBox, Layer } from "@/lib";
+import { cloneElement, isPointWithinBox, Layer, LayerCache } from "@/lib";
 import {
   INJECTION_KEY_APP,
   INJECTION_KEY_DRAW_CONTEXT,
@@ -73,11 +73,12 @@ function canvasToCell(pos: VectorLike): VectorLike {
   return canvasRenderer.canvasToCell(pos);
 }
 
+const layerCache = new LayerCache();
 
 function redraw() {
   const layerRendered = new LayerRenderer(rendererMap);
   const layer = new Layer();
-  layer.merge(layerRendered.render(project.value.elements));
+  layer.merge(layerRendered.render(project.value.elements, layerCache));
   layer.merge(layerRendered.render(drawContext.value.scratchElements));
   const renderingContext = canvasRef.value!.getContext("2d")!;
   const colorPalette = getColorPalette(renderingContext);
