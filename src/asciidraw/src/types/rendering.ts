@@ -27,6 +27,7 @@ export interface DrawContext {
   readonly selectedElements: Set<string>
   /** scratch-elements that should be drawn but not stored in the {@link Project} */
   readonly scratchElements: Array<ElementBase & object>
+  readonly highlights: BoundingBox[]
 }
 
 

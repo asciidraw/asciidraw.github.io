@@ -68,6 +68,7 @@ const drawContext = ref<DrawContext>({
   zoom: 10,
   selectedElements: new Set(),
   scratchElements: [],
+  highlights: [],
 });
 
 provide(INJECTION_KEY_DRAW_CONTEXT, drawContext);
