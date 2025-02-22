@@ -39,9 +39,13 @@ function newSelectionAreaHandler(): SubHandler {
         onStartElements.forEach(v => drawContext.selectedElements.add(v));
       for (const element of elements)
         drawContext.selectedElements.add(element.id);
+      drawContext.highlights.length = 0;
+      drawContext.highlights.push(selectionArea);
     },
     onClickUp({ mouseEvent, canvasToCell, drawContext, project, rendererMap }) {
       const endPosition = canvasToCell({ x: mouseEvent.clientX, y: mouseEvent.clientY });
+
+      drawContext.highlights.length = 0;
 
       drawContext.selectedElements.clear();
       if (isMod(mouseEvent))

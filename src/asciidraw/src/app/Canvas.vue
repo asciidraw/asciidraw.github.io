@@ -90,7 +90,10 @@ function redraw() {
     const selectedElement = project.value.elements.find(e => e.id === selectedElementId);
     if (!selectedElement) continue;
     const highlightBox = rendererMap[selectedElement.type].getBoundingBox(selectedElement);
-    canvasRenderer.highlight(highlightBox, highlightBox);
+    canvasRenderer.highlight(highlightBox);
+  }
+  for (const highlight of drawContext.value.highlights) {
+    canvasRenderer.highlight(highlight)
   }
   canvasRenderer.drawLayer(layer);
 }
