@@ -83,9 +83,9 @@ home:
     docs: "Documentation"
     example-projects: "Example Projects"
   in-code:
-    text: "When pasted into your code it will look the same"
+    text: "When pasted into your code, it will look the same"
   comment-styles:
-    text: "Depending on you language you can change the export comment style"
+    text: "Depending on your language you can change the export comment style"
   tour:
     draw-something:
       title: "Draw Something"

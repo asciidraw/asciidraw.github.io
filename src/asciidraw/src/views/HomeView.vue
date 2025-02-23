@@ -54,19 +54,19 @@ import HomePageTourGuide from "@/components/guides/HomePageTourGuide.vue";
         </router-link>
       </div>
       <div class="grid grid-cols-3 place-items-center gap-5 p-5">
-        <img :src="inEditorSrc" alt="In Editor" class="max-h-96" />
+        <img :src="inEditorSrc" alt="In Editor" class="max-h-96 rounded-lg shadow-md shadow-black" />
         <div class="grid place-items-center">
           <LucideArrowRight class="size-10" />
           <p class="text-sm sm:text-md md:text-lg lg:text-xl text-center">
             {{ $t('home.in-code.text') }}
           </p>
         </div>
-        <img :src="inCodeSrc" alt="In Code" class="max-h-96" />
+        <img :src="inCodeSrc" alt="In Code" class="max-h-96 rounded-lg shadow-md shadow-black/50" />
       </div>
       <div class="grid place-items-center grid-cols-3 gap-5 p-5">
         <div>
-          <pre class="p-2 bg-border rounded-md leading-tight tracking-wide text-sm sm:text-md md:text-lg lg:text-xl font-mono">{{ examples.erm_dashed }}</pre>
-          <div class="flex gap-0.5 flex-wrap p-0.5">
+          <pre class="p-2 bg-border rounded-md shadow-md shadow-black/50 leading-tight tracking-wide text-sm sm:text-md md:text-lg lg:text-xl font-mono">{{ examples.erm_dashed }}</pre>
+          <div class="flex gap-0.5 flex-wrap py-1">
             <Badge variant="secondary">SQL</Badge>
             <Badge variant="secondary">Haskell</Badge>
             <Badge variant="secondary">Lua</Badge>
@@ -79,8 +79,8 @@ import HomePageTourGuide from "@/components/guides/HomePageTourGuide.vue";
           </p>
         </div>
         <div>
-          <pre class="p-2 bg-border rounded-md leading-tight tracking-wide text-sm sm:text-md md:text-lg lg:text-xl font-mono">{{ examples.erm_slashed }}</pre>
-          <div class="flex gap-0.5 flex-wrap p-0.5">
+          <pre class="p-2 bg-border rounded-md shadow-md shadow-black/50 leading-tight tracking-wide text-sm sm:text-md md:text-lg lg:text-xl font-mono">{{ examples.erm_slashed }}</pre>
+          <div class="flex gap-0.5 flex-wrap py-1">
             <Badge variant="secondary">C/C++</Badge>
             <Badge variant="secondary">Java</Badge>
             <Badge variant="secondary">JavaScript</Badge>
