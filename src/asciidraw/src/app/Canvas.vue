@@ -105,6 +105,7 @@ watch(drawContext, () => redraw(), { deep: true });
 // zooming
 
 useEventListener(canvasRef, "wheel", (event: WheelEvent) => {
+  if (event.ctrlKey) event.preventDefault();
   if (event.deltaY > 0) {
     zoomOut();
   }
