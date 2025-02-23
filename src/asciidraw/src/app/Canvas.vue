@@ -56,7 +56,7 @@ function getColorPalette(context: CanvasRenderingContext2D): ColorPalette {
   const style = getComputedStyle(canvas);
   return <ColorPalette>{
     // background: `hsl(${style.getPropertyValue("--background")})`,
-    grid: `hsl(${style.getPropertyValue("--border")})`,
+    grid: `hsl(${style.getPropertyValue("--border")} / 0.8)`,
     text: `hsl(${style.getPropertyValue("--foreground")})`,
     highlight: `hsl(${style.getPropertyValue("--accent-foreground")} / 0.2)`,
     selection: `hsl(${style.getPropertyValue("--card-foreground")} / 0.2)`,
