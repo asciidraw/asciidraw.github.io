@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed, inject, onMounted, useTemplateRef, watch } from "vue";
 import {
-  useColorMode,
   useDebounceFn,
   useEventListener,
   useMouse,
@@ -19,6 +18,7 @@ import { CanvasRenderer, type ColorPalette, LayerRenderer } from "@/app/core";
 import type { ElementBase, VectorLike } from "@/types";
 import { createLabelElement } from "@/app/extensions/label";
 import ContextMenuHandler from "@/app/context-menu/ContextMenuHandler.vue";
+import { useConfiguredColorMode } from "@/composables/useConfiguredColorMode.ts";
 
 
 const MouseButtons = {
@@ -33,8 +33,7 @@ const rendererMap = inject(INJECTION_KEY_RENDERER_MAP)!;
 const drawContext = inject(INJECTION_KEY_DRAW_CONTEXT)!;
 const project = inject(INJECTION_KEY_PROJECT)!;
 
-const colorMode = useColorMode();
-
+const colorMode = useConfiguredColorMode();
 watch(colorMode, () => {
   setTimeout(() => redraw());
 });

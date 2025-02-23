@@ -6,49 +6,18 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
-import { useColorMode, usePreferredDark } from '@vueuse/core'
+import { usePreferredDark } from '@vueuse/core'
 import {
   LucideSun,
   LucideMoon,
   LucideSunMoon,
-  type LucideIcon,
-  LucideShell,
-  LucideWind,
-  LucideCassetteTape, LucideSailboat, LucideSprout, LucideSnowflake
 } from "lucide-vue-next";
 import IconButton from "@/components/composed/IconButton.vue";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
-type ColorMode = {
-  id: string
-  classNames: string
-  icon: LucideIcon
-}
-
-const colorModes: ColorMode[] = [
-  { id: "light", classNames: "light theme-light", icon: LucideSunMoon },
-  { id: "dark", classNames: "dark theme-dark", icon: LucideSunMoon },
-  { id: "light-bubblegum-pop", classNames: "light bubblegum-pop", icon: LucideShell },
-  { id: "dark-bubblegum-pop", classNames: "dark bubblegum-pop", icon: LucideShell },
-  { id: "light-steampunk-cogs", classNames: "light steampunk-cogs", icon: LucideWind },
-  { id: "dark-steampunk-cogs", classNames: "dark steampunk-cogs", icon: LucideWind },
-  { id: "light-vintage-vinyl", classNames: "light vintage-vinyl", icon: LucideCassetteTape },
-  { id: "dark-vintage-vinyl", classNames: "dark vintage-vinyl", icon: LucideCassetteTape },
-  { id: "light-misty-harbor", classNames: "light misty-harbor", icon: LucideSailboat },
-  { id: "dark-misty-harbor", classNames: "dark misty-harbor", icon: LucideSailboat },
-  { id: "light-zen-garden", classNames: "light zen-garden", icon: LucideSprout },
-  { id: "dark-zen-garden", classNames: "dark zen-garden", icon: LucideSprout },
-  { id: "light-winter", classNames: "light winter", icon: LucideSnowflake },
-  { id: "dark-winter", classNames: "dark winter", icon: LucideSnowflake },
-];
-
-type ColorModeName = (typeof colorModes)[number]['classNames'];
+import { colorModes, useConfiguredColorMode } from "@/composables/useConfiguredColorMode.ts";
 
 const preferredDark = usePreferredDark();
-const { store: colorMode } = useColorMode<ColorModeName>({
-  initialValue: "auto",
-  modes: Object.fromEntries(colorModes.map(e => [e.id, e.classNames])),
-});
+const { store: colorMode } = useConfiguredColorMode();
 </script>
 
 <template>
