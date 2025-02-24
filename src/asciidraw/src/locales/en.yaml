@@ -83,9 +83,15 @@ home:
     docs: "Documentation"
     example-projects: "Example Projects"
   in-code:
-    text: "When pasted into your code, it will look the same"
+    text: "When pasted into your code, it will look the same."
   comment-styles:
-    text: "Depending on your language you can change the export comment style"
+    text: "Depending on your language you can change the export comment style."
+  export-variants:
+    text: "You can export into multiple formats. Depending on your needs."
+    as-text: "Text"
+    as-image: "Image"
+    as-svg: "SVG"
+  try-out: "Try it out"
   tour:
     draw-something:
       title: "Draw Something"

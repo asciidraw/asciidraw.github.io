@@ -80,9 +80,15 @@ home:
     docs: "Dokumentation"
     example-projects: "Beispiel Projekte"
   in-code:
-    text: "Wenn Sie es in Ihren Code einfügen, wird es gleich aussehen"
+    text: "Wenn Sie es in Ihren Code einfügen, wird es gleich aussehen."
   comment-styles:
-    text: "Je nach Sprache können Sie den Kommentar-Stil beim Export ändern"
+    text: "Je nach Sprache können Sie den Kommentar-Stil beim Export ändern."
+  export-variants:
+    text: "Sie können in mehrere Formate exportieren. Je nach Ihrem Bedarf."
+    as-text: "Text"
+    as-image: "Bild"
+    as-svg: "SVG"
+  try-out: "Probiere es aus"
   tour:
     draw-something:
       title: "Zeichne Etwas"
