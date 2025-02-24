@@ -35,7 +35,7 @@ const menuIsHidden = ref(false);
   <Button variant="ghost" v-if="menuIsHidden" @click="menuIsHidden = false" class="fixed bg-primary shadow left-4 top-4 p-2 rounded-full size-10">
     <AsciiDrawIcon class="size-10" />
   </Button>
-  <div v-else data-tour="floating-menu" class="fixed bg-card border-2 border-border shadow-lg shadow-black/75 left-4 top-4 max-h-[calc(100vh-2rem)] max-w-xs overflow-y-scroll p-2 rounded-lg space-y-4">
+  <div v-else data-tour="floating-menu" class="fixed bg-card border-2 border-border shadow-lg shadow-shadow left-4 top-4 max-h-[calc(100vh-2rem)] max-w-xs overflow-y-scroll p-2 rounded-lg space-y-4">
     <div class="flex gap-x-2">
       <router-link to="/" class="flex">
         <AsciiDrawIcon />
