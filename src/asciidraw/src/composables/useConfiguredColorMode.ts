@@ -1,9 +1,8 @@
 import {
   LucideCassetteTape,
-  type LucideIcon,
+  type LucideIcon, LucideMoon,
   LucideSailboat,
-  LucideShell, LucideSnowflake, LucideSprout,
-  LucideSunMoon,
+  LucideShell, LucideSnowflake, LucideSprout, LucideSun,
   LucideWind
 } from "lucide-vue-next";
 import { useColorMode } from "@vueuse/core";
@@ -15,8 +14,8 @@ type ColorMode = {
 }
 
 export const colorModes: ColorMode[] = [
-  { id: "light", classNames: "light theme-light", icon: LucideSunMoon },
-  { id: "dark", classNames: "dark theme-dark", icon: LucideSunMoon },
+  { id: "light", classNames: "light theme-light", icon: LucideSun },
+  { id: "dark", classNames: "dark theme-dark", icon: LucideMoon },
   { id: "light-bubblegum-pop", classNames: "light bubblegum-pop", icon: LucideShell },
   { id: "dark-bubblegum-pop", classNames: "dark bubblegum-pop", icon: LucideShell },
   { id: "light-steampunk-cogs", classNames: "light steampunk-cogs", icon: LucideWind },
