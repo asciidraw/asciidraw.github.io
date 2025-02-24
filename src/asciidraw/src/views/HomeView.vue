@@ -2,7 +2,6 @@
 import DefaultLayout from "@/layouts/DefaultLayout.vue";
 import {Button} from "@/components/ui/button";
 import AsciiDrawIcon from "@/components/AsciiDrawIcon.vue";
-import * as examples from "@/assets/homepage/examples";
 import inCodeSrc from "@/assets/homepage/in-code.png?url";
 import inEditorSrc from "@/assets/homepage/in-editor.png?url";
 import {
@@ -63,23 +62,47 @@ import HomePageTourGuide from "@/components/guides/HomePageTourGuide.vue";
         </div>
         <img :src="inCodeSrc" alt="In Code" class="max-h-96 rounded-lg shadow-md shadow-black/50" />
       </div>
-      <div class="grid place-items-center grid-cols-3 gap-5 p-5">
-        <div>
-          <pre class="p-2 bg-border rounded-md shadow-md shadow-black/50 leading-tight tracking-wide text-sm sm:text-md md:text-lg lg:text-xl font-mono">{{ examples.erm_dashed }}</pre>
-          <div class="flex gap-0.5 flex-wrap py-1">
-            <Badge v-for="lang in ['SQL', 'Haskell', 'Lua']" v-once variant="secondary" class="shadow-black shadow-md">{{ lang }}</Badge>
+      <div class="grid place-content-center grid-cols-3 gap-5 p-5">
+        <div v-once class="grid place-items-center">
+          <div class="h-full">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 314 164" fill="currentColor" stroke="currentColor" class="h-full p-2 bg-border rounded-md shadow-md shadow-black/50">
+              <text x="4" y="4" font-family="monospace" font-size="16" xml:space="preserve" style="white-space: pre" text-anchor="start" direction="ltr" letter-spacing="normal" font-size-adjust="none">
+                <tspan x="4" dy="1.0em">{{ "-- ┌──────────┐     ┌──────────┐" }}</tspan>
+                <tspan x="4" dy="1.4em">{{ "-- │ Artist   │     │ Album    │" }}</tspan>
+                <tspan x="4" dy="1.4em">{{ "-- │          │◂───▸│          │" }}</tspan>
+                <tspan x="4" dy="1.4em">{{ "-- │ArtistId  │     │AlbumId   │" }}</tspan>
+                <tspan x="4" dy="1.4em">{{ "-- │Name      │     │Title     │" }}</tspan>
+                <tspan x="4" dy="1.4em">{{ "-- └──────────┘     │ArtistId  │" }}</tspan>
+                <tspan x="4" dy="1.4em">{{ "--                  └──────────┘" }}</tspan>
+              </text>
+            </svg>
+            <div class="flex gap-0.5 flex-wrap py-1">
+              <Badge v-for="lang in ['SQL', 'Haskell', 'Lua']" variant="secondary" class="shadow-black shadow-md">{{ lang }}</Badge>
+            </div>
           </div>
         </div>
-        <div class="grid place-items-center">
+        <div class="grid place-items-center m-auto">
           <LucideArrowRightLeft class="size-10" />
           <p class="text-sm sm:text-md md:text-lg lg:text-xl text-center">
             {{ $t('home.comment-styles.text') }}
           </p>
         </div>
-        <div>
-          <pre class="p-2 bg-border rounded-md shadow-md shadow-black/50 leading-tight tracking-wide text-sm sm:text-md md:text-lg lg:text-xl font-mono">{{ examples.erm_slashed }}</pre>
-          <div class="flex gap-0.5 flex-wrap py-1">
-            <Badge v-for="lang in ['C/C++', 'Java', 'JavaScript', 'C#', 'Rust', 'PHP']" v-once variant="secondary" class="shadow-black shadow-md">{{ lang }}</Badge>
+        <div v-once class="grid place-items-center">
+          <div class="h-full">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 314 164" fill="currentColor" stroke="currentColor" class="max-h-96 p-2 bg-border rounded-md shadow-md shadow-black/50">
+              <text x="4" y="4" font-family="monospace" font-size="16" xml:space="preserve" style="white-space: pre" text-anchor="start" direction="ltr" letter-spacing="normal" font-size-adjust="none">
+                <tspan x="4" dy="1.0em">{{ "// ┌──────────┐     ┌──────────┐" }}</tspan>
+                <tspan x="4" dy="1.4em">{{ "// │ Artist   │     │ Album    │" }}</tspan>
+                <tspan x="4" dy="1.4em">{{ "// │          │◂───▸│          │" }}</tspan>
+                <tspan x="4" dy="1.4em">{{ "// │ArtistId  │     │AlbumId   │" }}</tspan>
+                <tspan x="4" dy="1.4em">{{ "// │Name      │     │Title     │" }}</tspan>
+                <tspan x="4" dy="1.4em">{{ "// └──────────┘     │ArtistId  │" }}</tspan>
+                <tspan x="4" dy="1.4em">{{ "//                  └──────────┘" }}</tspan>
+              </text>
+            </svg>
+            <div class="flex gap-0.5 flex-wrap py-1">
+              <Badge v-for="lang in ['C/C++', 'Java', 'JavaScript', 'C#', 'Rust', 'PHP']" v-once variant="secondary" class="shadow-black shadow-md">{{ lang }}</Badge>
+            </div>
           </div>
         </div>
       </div>
