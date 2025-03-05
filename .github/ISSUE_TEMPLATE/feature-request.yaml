@@ -3,6 +3,7 @@ description: Suggest an idea to improve this project
 title: "[Feature]: "
 labels:
   - enhancement
+type: Feature
 
 body:
   - type: markdown

@@ -1,0 +1,29 @@
+name: New Task
+description: (Only for Developers)
+title: "[Task]: "
+type: Task
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## New Task Guidelines
+        > [!IMPORTANT]
+        > This Issue Template is meant for developers of this repository in order to inform others of incoming tasks.
+        > If you are not a developer please use another Issue Template!
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Task Summary
+      description: Provide a clear and concise description of the task that should be done
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Checklist
+      options:
+        - label: I am a Developer
+          required: true

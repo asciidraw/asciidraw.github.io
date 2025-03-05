@@ -21,21 +21,21 @@ components:
   theme-toggle:
     tooltip: "Controls the color-scheme of the site"
     mode:
+      auto: "System"
       light: "Light"
       dark: "Dark"
-      auto: "System"
-      lightBubblegumPop: "Bubblegum Pop"
-      darkBubblegumPop: "Bubblegum Pop"
-      lightSteampunkCogs: "Steampunk Cogs"
-      darkSteampunkCogs: "Steampunk Cogs"
-      lightVintageVinyl: "Vintage Vinyl"
-      darkVintageVinyl: "Vintage Vinyl"
-      lightMistyHarbor: "Misty Harbor"
-      darkMistyHarbor: "Misty Harbor"
-      lightZenGarden: "Zen Garden"
-      darkZenGarden: "Zen Garden"
-      lightWinter: "Winter"
-      darkWinter: "Winter"
+      light-bubblegum-pop: "Bubblegum Pop"
+      dark-bubblegum-pop: "Bubblegum Pop"
+      light-steampunk-cogs: "Steampunk Cogs"
+      dark-steampunk-cogs: "Steampunk Cogs"
+      light-vintage-vinyl: "Vintage Vinyl"
+      dark-vintage-vinyl: "Vintage Vinyl"
+      light-misty-harbor: "Misty Harbor"
+      dark-misty-harbor: "Misty Harbor"
+      light-zen-garden: "Zen Garden"
+      dark-zen-garden: "Zen Garden"
+      light-winter: "Winter"
+      dark-winter: "Winter"
   project-list:
     new:
       tooltip: "New Project"
@@ -83,9 +83,15 @@ home:
     docs: "Documentation"
     example-projects: "Example Projects"
   in-code:
-    text: "When pasted into your code it will look the same"
+    text: "When pasted into your code, it will look the same."
   comment-styles:
-    text: "Depending on you language you can change the export comment style"
+    text: "Depending on your language you can change the export comment style."
+  export-variants:
+    text: "You can export into multiple formats. Depending on your needs."
+    as-text: "Text"
+    as-image: "Image"
+    as-svg: "SVG"
+  try-out: "Try it out"
   tour:
     draw-something:
       title: "Draw Something"

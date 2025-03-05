@@ -3,11 +3,13 @@ description: File a bug Report
 title: "[BUG]: "
 labels:
   - bug
+type: Bug
 
 body:
   - type: markdown
     attributes:
       value: |
+        ## Bug Report Guidelines
         Thanks for taking the time to fill out this bug report!
 
   - type: input
@@ -44,7 +46,7 @@ body:
       description: |
         What is the unexpected behavior and how did you trigger it.
         Please go into as much details as possible. <br>
-        If you can, it would be helpful if you upload the project-file here.
+        If you can, it would be helpful if you upload a project-file here.
       value: |
         1. 
         2. 

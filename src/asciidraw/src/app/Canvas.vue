@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed, inject, onMounted, useTemplateRef, watch } from "vue";
 import {
-  useColorMode,
   useDebounceFn,
   useEventListener,
   useMouse,
@@ -19,9 +18,7 @@ import { CanvasRenderer, type ColorPalette, LayerRenderer } from "@/app/core";
 import type { ElementBase, VectorLike } from "@/types";
 import { createLabelElement } from "@/app/extensions/label";
 import ContextMenuHandler from "@/app/context-menu/ContextMenuHandler.vue";
-import { registerCommand } from "@/components/command-popup";
-import { LucideSquareDashedMousePointer, LucideTrash2 } from "lucide-vue-next";
-import { useI18n } from "vue-i18n";
+import { useConfiguredColorMode } from "@/composables/useConfiguredColorMode.ts";
 
 
 const MouseButtons = {
@@ -37,8 +34,7 @@ const drawContext = inject(INJECTION_KEY_DRAW_CONTEXT)!;
 const project = inject(INJECTION_KEY_PROJECT)!;
 
 const { t } = useI18n();
-const colorMode = useColorMode();
-
+const colorMode = useConfiguredColorMode();
 watch(colorMode, () => {
   setTimeout(() => redraw());
 });
@@ -61,7 +57,7 @@ function getColorPalette(context: CanvasRenderingContext2D): ColorPalette {
   const style = getComputedStyle(canvas);
   return <ColorPalette>{
     // background: `hsl(${style.getPropertyValue("--background")})`,
-    grid: `hsl(${style.getPropertyValue("--border")})`,
+    grid: `hsl(${style.getPropertyValue("--border")} / 0.8)`,
     text: `hsl(${style.getPropertyValue("--foreground")})`,
     highlight: `hsl(${style.getPropertyValue("--accent-foreground")} / 0.2)`,
     selection: `hsl(${style.getPropertyValue("--card-foreground")} / 0.2)`,
@@ -109,6 +105,7 @@ watch(drawContext, () => redraw(), { deep: true });
 // zooming
 
 useEventListener(canvasRef, "wheel", (event: WheelEvent) => {
+  if (event.ctrlKey) event.preventDefault();
   if (event.deltaY > 0) {
     zoomOut();
   }

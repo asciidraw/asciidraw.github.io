@@ -1,4 +1,4 @@
-html.light .markdown-body {
+.light .markdown-body {
     --code-comment: slategray;
     --code-prolog: slategray;
     --code-doctype: slategray;
@@ -30,7 +30,7 @@ html.light .markdown-body {
     --code-variable: #e90;
 }
 
-html.dark .markdown-body {
+.dark .markdown-body {
     --code-comment: #8292a2;
     --code-prolog: #8292a2;
     --code-doctype: #8292a2;
