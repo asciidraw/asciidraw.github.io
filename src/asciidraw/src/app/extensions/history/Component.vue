@@ -5,7 +5,7 @@ import { INJECTION_KEY_APP, INJECTION_KEY_PROJECT } from "@/symbols.ts";
 import { registerCommand } from "@/components/command-popup";
 import { LucideRedo, LucideUndo } from "lucide-vue-next";
 import { useI18n } from "vue-i18n";
-import { not } from "@vueuse/math";
+import { logicNot } from "@vueuse/math";
 import { defineShortcuts } from "@/composables/defineShortcuts.ts";
 
 const app = inject(INJECTION_KEY_APP)!;
@@ -29,7 +29,7 @@ watch(canRedo, (cRedo) => console.log({cRedo}), { immediate: true });
 registerCommand({
   group: "workspace",
   id: "undo",
-  disabled: not(canUndo),
+  disabled: logicNot(canUndo),
   icon: LucideUndo,
   label: () => t('commands.workspace.undo'),
   action: () => { undo() },
@@ -37,7 +37,7 @@ registerCommand({
 registerCommand({
   group: "workspace",
   id: "redo",
-  disabled: not(canRedo),
+  disabled: logicNot(canRedo),
   icon: LucideRedo,
   label: () => t('commands.workspace.redo'),
   action: () => { redo() },
