@@ -31,6 +31,15 @@ const settings = useWebSettings();
           Shows additional information in some parts of the UI.
         </AlertDescription>
       </Alert>
+      <Alert>
+        <Switch v-model="settings.simpleThemeIcon" class="float-right" />
+        <AlertTitle>
+          Simple Theme-Icon
+        </AlertTitle>
+        <AlertDescription>
+          Instead of using the icon of the active theme, there is a simple icon for light vs dark.
+        </AlertDescription>
+      </Alert>
     </div>
   </DefaultLayout>
 </template>

@@ -3,10 +3,12 @@ import { computed, type Ref } from "vue";
 
 interface Settings {
   devMode: boolean
+  simpleThemeIcon: boolean
 }
 
 const defaultSettings: Settings = {
   devMode: import.meta.env.DEV,
+  simpleThemeIcon: false,
 };
 
 export const SETTINGS_STORAGE_KEY = 'web-settings';
