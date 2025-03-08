@@ -7,7 +7,7 @@ import {
   type ContextMenuRadioItemEmits,
   type ContextMenuRadioItemProps,
   useForwardPropsEmits,
-} from 'radix-vue'
+} from 'reka-ui'
 import { computed, type HTMLAttributes } from 'vue'
 
 const props = defineProps<ContextMenuRadioItemProps & { class?: HTMLAttributes['class'] }>()
