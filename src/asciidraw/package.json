@@ -27,7 +27,7 @@
     "mitt": "^3.0.1",
     "nanoid": "^5.0.9",
     "radix-vue": "^1.9.13",
-    "tailwind-merge": "^3.0.1",
+    "tailwind-merge": "^3.0.2",
     "unique-names-generator": "^4.7.1",
     "uuid": "^11.0.5",
     "vue": "^3.5.13",
