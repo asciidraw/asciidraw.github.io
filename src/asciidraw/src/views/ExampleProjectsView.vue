@@ -40,10 +40,10 @@ const exampleProjects = computed<ExampleProjectInfo[]>(() => {
 <template>
   <DefaultLayout>
     <div class="max-w-screen-lg mx-auto space-y-2">
-      <h1 class="text-4xl font-bold leading-none tracking-wide text-center">
+      <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold leading-none tracking-wide text-center">
         {{ $t('example-projects.title') }}
       </h1>
-      <div class="grid grid-cols-[repeat(auto-fill,minmax(0,500px))] gap-5">
+      <div class="grid grid-cols-[repeat(auto-fill,minmax(min(400px,100%),1fr))] gap-4">
         <template v-for="example in exampleProjects" :key="example.name">
           <Card class="aspect-square grid grid-rows-[auto,1fr,auto]">
             <CardHeader>

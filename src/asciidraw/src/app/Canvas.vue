@@ -34,6 +34,7 @@ const rendererMap = inject(INJECTION_KEY_RENDERER_MAP)!;
 const drawContext = inject(INJECTION_KEY_DRAW_CONTEXT)!;
 const project = inject(INJECTION_KEY_PROJECT)!;
 
+const { t } = useI18n();
 const colorMode = useConfiguredColorMode();
 watch(colorMode, () => {
   setTimeout(() => redraw());
@@ -200,21 +201,30 @@ function deleteElementsById(...elementIds: string[]) {
   }
 }
 
-defineShortcuts({
-  Delete: () => { deleteElementsById(...drawContext.value.selectedElements); },
-  Backspace: () => { deleteElementsById(...drawContext.value.selectedElements); },
-  ctrl_a: () => {
-    for (const element of project.value.elements)
+
+function deleteSelection(): void {
+  deleteElementsById(...drawContext.value.selectedElements);
+}
+
+function selectAll(): void {
+  for (const element of project.value.elements)
+    drawContext.value.selectedElements.add(element.id);
+}
+
+function invertSelection(): void {
+  for (const element of project.value.elements) {
+    if (drawContext.value.selectedElements.has(element.id))
+      drawContext.value.selectedElements.delete(element.id);
+    else
       drawContext.value.selectedElements.add(element.id);
-  },
-  ctrl_i: () => {
-    for (const element of project.value.elements) {
-      if (drawContext.value.selectedElements.has(element.id))
-        drawContext.value.selectedElements.delete(element.id);
-      else
-        drawContext.value.selectedElements.add(element.id);
-    }
-  },
+  }
+}
+
+defineShortcuts({
+  Delete: () => deleteSelection(),
+  Backspace: () => deleteSelection(),
+  ctrl_a: () => selectAll(),
+  ctrl_i: () => invertSelection(),
   ArrowUp: () => {
     project.value.elements
       .filter(el => drawContext.value.selectedElements.has(el.id))
@@ -302,6 +312,32 @@ useEventListener("paste", (event: ClipboardEvent) => {
   } else {
     throw new Error("Unsupported Clipboard-Data");
   }
+});
+
+registerCommand({
+  group: "canvas",
+  id: "select-all",
+  icon: LucideSquareDashedMousePointer,
+  label: () => t('commands.canvas.select-all'),
+  action: () => { selectAll() },
+  shortcut: () => t('commands.canvas.select-all-shortcut'),
+});
+registerCommand({
+  group: "canvas",
+  id: "invert-selection",
+  icon: LucideSquareDashedMousePointer,
+  label: () => t('commands.canvas.invert-selection'),
+  action: () => { invertSelection() },
+  shortcut: () => t('commands.canvas.invert-selection-shortcut'),
+});
+registerCommand({
+  group: "canvas",
+  id: "delete-selected",
+  icon: LucideTrash2,
+  disabled: () => drawContext.value.selectedElements.size === 0,
+  label: () => t('commands.canvas.delete-selected'),
+  action: () => { console.log("DELETE"); deleteElementsById(...drawContext.value.selectedElements) },
+  shortcut: () => t('commands.canvas.delete-selected-shortcut'),
 });
 </script>
 
