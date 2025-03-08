@@ -26,7 +26,6 @@
     "markdown-it-github-alerts": "^0.3.0",
     "mitt": "^3.0.1",
     "nanoid": "^5.0.9",
-    "radix-vue": "^1.9.13",
     "reka-ui": "^2.0.2",
     "tailwind-merge": "^3.0.2",
     "unique-names-generator": "^4.7.1",
