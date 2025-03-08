@@ -20,23 +20,18 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { defineShortcuts } from "@/composables/defineShortcuts.ts";
 
 const project = inject(INJECTION_KEY_PROJECT)!;
 const drawContext = inject(INJECTION_KEY_DRAW_CONTEXT)!;
 const rendererMap = inject(INJECTION_KEY_RENDERER_MAP)!;
 
-const { ctrl_s } = useMagicKeys({
-  onEventFired: (event) => {
-    if (event.ctrlKey && event.key === 's')
-      event.preventDefault();
-  },
-  passive: false,
-});
-
 const dialogOpen = ref(false);
 
-whenever(ctrl_s, () => {
-  dialogOpen.value = true;
+defineShortcuts({
+  ctrl_s: () => {
+    dialogOpen.value = true;
+  },
 });
 
 const activeCommentStyle = useLocalStorage<keyof typeof commentStyleMap>("export-clipboard-comment-style", "none");
