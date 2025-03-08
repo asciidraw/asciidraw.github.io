@@ -2,7 +2,7 @@
 import {computed, ref, watch} from "vue";
 import type {GuideStep} from "@/components/tour-guide/types.ts";
 import {useMagicKeys, whenever} from "@vueuse/core";
-import {PopoverAnchor, PopoverArrow, PopoverPortal, PopoverRoot} from "radix-vue";
+import {PopoverAnchor, PopoverArrow, PopoverPortal, PopoverRoot} from "reka-ui";
 import {PopoverContent} from "@/components/ui/popover";
 import {Button} from "@/components/ui/button";
 import {
@@ -83,7 +83,7 @@ function previousStep() {
   <slot :currentStepIndex="currentStepIndex" :startGuide="startGuide" :nextStep="nextStep" :previousStep="previousStep" />
   <template v-if="currentElement && currentStep">
     <PopoverRoot open modal>
-      <PopoverAnchor as-child :element="currentElement" />
+      <PopoverAnchor as-child :reference="currentElement" />
       <PopoverPortal>
         <ElementExclusiveOverlay :element="currentElement" />
         <PopoverContent :side="currentStep.side ?? 'bottom'" class="w-80">
