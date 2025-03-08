@@ -15,16 +15,25 @@ import {
 import IconButton from "@/components/composed/IconButton.vue";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { colorModes, useConfiguredColorMode } from "@/composables/useConfiguredColorMode.ts";
+import { useWebSettings } from "@/composables/useWebSettings.ts";
 
 const preferredDark = usePreferredDark();
 const { store: colorMode } = useConfiguredColorMode();
+
+const simpleThemeIcon = useWebSettings("simpleThemeIcon");
 </script>
 
 <template>
   <DropdownMenu>
     <DropdownMenuTrigger as-child>
       <IconButton>
-        <component :is="colorModes.find(c => c.id === colorMode)?.icon ?? LucideSunMoon" />
+        <template v-if="simpleThemeIcon">
+          <LucideSun class="block dark:hidden" />
+          <LucideMoon class="hidden dark:block" />
+        </template>
+        <template v-else>
+          <component :is="colorModes.find(c => c.id === colorMode)?.icon ?? LucideSunMoon" />
+        </template>
         <template #tooltip>{{ $t('components.theme-toggle.tooltip') }}</template>
       </IconButton>
     </DropdownMenuTrigger>
