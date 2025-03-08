@@ -19,6 +19,7 @@ import type { ElementBase, VectorLike } from "@/types";
 import { createLabelElement } from "@/app/extensions/label";
 import ContextMenuHandler from "@/app/context-menu/ContextMenuHandler.vue";
 import { useConfiguredColorMode } from "@/composables/useConfiguredColorMode.ts";
+import { defineShortcuts } from "@/composables/defineShortcuts.ts";
 
 
 const MouseButtons = {
@@ -199,36 +200,40 @@ function deleteElementsById(...elementIds: string[]) {
   }
 }
 
-useEventListener(canvasRef, "keydown", (event: KeyboardEvent) => {
-  if (event.key === "Delete" || event.key === "Backspace") {
-    event.preventDefault();
-    deleteElementsById(...drawContext.value.selectedElements);
-  }
-  if (event.ctrlKey && event.key === "a") {
-    event.preventDefault();
+defineShortcuts({
+  Delete: () => { deleteElementsById(...drawContext.value.selectedElements); },
+  Backspace: () => { deleteElementsById(...drawContext.value.selectedElements); },
+  ctrl_a: () => {
     for (const element of project.value.elements)
       drawContext.value.selectedElements.add(element.id);
-  }
-  if (event.ctrlKey && event.key === "i") {
-    event.preventDefault();
+  },
+  ctrl_i: () => {
     for (const element of project.value.elements) {
       if (drawContext.value.selectedElements.has(element.id))
         drawContext.value.selectedElements.delete(element.id);
       else
         drawContext.value.selectedElements.add(element.id);
     }
-  }
-  if (["ArrowUp", "ArrowRight", "ArrowDown", "ArrowLeft"].includes(event.key)) {
-    event.preventDefault();
-    const selectedElements = project.value.elements.filter(el => drawContext.value.selectedElements.has(el.id));
-    selectedElements.forEach(el => {
-      switch (event.key) {
-        case "ArrowUp": el.y -= 1; break;
-        case "ArrowRight": el.x += 1; break;
-        case "ArrowDown": el.y += 1; break;
-        case "ArrowLeft": el.x -= 1; break;
-      }
-    });
+  },
+  ArrowUp: () => {
+    project.value.elements
+      .filter(el => drawContext.value.selectedElements.has(el.id))
+      .forEach(el => { el.y -= 1; });
+  },
+  ArrowRight: () => {
+    project.value.elements
+      .filter(el => drawContext.value.selectedElements.has(el.id))
+      .forEach(el => { el.x += 1; });
+  },
+  ArrowDown: () => {
+    project.value.elements
+      .filter(el => drawContext.value.selectedElements.has(el.id))
+      .forEach(el => { el.y += 1; });
+  },
+  ArrowLeft: () => {
+    project.value.elements
+      .filter(el => drawContext.value.selectedElements.has(el.id))
+      .forEach(el => { el.x -= 1; });
   }
 });
 
