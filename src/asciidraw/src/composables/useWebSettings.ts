@@ -2,16 +2,16 @@ import { useLocalStorage } from "@vueuse/core";
 import { computed, type Ref } from "vue";
 
 interface Settings {
-
+  devMode: boolean
 }
 
 const defaultSettings: Settings = {
-
-}
+  devMode: import.meta.env.DEV,
+};
 
 export const SETTINGS_STORAGE_KEY = 'web-settings';
 
-export function useWebSettings(_?: never): Ref<Settings>;
+export function useWebSettings(): Ref<Settings>;
 export function useWebSettings<K extends keyof Settings>(setting: K): Ref<Settings[K]>;
 
 export function useWebSettings<Option extends keyof Settings>(setting?: Option) {
