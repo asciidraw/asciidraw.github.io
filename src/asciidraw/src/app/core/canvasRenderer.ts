@@ -96,7 +96,7 @@ export class CanvasRenderer {
 
   drawHighlights(highlights: BoundingBox[]): void {
     for (const highlightBox of highlights) {
-      this.highlight(highlightBox, highlightBox);
+      this.highlight(highlightBox);
     }
   }
 
@@ -112,14 +112,14 @@ export class CanvasRenderer {
 
   // internal drawing-functions
 
-  highlight(start: VectorLike, size: SizeLike, color?: string) {
-    if (size.width <= 0 || size.height <= 0) return;
+  highlight(box: BoundingBox, color?: string) {
+    if (box.width <= 0 || box.height <= 0) return;
     this.renderingContext.fillStyle = color ?? this.colorPalette.highlight;
     this.renderingContext.fillRect(
-      start.x * constants.CHARACTER_PIXEL_WIDTH - this.drawContext.offset.x + 0.5,
-      (start.y-1) * constants.CHARACTER_PIXEL_HEIGHT - this.drawContext.offset.y + 0.5,
-      size.width * constants.CHARACTER_PIXEL_WIDTH - 1,
-      size.height * constants.CHARACTER_PIXEL_HEIGHT - 1,
+      box.x * constants.CHARACTER_PIXEL_WIDTH - this.drawContext.offset.x + 0.5,
+      (box.y-1) * constants.CHARACTER_PIXEL_HEIGHT - this.drawContext.offset.y + 0.5,
+      box.width * constants.CHARACTER_PIXEL_WIDTH - 1,
+      box.height * constants.CHARACTER_PIXEL_HEIGHT - 1,
     );
   }
 

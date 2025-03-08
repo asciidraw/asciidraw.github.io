@@ -19,6 +19,7 @@ import type { ElementBase, VectorLike } from "@/types";
 import { createLabelElement } from "@/app/extensions/label";
 import ContextMenuHandler from "@/app/context-menu/ContextMenuHandler.vue";
 import { useConfiguredColorMode } from "@/composables/useConfiguredColorMode.ts";
+import { defineShortcuts } from "@/composables/defineShortcuts.ts";
 
 
 const MouseButtons = {
@@ -90,8 +91,10 @@ function redraw() {
     const selectedElement = project.value.elements.find(e => e.id === selectedElementId);
     if (!selectedElement) continue;
     const highlightBox = rendererMap[selectedElement.type].getBoundingBox(selectedElement);
-    canvasRenderer.highlight(highlightBox, highlightBox);
+    canvasRenderer.highlight(highlightBox);
   }
+  if (drawContext.value.userHighlight)
+    canvasRenderer.highlight(drawContext.value.userHighlight)
   canvasRenderer.drawLayer(layer);
 }
 
@@ -198,6 +201,11 @@ function deleteElementsById(...elementIds: string[]) {
   }
 }
 
+
+function deleteSelection(): void {
+  deleteElementsById(...drawContext.value.selectedElements);
+}
+
 function selectAll(): void {
   for (const element of project.value.elements)
     drawContext.value.selectedElements.add(element.id);
@@ -212,30 +220,30 @@ function invertSelection(): void {
   }
 }
 
-useEventListener(canvasRef, "keydown", (event: KeyboardEvent) => {
-  if (event.key === "Delete" || event.key === "Backspace") {
-    event.preventDefault();
-    deleteElementsById(...drawContext.value.selectedElements);
-  }
-  if (event.ctrlKey && event.key === "a") {
-    event.preventDefault();
-    selectAll();
-  }
-  if (event.ctrlKey && event.key === "i") {
-    event.preventDefault();
-    invertSelection();
-  }
-  if (["ArrowUp", "ArrowRight", "ArrowDown", "ArrowLeft"].includes(event.key)) {
-    event.preventDefault();
-    const selectedElements = project.value.elements.filter(el => drawContext.value.selectedElements.has(el.id));
-    selectedElements.forEach(el => {
-      switch (event.key) {
-        case "ArrowUp": el.y -= 1; break;
-        case "ArrowRight": el.x += 1; break;
-        case "ArrowDown": el.y += 1; break;
-        case "ArrowLeft": el.x -= 1; break;
-      }
-    });
+defineShortcuts({
+  Delete: () => deleteSelection(),
+  Backspace: () => deleteSelection(),
+  ctrl_a: () => selectAll(),
+  ctrl_i: () => invertSelection(),
+  ArrowUp: () => {
+    project.value.elements
+      .filter(el => drawContext.value.selectedElements.has(el.id))
+      .forEach(el => { el.y -= 1; });
+  },
+  ArrowRight: () => {
+    project.value.elements
+      .filter(el => drawContext.value.selectedElements.has(el.id))
+      .forEach(el => { el.x += 1; });
+  },
+  ArrowDown: () => {
+    project.value.elements
+      .filter(el => drawContext.value.selectedElements.has(el.id))
+      .forEach(el => { el.y += 1; });
+  },
+  ArrowLeft: () => {
+    project.value.elements
+      .filter(el => drawContext.value.selectedElements.has(el.id))
+      .forEach(el => { el.x -= 1; });
   }
 });
 

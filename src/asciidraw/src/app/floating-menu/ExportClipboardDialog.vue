@@ -28,6 +28,7 @@ import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { registerCommand } from "@/components/command-popup";
 import { useI18n } from "vue-i18n";
+import { defineShortcuts } from "@/composables/defineShortcuts.ts";
 
 const project = inject(INJECTION_KEY_PROJECT)!;
 const drawContext = inject(INJECTION_KEY_DRAW_CONTEXT)!;
@@ -35,18 +36,12 @@ const rendererMap = inject(INJECTION_KEY_RENDERER_MAP)!;
 
 const { t } = useI18n();
 
-const { ctrl_s } = useMagicKeys({
-  onEventFired: (event) => {
-    if (event.ctrlKey && event.key === 's')
-      event.preventDefault();
-  },
-  passive: false,
-});
-
 const dialogOpen = ref(false);
 
-whenever(ctrl_s, () => {
-  dialogOpen.value = true;
+defineShortcuts({
+  ctrl_s: () => {
+    dialogOpen.value = true;
+  },
 });
 
 registerCommand(() => ({
