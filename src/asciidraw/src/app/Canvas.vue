@@ -305,6 +305,8 @@ useEventListener("paste", (event: ClipboardEvent) => {
     throw new Error("Unsupported Clipboard-Data");
   }
 });
+
+const debugMousePos = computed(() => canvasToCell({ x: mouseX.value, y: mouseY.value }));
 </script>
 
 <template>
@@ -322,6 +324,6 @@ useEventListener("paste", (event: ClipboardEvent) => {
   <AppZoomButton @zoom-in="zoomIn" @zoom-out="zoomOut" />
   <!-- debug information -->
   <div v-if="isDevMode" class="fixed top-0 left-1/2 -translate-x-1/2 pointer-events-none">
-    Zoom: {{ drawContext.zoom }} | offset: {{ drawContext.offset.x.toFixed(2) }}x{{ drawContext.offset.y.toFixed(2) }} | Mouse: {{ canvasToCell({ x: mouseX, y: mouseY }) }}
+    Zoom: {{ drawContext.zoom * 10 }}% | Offset: {{ drawContext.offset.x.toFixed(2) }}x{{ drawContext.offset.y.toFixed(2) }} | Mouse: {{ debugMousePos.x }},{{ debugMousePos.y }}
   </div>
 </template>
