@@ -50,10 +50,10 @@ function sortedEntries<T>(o: {[k: string]: T}): [string, T][] {
 <template>
   <slot />
   <CommandDialog v-model:open="open">
-    <CommandInput placeholder="Type a command or search..." />
+    <CommandInput :placeholder="$t('components.command-popup.filter-placeholder')" />
     <CommandList>
       <CommandEmpty>
-        No Results found.
+        {{ $t('components.command-popup.no-results') }}
       </CommandEmpty>
       <template v-for="([groupId, groupCommands], index) in sortedEntries(commands)" :key="groupId">
         <CommandSeparator v-if="index" />
@@ -65,8 +65,7 @@ function sortedEntries<T>(o: {[k: string]: T}): [string, T][] {
             </span>
           </template>
           <template v-for="[commandId, command] in sortedEntries(groupCommands)" :key="commandId">
-            <!-- todo: when navigating with the keyboard. a disabled item can still be selected and @select will be executed -->
-            <CommandItem :disabled="toValue(command.disabled)" :value="toValue(command.label)" @select="() => { if(!toValue(command.disabled)) command.callback() }">
+            <CommandItem :disabled="toValue(command.disabled)" :value="toValue(command.label)" @select="() => { command.callback() }">
               <component :is="command.icon ?? 'div'" class="size-4 mr-1 inline-block" />
               {{ toValue(command.label) }}
               <CommandShortcut v-if="command.shortcut">

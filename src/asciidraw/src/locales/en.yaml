@@ -75,6 +75,9 @@ components:
     next: "Next"
     finish: "Finish Tour"
     see-also: "See Also"
+  command-popup:
+    no-results: "No Results found."
+    filter-placeholder: "Type a command or search..."
 home:
   dev-notice: "Note: This app is under development"
   draw: "Draw Something"

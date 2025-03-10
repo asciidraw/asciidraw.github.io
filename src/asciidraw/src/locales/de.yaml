@@ -72,6 +72,9 @@ components:
     next: "Weiter"
     finish: "Tour beenden"
     see-also: "Siehe auch"
+  command-popup:
+    no-results: "Keine Ergebnisse gefunden."
+    filter-placeholder: "Geben Sie einen Befehl ein oder suchen Sie..."
 home:
   dev-notice: "Hinweis: Diese App befindet sich in der Entwicklung"
   draw: "Zeichne Etwas"
