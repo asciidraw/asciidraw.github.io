@@ -343,7 +343,7 @@ registerCommand({
   icon: LucideTrash2,
   disabled: () => drawContext.value.selectedElements.size === 0,
   label: () => t('commands.canvas.delete-selected'),
-  action: () => { console.log("DELETE"); deleteElementsById(...drawContext.value.selectedElements) },
+  action: () => { deleteSelection() },
   shortcut: () => t('commands.canvas.delete-selected-shortcut'),
 });
 </script>
