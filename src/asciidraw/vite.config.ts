@@ -10,6 +10,7 @@ import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite';
 import MarkdownPlugin from 'unplugin-vue-markdown/vite';
 import MarkdownItPrism from 'markdown-it-prism';
 import MarkdownItAnchor from 'markdown-it-anchor';
+// @ts-expect-error: bad declaration file (todo: remove with later update when fixed)
 import MarkdownItGitHubAlerts from 'markdown-it-github-alerts';
 import { execSync } from "node:child_process";
 

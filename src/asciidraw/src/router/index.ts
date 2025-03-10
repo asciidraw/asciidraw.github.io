@@ -38,5 +38,10 @@ export default createRouter({
       name: 'docs',
       component: () => import('@/views/DocsView.vue'),
     },
+    {
+      path: '/settings',
+      name: 'settings',
+      component: () => import('@/views/SettingsView.vue'),
+    },
   ],
 });

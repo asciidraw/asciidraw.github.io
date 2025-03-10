@@ -9,7 +9,7 @@ import { useRouter } from "vue-router";
 import { computed } from "vue";
 
 const exampleProjectsMap = import.meta.glob<Project>("@/assets/example-projects/*.json", { eager: false, import: 'default' });
-const exampleProjectImageMap = import.meta.glob<string>("@/assets/example-projects/*.png", { eager: true, import: 'default', query: { url: true } });
+const exampleProjectImageMap = import.meta.glob<string>("@/assets/example-projects/*.svg", { eager: true, import: 'default', query: '?raw' });
 type Loader = typeof exampleProjectsMap[keyof typeof exampleProjectsMap];
 
 const router = useRouter();
@@ -31,7 +31,7 @@ type ExampleProjectInfo = { name: string, loader: Loader, imgSrc?: string };
 const exampleProjects = computed<ExampleProjectInfo[]>(() => {
   return Object.entries(exampleProjectsMap).map(([path, loader]) => {
     const name = extractName(path);
-    const imgSrc = exampleProjectImageMap[path.replace(/\.json$/, ".png")];
+    const imgSrc = exampleProjectImageMap[path.replace(/\.json$/, ".svg")];
     return { name, loader, imgSrc };
   });
 });
@@ -52,7 +52,7 @@ const exampleProjects = computed<ExampleProjectInfo[]>(() => {
               </CardTitle>
             </CardHeader>
             <CardContent class="grid place-items-center">
-              <img v-if="example.imgSrc" :src="example.imgSrc" alt="Preview" class="size-full rounded-md object-contain" />
+              <div v-if="example.imgSrc" v-html="example.imgSrc" class="size-full grid place-items-center rounded-md" />
               <LucideImageOff v-else class="size-12" />
             </CardContent>
             <CardFooter class="justify-end">

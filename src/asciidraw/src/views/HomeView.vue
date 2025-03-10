@@ -65,7 +65,7 @@ import HomePageTourGuide from "@/components/guides/HomePageTourGuide.vue";
       <div class="grid place-content-center grid-cols-3 gap-5 p-5">
         <div v-once class="grid place-items-center">
           <div class="h-full">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 314 164" fill="currentColor" stroke="currentColor" class="h-full p-2 bg-border rounded-md shadow-md shadow-shadow">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 314 164" fill="currentColor" stroke="currentColor" class="w-full max-h-96 p-2 bg-border rounded-md shadow-md shadow-shadow">
               <text x="4" y="4" font-family="monospace" font-size="16" xml:space="preserve" style="white-space: pre" text-anchor="start" direction="ltr" letter-spacing="normal" font-size-adjust="none">
                 <tspan x="4" dy="1.0em">{{ "-- ┌──────────┐     ┌──────────┐" }}</tspan>
                 <tspan x="4" dy="1.4em">{{ "-- │ Artist   │     │ Album    │" }}</tspan>
@@ -89,7 +89,7 @@ import HomePageTourGuide from "@/components/guides/HomePageTourGuide.vue";
         </div>
         <div v-once class="grid place-items-center">
           <div class="h-full">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 314 164" fill="currentColor" stroke="currentColor" class="max-h-96 p-2 bg-border rounded-md shadow-md shadow-shadow">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 314 164" fill="currentColor" stroke="currentColor" class="w-full max-h-96 p-2 bg-border rounded-md shadow-md shadow-shadow">
               <text x="4" y="4" font-family="monospace" font-size="16" xml:space="preserve" style="white-space: pre" text-anchor="start" direction="ltr" letter-spacing="normal" font-size-adjust="none">
                 <tspan x="4" dy="1.0em">{{ "// ┌──────────┐     ┌──────────┐" }}</tspan>
                 <tspan x="4" dy="1.4em">{{ "// │ Artist   │     │ Album    │" }}</tspan>
@@ -101,7 +101,7 @@ import HomePageTourGuide from "@/components/guides/HomePageTourGuide.vue";
               </text>
             </svg>
             <div class="flex gap-0.5 flex-wrap py-1">
-              <Badge v-for="lang in ['C/C++', 'Java', 'JavaScript', 'C#', 'Rust', 'PHP']" v-once variant="secondary" class="shadow-md shadow-shadow">{{ lang }}</Badge>
+              <Badge v-for="lang in ['C/C++', 'Java', 'JavaScript', 'C#', 'Rust', 'PHP']" variant="secondary" class="shadow-md shadow-shadow">{{ lang }}</Badge>
             </div>
           </div>
         </div>

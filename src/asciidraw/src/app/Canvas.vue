@@ -20,6 +20,7 @@ import { createLabelElement } from "@/app/extensions/label";
 import ContextMenuHandler from "@/app/context-menu/ContextMenuHandler.vue";
 import { useConfiguredColorMode } from "@/composables/useConfiguredColorMode.ts";
 import { defineShortcuts } from "@/composables/defineShortcuts.ts";
+import { useWebSettings } from "@/composables/useWebSettings.ts";
 
 
 const MouseButtons = {
@@ -33,6 +34,7 @@ const app = inject(INJECTION_KEY_APP)!;
 const rendererMap = inject(INJECTION_KEY_RENDERER_MAP)!;
 const drawContext = inject(INJECTION_KEY_DRAW_CONTEXT)!;
 const project = inject(INJECTION_KEY_PROJECT)!;
+const isDevMode = useWebSettings("devMode");
 
 const { t } = useI18n();
 const colorMode = useConfiguredColorMode();
@@ -314,6 +316,8 @@ useEventListener("paste", (event: ClipboardEvent) => {
   }
 });
 
+const debugMousePos = computed(() => canvasToCell({ x: mouseX.value, y: mouseY.value }));
+
 registerCommand({
   group: "canvas",
   id: "select-all",
@@ -355,7 +359,7 @@ registerCommand({
   </div>
   <AppZoomButton @zoom-in="zoomIn" @zoom-out="zoomOut" />
   <!-- debug information -->
-  <div v-if="false" class="fixed top-0 left-1/2 -translate-x-1/2 pointer-events-none">
-    Zoom: {{ drawContext.zoom }} | offset: {{ drawContext.offset.x.toFixed(2) }}x{{ drawContext.offset.y.toFixed(2) }} | Mouse: {{ canvasToCell({ x: mouseX, y: mouseY }) }}
+  <div v-if="isDevMode" class="fixed top-0 left-1/2 -translate-x-1/2 pointer-events-none">
+    Zoom: {{ drawContext.zoom * 10 }}% | Offset: {{ drawContext.offset.x.toFixed(2) }}x{{ drawContext.offset.y.toFixed(2) }} | Mouse: {{ debugMousePos.x }},{{ debugMousePos.y }}
   </div>
 </template>
