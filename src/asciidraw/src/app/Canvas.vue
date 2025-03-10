@@ -21,6 +21,9 @@ import ContextMenuHandler from "@/app/context-menu/ContextMenuHandler.vue";
 import { useConfiguredColorMode } from "@/composables/useConfiguredColorMode.ts";
 import { defineShortcuts } from "@/composables/defineShortcuts.ts";
 import { useWebSettings } from "@/composables/useWebSettings.ts";
+import { useI18n } from "vue-i18n";
+import { registerCommand } from "@/components/command-popup";
+import { LucideSquareDashedMousePointer, LucideTrash2 } from "lucide-vue-next";
 
 
 const MouseButtons = {
