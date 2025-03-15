@@ -31,8 +31,9 @@ interface InternalShortcut {
   altKey: boolean
 }
 
-const chainedShortcutRegex = /^[^-]+.*-.*[^-]+$/
-const combinedShortcutRegex = /^[^_]+.*_.*[^_]+$/
+const defaultChainDelay = 800/*ms*/;
+const chainedShortcutRegex = /^[^-]+.*-.*[^-]+$/;
+const combinedShortcutRegex = /^[^_]+.*_.*[^_]+$/;
 
 /**
  * function used to define shortcuts.
@@ -47,7 +48,7 @@ export function defineShortcuts(config: ShortcutsConfig, options: ShortcutOption
 
   const chainedInputs: string[] = [];
   const clearChainedInputs = () => { chainedInputs.length = 0 };
-  const debouncedClearChainedInputs = useDebounceFn(clearChainedInputs, options.chainDelay ?? 800);
+  const debouncedClearChainedInputs = useDebounceFn(clearChainedInputs, options.chainDelay ?? defaultChainDelay);
 
   const shortcuts = Object.entries(config).map(([key, config]) => {
     if (key.includes("-") && key !== "-" && !key.match(chainedShortcutRegex)?.length) {
@@ -62,7 +63,7 @@ export function defineShortcuts(config: ShortcutsConfig, options: ShortcutOption
     const isChained = key.includes("-") && key !== "-";
     if (isChained) {
       shortcut = {
-        key: key.toLowerCase(),
+        key: key,  // String.toLowerCase() was removed to allow `Shift-Shift`. add again if needed
         ctrlKey: false,
         shiftKey: false,
         altKey: false,
