@@ -15,19 +15,13 @@ import {
   LucideAlertTriangle,
   LucideTangent
 } from "lucide-vue-next";
-import { computedAsync, useClipboardItems, useLocalStorage, useObjectUrl } from "@vueuse/core";
+import { useClipboardItems, useObjectUrl } from "@vueuse/core";
 import { computed, inject, ref } from "vue";
 import { INJECTION_KEY_DRAW_CONTEXT, INJECTION_KEY_PROJECT, INJECTION_KEY_RENDERER_MAP } from "@/symbols.ts";
-import { CanvasRenderer, LayerRenderer } from "@/app/core";
-import type { DrawContext } from "@/types";
+import { LayerRenderer } from "@/app/core";
 import { findMinMaxOfLayer } from "@/app/floating-menu/export/util.ts";
-import * as constants from "@/constants";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import * as colorPalettes from "./export/color-palettes.ts";
-import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { registerCommand } from "@/components/command-popup";
+import { defineCommand } from "@/components/command-popup";
 import { useI18n } from "vue-i18n";
 
 const project = inject(INJECTION_KEY_PROJECT)!;
@@ -37,7 +31,7 @@ const renderMap = inject(INJECTION_KEY_RENDERER_MAP)!;
 const { t } = useI18n();
 const dialogOpen = ref(false);
 
-registerCommand({
+defineCommand({
   group: "workspace",
   id: "export-svg",
   icon: LucideTangent,

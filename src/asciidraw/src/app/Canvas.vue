@@ -22,7 +22,7 @@ import { useConfiguredColorMode } from "@/composables/useConfiguredColorMode.ts"
 import { defineShortcuts } from "@/composables/defineShortcuts.ts";
 import { useWebSettings } from "@/composables/useWebSettings.ts";
 import { useI18n } from "vue-i18n";
-import { registerCommand } from "@/components/command-popup";
+import { defineCommand } from "@/components/command-popup";
 import { LucideSquareDashedMousePointer, LucideTrash2 } from "lucide-vue-next";
 
 
@@ -321,7 +321,7 @@ useEventListener("paste", (event: ClipboardEvent) => {
 
 const debugMousePos = computed(() => canvasToCell({ x: mouseX.value, y: mouseY.value }));
 
-registerCommand({
+defineCommand({
   group: "canvas",
   id: "select-all",
   icon: LucideSquareDashedMousePointer,
@@ -329,7 +329,7 @@ registerCommand({
   action: () => { selectAll() },
   shortcut: () => t('commands.canvas.select-all-shortcut'),
 });
-registerCommand({
+defineCommand({
   group: "canvas",
   id: "invert-selection",
   icon: LucideSquareDashedMousePointer,
@@ -337,7 +337,7 @@ registerCommand({
   action: () => { invertSelection() },
   shortcut: () => t('commands.canvas.invert-selection-shortcut'),
 });
-registerCommand({
+defineCommand({
   group: "canvas",
   id: "delete-selected",
   icon: LucideTrash2,

@@ -13,6 +13,7 @@ import { groupPriorityMap, common, INJECTION_KEY_COMMAND_POPUP } from "./common.
 import type { CommandMap } from "./types.ts";
 import { defineShortcuts } from "@/composables/defineShortcuts.ts";
 
+// todo: move `open` and `commands` to own composable or so
 const open = ref(false);
 const commands = ref<CommandMap>({});
 

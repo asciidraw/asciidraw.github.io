@@ -10,7 +10,7 @@ import IconButton from "@/components/composed/IconButton.vue";
 import { useI18n } from "vue-i18n";
 import { setStorageSync } from "@/lib";
 import { GB, DE, } from "country-flag-icons/string/3x2";
-import { registerCommand } from "@/components/command-popup";
+import { defineCommand } from "@/components/command-popup";
 import { h } from "vue";
 
 // todo: sync locale from storage back to i18n object. vueuse useLocalStorage and syncRef could be combined for that.
@@ -32,7 +32,7 @@ function setI18n(locale: string) {
 }
 
 i18n.availableLocales.forEach((locale) => {
-  registerCommand({
+  defineCommand({
     group: "locales",
     id: locale,
     icon: h('img', { src: codeToFlag[locale], alt: locale }),

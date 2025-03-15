@@ -4,7 +4,7 @@ import { LucideCircleHelp, LucideMap } from "lucide-vue-next";
 import IconButton from "@/components/composed/IconButton.vue";
 import {useI18n} from "vue-i18n";
 import {computed} from "vue";
-import { RegisterCommand } from "@/components/command-popup";
+import { DefineCommand } from "@/components/command-popup";
 
 const { t } = useI18n();
 
@@ -34,7 +34,7 @@ const steps = computed<GuideStep[]>(() => [
 
 <template>
   <TourGuide :steps="steps" v-slot="{ startGuide }">
-    <RegisterCommand group="other" id="tour-home" :icon="LucideMap" :label="() => $t('commands.other.tour-home')" :action="startGuide" />
+    <DefineCommand group="other" id="tour-home" :icon="LucideMap" :label="() => $t('commands.other.tour-home')" :action="startGuide" />
     <IconButton @click="startGuide">
       <LucideCircleHelp />
       <template #tooltip>{{ $t('components.tour-guide.tooltip') }}</template>

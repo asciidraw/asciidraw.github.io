@@ -26,7 +26,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { registerCommand } from "@/components/command-popup";
+import { defineCommand } from "@/components/command-popup";
 import { useI18n } from "vue-i18n";
 import { defineShortcuts } from "@/composables/defineShortcuts.ts";
 
@@ -44,7 +44,7 @@ defineShortcuts({
   },
 });
 
-registerCommand(() => ({
+defineCommand({
   group: "workspace",
   id: "export-clipboard",
   icon: LucideClipboard,
@@ -53,7 +53,7 @@ registerCommand(() => ({
     dialogOpen.value = true;
   },
   shortcut: () => t('commands.workspace.export-clipboard-shortcut'),
-}));
+});
 
 const activeCommentStyle = useLocalStorage<keyof typeof commentStyleMap>("export-clipboard-comment-style", "none");
 

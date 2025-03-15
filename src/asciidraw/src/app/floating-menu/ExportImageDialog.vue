@@ -21,7 +21,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import * as colorPalettes from "./export/color-palettes.ts";
 import { Badge } from "@/components/ui/badge";
 import { useI18n } from "vue-i18n";
-import { registerCommand } from "@/components/command-popup";
+import { defineCommand } from "@/components/command-popup";
 
 const project = inject(INJECTION_KEY_PROJECT)!;
 const drawContext = inject(INJECTION_KEY_DRAW_CONTEXT)!;
@@ -30,7 +30,7 @@ const renderMap = inject(INJECTION_KEY_RENDERER_MAP)!;
 const { t } = useI18n();
 const dialogOpen = ref(false);
 
-registerCommand({
+defineCommand({
   group: "workspace",
   id: "export-image",
   icon: LucideImage,

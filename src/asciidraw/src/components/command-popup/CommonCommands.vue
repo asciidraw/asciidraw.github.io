@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
-import { registerCommand } from "@/components/command-popup";
+import { defineCommand } from "@/components/command-popup";
 import { useI18n } from "vue-i18n";
 import { createNewProjectId, setStorageSync, StorageType, storeProjectData } from "@/lib";
 import { createNewProject } from "@/app/createNewProject.ts";
@@ -9,7 +9,7 @@ import { LucideBookType, LucideFilePlus, LucideHouse, LucideList } from "lucide-
 const router = useRouter();
 const { t } = useI18n();
 
-registerCommand({
+defineCommand({
   group: "navigation",
   id: "home",
   icon: LucideHouse,
@@ -18,7 +18,7 @@ registerCommand({
     router.push({ name: 'home' });
   },
 });
-registerCommand({
+defineCommand({
   group: "navigation",
   id: "app-init",
   icon: LucideList,
@@ -27,7 +27,7 @@ registerCommand({
     router.push({ name: 'app-init' });
   },
 });
-registerCommand({
+defineCommand({
   group: "navigation",
   id: "docs",
   icon: LucideBookType,
@@ -36,7 +36,7 @@ registerCommand({
     router.push({ name: 'docs' });
   },
 });
-registerCommand({
+defineCommand({
   group: "other",
   id: "new-project",
   icon: LucideFilePlus,

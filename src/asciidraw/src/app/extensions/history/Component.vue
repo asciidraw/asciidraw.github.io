@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { useDebouncedRefHistory, useMagicKeys, whenever } from "@vueuse/core";
-import { inject, watch } from "vue";
+import { useDebouncedRefHistory } from "@vueuse/core";
+import { inject } from "vue";
 import { INJECTION_KEY_APP, INJECTION_KEY_PROJECT } from "@/symbols.ts";
-import { registerCommand } from "@/components/command-popup";
+import { defineCommand } from "@/components/command-popup";
 import { LucideRedo, LucideUndo } from "lucide-vue-next";
 import { useI18n } from "vue-i18n";
 import { logicNot } from "@vueuse/math";
@@ -23,7 +23,7 @@ defineShortcuts({
 app.value.events.on("undo", () => undo());
 app.value.events.on("redo", () => redo());
 
-registerCommand({
+defineCommand({
   group: "workspace",
   id: "undo",
   disabled: logicNot(canUndo),
@@ -31,7 +31,7 @@ registerCommand({
   label: () => t('commands.workspace.undo'),
   action: () => { undo() },
 });
-registerCommand({
+defineCommand({
   group: "workspace",
   id: "redo",
   disabled: logicNot(canRedo),
