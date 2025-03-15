@@ -11,6 +11,7 @@ import { useEventListener } from "@vueuse/core";
 import { provide, ref, toValue } from "vue";
 import { groupPriorityMap, common, INJECTION_KEY_COMMAND_POPUP } from "./common.ts";
 import type { CommandMap } from "./types.ts";
+import { defineShortcuts } from "@/composables/defineShortcuts.ts";
 
 const open = ref(false);
 const commands = ref<CommandMap>({});
@@ -20,23 +21,14 @@ provide(INJECTION_KEY_COMMAND_POPUP, {
   commands: commands,
 });
 
-let lastShiftPress: number = 0;
-
-useEventListener("keydown", (event) => {
-  if ((event.ctrlKey || event.metaKey) && event.key === 'p') {
-    event.preventDefault();
+defineShortcuts({
+  ctrl_p: () => {
     open.value = !open.value;
-  }
-  if (event.key === 'Shift') {
-    const doubleShiftThreshold = 300;
-    const now = Date.now();
-    if ((now - lastShiftPress) <= doubleShiftThreshold) {
-      event.preventDefault();
-      open.value = true;
-    }
-    lastShiftPress = now;
-  }
-});
+  },
+  'Shift-Shift': () => {
+    open.value = true;
+  },
+}, { chainDelay: 300 });
 
 function sortedEntries<T>(o: {[k: string]: T}): [string, T][] {
   return Object.entries(o).sort(([k1], [k2]) => {
