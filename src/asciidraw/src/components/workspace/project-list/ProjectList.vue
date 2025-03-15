@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { LucidePlus } from "lucide-vue-next";
 import { createNewProjectId, loadProjectFromStorage, setStorageSync, StorageType, storeProjectData } from "@/lib";
-import { createNewProject } from "@/workspace/createNewProject.ts";
+import { createNewProject } from "@/workspace/core";
 import { useRouter } from "vue-router";
 import { useProjectIds } from "@/composables/useProjectIds.ts";
 import DeleteProjectButton from "@/components/workspace/project-list/DeleteProjectButton.vue";

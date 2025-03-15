@@ -1,2 +1,3 @@
-export * from "./canvasRenderer.ts";
-export * from "./layerRenderer.ts";
+export * from "./canvasRenderer";
+export * from "./createNewProject";
+export * from "./layerRenderer";

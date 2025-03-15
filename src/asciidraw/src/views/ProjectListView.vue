@@ -2,7 +2,7 @@
 import { useRouter } from "vue-router";
 import DefaultLayout from "@/layouts/DefaultLayout.vue";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { createNewProject } from "@/workspace/createNewProject.ts";
+import { createNewProject } from "@/workspace/core";
 import { createNewProjectId, setStorageSync, StorageType, storeProjectData } from "@/lib";
 import { useProjectIds } from "@/composables/useProjectIds.ts";
 import ProjectList from "@/components/workspace/project-list/ProjectList.vue";

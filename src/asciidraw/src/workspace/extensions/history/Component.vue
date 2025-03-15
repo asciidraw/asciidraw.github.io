@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useDebouncedRefHistory } from "@vueuse/core";
 import { inject } from "vue";
-import { INJECTION_KEY_WORKSPACE, INJECTION_KEY_PROJECT } from "@/symbols.ts";
+import { INJECTION_KEY_PROJECT, INJECTION_KEY_WORKSPACE } from "@/symbols.ts";
 import { defineCommand } from "@/components/command-popup";
 import { LucideRedo, LucideUndo } from "lucide-vue-next";
 import { useI18n } from "vue-i18n";

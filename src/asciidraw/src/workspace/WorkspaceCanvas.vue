@@ -4,10 +4,10 @@ import { useDebounceFn, useEventListener, useMouse, useWindowSize, } from "@vueu
 import ZoomButton from "@/workspace/ZoomButton.vue";
 import { cloneElement, isPointWithinBox, Layer } from "@/lib";
 import {
-  INJECTION_KEY_WORKSPACE,
   INJECTION_KEY_DRAW_CONTEXT,
   INJECTION_KEY_PROJECT,
-  INJECTION_KEY_RENDERER_MAP
+  INJECTION_KEY_RENDERER_MAP,
+  INJECTION_KEY_WORKSPACE
 } from "@/symbols.ts";
 import { CanvasRenderer, type ColorPalette, LayerRenderer } from "@/workspace/core";
 import type { ElementBase, VectorLike } from "@/types";

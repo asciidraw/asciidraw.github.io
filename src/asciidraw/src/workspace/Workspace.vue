@@ -2,13 +2,13 @@
 import WorkspaceMenu from "@/workspace/floating-menu/FloatingMenu.vue";
 import WorkspaceCanvas from "@/workspace/WorkspaceCanvas.vue";
 import { type Component, computed, provide, ref } from "vue";
-import { createNewProject } from "@/workspace/createNewProject.ts";
-import type { WorkspaceContext, DrawContext, ElementRenderer, Extension } from "@/types";
+import { createNewProject } from "@/workspace/core";
+import type { DrawContext, ElementRenderer, Extension, WorkspaceContext } from "@/types";
 import {
-  INJECTION_KEY_WORKSPACE,
   INJECTION_KEY_DRAW_CONTEXT,
   INJECTION_KEY_PROJECT,
-  INJECTION_KEY_RENDERER_MAP
+  INJECTION_KEY_RENDERER_MAP,
+  INJECTION_KEY_WORKSPACE
 } from "@/symbols.ts";
 import { useLocalStorage, useTitle } from "@vueuse/core";
 import { loadProjectData, StorageType, storeProjectData } from "@/lib";

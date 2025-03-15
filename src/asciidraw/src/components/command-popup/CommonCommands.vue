@@ -3,7 +3,7 @@ import { useRouter } from "vue-router";
 import { defineCommand } from "@/components/command-popup";
 import { useI18n } from "vue-i18n";
 import { createNewProjectId, setStorageSync, StorageType, storeProjectData } from "@/lib";
-import { createNewProject } from "@/workspace/createNewProject.ts";
+import { createNewProject } from "@/workspace/core";
 import { LucideBookType, LucideFilePlus, LucideHouse, LucideList } from "lucide-vue-next";
 
 const router = useRouter();

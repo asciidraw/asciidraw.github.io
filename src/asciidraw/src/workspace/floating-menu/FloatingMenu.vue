@@ -14,7 +14,7 @@ import { inject, ref } from "vue";
 import { Separator } from "@/components/ui/separator";
 import IconButton from "@/components/composed/IconButton.vue";
 import LocaleToggle from "@/components/LocaleToggle.vue";
-import { INJECTION_KEY_WORKSPACE, INJECTION_KEY_PROJECT } from "@/symbols.ts";
+import { INJECTION_KEY_PROJECT, INJECTION_KEY_WORKSPACE } from "@/symbols.ts";
 import CopyShareLinkDialog from "@/components/workspace/CopyShareLinkDialog.vue";
 import AsciiDrawIcon from "@/components/AsciiDrawIcon.vue";
 import ExportClipboardDialog from "@/workspace/floating-menu/ExportClipboardDialog.vue";

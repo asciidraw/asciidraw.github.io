@@ -6,7 +6,7 @@ import {
   ContextMenuTrigger
 } from "@/components/ui/context-menu";
 import { computed, inject } from "vue";
-import { INJECTION_KEY_WORKSPACE, INJECTION_KEY_DRAW_CONTEXT, INJECTION_KEY_PROJECT } from "@/symbols.ts";
+import { INJECTION_KEY_DRAW_CONTEXT, INJECTION_KEY_PROJECT, INJECTION_KEY_WORKSPACE } from "@/symbols.ts";
 import { LucideArrowBigDown, LucideArrowBigUp, LucideTrash2 } from "lucide-vue-next";
 import { useClipboardItems } from "@vueuse/core";
 import CustomContextMenuItem from "./CustomContextMenuItem.vue";
