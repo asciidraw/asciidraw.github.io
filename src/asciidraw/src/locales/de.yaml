@@ -72,6 +72,9 @@ components:
     next: "Weiter"
     finish: "Tour beenden"
     see-also: "Siehe auch"
+  command-popup:
+    no-results: "Keine Ergebnisse gefunden."
+    filter-placeholder: "Geben Sie einen Befehl ein oder suchen Sie..."
 home:
   dev-notice: "Hinweis: Diese App befindet sich in der Entwicklung"
   draw: "Zeichne Etwas"
@@ -330,3 +333,35 @@ actions:
           basic: "Basic"
           block1: "Block"
           block2: "Gestreift"
+commands:
+  navigation:
+    popup-label: "Navigation"
+    home: "Gehe zur Homepage"
+    app-init: "Gehe zu Deinen Projekten"
+    docs: "Gehe zu Dokumentation"
+  locales:
+    popup-label: "Sprachen"
+  themes:
+    popup-label: "Farbschema"
+    msg: "Farbthema {theme} verwenden"
+  other:
+    popup-label: "Verschiedenes"
+    new-project: "Neues Project erstellen"
+    tour-home: "Start der Tour durch die Homepage"
+    tour-app: "Start der Tour durch den Arbeitsbereich"
+  workspace:
+    popup-label: "Arbeitsbereich"
+    undo: "Letzte Aktion rückgängig machen"
+    redo: "Letzte Aktion wiederherstellen"
+    export-clipboard: "Exportieren in die Zwischenablage"
+    export-clipboard-shortcut: "Strg+S"
+    export-image: "Exportieren als Bild"
+    export-svg: "Exportieren als SVG"
+  canvas:
+    popup-label: "Canvas"
+    delete-selected: "Ausgewählte Elemente löschen"
+    delete-selected-shortcut: "Entfernen"
+    invert-selection: "Ausgewählte Elemente invertieren"
+    invert-selection-shortcut: "Strg+I"
+    select-all: "Alle Elemente auswählen"
+    select-all-shortcut: "Strg+A"
