@@ -76,7 +76,7 @@ components:
     no-results: "Keine Ergebnisse gefunden."
     filter-placeholder: "Geben Sie einen Befehl ein oder suchen Sie..."
 home:
-  dev-notice: "Hinweis: Diese App befindet sich in der Entwicklung"
+  dev-notice: "Hinweis: Diese Anwendung befindet sich in der Entwicklung"
   draw: "Zeichne Etwas"
   links:
     project-list: "Deine Projekte"
@@ -133,10 +133,10 @@ example-projects:
     orm: "Object Relational Mapping (ORM)"
   actions:
     load: "Beispiel Laden"
-app-init:
+projects:
   title: "Projekt Auswahl"
   description: "Wählen Sie das Projekt, das Sie bearbeiten möchten"
-app:
+workspace:
   menu:
     hide:
       tooltip: "Blende dieses übermäßig große Menü aus"
@@ -337,7 +337,7 @@ commands:
   navigation:
     popup-label: "Navigation"
     home: "Gehe zur Homepage"
-    app-init: "Gehe zu Deinen Projekten"
+    projects: "Gehe zu Deinen Projekten"
     docs: "Gehe zu Dokumentation"
   locales:
     popup-label: "Sprachen"
@@ -348,7 +348,7 @@ commands:
     popup-label: "Verschiedenes"
     new-project: "Neues Project erstellen"
     tour-home: "Start der Tour durch die Homepage"
-    tour-app: "Start der Tour durch den Arbeitsbereich"
+    tour-workspace: "Start der Tour durch den Arbeitsbereich"
   workspace:
     popup-label: "Arbeitsbereich"
     undo: "Letzte Aktion rückgängig machen"

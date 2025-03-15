@@ -14,14 +14,14 @@ export default createRouter({
       component: () => import('../views/AboutView.vue'),
     },
     {
-      path: '/app/',
-      name: 'app-init',
-      component: () => import('../views/AppInitView.vue'),
+      path: '/projects',
+      name: 'projects',
+      component: () => import('../views/ProjectListView.vue'),
     },
     {
-      path: '/app/:projectId',
-      name: 'app',
-      component: () => import('../app/App.vue'),
+      path: '/workspace/:projectId',
+      name: 'workspace',
+      component: () => import('@/workspace/Workspace.vue'),
     },
     {
       path: '/share/:data',

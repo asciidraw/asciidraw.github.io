@@ -1,4 +1,4 @@
-import type { AppContext, AppEvents } from "./app";
+import type { WorkspaceContext, WorkspaceEvents } from "./workspace";
 import type { Handler } from "mitt";
 import type { Component } from "vue";
 import type { ElementRenderer } from "./rendering.ts";
@@ -10,11 +10,11 @@ import type { ElementRenderer } from "./rendering.ts";
 
 
 export interface Extension {
-  /** setup function to initialize the {@link AppContext} */
-  setup?(app: AppContext): void
+  /** setup function to initialize the {@link WorkspaceContext} */
+  setup?(workspace: WorkspaceContext): void
   /** event handlers that are registered automatically */
   on?: {
-    [K in keyof AppEvents]?: Handler<AppEvents[K]>
+    [K in keyof WorkspaceEvents]?: Handler<WorkspaceEvents[K]>
   }
   /** list of components to mount to extend the ui */
   components?: Component[]

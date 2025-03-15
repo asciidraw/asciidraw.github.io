@@ -3,7 +3,7 @@ import { useRouter } from "vue-router";
 import { defineCommand } from "@/components/command-popup";
 import { useI18n } from "vue-i18n";
 import { createNewProjectId, setStorageSync, StorageType, storeProjectData } from "@/lib";
-import { createNewProject } from "@/app/createNewProject.ts";
+import { createNewProject } from "@/workspace/createNewProject.ts";
 import { LucideBookType, LucideFilePlus, LucideHouse, LucideList } from "lucide-vue-next";
 
 const router = useRouter();
@@ -20,11 +20,11 @@ defineCommand({
 });
 defineCommand({
   group: "navigation",
-  id: "app-init",
+  id: "projects",
   icon: LucideList,
-  label: () => t('commands.navigation.app-init'),
+  label: () => t('commands.navigation.projects'),
   action: () => {
-    router.push({ name: 'app-init' });
+    router.push({ name: 'projects' });
   },
 });
 defineCommand({
@@ -44,7 +44,7 @@ defineCommand({
   action: () => {
     const newProjectId = createNewProjectId();
     setStorageSync(`project-${newProjectId}`, storeProjectData(StorageType.storage, createNewProject()));
-    router.push({ name: "app", params: { projectId: newProjectId } });
+    router.push({ name: "workspace", params: { projectId: newProjectId } });
   },
 });
 </script>

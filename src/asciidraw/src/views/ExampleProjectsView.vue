@@ -22,7 +22,7 @@ function loadProject(loader: Loader): void {
   loader().then(project => {
     const newProjectId = createNewProjectId();
     setStorageSync(`project-${newProjectId}`, storeProjectData(StorageType.storage, project));
-    router.push({ name: 'app', params: { projectId: newProjectId } });
+    router.push({ name: 'workspace', params: { projectId: newProjectId } });
   });
 }
 

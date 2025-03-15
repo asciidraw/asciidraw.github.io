@@ -16,7 +16,7 @@ const parsedRouteValue = computed(() => {
 function importProject() {
   const newProjectId = createNewProjectId();
   localStorage.setItem(`project-${newProjectId}`, storeProjectData(StorageType.storage, parsedRouteValue.value));
-  router.push({ name: "app", params: { projectId: newProjectId } });
+  router.push({ name: "workspace", params: { projectId: newProjectId } });
 }
 </script>
 
