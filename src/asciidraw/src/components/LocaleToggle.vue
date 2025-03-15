@@ -31,7 +31,7 @@ function setI18n(locale: string) {
   setStorageSync('i18n-locale', locale);
 }
 
-i18n.availableLocales.map((locale) => {
+i18n.availableLocales.forEach((locale) => {
   registerCommand({
     group: "locales",
     id: locale,

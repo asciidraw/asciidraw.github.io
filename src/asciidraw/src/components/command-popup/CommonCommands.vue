@@ -9,7 +9,7 @@ import { LucideBookType, LucideFilePlus, LucideHouse, LucideList } from "lucide-
 const router = useRouter();
 const { t } = useI18n();
 
-registerCommand(() => ({
+registerCommand({
   group: "navigation",
   id: "home",
   icon: LucideHouse,
@@ -17,7 +17,7 @@ registerCommand(() => ({
   action: () => {
     router.push({ name: 'home' });
   },
-}));
+});
 registerCommand({
   group: "navigation",
   id: "app-init",
