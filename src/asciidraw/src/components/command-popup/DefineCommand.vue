@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { defineCommand } from "./defineCommand.ts";
+import { defineCommand, type DefineCommandOptions } from "./defineCommand.ts";
 
-const props = defineProps<Parameters<typeof defineCommand>[0]>();
+const props = defineProps<DefineCommandOptions>();
 defineCommand(props);
 </script>
 
