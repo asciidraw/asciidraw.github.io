@@ -3,7 +3,6 @@ title: "AsciiDraw"
 ---
 
 <script setup>
-import { LucideCircleHelp } from "lucide-vue-next";
 </script>
 <style scoped>
 .lucide {

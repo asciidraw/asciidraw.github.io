@@ -4,7 +4,8 @@ import {
   LucideClipboardCopy,
   LucideImageDown,
   LucideRedo,
-  LucideShare2, LucideTangent,
+  LucideShare2,
+  LucideTangent,
   LucideUndo,
 } from "lucide-vue-next";
 import ThemeToggle from "@/components/ThemeToggle.vue";

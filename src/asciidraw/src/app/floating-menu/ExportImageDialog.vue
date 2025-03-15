@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {
-  Dialog, DialogClose,
+  Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -8,7 +9,7 @@ import {
   DialogTrigger
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { LucideClipboardCopy, LucideClipboardCheck, LucideDownload, LucideImage } from "lucide-vue-next";
+import { LucideClipboardCheck, LucideClipboardCopy, LucideDownload, LucideImage } from "lucide-vue-next";
 import { computedAsync, useClipboardItems, useLocalStorage, useObjectUrl } from "@vueuse/core";
 import { computed, inject, ref } from "vue";
 import { INJECTION_KEY_DRAW_CONTEXT, INJECTION_KEY_PROJECT, INJECTION_KEY_RENDERER_MAP } from "@/symbols.ts";

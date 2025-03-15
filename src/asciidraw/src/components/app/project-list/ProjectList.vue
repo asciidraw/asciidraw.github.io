@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Button } from "@/components/ui/button";
-import { LucideList, LucidePlus } from "lucide-vue-next";
+import { LucidePlus } from "lucide-vue-next";
 import { createNewProjectId, loadProjectFromStorage, setStorageSync, StorageType, storeProjectData } from "@/lib";
 import { createNewProject } from "@/app/createNewProject.ts";
 import { useRouter } from "vue-router";

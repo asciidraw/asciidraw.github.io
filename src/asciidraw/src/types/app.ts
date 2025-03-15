@@ -1,6 +1,6 @@
-import type {LucideIcon} from "lucide-vue-next";
-import type {Extension} from "@/types/extensions.ts";
-import type {Emitter} from "mitt";
+import type { LucideIcon } from "lucide-vue-next";
+import type { Extension } from "@/types/extensions.ts";
+import type { Emitter } from "mitt";
 import type { Project } from "@/types/project.ts";
 import type { DrawContext, ElementRenderer, VectorLike } from "@/types/rendering.ts";
 

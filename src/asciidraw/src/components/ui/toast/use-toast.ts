@@ -1,6 +1,6 @@
 import type { Component, VNode } from 'vue'
-import type { ToastProps } from '.'
 import { computed, ref } from 'vue'
+import type { ToastProps } from '.'
 
 const TOAST_LIMIT = 10
 const TOAST_REMOVE_DELAY = 1_000_000

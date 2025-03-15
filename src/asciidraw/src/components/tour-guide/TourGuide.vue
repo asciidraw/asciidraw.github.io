@@ -1,16 +1,11 @@
 <script setup lang="ts">
-import {computed, ref, watch} from "vue";
-import type {GuideStep} from "@/components/tour-guide/types.ts";
-import {useMagicKeys, whenever} from "@vueuse/core";
-import {PopoverAnchor, PopoverArrow, PopoverPortal, PopoverRoot} from "reka-ui";
-import {PopoverContent} from "@/components/ui/popover";
-import {Button} from "@/components/ui/button";
-import {
-  LucideCircleArrowLeft,
-  LucideCircleArrowRight,
-  LucideCircleCheck,
-  LucideCircleSlash
-} from "lucide-vue-next";
+import { computed, ref, watch } from "vue";
+import type { GuideStep } from "@/components/tour-guide/types.ts";
+import { useMagicKeys, whenever } from "@vueuse/core";
+import { PopoverAnchor, PopoverArrow, PopoverPortal, PopoverRoot } from "reka-ui";
+import { PopoverContent } from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
+import { LucideCircleArrowLeft, LucideCircleArrowRight, LucideCircleCheck, LucideCircleSlash } from "lucide-vue-next";
 import ElementExclusiveOverlay from "@/components/tour-guide/ElementExclusiveOverlay.vue";
 import { logicAnd } from "@vueuse/math";
 

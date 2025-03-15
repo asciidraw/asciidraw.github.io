@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import {type GuideStep, TourGuide} from "@/components/tour-guide";
+import { type GuideStep, TourGuide } from "@/components/tour-guide";
 import { LucideCircleHelp, LucideMap } from "lucide-vue-next";
 import IconButton from "@/components/composed/IconButton.vue";
-import {useI18n} from "vue-i18n";
-import {computed} from "vue";
+import { useI18n } from "vue-i18n";
+import { computed } from "vue";
 import { DefineCommand } from "@/components/command-popup";
 
 const { t } = useI18n();

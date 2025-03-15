@@ -1,11 +1,15 @@
 <script setup lang="ts">
-import { LucidePencil, LucideTrash } from "lucide-vue-next";
+import { LucideTrash } from "lucide-vue-next";
 import { setStorageSync } from "@/lib";
 import {
-  AlertDialog, AlertDialogAction, AlertDialogCancel,
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
   AlertDialogContent,
-  AlertDialogDescription, AlertDialogFooter,
-  AlertDialogHeader, AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { ref } from "vue";
 import IconButton from "@/components/composed/IconButton.vue";

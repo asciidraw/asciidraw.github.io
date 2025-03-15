@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { ListboxRootEmits, ListboxRootProps } from 'reka-ui'
-import { cn } from '@/lib/utils'
 import { ListboxRoot, useFilter, useForwardPropsEmits } from 'reka-ui'
+import { cn } from '@/lib/utils'
 import { computed, type HTMLAttributes, reactive, ref, watch } from 'vue'
 import { provideCommandContext } from '.'
 

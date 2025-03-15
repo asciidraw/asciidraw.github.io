@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {
-  Dialog, DialogClose,
+  Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -9,10 +10,10 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import {
-  LucideClipboardCopy,
-  LucideClipboardCheck,
-  LucideDownload,
   LucideAlertTriangle,
+  LucideClipboardCheck,
+  LucideClipboardCopy,
+  LucideDownload,
   LucideTangent
 } from "lucide-vue-next";
 import { useClipboardItems, useObjectUrl } from "@vueuse/core";

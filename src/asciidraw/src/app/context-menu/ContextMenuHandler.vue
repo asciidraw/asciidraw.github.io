@@ -7,12 +7,7 @@ import {
 } from "@/components/ui/context-menu";
 import { computed, inject } from "vue";
 import { INJECTION_KEY_APP, INJECTION_KEY_DRAW_CONTEXT, INJECTION_KEY_PROJECT } from "@/symbols.ts";
-import {
-  LucideArrowBigDown,
-  LucideArrowBigUp,
-  LucideClipboardCopy, LucideClipboardPaste, LucideScissors,
-  LucideTrash2
-} from "lucide-vue-next";
+import { LucideArrowBigDown, LucideArrowBigUp, LucideTrash2 } from "lucide-vue-next";
 import { useClipboardItems } from "@vueuse/core";
 import CustomContextMenuItem from "./CustomContextMenuItem.vue";
 import { splitBySelected } from "./util.ts";

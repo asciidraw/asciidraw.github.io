@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {useElementBounding} from "@vueuse/core";
+import { useElementBounding } from "@vueuse/core";
 
 const { element } = defineProps<{
   element: HTMLElement | null;

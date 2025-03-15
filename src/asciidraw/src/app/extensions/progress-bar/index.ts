@@ -1,11 +1,4 @@
-import {
-  createNewElementId,
-  defineElementRenderer,
-  defineExtension,
-  doInRange,
-  Layer,
-  Vector,
-} from "@/lib";
+import { createNewElementId, defineElementRenderer, defineExtension, doInRange, Layer, Vector, } from "@/lib";
 import * as styles from "./styles.ts";
 import EditOptions from "@/app/extensions/progress-bar/EditOptions.vue";
 import { LucideRectangleEllipsis } from "lucide-vue-next";

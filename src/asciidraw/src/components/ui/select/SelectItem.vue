@@ -1,13 +1,7 @@
 <script setup lang="ts">
 import { cn } from '@/lib/utils'
 import { Check } from 'lucide-vue-next'
-import {
-  SelectItem,
-  SelectItemIndicator,
-  type SelectItemProps,
-  SelectItemText,
-  useForwardProps,
-} from 'reka-ui'
+import { SelectItem, SelectItemIndicator, type SelectItemProps, SelectItemText, useForwardProps, } from 'reka-ui'
 import { computed, type HTMLAttributes } from 'vue'
 
 const props = defineProps<SelectItemProps & { class?: HTMLAttributes['class'] }>()

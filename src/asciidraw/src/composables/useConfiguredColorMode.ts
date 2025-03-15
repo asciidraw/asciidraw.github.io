@@ -1,8 +1,12 @@
 import {
   LucideCassetteTape,
-  type LucideIcon, LucideMoon,
+  type LucideIcon,
+  LucideMoon,
   LucideSailboat,
-  LucideShell, LucideSnowflake, LucideSprout, LucideSun,
+  LucideShell,
+  LucideSnowflake,
+  LucideSprout,
+  LucideSun,
   LucideWind
 } from "lucide-vue-next";
 import { useColorMode } from "@vueuse/core";

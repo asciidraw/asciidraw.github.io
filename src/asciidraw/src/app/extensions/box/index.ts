@@ -1,4 +1,4 @@
-import { defineElementRenderer, defineExtension, doInRange, Layer, createNewElementId, Vector } from "@/lib";
+import { createNewElementId, defineElementRenderer, defineExtension, doInRange, Layer, Vector } from "@/lib";
 import * as styles from "./styles.ts";
 import EditOptions from "./EditOptions.vue";
 import { LucideRectangleHorizontal } from "lucide-vue-next";

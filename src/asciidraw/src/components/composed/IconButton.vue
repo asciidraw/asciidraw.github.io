@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Button } from "@/components/ui/button";
-import {Tooltip, TooltipContent, TooltipTrigger} from "@/components/ui/tooltip";
-import type {TooltipContentProps} from "reka-ui";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import type { TooltipContentProps } from "reka-ui";
 import { createReusableTemplate } from "@vueuse/core";
 
 type ButtonProps = /* @vue-ignore */ UndefinedToOptional<InstanceType<typeof Button>['$props']>;

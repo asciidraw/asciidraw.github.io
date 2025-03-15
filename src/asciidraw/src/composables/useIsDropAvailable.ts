@@ -1,5 +1,5 @@
-import {type Ref, ref} from "vue";
-import {useEventListener} from "@vueuse/core";
+import { type Ref, ref } from "vue";
+import { useEventListener } from "@vueuse/core";
 
 
 export function useIsDropAvailable(): Ref<boolean> {

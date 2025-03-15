@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import {Button} from "@/components/ui/button";
-import {useRoute} from "vue-router";
+import { Button } from "@/components/ui/button";
+import { useRoute } from "vue-router";
 import { computed } from "vue";
 import { compare_arrays } from "@/lib";
 import type { DocsTreeConfig } from "@/docs/config.ts";

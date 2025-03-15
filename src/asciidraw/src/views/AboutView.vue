@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import DefaultLayout from "@/layouts/DefaultLayout.vue";
-import {LucideBuilding, LucideCrosshair, LucideUsers} from "lucide-vue-next";
+import { LucideBuilding, LucideCrosshair, LucideUsers } from "lucide-vue-next";
 import { useI18n } from "vue-i18n";
 
 const { t } = useI18n();

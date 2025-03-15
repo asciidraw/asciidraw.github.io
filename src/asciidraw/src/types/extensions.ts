@@ -1,5 +1,5 @@
-import type {AppContext, AppEvents} from "./app";
-import type {Handler} from "mitt";
+import type { AppContext, AppEvents } from "./app";
+import type { Handler } from "mitt";
 import type { Component } from "vue";
 import type { ElementRenderer } from "./rendering.ts";
 

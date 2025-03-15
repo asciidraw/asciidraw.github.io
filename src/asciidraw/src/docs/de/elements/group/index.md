@@ -3,8 +3,6 @@ title: "Gruppe"
 ---
 
 <script setup>
-import { LucideLanguages } from "lucide-vue-next";
-import { Button } from "@/components/ui/button";
 </script>
 
 > [!IMPORTANT]

@@ -1,5 +1,11 @@
 import type { Project } from "@/types";
-import { uniqueNamesGenerator, type Config as UniqueNamesGeneratorConfig, adjectives as dictAdjectives, colors as dictColors, animals as dictAnimals } from "unique-names-generator";
+import {
+  adjectives as dictAdjectives,
+  animals as dictAnimals,
+  colors as dictColors,
+  type Config as UniqueNamesGeneratorConfig,
+  uniqueNamesGenerator
+} from "unique-names-generator";
 
 
 const nameGeneratorConfig: UniqueNamesGeneratorConfig = {

@@ -1,11 +1,6 @@
 <script setup lang="ts">
 import { computed, inject, onMounted, useTemplateRef, watch } from "vue";
-import {
-  useDebounceFn,
-  useEventListener,
-  useMouse,
-  useWindowSize,
-} from "@vueuse/core";
+import { useDebounceFn, useEventListener, useMouse, useWindowSize, } from "@vueuse/core";
 import AppZoomButton from "@/app/ZoomButton.vue";
 import { cloneElement, isPointWithinBox, Layer } from "@/lib";
 import {

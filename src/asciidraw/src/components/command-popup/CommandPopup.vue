@@ -5,11 +5,12 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
-  CommandList, CommandSeparator, CommandShortcut
+  CommandList,
+  CommandSeparator,
+  CommandShortcut
 } from "@/components/ui/command";
-import { useEventListener } from "@vueuse/core";
 import { provide, ref, toValue } from "vue";
-import { groupPriorityMap, common, INJECTION_KEY_COMMAND_POPUP } from "./common.ts";
+import { common, groupPriorityMap, INJECTION_KEY_COMMAND_POPUP } from "./common.ts";
 import type { CommandMap } from "./types.ts";
 import { defineShortcuts } from "@/composables/defineShortcuts.ts";
 

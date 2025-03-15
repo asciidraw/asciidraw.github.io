@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import AppTourGuide from "@/components/guides/AppTourGuide.vue";
-import {Button} from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 </script>
 
 <template>

@@ -16,7 +16,7 @@ import {
   LucideSpellCheck,
   LucideSpellCheck2
 } from "lucide-vue-next";
-import { useClipboard, useLocalStorage, useMagicKeys, whenever } from "@vueuse/core";
+import { useClipboard, useLocalStorage } from "@vueuse/core";
 import { computed, inject, ref } from "vue";
 import { INJECTION_KEY_DRAW_CONTEXT, INJECTION_KEY_PROJECT, INJECTION_KEY_RENDERER_MAP } from "@/symbols.ts";
 import { LayerRenderer } from "@/app/core";

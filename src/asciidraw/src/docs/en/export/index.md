@@ -3,7 +3,6 @@ title: "How to Export"
 ---
 
 <script setup>
-import { LucideType, LucideImage, LucideTangent } from "lucide-vue-next";
 </script>
 <style scoped>
 .lucide {

@@ -1,15 +1,19 @@
 <script setup lang="ts">
 import DefaultLayout from "@/layouts/DefaultLayout.vue";
-import {Button} from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import AsciiDrawIcon from "@/components/AsciiDrawIcon.vue";
 import inCodeSrc from "@/assets/homepage/in-code.png?url";
 import inEditorSrc from "@/assets/homepage/in-editor.png?url";
 import {
   LucideArrowRight,
   LucideArrowRightLeft,
-  LucideBookType, LucideClipboard, LucideImage, LucideList,
+  LucideBookType,
+  LucideClipboard,
+  LucideImage,
+  LucideList,
   LucidePencilRuler,
-  LucideSwatchBook, LucideTangent
+  LucideSwatchBook,
+  LucideTangent
 } from "lucide-vue-next";
 import { Badge } from "@/components/ui/badge";
 import HomePageTourGuide from "@/components/guides/HomePageTourGuide.vue";

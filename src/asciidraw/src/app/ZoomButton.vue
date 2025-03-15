@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import {LucideZoomIn, LucideZoomOut} from "lucide-vue-next";
-import {Separator} from "@/components/ui/separator";
+import { LucideZoomIn, LucideZoomOut } from "lucide-vue-next";
+import { Separator } from "@/components/ui/separator";
 import IconButton from "@/components/composed/IconButton.vue";
 
 defineEmits<{

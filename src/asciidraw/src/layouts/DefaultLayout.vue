@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { LucideHouse, LucideInfo, LucideGithub, LucideBookType } from "lucide-vue-next";
-import {Separator} from "@/components/ui/separator";
+import { LucideBookType, LucideGithub, LucideHouse, LucideInfo } from "lucide-vue-next";
+import { Separator } from "@/components/ui/separator";
 import ThemeToggle from "@/components/ThemeToggle.vue";
 import IconButton from "@/components/composed/IconButton.vue";
 import LocaleToggle from "@/components/LocaleToggle.vue";

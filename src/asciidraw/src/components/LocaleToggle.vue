@@ -3,13 +3,14 @@ import { LucideLanguages } from "lucide-vue-next";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem, DropdownMenuShortcut,
+  DropdownMenuItem,
+  DropdownMenuShortcut,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import IconButton from "@/components/composed/IconButton.vue";
 import { useI18n } from "vue-i18n";
 import { setStorageSync } from "@/lib";
-import { GB, DE, } from "country-flag-icons/string/3x2";
+import { DE, GB, } from "country-flag-icons/string/3x2";
 import { defineCommand } from "@/components/command-popup";
 import { h } from "vue";
 

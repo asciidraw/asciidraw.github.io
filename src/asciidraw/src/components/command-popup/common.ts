@@ -1,6 +1,7 @@
 import type { CommandGroupId, CommandPopupContext } from "@/components/command-popup/types.ts";
 import {
-  LucideAppWindow, LucideBrush,
+  LucideAppWindow,
+  LucideBrush,
   type LucideIcon,
   LucideLanguages,
   LucideMap,

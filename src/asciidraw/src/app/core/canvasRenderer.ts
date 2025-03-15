@@ -1,6 +1,6 @@
 import { Layer, Vector } from "@/lib";
 import * as constants from "@/constants.ts";
-import type { BoundingBox, DrawContext, VectorLike, SizeLike } from "@/types";
+import type { BoundingBox, DrawContext, VectorLike } from "@/types";
 
 
 export interface ColorPalette {

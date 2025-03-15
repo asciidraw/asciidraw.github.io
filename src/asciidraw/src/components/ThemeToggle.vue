@@ -7,11 +7,7 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { usePreferredDark } from '@vueuse/core'
-import {
-  LucideSun,
-  LucideMoon,
-  LucideSunMoon,
-} from "lucide-vue-next";
+import { LucideMoon, LucideSun, LucideSunMoon, } from "lucide-vue-next";
 import IconButton from "@/components/composed/IconButton.vue";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { colorModes, useConfiguredColorMode } from "@/composables/useConfiguredColorMode.ts";

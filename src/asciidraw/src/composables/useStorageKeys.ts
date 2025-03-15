@@ -1,4 +1,4 @@
-import {type StorageEventLike, useEventListener} from "@vueuse/core";
+import { type StorageEventLike, useEventListener } from "@vueuse/core";
 import { readonly, ref } from "vue";
 
 export interface UseStorageKeysOptions {
