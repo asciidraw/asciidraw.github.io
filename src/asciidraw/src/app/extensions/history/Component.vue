@@ -23,9 +23,6 @@ defineShortcuts({
 app.value.events.on("undo", () => undo());
 app.value.events.on("redo", () => redo());
 
-watch(canUndo, (cUndo) => console.log({cUndo}), { immediate: true });
-watch(canRedo, (cRedo) => console.log({cRedo}), { immediate: true });
-
 registerCommand({
   group: "workspace",
   id: "undo",
