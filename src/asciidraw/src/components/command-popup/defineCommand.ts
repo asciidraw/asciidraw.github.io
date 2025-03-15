@@ -1,8 +1,8 @@
-import { inject, type MaybeRefOrGetter, onWatcherCleanup, toValue, watch } from "vue";
+import { inject, onMounted, onUnmounted } from "vue";
 import type { CommandCommandId, CommandDetails, CommandGroupId } from "./types.ts";
 import { INJECTION_KEY_COMMAND_POPUP } from "./common.ts";
 
-export type RegisterCommandOptions = Omit<CommandDetails, "callback"> & {
+export type DefineCommandOptions = Omit<CommandDetails, "callback"> & {
   group: CommandGroupId
   id: CommandCommandId
   action: () => boolean | void
@@ -12,12 +12,14 @@ export type RegisterCommandOptions = Omit<CommandDetails, "callback"> & {
  * registers a certain action for the command-popup
  * @param options
  */
-export function registerCommand(options: MaybeRefOrGetter<RegisterCommandOptions>) {
+export function defineCommand(options: DefineCommandOptions) {
   const commandContext = inject(INJECTION_KEY_COMMAND_POPUP);
   if (commandContext === undefined) return;
   const { open, commands } = commandContext;
 
-  watch(() => toValue(options), ({ group, id, action, ...detail }) => {
+  const { group, id, action, ...detail } = options;
+
+  onMounted(() => {
     if (!(group in commands.value))
       commands.value[group] = {};
     commands.value[group]![id] = {
@@ -28,8 +30,8 @@ export function registerCommand(options: MaybeRefOrGetter<RegisterCommandOptions
           open.value = false;
       },
     };
-    onWatcherCleanup(() => {
-      delete commands.value[group]?.[id];
-    })
-  }, { immediate: true, deep: true });
+  });
+  onUnmounted(() => {
+    delete commands.value[group]?.[id];
+  });
 }
