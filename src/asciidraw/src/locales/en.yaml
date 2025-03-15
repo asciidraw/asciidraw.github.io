@@ -79,7 +79,7 @@ components:
     no-results: "No Results found."
     filter-placeholder: "Type a command or search..."
 home:
-  dev-notice: "Note: This app is under development"
+  dev-notice: "Note: This application is under development"
   draw: "Draw Something"
   links:
     project-list: "Your Projects"
@@ -136,10 +136,10 @@ example-projects:
     orm: "Object Relational Mapping (ORM)"
   actions:
     load: "Load Example"
-app-init:
+projects:
   title: "Project Selection"
   description: "Select the project you want to edit"
-app:
+workspace:
   menu:
     hide:
       tooltip: "Hide this overly large menu"
@@ -341,7 +341,7 @@ commands:
   navigation:
     popup-label: "Navigation"
     home: "Go to Homepage"
-    app-init: "Go to Your Projects"
+    projects: "Go to Your Projects"
     docs: "Go to Documentation"
   locales:
     popup-label: "Languages"
@@ -354,7 +354,7 @@ commands:
     popup-label: "Other"
     new-project: "Create new project"
     tour-home: "Start tour guide of the homepage"
-    tour-app: "Start tour guide of the workspace"
+    tour-workspace: "Start tour guide of the workspace"
   workspace:
     popup-label: "Workspace"
     undo: "Undo your last action"

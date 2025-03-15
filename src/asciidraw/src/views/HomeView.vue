@@ -28,7 +28,7 @@ import HomePageTourGuide from "@/components/guides/HomePageTourGuide.vue";
       <p class="text-muted-foreground">{{ $t('home.dev-notice') }}</p>
       <h1 class="text-4xl font-bold leading-none tracking-wide">AsciiDraw</h1>
       <AsciiDrawIcon class="size-52 sm:size-64 md:size-80 lg:size-96 mx-auto" />
-      <router-link data-tour="draw-something" :to="{ name: 'app-init', query: { autoRedirect: 'true' } }" class="w-fit mx-auto">
+      <router-link data-tour="draw-something" :to="{ name: 'projects', query: { autoRedirect: 'true' } }" class="w-fit mx-auto">
         <Button size="lg" class="text-lg gap-x-0.5 shadow-lg shadow-shadow">
           <LucidePencilRuler />
           {{ $t('home.draw') }}
@@ -37,7 +37,7 @@ import HomePageTourGuide from "@/components/guides/HomePageTourGuide.vue";
     </div>
     <div class="space-y-16 pb-16">
       <div class="grid grid-cols-[repeat(3,1fr)] gap-2 w-fit mx-auto">
-        <router-link data-tour="project-list" :to="{ name: 'app-init' }">
+        <router-link data-tour="project-list" :to="{ name: 'projects' }">
           <Button variant="secondary" class="size-full gap-x-0.5 shadow-md shadow-shadow">
             <LucideList class="size-6" />
             {{ $t('home.links.project-list') }}
@@ -136,7 +136,7 @@ import HomePageTourGuide from "@/components/guides/HomePageTourGuide.vue";
         </div>
       </div>
       <div class="grid place-items-center">
-        <router-link data-tour="draw-something" :to="{ name: 'app-init', query: { autoRedirect: 'true' } }" class="w-fit mx-auto">
+        <router-link data-tour="draw-something" :to="{ name: 'projects', query: { autoRedirect: 'true' } }" class="w-fit mx-auto">
           <Button size="lg" class="text-lg gap-x-0.5 shadow-lg shadow-shadow">
             <LucidePencilRuler />
             {{ $t('home.try-out') }}
