@@ -1,4 +1,4 @@
-import { createNewProjectId, loadProjectData, setStorageSync, StorageType, storeProjectData } from "@/lib";
+import { createProjectInStorage, loadProjectData, StorageType } from "@/lib";
 
 export function loadProjectsFromFiles(files: File[]) {
   files.forEach(file => {
@@ -13,8 +13,7 @@ export function loadProjectsFromFiles(files: File[]) {
           break;
       }
       if (loaded === null) throw Error("Project data is bad");
-      const newProjectId = createNewProjectId();
-      setStorageSync(`project-${newProjectId}`, storeProjectData(StorageType.storage, loaded));
+      createProjectInStorage(loaded);
     });
   });
 }

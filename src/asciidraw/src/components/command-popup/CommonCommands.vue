@@ -2,8 +2,7 @@
 import { useRouter } from "vue-router";
 import { defineCommand } from "@/components/command-popup";
 import { useI18n } from "vue-i18n";
-import { createNewProjectId, setStorageSync, StorageType, storeProjectData } from "@/lib";
-import { createNewProject } from "@/workspace/core";
+import { createProjectInStorage } from "@/lib";
 import { LucideBookType, LucideFilePlus, LucideHouse, LucideList } from "lucide-vue-next";
 
 const router = useRouter();
@@ -42,8 +41,7 @@ defineCommand({
   icon: LucideFilePlus,
   label: () => t('commands.other.new-project'),
   action: () => {
-    const newProjectId = createNewProjectId();
-    setStorageSync(`project-${newProjectId}`, storeProjectData(StorageType.storage, createNewProject()));
+    const newProjectId = createProjectInStorage();
     router.push({ name: "workspace", params: { projectId: newProjectId } });
   },
 });

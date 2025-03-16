@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { Button } from "@/components/ui/button";
 import { LucidePlus } from "lucide-vue-next";
-import { createNewProjectId, loadProjectFromStorage, setStorageSync, StorageType, storeProjectData } from "@/lib";
-import { createNewProject } from "@/workspace/core";
+import { createProjectInStorage, loadProjectFromStorage } from "@/lib";
 import { useRouter } from "vue-router";
 import { useProjectIds } from "@/composables/useProjectIds.ts";
 import DeleteProjectButton from "@/components/workspace/project-list/DeleteProjectButton.vue";
@@ -31,8 +30,7 @@ const activeProjectId = computed(() => router.currentRoute.value.params.projectI
 const projectIds = useProjectIds();
 
 function newProject(event: KeyboardEvent) {
-  const newProjectId = createNewProjectId();
-  setStorageSync(`project-${newProjectId}`, storeProjectData(StorageType.storage, createNewProject()));
+  const newProjectId = createProjectInStorage();
   if (!(event.ctrlKey || event.shiftKey))
     router.push({ name: "workspace", params: { projectId: newProjectId } });
 }

@@ -2,8 +2,7 @@
 import { useRouter } from "vue-router";
 import DefaultLayout from "@/layouts/DefaultLayout.vue";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { createNewProject } from "@/workspace/core";
-import { createNewProjectId, setStorageSync, StorageType, storeProjectData } from "@/lib";
+import { createProjectInStorage } from "@/lib";
 import { useProjectIds } from "@/composables/useProjectIds.ts";
 import ProjectList from "@/components/workspace/project-list/ProjectList.vue";
 
@@ -14,8 +13,7 @@ const projectIds = useProjectIds();
 if (router.currentRoute.value.query.autoRedirect === 'true') {
   router.replace({ query: { autoRedirect: undefined } });
   if (projectIds.value.length === 0) {
-    const newProjectId = createNewProjectId();
-    setStorageSync(`project-${newProjectId}`, storeProjectData(StorageType.storage, createNewProject()));
+    const newProjectId = createProjectInStorage();
     router.push({ name: "workspace", params: { projectId: newProjectId } });
   } else if (projectIds.value.length === 1) {
     router.push({ name: "workspace", params: { projectId: projectIds.value[0] } });

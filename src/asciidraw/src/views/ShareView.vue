@@ -2,7 +2,7 @@
 import { useRouter } from "vue-router";
 import { computed } from "vue";
 import DefaultLayout from "@/layouts/DefaultLayout.vue";
-import { createNewProjectId, loadProjectData, StorageType, storeProjectData } from "@/lib";
+import { createProjectInStorage, loadProjectData, StorageType } from "@/lib";
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
@@ -14,8 +14,7 @@ const parsedRouteValue = computed(() => {
 });
 
 function importProject() {
-  const newProjectId = createNewProjectId();
-  localStorage.setItem(`project-${newProjectId}`, storeProjectData(StorageType.storage, parsedRouteValue.value));
+  const newProjectId = createProjectInStorage(parsedRouteValue.value);
   router.push({ name: "workspace", params: { projectId: newProjectId } });
 }
 </script>

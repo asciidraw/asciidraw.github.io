@@ -15,6 +15,9 @@ const nameGeneratorConfig: UniqueNamesGeneratorConfig = {
 }
 
 
+/**
+ * creates a new project
+ */
 export function createNewProject(): Project {
   return {
     name: uniqueNamesGenerator(nameGeneratorConfig),

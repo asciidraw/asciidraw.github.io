@@ -1,5 +1,7 @@
 import type { Project } from "@/types";
 import lzString from "lz-string";
+import { createNewProjectId } from "@/lib/elements.ts";
+import { createNewProject } from "@/workspace/core";
 
 
 /**
@@ -94,4 +96,15 @@ export function loadProjectFromStorage(projectId: string): Project | undefined {
 export function storeProjectToStorage(projectId: string, project: Project): void {
   const packed = storeProjectData(StorageType.storage, project);
   setStorageSync(`project-${projectId}`, packed);
+}
+
+
+/**
+ * creates and saves a project into storage
+ * @param data (optional) project data. Otherwise {@link createNewProject} is used
+ */
+export function createProjectInStorage(data?: Project): string {
+  const newProjectId = createNewProjectId();
+  storeProjectToStorage(newProjectId, data ?? createNewProject());
+  return newProjectId;
 }

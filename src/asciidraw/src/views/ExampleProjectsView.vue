@@ -4,7 +4,7 @@ import type { Project } from "@/types";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { LucideImageOff, LucidePencilRuler } from "lucide-vue-next";
-import { createNewProjectId, setStorageSync, StorageType, storeProjectData } from "@/lib";
+import { createProjectInStorage } from "@/lib";
 import { useRouter } from "vue-router";
 import { computed } from "vue";
 
@@ -19,9 +19,8 @@ function extractName(path: string): string {
 }
 
 function loadProject(loader: Loader): void {
-  loader().then(project => {
-    const newProjectId = createNewProjectId();
-    setStorageSync(`project-${newProjectId}`, storeProjectData(StorageType.storage, project));
+  loader().then(projectData => {
+    const newProjectId = createProjectInStorage(projectData);
     router.push({ name: 'workspace', params: { projectId: newProjectId } });
   });
 }
