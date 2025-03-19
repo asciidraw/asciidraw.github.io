@@ -24,13 +24,16 @@ provide(INJECTION_KEY_COMMAND_POPUP, {
 });
 
 defineShortcuts({
-  ctrl_p: () => {
-    open.value = !open.value;
+  ctrl_p: {
+    handler: () => {
+      open.value = !open.value;
+    },
+    usingInput: true,
   },
   'Shift-Shift': () => {
     open.value = true;
   },
-}, { chainDelay: 300 });
+});
 
 function sortedEntries<T>(o: {[k: string]: T}): [string, T][] {
   return Object.entries(o).sort(([k1], [k2]) => {
