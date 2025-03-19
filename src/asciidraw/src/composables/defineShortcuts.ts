@@ -140,7 +140,7 @@ export function defineShortcuts(config: ShortcutsConfig, options: ShortcutOption
 }
 
 function useUsingInput() {
-  const activeElement = useActiveElement();
+  const activeElement = useActiveElement({ triggerOnRemoval: true });
   return computed(() => {
     const usingInput = (activeElement.value?.tagName === 'INPUT' || activeElement.value?.tagName === 'TEXTAREA' || activeElement.value?.contentEditable === 'true')
 
