@@ -4,9 +4,11 @@ import { logicAnd, logicNot } from "@vueuse/math";
 
 type Handler = (event: KeyboardEvent) => void
 interface ShortcutConfig {
-  /** handler which is called whenever the shortcut is triggered */
+  /** Function to be executed when the shortcut is triggered */
   handler: Handler
-  /** whether to only enable a shortcut when a certain input is used */
+  /** - `false` (default): Shortcut only triggers when no input is focused
+   * - `true`: Shortcut triggers even when any input is focused
+   * - `string`: Shortcut only triggers when the specified input (by name) is focused*/
   usingInput?: string | boolean
   /** additional conditions that have to be met in order to enable the shortcut */
   whenever?: WatchSource<boolean>[]
@@ -17,7 +19,7 @@ interface ShortcutsConfig {
 }
 
 interface ShortcutOptions {
-  /** configures the delay when defining a chained-shortcut (e.g. `c-b`) */
+  /** The delay between key presses to consider the shortcut as chained. Default is `300` */
   chainDelay?: number
 }
 
@@ -31,17 +33,18 @@ interface InternalShortcut {
   altKey: boolean
 }
 
-const defaultChainDelay = 800/*ms*/;
+const defaultChainDelay = 300/*ms*/;
 const chainedShortcutRegex = /^[^-]+.*-.*[^-]+$/;
 const combinedShortcutRegex = /^[^_]+.*_.*[^_]+$/;
 
 /**
- * function used to define shortcuts.
+ * Define keyboard shortcuts for the application.
  * Shortcut-Types
- * - Control-Key Based (e.g. `ctrl_a`, `shift_b`, `alt_g`)
- * - Chained (e.g. `c-b`)
- * @param config
- * @param options
+ * - Single key: `'a'`, `'b'`, `'1'`, `'?'`, etc.
+ * - Key combinations: Use `_` to separate keys, e.g., `'meta_k'`, `'ctrl_shift_f'`
+ * - Key sequences: Use `-` to define a sequence, e.g., `'g-d'`
+ * @param config An object where keys are shortcut definitions and values are either handler functions or shortcut configuration objects
+ * @param options Optional configuration for the shortcuts behavior
  */
 export function defineShortcuts(config: ShortcutsConfig, options: ShortcutOptions = {}) {
   const usingInput = useUsingInput();
@@ -99,8 +102,6 @@ export function defineShortcuts(config: ShortcutsConfig, options: ShortcutOption
   useEventListener('keydown', (event: KeyboardEvent) => {
     if (!event.key) return;
 
-    const alphabeticalKey = /^[a-z]$/i.test(event.key);
-
     let chainedKey;
     chainedInputs.push(event.key);
     if (chainedInputs.length >= 2) {
@@ -117,6 +118,8 @@ export function defineShortcuts(config: ShortcutsConfig, options: ShortcutOption
         return;
       }
     }
+
+    const alphabeticalKey = /^[a-z]$/i.test(event.key);
 
     for (const shortcut of shortcuts.filter(s => !s.chained)) {
       if (event.key.toLowerCase() !== shortcut.key) continue;
