@@ -3,15 +3,16 @@ import { computed, inject, onMounted, useTemplateRef, watch } from "vue";
 import { useDebounceFn, useEventListener, useMouse, useWindowSize, } from "@vueuse/core";
 import ZoomButton from "@/workspace/ZoomButton.vue";
 import { cloneElement, isPointWithinBox, Layer } from "@/lib";
+import { INJECTION_KEY_DRAW_CONTEXT, INJECTION_KEY_PROJECT, INJECTION_KEY_WORKSPACE } from "@/symbols.ts";
 import {
-  INJECTION_KEY_DRAW_CONTEXT,
-  INJECTION_KEY_PROJECT,
-  INJECTION_KEY_RENDERER_MAP,
-  INJECTION_KEY_WORKSPACE
-} from "@/symbols.ts";
-import { CanvasRenderer, type ColorPalette, LayerRenderer } from "@/workspace/core";
+  actionsMap,
+  CanvasRenderer,
+  type ColorPalette,
+  createLabelElement,
+  LayerRenderer,
+  rendererMap
+} from "@/workspace/core";
 import type { ElementBase, VectorLike } from "@/types";
-import { createLabelElement } from "@/workspace/extensions/label";
 import ContextMenuHandler from "@/workspace/context-menu/ContextMenuHandler.vue";
 import { useConfiguredColorMode } from "@/composables/useConfiguredColorMode.ts";
 import { defineShortcuts } from "@/composables/defineShortcuts.ts";
@@ -29,7 +30,6 @@ const MouseButtons = {
 
 
 const workspace = inject(INJECTION_KEY_WORKSPACE)!;
-const rendererMap = inject(INJECTION_KEY_RENDERER_MAP)!;
 const drawContext = inject(INJECTION_KEY_DRAW_CONTEXT)!;
 const project = inject(INJECTION_KEY_PROJECT)!;
 const isDevMode = useWebSettings("devMode");
@@ -140,7 +140,7 @@ useEventListener(canvasRef, "mousedown", (event: MouseEvent) => {
   mouseButtonsDown[event.button] = true;
   switch (event.button) {
     case MouseButtons.left:
-      workspace.value.actions[workspace.value.activeActionId]?.onClickDown?.(getClickParams(event));
+      actionsMap[workspace.value.activeActionId]?.onClickDown?.(getClickParams(event));
       break;
     case MouseButtons.middle:
       moveStartOffset.x = drawContext.value.offset.x;
@@ -153,7 +153,7 @@ useEventListener(canvasRef, "mousedown", (event: MouseEvent) => {
 
 useEventListener("mousemove", (event: MouseEvent) => {
   if (mouseButtonsDown[MouseButtons.left])
-    workspace.value.actions[workspace.value.activeActionId]?.onClickMove?.(getClickParams(event));
+    actionsMap[workspace.value.activeActionId]?.onClickMove?.(getClickParams(event));
 
   if (mouseButtonsDown[MouseButtons.middle]) {
     const diffX = (moveStartPosition.x - event.clientX) / normalZoom.value;
@@ -167,7 +167,7 @@ useEventListener("mousemove", (event: MouseEvent) => {
 
 useEventListener("mouseup", (event: MouseEvent) => {
   if (mouseButtonsDown[MouseButtons.left])
-    workspace.value.actions[workspace.value.activeActionId]?.onClickUp?.(getClickParams(event));
+    actionsMap[workspace.value.activeActionId]?.onClickUp?.(getClickParams(event));
 
   if (mouseButtonsDown[MouseButtons.right]) {
     const point = canvasToCell({ x: event.clientX, y: event.clientY });

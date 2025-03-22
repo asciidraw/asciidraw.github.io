@@ -11,7 +11,7 @@ export class LayerRenderer {
   /**
    * renders `elements` with their associated {@link ElementRenderer} and merging all to one layer
    * @param elements elements to render
-   * @returns `element` renderede and merged
+   * @returns `element` rendered and merged
    */
   render(elements: Array<ElementBase & object>): Layer {
     const finalLayer = new Layer();

@@ -1,7 +1,46 @@
-import { defineExtension, Vector } from "@/lib";
+import type { Action, ActionClickEventHandler, BoundingBox, VectorLike } from "@/types";
 import { LucideSquareDashedMousePointer } from "lucide-vue-next";
-import { getElementAtPos, getElementsInArea } from "@/workspace/extensions/select+move/util.ts";
-import type { ActionClickEventHandler, BoundingBox, VectorLike } from "@/types";
+import { Vector } from "@/lib";
+import { getElementAtPos, getElementsInArea } from "./util.ts";
+
+
+export function selectAndMoveAction(): Action {
+  let useMoveHandler = false;
+  let hasSelectedStartElement = false;
+  let startPosition: VectorLike = { x: 0, y: 0 };
+  let moveSelectionHandler: SubHandler = newMoveSelectionHandler();
+  let selectionAreaHandler: SubHandler = newSelectionAreaHandler();
+
+  return {
+    displayName: "actions.select+move.display-name",
+    icon: LucideSquareDashedMousePointer,
+    onClickDown(_) {
+      const { mouseEvent, canvasToCell, drawContext, rendererMap, project } = _;
+      startPosition = canvasToCell({ x: mouseEvent.clientX, y: mouseEvent.clientY });
+      const element = getElementAtPos({ pos: startPosition, elements: project.elements, rendererMap });
+      hasSelectedStartElement = element !== null && drawContext.selectedElements.has(element.id);
+      useMoveHandler = false;
+      moveSelectionHandler.onClickDown(_);
+      selectionAreaHandler.onClickDown(_);
+    },
+    onClickMove(_) {
+      const { mouseEvent, canvasToCell } = _;
+      const currentPosition = canvasToCell({x: mouseEvent.clientX, y: mouseEvent.clientY});
+      useMoveHandler = useMoveHandler || (hasSelectedStartElement && !Vector.equals(startPosition, currentPosition));
+      if (useMoveHandler)
+        moveSelectionHandler.onClickMove(_);
+      else
+        selectionAreaHandler.onClickMove(_);
+    },
+    onClickUp(_) {
+      if (useMoveHandler)
+        moveSelectionHandler.onClickUp(_);
+      else
+        selectionAreaHandler.onClickUp(_);
+    },
+  };
+}
+
 
 
 interface SubHandler {
@@ -100,44 +139,3 @@ function newMoveSelectionHandler(): SubHandler {
     },
   };
 }
-
-
-export default defineExtension({
-  setup(workspace) {
-    let useMoveHandler = false;
-    let hasSelectedStartElement = false;
-    let startPosition: VectorLike = { x: 0, y: 0 };
-    let moveSelectionHandler: SubHandler = newMoveSelectionHandler();
-    let selectionAreaHandler: SubHandler = newSelectionAreaHandler();
-
-    workspace.activeActionId = "select+move";
-    workspace.actions['select+move'] = {
-      displayName: "actions.select+move.display-name",
-      icon: LucideSquareDashedMousePointer,
-      onClickDown(_) {
-        const { mouseEvent, canvasToCell, drawContext, rendererMap, project } = _;
-        startPosition = canvasToCell({ x: mouseEvent.clientX, y: mouseEvent.clientY });
-        const element = getElementAtPos({ pos: startPosition, elements: project.elements, rendererMap });
-        hasSelectedStartElement = element !== null && drawContext.selectedElements.has(element.id);
-        useMoveHandler = false;
-        moveSelectionHandler.onClickDown(_);
-        selectionAreaHandler.onClickDown(_);
-      },
-      onClickMove(_) {
-        const { mouseEvent, canvasToCell } = _;
-        const currentPosition = canvasToCell({x: mouseEvent.clientX, y: mouseEvent.clientY});
-        useMoveHandler = useMoveHandler || (hasSelectedStartElement && !Vector.equals(startPosition, currentPosition));
-        if (useMoveHandler)
-          moveSelectionHandler.onClickMove(_);
-        else
-          selectionAreaHandler.onClickMove(_);
-      },
-      onClickUp(_) {
-        if (useMoveHandler)
-          moveSelectionHandler.onClickUp(_);
-        else
-          selectionAreaHandler.onClickUp(_);
-      },
-    };
-  }
-});

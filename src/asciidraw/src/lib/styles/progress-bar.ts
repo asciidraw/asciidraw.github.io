@@ -22,7 +22,7 @@ export const block1: ProgressBarStyle = {
 
 export const block2: ProgressBarStyle = {
   leftWall: "[",
-    rightWall: "]",
-    fullBar: "█",
-    emptyBar: "▒",
+  rightWall: "]",
+  fullBar: "█",
+  emptyBar: "▒",
 };

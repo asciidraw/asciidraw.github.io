@@ -1,5 +1,5 @@
 
-export interface BoxStyle {
+export interface GroupStyle {
   topLeft: string
   top: string
   topRight: string
@@ -10,7 +10,7 @@ export interface BoxStyle {
   left: string
 }
 
-export const basic: BoxStyle = {
+export const basic: GroupStyle = {
   topLeft: "+",
   top: "-",
   topRight: "+",
@@ -20,7 +20,7 @@ export const basic: BoxStyle = {
   bottomLeft: "+",
   left: "|",
 };
-export const light: BoxStyle = {
+export const light: GroupStyle = {
   topLeft: "┌",
   top: "─",
   topRight: "┐",
@@ -31,7 +31,7 @@ export const light: BoxStyle = {
   left: "│",
 };
 
-export const lightRounded: BoxStyle = {
+export const lightRounded: GroupStyle = {
   topLeft: "╭",
   top: "─",
   topRight: "╮",
@@ -42,7 +42,7 @@ export const lightRounded: BoxStyle = {
   left: "│",
 };
 
-export const heavy: BoxStyle = {
+export const heavy: GroupStyle = {
   topLeft: "┏",
   top: "━",
   topRight: "┓",
@@ -53,7 +53,7 @@ export const heavy: BoxStyle = {
   left: "┃",
 };
 
-export const double: BoxStyle = {
+export const double: GroupStyle = {
   topLeft: "╔",
   top: "═",
   topRight: "╗",
@@ -64,7 +64,7 @@ export const double: BoxStyle = {
   left: "║",
 };
 
-export const dashedLight: BoxStyle = {
+export const dashedLight: GroupStyle = {
   topLeft: "┌",
   top: "╌",
   topRight: "┐",
@@ -75,7 +75,7 @@ export const dashedLight: BoxStyle = {
   left: "╎",
 };
 
-export const dashedHeavy: BoxStyle = {
+export const dashedHeavy: GroupStyle = {
   topLeft: "┏",
   top: "╍",
   topRight: "┓",

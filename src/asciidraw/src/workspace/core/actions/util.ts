@@ -12,6 +12,7 @@ export function getElementAtPos({ pos, elements, rendererMap }: GetElementAtPosi
   for (let i = elements.length - 1; i >= 0; i--) {
     const element = elements[i];
     const renderer = rendererMap[element.type];
+    if (!renderer) continue;
     const box = renderer.getBoundingBox(element);
     if (isPointWithinBox(pos, box)) {
       return element;

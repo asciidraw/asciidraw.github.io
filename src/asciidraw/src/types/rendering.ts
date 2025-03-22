@@ -1,4 +1,3 @@
-import type { Component } from "vue";
 import { Layer } from "@/lib";
 import type { ElementBase } from "@/types/project.ts";
 
@@ -32,8 +31,6 @@ export interface DrawContext {
 
 
 export interface ElementRenderer<D extends object = object> {
-  /** component used to edit data of an element */
-  EditComponent?: Component;
   /** calculate the bounding-box of an element */
   getBoundingBox(element: D): BoundingBox
   /** render an element to a layer */

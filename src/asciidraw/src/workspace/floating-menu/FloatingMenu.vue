@@ -26,6 +26,7 @@ import DownloadProjectButton from "@/components/workspace/DownloadProjectButton.
 import IssueDialog from "@/components/IssueDialog.vue";
 import ExportSvgDialog from "@/workspace/floating-menu/ExportSvgDialog.vue";
 import HelpText from "@/workspace/floating-menu/HelpText.vue";
+import { actionsMap } from "@/workspace/core/actions";
 
 const workspace = inject(INJECTION_KEY_WORKSPACE)!;
 const project = inject(INJECTION_KEY_PROJECT)!;
@@ -99,7 +100,7 @@ const menuIsHidden = ref(false);
     </div>
     <Separator :label="$t('workspace.menu.actions.label')" />
     <div data-tour="tools" class="space-y-0.5">
-      <template v-for="[actionId, action] in Object.entries(workspace.actions)" :key="action.id">
+      <template v-for="[actionId, action] in Object.entries(actionsMap)" :key="action.id">
         <Button :data-tour="`action-${actionId}`" :variant="actionId === workspace.activeActionId ? 'secondary' : 'ghost'" size="xs" class="gap-x-2 w-full" @click="workspace.activeActionId = actionId">
           <component v-if="action.icon" :is="action.icon" class="size-6" />
           <div v-else class="size-6 invisible" />
