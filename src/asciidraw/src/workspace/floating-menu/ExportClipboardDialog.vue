@@ -18,8 +18,8 @@ import {
 } from "lucide-vue-next";
 import { useClipboard, useLocalStorage } from "@vueuse/core";
 import { computed, inject, ref } from "vue";
-import { INJECTION_KEY_DRAW_CONTEXT, INJECTION_KEY_PROJECT, INJECTION_KEY_RENDERER_MAP } from "@/symbols.ts";
-import { LayerRenderer } from "@/workspace/core";
+import { INJECTION_KEY_DRAW_CONTEXT, INJECTION_KEY_PROJECT } from "@/symbols.ts";
+import { LayerRenderer, rendererMap } from "@/workspace/core";
 import { CharacterType, detectCharacterType, findMinMaxOfLayer } from "@/workspace/floating-menu/export/util.ts";
 import * as commentStyleMap from "./export/comment-styles.ts";
 import { Label } from "@/components/ui/label";
@@ -32,7 +32,6 @@ import { defineShortcuts } from "@/composables/defineShortcuts.ts";
 
 const project = inject(INJECTION_KEY_PROJECT)!;
 const drawContext = inject(INJECTION_KEY_DRAW_CONTEXT)!;
-const rendererMap = inject(INJECTION_KEY_RENDERER_MAP)!;
 
 const { t } = useI18n();
 

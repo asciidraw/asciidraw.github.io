@@ -18,8 +18,8 @@ import {
 } from "lucide-vue-next";
 import { useClipboardItems, useObjectUrl } from "@vueuse/core";
 import { computed, inject, ref } from "vue";
-import { INJECTION_KEY_DRAW_CONTEXT, INJECTION_KEY_PROJECT, INJECTION_KEY_RENDERER_MAP } from "@/symbols.ts";
-import { LayerRenderer } from "@/workspace/core";
+import { INJECTION_KEY_DRAW_CONTEXT, INJECTION_KEY_PROJECT } from "@/symbols.ts";
+import { LayerRenderer, rendererMap } from "@/workspace/core";
 import { findMinMaxOfLayer } from "@/workspace/floating-menu/export/util.ts";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { defineCommand } from "@/components/command-popup";
@@ -27,7 +27,6 @@ import { useI18n } from "vue-i18n";
 
 const project = inject(INJECTION_KEY_PROJECT)!;
 const drawContext = inject(INJECTION_KEY_DRAW_CONTEXT)!;
-const renderMap = inject(INJECTION_KEY_RENDERER_MAP)!;
 
 const { t } = useI18n();
 const dialogOpen = ref(false);
@@ -62,7 +61,7 @@ const renderedBlob = computed<Blob>(() => {
   const characterWidth = (9/16) * fontSize;
   const padding = 4;
 
-  const layer = new LayerRenderer(renderMap).render(elements);
+  const layer = new LayerRenderer(rendererMap).render(elements);
 
   const [minX, minY, maxX, maxY] = findMinMaxOfLayer(layer);
   if (minX === Infinity) return fallbackData();
