@@ -1,54 +1,22 @@
 <script setup lang="ts">
 import WorkspaceMenu from "@/workspace/floating-menu/FloatingMenu.vue";
 import WorkspaceCanvas from "@/workspace/WorkspaceCanvas.vue";
-import { type Component, computed, provide, ref } from "vue";
-import { createNewProject } from "@/workspace/core";
-import type { DrawContext, ElementRenderer, Extension, WorkspaceContext } from "@/types";
-import {
-  INJECTION_KEY_DRAW_CONTEXT,
-  INJECTION_KEY_PROJECT,
-  INJECTION_KEY_RENDERER_MAP,
-  INJECTION_KEY_WORKSPACE
-} from "@/symbols.ts";
+import { computed, provide, ref } from "vue";
+import { createNewProject, DEFAULT_ACTION } from "@/workspace/core";
+import type { DrawContext, WorkspaceContext } from "@/types";
+import { INJECTION_KEY_DRAW_CONTEXT, INJECTION_KEY_PROJECT, INJECTION_KEY_WORKSPACE } from "@/symbols.ts";
 import { useLocalStorage, useTitle } from "@vueuse/core";
 import { loadProjectData, StorageType, storeProjectData } from "@/lib";
 import createEmitter from "mitt";
 import { useRoute } from "vue-router";
-
-const extensions: Record<string, Extension> = import.meta.glob("./extensions/*/index.ts", { eager: true, import: 'default' });
+import HistorySupport from "@/workspace/HistorySupport.vue";
 
 const workspaceContext = ref<WorkspaceContext>({
-  extensions: [],
-  actions: {},
-  activeActionId: "",
+  activeActionId: DEFAULT_ACTION,
   events: createEmitter(),
 });
 
-const rendererMap: Record<string, ElementRenderer> = {};
-const additionalComponents: Component[] = [];
-
-for (const extension of Object.values(extensions)) {
-  workspaceContext.value.extensions.push(extension);
-  extension.setup?.(workspaceContext.value);
-  if (extension.on) {
-    for (const [eventName, eventHandler] of Object.entries(extension.on)) {
-      // @ts-expect-error dynamic assigning
-      workspaceContext.value.events.on(eventName, eventHandler);
-    }
-  }
-  if (extension.components)
-    additionalComponents.push(...extension.components);
-  if (extension.renderer) {
-    for (const [elementType, renderer] of Object.entries(extension.renderer)) {
-      if (rendererMap.hasOwnProperty(elementType))
-        console.warn(`overwriting renderer for ${elementType}`)
-      rendererMap[elementType] = renderer;
-    }
-  }
-}
-
 provide(INJECTION_KEY_WORKSPACE, workspaceContext);
-provide(INJECTION_KEY_RENDERER_MAP, rendererMap);
 
 const route = useRoute();
 
@@ -80,7 +48,5 @@ useTitle(() => project.value.name, { titleTemplate: "AsciiDraw - %s" });
 <template>
   <WorkspaceMenu />
   <WorkspaceCanvas />
-  <template v-for="component in additionalComponents">
-    <component :is="component" />
-  </template>
+  <HistorySupport />
 </template>

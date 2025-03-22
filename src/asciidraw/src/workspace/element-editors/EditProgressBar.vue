@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import * as styles from "./styles.ts";
-import type { ProgressBarData } from ".";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
-import Badge from "@/components/ui/badge/Badge.vue";
+import Badge from "../../components/ui/badge/Badge.vue";
+import type { ElementsData } from "@/types";
+import { progressBarStyles } from "@/lib/styles";
 
 defineProps<{
-  data: ProgressBarData,
+  data: ElementsData.ProgressBar,
 }>();
 </script>
 
@@ -17,10 +17,10 @@ defineProps<{
     <Label>
       {{ $t('actions.progress-bar.edit.value.label') }}
     </Label>
-    <Input type="number" min="0" max="100" v-model:model-value.number="data.value" class="invalid:border-destructive" />
+    <Input type="number" min="0" max="100" v-model.number="data.value" class="invalid:border-destructive" />
   </div>
   <div class="flex items-center space-x-2">
-    <Checkbox v-model:checked="data.showValue" />
+    <Checkbox v-model="data.showValue" />
     <Label>
       {{ $t('actions.progress-bar.edit.show-value.label') }}
     </Label>
@@ -29,12 +29,12 @@ defineProps<{
     <Label>
       {{ $t('actions.progress-bar.edit.style.label') }}
     </Label>
-    <Select v-model:model-value="data.style">
+    <Select v-model="data.style">
       <SelectTrigger>
         <SelectValue />
       </SelectTrigger>
       <SelectContent>
-        <template v-for="[styleId, style] in Object.entries(styles)" :key="styleId">
+        <template v-for="[styleId, style] in Object.entries(progressBarStyles)" :key="styleId">
           <SelectItem :value="styleId">
             {{ $t(`actions.progress-bar.edit.style.style-names.${styleId}`) }}
             <Badge variant="secondary" class="ml-1 font-mono">

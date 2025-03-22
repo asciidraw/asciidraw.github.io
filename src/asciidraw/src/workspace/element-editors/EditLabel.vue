@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import type { LabelData } from ".";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import type { ElementsData } from "@/types";
 
 const { data } = defineProps<{
-  data: LabelData,
+  data: ElementsData.Label,
 }>();
 
 function fitToContent(): void {
@@ -22,10 +22,10 @@ function fitToContent(): void {
     <Label>
       {{ $t('actions.label.edit.text.label') }}
     </Label>
-    <Textarea v-model:model-value="data.text" class="max-h-[10rem] font-mono" />
+    <Textarea v-model="data.text" class="max-h-[10rem] font-mono" />
   </div>
   <div class="flex items-center space-x-2">
-    <Checkbox v-model:checked="data.block" />
+    <Checkbox v-model="data.block" />
     <Label>
       {{ $t('actions.label.edit.block.label') }}
     </Label>
@@ -35,7 +35,7 @@ function fitToContent(): void {
       {{ $t('actions.label.edit.alignment.label') }}
     </Label>
     <div class="mx-auto w-fit">
-      <RadioGroup class="grid grid-cols-3 gap-3" v-model:model-value="data.alignment">
+      <RadioGroup class="grid grid-cols-3 gap-3" v-model="data.alignment">
         <RadioGroupItem value="tl" />
         <RadioGroupItem value="tc" />
         <RadioGroupItem value="tr" />
