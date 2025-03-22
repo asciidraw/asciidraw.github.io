@@ -7,9 +7,21 @@ import Badge from "../../components/ui/badge/Badge.vue";
 import type { ElementsData } from "@/types";
 import { progressBarStyles } from "@/lib/styles";
 
-defineProps<{
+const props = defineProps<{
   data: ElementsData.ProgressBar,
 }>();
+
+const MIN_VALUE = 0;
+const MAX_VALUE = 100;
+
+function handleValueInputWheel(event: WheelEvent) {
+  const factor = event.shiftKey ? 5 : 1;
+  if(event.deltaY < 0) {
+    props.data.value = Math.min(props.data.value + factor, MAX_VALUE);
+  } else if (event.deltaY > 0) {
+    props.data.value = Math.max(props.data.value - factor, MIN_VALUE);
+  }
+}
 </script>
 
 <template>
@@ -17,7 +29,7 @@ defineProps<{
     <Label>
       {{ $t('actions.progress-bar.edit.value.label') }}
     </Label>
-    <Input type="number" min="0" max="100" v-model.number="data.value" class="invalid:border-destructive" />
+    <Input type="number" :min="MIN_VALUE" :max="MAX_VALUE" v-model.number="data.value" @wheel.prevent="handleValueInputWheel" class="invalid:border-destructive" />
   </div>
   <div class="flex items-center space-x-2">
     <Checkbox v-model="data.showValue" />
