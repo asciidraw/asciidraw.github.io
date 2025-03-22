@@ -14,7 +14,7 @@ import {
   LucideClipboardCheck,
   LucideClipboardCopy,
   LucideSpellCheck,
-  LucideSpellCheck2
+  LucideSpellCheck2,
 } from "lucide-vue-next";
 import { useClipboard, useLocalStorage } from "@vueuse/core";
 import { computed, inject, ref } from "vue";
@@ -25,10 +25,10 @@ import * as commentStyleMap from "./export/comment-styles.ts";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { defineCommand } from "@/components/command-popup";
 import { useI18n } from "vue-i18n";
 import { defineShortcuts } from "@/composables/defineShortcuts.ts";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 const project = inject(INJECTION_KEY_PROJECT)!;
 const drawContext = inject(INJECTION_KEY_DRAW_CONTEXT)!;
@@ -98,21 +98,6 @@ const { copy: doCopy, copied: recentlyCopied } = useClipboard({ source: rendered
       <DialogDescription>
         {{ $t('workspace.dialog.export-clipboard.description') }}
       </DialogDescription>
-      <Alert :variant="characterType === CharacterType.ASCII ? 'default' : 'warning'">
-        <component :is="characterType === CharacterType.ASCII ? LucideSpellCheck : LucideSpellCheck2" class="size-4" />
-        <AlertTitle>
-          <template v-if="characterType === CharacterType.ASCII">{{ $t('workspace.dialog.export-clipboard.warnings.ascii.title') }}</template>
-          <template v-else-if="characterType === CharacterType.EXTENDED_ASCII">{{ $t('workspace.dialog.export-clipboard.warnings.extended-ascii.title') }}</template>
-          <template v-else-if="characterType === CharacterType.UNICODE">{{ $t('workspace.dialog.export-clipboard.warnings.unicode.title') }}</template>
-          <template v-else>!BUG!</template>
-        </AlertTitle>
-        <AlertDescription>
-          <template v-if="characterType === CharacterType.ASCII">{{ $t('workspace.dialog.export-clipboard.warnings.ascii.description') }}</template>
-          <template v-else-if="characterType === CharacterType.EXTENDED_ASCII">{{ $t('workspace.dialog.export-clipboard.warnings.extended-ascii.description') }}</template>
-          <template v-else-if="characterType === CharacterType.UNICODE">{{ $t('workspace.dialog.export-clipboard.warnings.unicode.description') }}</template>
-          <template v-else>!BUG!</template>
-        </AlertDescription>
-      </Alert>
       <div>
         <Label>
           {{ $t('workspace.dialog.export-clipboard.comment-style') }}
@@ -135,6 +120,28 @@ const { copy: doCopy, copied: recentlyCopied } = useClipboard({ source: rendered
       </div>
       <pre class="bg-black p-2 min-h-20 max-h-[32rem] overflow-scroll select-all leading-none">{{ renderedWithCommentStyle }}</pre>
       <DialogFooter>
+        <Popover>
+          <PopoverTrigger as-child>
+            <Button variant="outline" class="px-3">
+              <component :is="characterType === CharacterType.ASCII ? LucideSpellCheck : LucideSpellCheck2" class="size-6" :class="{'text-warning': characterType !== CharacterType.ASCII}" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent class="space-y-1.5">
+            <h4 class="text-xl font-semibold leading-none tracking-tight flex gap-2 items-baseline">
+              <component :is="characterType === CharacterType.ASCII ? LucideSpellCheck : LucideSpellCheck2" class="my-auto size-5 shrink-0 inline" :class="{'text-warning': characterType !== CharacterType.ASCII}" />
+              <template v-if="characterType === CharacterType.ASCII">{{ $t('workspace.dialog.export-clipboard.warnings.ascii.title') }}</template>
+              <template v-else-if="characterType === CharacterType.EXTENDED_ASCII">{{ $t('workspace.dialog.export-clipboard.warnings.extended-ascii.title') }}</template>
+              <template v-else-if="characterType === CharacterType.UNICODE">{{ $t('workspace.dialog.export-clipboard.warnings.unicode.title') }}</template>
+              <template v-else>!BUG!</template>
+            </h4>
+            <p class="text-sm text-muted-foreground text-justify">
+              <template v-if="characterType === CharacterType.ASCII">{{ $t('workspace.dialog.export-clipboard.warnings.ascii.description') }}</template>
+              <template v-else-if="characterType === CharacterType.EXTENDED_ASCII">{{ $t('workspace.dialog.export-clipboard.warnings.extended-ascii.description') }}</template>
+              <template v-else-if="characterType === CharacterType.UNICODE">{{ $t('workspace.dialog.export-clipboard.warnings.unicode.description') }}</template>
+              <template v-else>!BUG!</template>
+            </p>
+          </PopoverContent>
+        </Popover>
         <DialogClose as-child>
           <Button variant="secondary">
             {{ $t('dialog-common.close') }}

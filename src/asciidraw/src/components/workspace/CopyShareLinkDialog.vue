@@ -74,10 +74,10 @@ const { copied: recentlyCopied, copy: copyToClipboard } = useClipboard({ source:
             </Button>
           </PopoverTrigger>
           <PopoverContent class="space-y-1.5">
-            <h3 class="text-2xl font-semibold leading-none tracking-tight flex gap-2 items-baseline">
-              <LucideTriangleAlert class="size-5 inline" />
+            <h4 class="text-xl font-semibold leading-none tracking-tight flex gap-2 items-baseline">
+              <LucideTriangleAlert class="my-auto size-5 shrink-0 inline" />
               {{ $t('workspace.dialog.share.warning.title') }}
-            </h3>
+            </h4>
             <p class="text-sm text-muted-foreground text-justify">
               {{ $t('workspace.dialog.share.warning.description') }}
             </p>
