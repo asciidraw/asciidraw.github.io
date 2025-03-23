@@ -30,7 +30,7 @@ const idBlock = useId();
   <div class="flex items-center space-x-2">
     <Checkbox :id="idBlock" v-model="data.block" />
     <Label :for="idBlock">
-      {{ $t('actions.label.edit.block.label') }}
+      {{ $t('actions.label.edit.block-rendering.label') }}
     </Label>
   </div>
   <div>
