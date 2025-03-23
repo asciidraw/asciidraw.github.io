@@ -7,12 +7,17 @@ import Badge from "../../components/ui/badge/Badge.vue";
 import type { ElementsData } from "@/types";
 import { progressBarStyles } from "@/lib/styles";
 import { useId } from "@vue/runtime-core";
+import type { ProgressBarStyle } from "@/lib/styles/progress-bar.ts";
 
 defineProps<{
   data: ElementsData.ProgressBar,
 }>();
 
 const idShowValue = useId();
+
+function getStylePreviewText(style: ProgressBarStyle): string {
+  return `${style.leftWall}${style.fullBar.repeat(3)}${style.emptyBar.repeat(2)}${style.rightWall}`;
+}
 </script>
 
 <template>
@@ -37,7 +42,7 @@ const idShowValue = useId();
         <SelectValue>
           {{ $t(`actions.progress-bar.edit.style.style-names.${data.style}`) }}
           <Badge variant="secondary" class="ml-1 font-mono">
-            <pre>{{ progressBarStyles[data.style].leftWall }}{{ progressBarStyles[data.style].fullBar.repeat(3) }}{{ progressBarStyles[data.style].emptyBar.repeat(2) }}{{ progressBarStyles[data.style].rightWall }}</pre>
+            <pre>{{ getStylePreviewText(progressBarStyles[data.style]) }}</pre>
           </Badge>
         </SelectValue>
       </SelectTrigger>
@@ -46,7 +51,7 @@ const idShowValue = useId();
           <SelectItem :value="styleId">
             {{ $t(`actions.progress-bar.edit.style.style-names.${styleId}`) }}
             <Badge variant="secondary" class="ml-1 font-mono">
-              <pre>{{ style.leftWall }}{{ style.fullBar.repeat(3) }}{{ style.emptyBar.repeat(2) }}{{ style.rightWall }}</pre>
+              <pre>{{ getStylePreviewText(style) }}</pre>
             </Badge>
           </SelectItem>
         </template>

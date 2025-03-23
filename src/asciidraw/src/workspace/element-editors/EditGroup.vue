@@ -5,10 +5,15 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import type { ElementsData } from "@/types";
 import { groupStyles } from "@/lib/styles";
+import type { GroupStyle } from "@/lib/styles/group.ts";
 
 defineProps<{
   data: ElementsData.Group,
 }>();
+
+function getStylePreviewText(style: GroupStyle): string {
+  return `${style.topLeft}Group${style.top.repeat(3)}${style.topRight}`;
+}
 </script>
 
 <template>
@@ -27,7 +32,7 @@ defineProps<{
         <SelectValue>
           {{ $t(`actions.group.edit.style.style-names.${data.style}`) }}
           <Badge variant="secondary" class="ml-1">
-            <pre>{{ groupStyles[data.style].topLeft }}Group{{ groupStyles[data.style].top.repeat(3) }}{{ groupStyles[data.style].topRight }}</pre>
+            <pre>{{ getStylePreviewText(groupStyles[data.style]) }}</pre>
           </Badge>
         </SelectValue>
       </SelectTrigger>
@@ -36,7 +41,7 @@ defineProps<{
           <SelectItem :value="styleId">
             {{ $t(`actions.group.edit.style.style-names.${styleId}`) }}
             <Badge variant="secondary" class="ml-1">
-              <pre>{{ style.topLeft }}Group{{ style.top.repeat(3) }}{{ style.topRight }}</pre>
+              <pre>{{ getStylePreviewText(style) }}</pre>
             </Badge>
           </SelectItem>
         </template>
