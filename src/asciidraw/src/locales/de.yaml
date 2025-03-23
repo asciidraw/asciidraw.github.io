@@ -300,8 +300,8 @@ actions:
     edit:
       text:
         label: "Text"
-      block:
-        label: "Block"
+      block-rendering:
+        label: "Block-Rendering"
       alignment:
         label: "Textausrichtung"
       fit-to-content: "An Inhalt anpassen"

@@ -4,10 +4,15 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge";
 import type { ElementsData } from "@/types";
 import { boxStyles } from "@/lib/styles";
+import type { BoxStyle } from "@/lib/styles/box.ts";
 
 defineProps<{
   data: ElementsData.Box,
 }>();
+
+function getStylePreviewText(style: BoxStyle): string {
+  return `${style.topLeft}${style.top.repeat(3)}${style.topRight}`;
+}
 </script>
 
 <template>
@@ -17,14 +22,19 @@ defineProps<{
     </Label>
     <Select v-model="data.style">
       <SelectTrigger>
-        <SelectValue />
+        <SelectValue>
+          {{ $t(`actions.box.edit.style.style-names.${data.style}`) }}
+          <Badge variant="secondary" class="ml-1">
+            <pre>{{ getStylePreviewText(boxStyles[data.style]) }}</pre>
+          </Badge>
+        </SelectValue>
       </SelectTrigger>
       <SelectContent>
         <template v-for="[styleId, style] in Object.entries(boxStyles)" :key="styleId">
           <SelectItem :value="styleId">
             {{ $t(`actions.box.edit.style.style-names.${styleId}`) }}
             <Badge variant="secondary" class="ml-1">
-              <pre>{{ style.topLeft }}{{ style.top.repeat(3) }}{{ style.topRight }}</pre>
+              <pre>{{ getStylePreviewText(style) }}</pre>
             </Badge>
           </SelectItem>
         </template>

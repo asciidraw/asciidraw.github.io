@@ -58,7 +58,7 @@ const renderedBlob = computed<Blob>(() => {
 
   const fontSize = 16;
   const characterHeight = fontSize;
-  const characterWidth = (9/16) * fontSize;
+  const characterWidth = (3/5) * fontSize;  // 3/5 is a common aspect-ratio for monospace-fonts
   const padding = 4;
 
   const layer = new LayerRenderer(rendererMap).render(elements);
@@ -73,7 +73,7 @@ const renderedBlob = computed<Blob>(() => {
   const lines = gridArray.map(row => row.join(''));
 
   const viewBoxHeight = Math.ceil(lines.length * characterHeight) + padding*2;
-  const viewBoxWidth = Math.ceil((lines[0].length+2) * characterWidth + padding*2);
+  const viewBoxWidth = Math.ceil((lines[0].length) * characterWidth) + padding*2;
 
   const svgNode = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   svgNode.setAttribute("viewBox", `0 0 ${viewBoxWidth} ${viewBoxHeight}`);
@@ -81,20 +81,20 @@ const renderedBlob = computed<Blob>(() => {
   svgNode.setAttribute("stroke", "currentColor");
 
   const textNode = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-  textNode.setAttribute("x", `${padding}`);
-  textNode.setAttribute("y", `${padding}`);
+  textNode.setAttribute("x", `${padding}px`);
+  textNode.setAttribute("y", `${0}px`);
   textNode.setAttribute("font-family", "monospace");
   textNode.setAttribute("font-size", `${fontSize}`);
   textNode.setAttribute("xml:space", "preserve");
   textNode.setAttribute("style", "white-space: pre");
   textNode.setAttribute("text-anchor", "start");
   textNode.setAttribute("direction", "ltr");
-  textNode.setAttribute("letter-spacing", "normal");
+  textNode.setAttribute("letter-spacing", "0");
   textNode.setAttribute("font-size-adjust", "none");
 
   for (let i = 0; i < lines.length; i++) {
     const tspan = document.createElementNS('http://www.w3.org/2000/svg', 'tspan');
-    tspan.setAttribute("x", `${padding}`);
+    tspan.setAttribute("x", `${padding}px`);
     tspan.setAttribute("dy", `1em`);
     // this replaces regular spaces with non-breaking space characters (short: `\u00A0` | long: `&nbsp;`)
     tspan.textContent = lines[i].replace(/ /g, '\u00A0');

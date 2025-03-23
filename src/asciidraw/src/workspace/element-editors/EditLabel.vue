@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import type { ElementsData } from "@/types";
+import { useId } from "@vue/runtime-core";
 
 const { data } = defineProps<{
   data: ElementsData.Label,
@@ -15,6 +16,8 @@ function fitToContent(): void {
   data.width = Math.max(1, lines.reduce((prev, curr) => Math.max(curr.length, prev), 0));
   data.height = Math.max(lines.length);
 }
+
+const idBlock = useId();
 </script>
 
 <template>
@@ -25,9 +28,9 @@ function fitToContent(): void {
     <Textarea v-model="data.text" class="max-h-[10rem] font-mono" />
   </div>
   <div class="flex items-center space-x-2">
-    <Checkbox v-model="data.block" />
-    <Label>
-      {{ $t('actions.label.edit.block.label') }}
+    <Checkbox :id="idBlock" v-model="data.block" />
+    <Label :for="idBlock">
+      {{ $t('actions.label.edit.block-rendering.label') }}
     </Label>
   </div>
   <div>
