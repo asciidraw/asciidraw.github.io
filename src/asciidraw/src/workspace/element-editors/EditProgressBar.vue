@@ -34,7 +34,12 @@ const idShowValue = useId();
     </Label>
     <Select v-model="data.style">
       <SelectTrigger>
-        <SelectValue />
+        <SelectValue>
+          {{ $t(`actions.progress-bar.edit.style.style-names.${data.style}`) }}
+          <Badge variant="secondary" class="ml-1 font-mono">
+            <pre>{{ progressBarStyles[data.style].leftWall }}{{ progressBarStyles[data.style].fullBar.repeat(3) }}{{ progressBarStyles[data.style].emptyBar.repeat(2) }}{{ progressBarStyles[data.style].rightWall }}</pre>
+          </Badge>
+        </SelectValue>
       </SelectTrigger>
       <SelectContent>
         <template v-for="[styleId, style] in Object.entries(progressBarStyles)" :key="styleId">

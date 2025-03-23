@@ -102,9 +102,14 @@ const { copy: doCopy, copied: recentlyCopied } = useClipboard({ source: rendered
         <Label>
           {{ $t('workspace.dialog.export-clipboard.comment-style') }}
         </Label>
-        <Select v-model:model-value="activeCommentStyle">
+        <Select v-model="activeCommentStyle">
           <SelectTrigger>
-            <SelectValue />
+            <SelectValue>
+              {{ $t(`workspace.dialog.export-clipboard.comment-style-names.${activeCommentStyle}`) }}
+              <Badge v-if="commentStyleMap[activeCommentStyle].example" variant="secondary" class="ml-1">
+                <pre>{{ commentStyleMap[activeCommentStyle].example }}</pre>
+              </Badge>
+            </SelectValue>
           </SelectTrigger>
           <SelectContent>
             <template v-for="[name, transformer] in Object.entries(commentStyleMap)" :key="name">

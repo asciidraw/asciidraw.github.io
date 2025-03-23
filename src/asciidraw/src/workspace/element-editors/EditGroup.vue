@@ -24,7 +24,12 @@ defineProps<{
     </Label>
     <Select v-model="data.style">
       <SelectTrigger>
-        <SelectValue />
+        <SelectValue>
+          {{ $t(`actions.group.edit.style.style-names.${data.style}`) }}
+          <Badge variant="secondary" class="ml-1">
+            <pre>{{ groupStyles[data.style].topLeft }}Group{{ groupStyles[data.style].top.repeat(3) }}{{ groupStyles[data.style].topRight }}</pre>
+          </Badge>
+        </SelectValue>
       </SelectTrigger>
       <SelectContent>
         <template v-for="[styleId, style] in Object.entries(groupStyles)" :key="styleId">

@@ -113,9 +113,14 @@ const { copy: doCopy, copied: recentlyCopied } = useClipboardItems({ source: cli
         <Label>
           {{ $t('workspace.dialog.export-image.style') }}
         </Label>
-        <Select v-model:model-value="activePalette">
+        <Select v-model="activePalette">
           <SelectTrigger>
-            <SelectValue />
+            <SelectValue>
+              {{ $t(`workspace.dialog.export-image.style-names.${activePalette}`) }}
+              <Badge variant="secondary" class="ml-1" :style="{ backgroundColor: colorPalettes[activePalette].background, color: colorPalettes[activePalette].text }">
+                <pre>+---+</pre>
+              </Badge>
+            </SelectValue>
           </SelectTrigger>
           <SelectContent>
             <template v-for="[name, palette] in Object.entries(colorPalettes)" :key="name">

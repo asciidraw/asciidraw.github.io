@@ -17,7 +17,12 @@ defineProps<{
     </Label>
     <Select v-model="data.style">
       <SelectTrigger>
-        <SelectValue />
+        <SelectValue>
+          {{ $t(`actions.box.edit.style.style-names.${data.style}`) }}
+          <Badge variant="secondary" class="ml-1">
+            <pre>{{ boxStyles[data.style].topLeft }}{{ boxStyles[data.style].top.repeat(3) }}{{ boxStyles[data.style].topRight }}</pre>
+          </Badge>
+        </SelectValue>
       </SelectTrigger>
       <SelectContent>
         <template v-for="[styleId, style] in Object.entries(boxStyles)" :key="styleId">
