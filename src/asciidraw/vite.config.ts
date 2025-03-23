@@ -34,7 +34,6 @@ export default defineConfig({
     }),
     VueI18nPlugin({
       include: resolve(__dirname, './src/locales/**'),
-      runtimeOnly: false,
     }),
     MarkdownPlugin({
       markdownItSetup(md) {
