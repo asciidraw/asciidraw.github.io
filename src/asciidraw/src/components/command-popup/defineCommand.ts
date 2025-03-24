@@ -33,5 +33,7 @@ export function defineCommand(options: DefineCommandOptions) {
   });
   onUnmounted(() => {
     delete commands.value[group]?.[id];
+    if (!commands.value[group])
+      delete commands.value[group];
   });
 }
