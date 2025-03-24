@@ -334,6 +334,7 @@ actions:
           block1: "Block"
           block2: "Gestreift"
 commands:
+  recent-commands: "Letzte Befehle"
   navigation:
     popup-label: "Navigation"
     home: "Gehe zur Homepage"
