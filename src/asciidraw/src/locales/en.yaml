@@ -338,6 +338,7 @@ actions:
           block1: "Block"
           block2: "Striped"
 commands:
+  recent-commands: "Recent Commands"
   navigation:
     popup-label: "Navigation"
     home: "Go to Homepage"

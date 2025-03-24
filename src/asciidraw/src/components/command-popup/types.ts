@@ -10,7 +10,7 @@ export type CommandDetails = {
   callback: () => void
   shortcut?: MaybeRefOrGetter<string>
 }
-export type CommandMap = { [K in CommandGroupId]?: Record<CommandCommandId, CommandDetails> }
+export type CommandMap = { [K in CommandGroupId]: Record<CommandCommandId, CommandDetails> }
 
 export interface CommandPopupContext {
   open: Ref<boolean>
