@@ -10,7 +10,7 @@ import { LucideBookType, LucideSearchX } from "lucide-vue-next";
 import FileTree from "@/docs/components/FileTree.vue";
 import { Skeleton } from "@/components/ui/skeleton";
 import { docsTreeConfig } from "@/docs/config.ts";
-import { useTitle } from "@vueuse/core";
+import { computedAsync, useTitle } from "@vueuse/core";
 
 const pathPrefix = "/src/docs/"
 interface MarkdownComponent {
@@ -29,6 +29,10 @@ const hash = computed(() => router.currentRoute.value.hash);
 
 const currentMarkdown = shallowRef<MarkdownComponent | null | undefined>(null);
 const loadingId = ref<number>();
+
+const CommonHead = computedAsync(async () => {
+  return (await markdownFiles[`${pathPrefix}${locale.value}/common-head.md`]?.())?.default
+});
 
 watch([locale, path], () => {
   currentMarkdown.value = undefined;
@@ -106,6 +110,11 @@ useTitle(() => currentMarkdown.value?.title, { titleTemplate: `AsciiDraw - Docs 
         </AlertDescription>
       </Alert>
     </div>
-    <component v-else :is="currentMarkdown.default" class="p-4" />
+    <template v-else>
+      <div>
+        <component v-if="CommonHead" :is="CommonHead" class="px-4 pt-4" />
+        <component :is="currentMarkdown.default" class="p-4" />
+      </div>
+    </template>
   </DefaultLayout>
 </template>
