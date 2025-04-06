@@ -2,13 +2,14 @@
 title: "ShortCuts"
 ---
 
-# Tools Shortcuts
-
-## Select & Move
-
-You can hold `shift` or `ctrl` to select another or unselect a specific elements.
-
 # Keyboard Shortcuts
+
+| Shortcut      | Description             |
+|---------------|-------------------------|
+| `Shift-Shift` | Open the Command-Menu   |
+| `Ctrl+P`      | Toggle the Command-Menu |
+
+# Keyboard Shortcuts (Workspace)
 
 > [!IMPORTANT]
 > You have to be in the canvas for these shortcuts to work.
@@ -30,6 +31,12 @@ You can hold `shift` or `ctrl` to select another or unselect a specific elements
 > [!TIP]
 > When you cut or copy some elements, you can paste them in another project.
 
+# Tools Shortcuts
+
+## Select & Move
+
+You can hold `shift` or `ctrl` to select another or unselect a specific elements.
+
 # Other Shortcuts
 
 - Workspace
@@ -38,3 +45,5 @@ You can hold `shift` or `ctrl` to select another or unselect a specific elements
 - Project-List
   - `shift+left click` to delete a project without asking for confirmation.
   - `shift+left click` to create a project without directly opening it in the workspace.
+- Number Inputs
+  - You can scroll while hovering over a number input in order to quickly modify the value. (When holding shift while scrolling the value will change faster)
