@@ -18,7 +18,7 @@ function toKey(x: number, y: number): Key {
  */
 function fromKey(key: string): [number, number] {
   const [x, y] = key.split('x').map(v => parseInt(v));
-  return [x, y];
+  return [x!, y!];
 }
 
 

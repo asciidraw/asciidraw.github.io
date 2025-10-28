@@ -38,7 +38,7 @@ export const labelRenderer: ElementRenderer<ElementsData.Label> = {
       else cOff = 0;
 
       for (let c = 0; c < line.length; c++) {
-        const character = line[c];
+        const character = line[c]!;
         layer.set(xOffset + cOff + c, yOffset + row, character);
       }
 

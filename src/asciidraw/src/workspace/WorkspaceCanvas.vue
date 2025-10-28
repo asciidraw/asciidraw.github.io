@@ -90,7 +90,7 @@ function redraw() {
   for (const selectedElementId of drawContext.value.selectedElements) {
     const selectedElement = project.value.elements.find(e => e.id === selectedElementId);
     if (!selectedElement) continue;
-    const highlightBox = rendererMap[selectedElement.type].getBoundingBox(selectedElement);
+    const highlightBox = rendererMap[selectedElement.type]!.getBoundingBox(selectedElement);
     canvasRenderer.highlight(highlightBox);
   }
   if (drawContext.value.userHighlight)
@@ -175,8 +175,8 @@ useEventListener("mouseup", (event: MouseEvent) => {
     drawContext.value.selectedElements.clear();
 
     for (let i = project.value.elements.length - 1; i >= 0; i--) {
-      const element = project.value.elements[i];
-      const renderer = rendererMap[element.type];
+      const element = project.value.elements[i]!;
+      const renderer = rendererMap[element.type]!;
       const box = renderer.getBoundingBox(element);
       if (isPointWithinBox(point, box)) {
         if (drawContext.value.selectedElements.has(element.id))

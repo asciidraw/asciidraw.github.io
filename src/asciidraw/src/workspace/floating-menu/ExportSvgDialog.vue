@@ -68,12 +68,12 @@ const renderedBlob = computed<Blob>(() => {
 
   const gridArray = Array(maxY-minY+1).fill(null).map(() => Array(maxX-minX+1).fill(' '));
   layer.entries().forEach(([[x, y], char]) => {
-    gridArray[y-minY][x-minX] = char;
+    gridArray[y-minY]![x-minX] = char;
   });
   const lines = gridArray.map(row => row.join(''));
 
   const viewBoxHeight = Math.ceil(lines.length * characterHeight) + padding*2;
-  const viewBoxWidth = Math.ceil((lines[0].length) * characterWidth) + padding*2;
+  const viewBoxWidth = Math.ceil((lines[0]!.length) * characterWidth) + padding*2;
 
   const svgNode = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   svgNode.setAttribute("viewBox", `0 0 ${viewBoxWidth} ${viewBoxHeight}`);
@@ -97,7 +97,7 @@ const renderedBlob = computed<Blob>(() => {
     tspan.setAttribute("x", `${padding}px`);
     tspan.setAttribute("dy", `1em`);
     // this replaces regular spaces with non-breaking space characters (short: `\u00A0` | long: `&nbsp;`)
-    tspan.textContent = lines[i].replace(/ /g, '\u00A0');
+    tspan.textContent = lines[i]!.replace(/ /g, '\u00A0');
     textNode.appendChild(tspan);
   }
 

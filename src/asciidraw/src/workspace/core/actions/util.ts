@@ -10,7 +10,7 @@ interface GetElementAtPositionParams {
 
 export function getElementAtPos({ pos, elements, rendererMap }: GetElementAtPositionParams): (ElementBase & object) | null {
   for (let i = elements.length - 1; i >= 0; i--) {
-    const element = elements[i];
+    const element = elements[i]!;
     const renderer = rendererMap[element.type];
     if (!renderer) continue;
     const box = renderer.getBoundingBox(element);
@@ -29,5 +29,5 @@ interface GetElementInAreaParams {
 }
 
 export function getElementsInArea({ area, elements, rendererMap }: GetElementInAreaParams): (ElementBase & object)[] {
-  return elements.filter(el => areAreasOverlapping(area, rendererMap[el.type].getBoundingBox(el)));
+  return elements.filter(el => areAreasOverlapping(area, rendererMap[el.type]!.getBoundingBox(el)));
 }

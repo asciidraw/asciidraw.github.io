@@ -18,7 +18,7 @@ export function parseFilesToDirectory(fileList: string[]): Directory {
       if (!directoriesList.hasOwnProperty(name)) {
         directoriesList[name] = [rest];
       } else {
-        directoriesList[name].push(rest);
+        directoriesList[name]!.push(rest);
       }
     }
   }

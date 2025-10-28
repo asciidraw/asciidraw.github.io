@@ -22,7 +22,7 @@ const { escape, arrowLeft, arrowRight } = useMagicKeys();
 const currentStepIndex = ref<null | number>(null);
 const guideIsRunning = computed(() => currentStepIndex.value !== null);
 const currentStep = computed(() => currentStepIndex.value === null ? null : steps[currentStepIndex.value]);
-const currentElement = computed(() => currentStep.value === null ? null : getElementBySelector(currentStep.value.selector));
+const currentElement = computed(() => !currentStep.value ? null : getElementBySelector(currentStep.value.selector));
 const isFirst = computed(() => currentStepIndex.value !== null && findExistingIndexBefore(currentStepIndex.value) === null);
 const isLast = computed(() => currentStepIndex.value !== null && findExistingIndexAfter(currentStepIndex.value) === null);
 
@@ -37,7 +37,7 @@ watch(currentElement, (newElement) => {
 
 function findExistingIndexAfter(index: number): number | null {
   while (++index < steps.length) {
-    const step = steps[index];
+    const step = steps[index]!;
     const element = getElementBySelector(step.selector);
     if (element !== null) return index;
     console.error(`failed to get element of selector '${step.selector}'`)
@@ -47,7 +47,7 @@ function findExistingIndexAfter(index: number): number | null {
 
 function findExistingIndexBefore(index: number): number | null {
   while (--index >= 0) {
-    const step = steps[index];
+    const step = steps[index]!;
     const element = getElementBySelector(step.selector);
     if (element !== null) return index;
     console.error(`failed to get element of selector '${step.selector}'`)

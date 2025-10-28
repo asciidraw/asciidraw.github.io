@@ -15,7 +15,7 @@ type Loader = typeof exampleProjectsMap[keyof typeof exampleProjectsMap];
 const router = useRouter();
 
 function extractName(path: string): string {
-  return path.match(/\/([^/]+)\.\w+$/)![1];
+  return path.match(/\/([^/]+)\.\w+$/)![1]!;
 }
 
 function loadProject(loader: Loader): void {

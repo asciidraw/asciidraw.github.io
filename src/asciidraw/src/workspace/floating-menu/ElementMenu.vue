@@ -8,7 +8,7 @@ const project = inject(INJECTION_KEY_PROJECT)!;
 const drawContext = inject(INJECTION_KEY_DRAW_CONTEXT)!;
 
 const selectedElements = computed(() => project.value.elements.filter(el => drawContext.value.selectedElements.has(el.id)));
-const EditComponent = computed(() => elementEditorMap[selectedElements.value[0].type]);
+const EditComponent = computed(() => elementEditorMap[selectedElements.value[0]!.type]);
 </script>
 
 <template>

@@ -32,7 +32,7 @@ export const progressBarRenderer: ElementRenderer<ElementsData.ProgressBar> = {
       const valStr = (value.toFixed(0) + "%").padStart(4, " ");
       const start = element.x + element.width - 4;
       for (let i = 0; i < valStr.length; i++) {
-        layer.set(start+i, element.y, valStr[i]);
+        layer.set(start+i, element.y, valStr[i]!);
       }
     }
 

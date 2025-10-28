@@ -72,7 +72,7 @@ const rendered = computed<string>(() => {
 
   const gridArray = Array(maxY-minY+1).fill(null).map(() => Array(maxX-minX+1).fill(' '));
   layer.entries().forEach(([[x, y], char]) => {
-    gridArray[y-minY][x-minX] = char;
+    gridArray[y-minY]![x-minX] = char;
   });
   return gridArray.map(row => row.join('')).join('\n');
 });
@@ -123,7 +123,7 @@ const { copy: doCopy, copied: recentlyCopied } = useClipboard({ source: rendered
           </SelectContent>
         </Select>
       </div>
-      <pre class="bg-black p-2 min-h-20 max-h-[32rem] overflow-scroll select-all leading-none">{{ renderedWithCommentStyle }}</pre>
+      <pre class="bg-secondary p-2 min-h-20 max-h-[32rem] overflow-scroll select-all leading-none">{{ renderedWithCommentStyle }}</pre>
       <DialogFooter>
         <Popover>
           <PopoverTrigger as-child>

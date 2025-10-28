@@ -22,7 +22,7 @@ export const groupRenderer: ElementRenderer<ElementsData.Group> = {
     layer.set(element.x+element.width-1, element.y+element.height-1, style.bottomRight);
 
     doInRange(element.x + 1, element.x + element.width - 1, (x, i) => {
-      layer.set(x, element.y, i < element.label.length ? element.label[i] : style.top);
+      layer.set(x, element.y, i < element.label.length ? element.label[i]! : style.top);
       layer.set(x, element.y+element.height-1, style.bottom);
     });
 
